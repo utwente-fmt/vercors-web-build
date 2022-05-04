@@ -1,0 +1,330 @@
+
+<!DOCTYPE HTML>
+<!--
+VerCors Tool --- Formal Methods and Tools Group (EWI)
+University of Twente, Enschede, The Netherlands
+-->
+<html lang="en">
+    <head>
+        <title>Simple hash table (with find-or-put) · VerCors Tool FMT | UTwente </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <meta name="description" content="">
+        <meta name="keywords" content="">
+
+        <link rel="stylesheet" href="/css/codemirror.css">
+        <link rel="stylesheet" href="/css/codemirror-monokai.css">
+        <link rel="stylesheet" href="/css/highlight/default.css">
+        <link rel="stylesheet" href="/css/datatables.min.css">
+        <link rel="stylesheet" href="/css/style.css">
+
+        <script src="/js/jquery.min.js"></script>
+        <script src="/js/highlight.pack.js"></script>
+        <script src="/js/codemirror.js"></script>
+        <script src="/js/datatables.min.js"></script>
+        <script src="/js/vercorsonline.js"></script>
+        <script src="/js/init.js"></script>
+
+        <!--<script type="text/javascript">
+            hljs.initHighlightingOnLoad();
+        </script>-->
+    </head>
+    <body class="no-sidebar">
+        <div id="header">
+            <h1 id="logo" style="position: relative">
+                <span id="hamburger" onclick="document.querySelector('#nav').classList.toggle('open')" class="fa fa-bars"></span>
+                <a href="/">The VerCors Verifier</a>
+            </h1>
+            <nav id="nav">
+                <ul>
+                    <li>
+                        <a href="/wiki/#introduction">Getting Started</a>
+                        <ul>
+                            <li><a href="/wiki/#introduction">Introduction</a></li>
+                            <li><a href="/wiki/#installing-and-running-vercors">Installation Guide</a></li>
+                            <li><a href="/wiki/">Tutorial</a></li>
+                            <li>
+                                <a href="//github.com/utwente-fmt/vercors/issues" target="_blank">
+                                    Issue Tracker
+                                    <span class="fa fa-external-link" style="font-size: 10pt"></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><a href="/try_online/examples/">Showcases</a></li>
+                    <li><a href="/news/">News</a></li>
+                    <li><a href="/publications/">Publications</a></li>
+                    <li>
+                        <a href="/about/">About</a>
+                        <ul>
+                            <li><a href="/about/#Team">VerCors Team</a></li>
+                            <li><a href="/about/#Contact">Contact</a></li>
+                            <li><a href="/about/#Credits">Credits</a></li>
+                            <li><a href="/license/">License</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+            <div class="container">
+                <div id="banner">
+                    <div class="container">
+                        <section>
+                            
+                            <p>
+                                <a href="//github.com/utwente-fmt/vercors" class="button alt" target="_blank">
+                                    View on Github
+                                </a>
+                                <a href="/try_online/" class="button alt">Try VerCors Online</a>
+                            </p>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+<div id="main" class="style1 wrapper">
+    <div class="container">
+        
+    <div class="example-view">
+        <h1>Simple hash table (with find-or-put)</h1>
+        <p>SingleCell is the simplified version of the single method lock-less hash-table using AtomicInteger as synchroniser. The contracts for the AtomicInteger is the version without magic-wand (delta).</p>
+
+        <h3>General Information</h3>
+        <ul>
+            <li><strong>Backend</strong>: Chalice</li>
+            <li><strong>Language</strong>: Java</li>
+            <li><strong>Features</strong>: Atomics, Witnesses</li>
+            <li><strong>Path to Example File</strong>: atomics/RBSingleCell.java</li>
+            <li><strong>Should Verify</strong>: Yes</li>
+            <li><strong>Date</strong>: 2017-06-15</li>
+            <li><strong>Lines of Code</strong>: 144 (comments not included)</li>
+            <li><strong>Lines of Specification</strong>: 62 (43.1% of total)</li>
+            
+                <li><strong>Computation Time</strong>: 19.4 seconds</li>
+            
+        </ul>
+
+        
+<div class="verification-container">
+    
+    <div class="verification-widget verification-non-plain" >
+        <div style="position: relative">
+            <textarea name="examplecode" rows="20" data-code-mirror="true">// -*- tab-width:2 ; indent-tabs-mode:nil -*-
+//:: cases RBSingleCellWitnesses
+//:: suite medium
+//:: tools chalice
+//:: options --explicit
+/*
+ Example: SingleCell
+ Description: SingleCell is the simplified version of the single method lock-less hash-table using AtomicInteger as synchronizer. 
+ The contracts for the AtomicInteger is the version without magic-wand (delta).
+ Author: Afshin Amighi
+ Command: vct --chalice --explicit RBSingleCell.java
+ Status: Pass.
+ ToDo List:
+ 1. check the cas wrt l or o?
+ */
+
+
+class SingleCell{
+	
+	
+	
+	// roles and states definitions
+	//final int S = 0 ,T = 1 ;
+	//final int E = 0 , W = 1 , D = 2;
+	
+	// abstract predicates for the AtomicInteger
+	
+	/*@
+	 resource handle(int role,int val) = true;
+	 
+	 resource allowed(int role, int last, int next) =
+	 ( role == 1 &amp;&amp; last == 0 &amp;&amp; next == 1 ==&gt; true ) **
+	 ( role == 1 &amp;&amp; last == 1 &amp;&amp; next == 2 ==&gt; true );
+	 
+	 resource assigned(int role, int val) =
+	 ( role == 1 &amp;&amp; val == 0 ==&gt; true ) **
+	 ( role == 1 &amp;&amp; val == 1 ==&gt; true ) **
+	 ( role == 1 &amp;&amp; val == 2 ==&gt; Value(data) ) **
+	 ( role == 0 &amp;&amp; val == 0 ==&gt; Perm(data,100) ) **
+	 ( role == 0 &amp;&amp; val == 1 ==&gt; true ) **
+	 ( role == 0 &amp;&amp; val == 2 ==&gt; true );
+	 */
+	
+	/*@
+	 resource contains(int x) = true;
+	 */
+	
+	// methods set and get for the AtomicInteger
+	/*@
+	 given int r, l;
+	 requires (srh:handle(r,l)) ** (sra:allowed(r,l,x)) ** (srp:assigned(r,l)) ** (srs:assigned(0,x));
+	 ensures (seh:handle(r,x)) ** (sep:assigned(r,x));
+	 */
+	void set(int x);
+	
+	
+	/*@
+	 given int r,l;
+	 requires (grh:handle(r,l)) ** (grp:assigned(r,l));
+	 ensures (geh:handle(r,\result)) ** (gep:assigned(r,\result));
+	 */
+	int get();
+
+	
+	/*@
+	 given int r, l;
+	 requires (crh:handle(r,l)) ** (cra:allowed(r,o,x)) ** (crp:assigned(r,l)) ** (crs:assigned(0,x));
+	 ensures \result ==&gt; (cehp:handle(r,x)) ** (cepp:assigned(r,x)) ** (cesp:assigned(0,o));
+	 ensures !\result ==&gt; (cehn:handle(r,l)) ** (cepn:assigned(r,l)) ** (cesn:assigned(0,x));
+	 */
+	boolean cas(int o,int x);
+	
+	// data field of the producer-consumer
+	int data;
+	
+	
+	/*@
+	 
+	 requires foprh:handle(1,0);
+	 ensures \result == 0 ==&gt; fopecp:contains(v) ;
+	 ensures \result == 1 ==&gt; fopecf:contains(v) ;
+	 ensures \result != -2 ==&gt; fopeh: handle(1,2);
+
+	 */
+	int find_or_put(int v){
+		
+		//@ int role = 1 , S = 0;
+		//@ int last = 0;
+		
+		// how to provide handle here?
+		
+		/*@
+		  witness tcrh:handle(*,*);
+		  witness tcehp:handle(*,*);
+		  witness tcehn:handle(*,*);
+		  witness tcrs:assigned(*,*);
+		  witness tcepp:assigned(*,*);
+		  witness tcesp:assigned(*,*);
+		  witness tcepn:assigned(*,*);
+		  witness tcrp:assigned(*,*);
+		  witness tcra:allowed(*,*,*);
+		 */
+		
+		// what should be the last for handle here? it can be any ...
+		
+		 // fold tcrh:handle(role,0);
+		 //@ fold tcra:allowed(role,0,1);
+		 // fold tcrp:assigned(role,0);
+		 //@ fold tcrs:assigned(S,1);
+		 
+		//@ witness tgrp:assigned(*,*);
+		//@ fold tgrp:assigned(role,last);
+		
+		int curr = get() /*@ with{ r = role ; l = last; grh = foprh; grp = tgrp; } then { tcrh=geh; tcrp = gep; } */;
+		
+		boolean b = cas(0,1) /*@ with { r = role; l = curr; crh = tcrh; cra = tcra; crp = tcrp; crs = tcrs; } 
+							  then { tcehp=cehp; tcepp= cepp; tcesp = cesp; tcehn = cehn; tcepn = cepn; } */;
+
+		if (b) {
+			
+			//@ unfold tcepp:assigned(role,1);
+			//@ unfold tcesp:assigned(S,0);
+			
+			data = v;
+			
+			
+			//@ witness  tsra:allowed(*,*,*);
+			//@ fold tsra:allowed(role,1,2);
+			
+			//@ fold tcepp: assigned(role,1);
+			//@ fold tcesp: assigned(S,2);
+
+			
+			set(2) /*@ with { r = role; l = 1; srh = tcehp; sra = tsra; srp = tcepp; srs = tcesp; } then { fopeh = seh;  } */;
+			//@ fold fopecp: contains(v);
+
+			
+			return 0; // PUT
+		}
+		if (!b) {
+			
+			//@ witness tgeh:handle(*,*);
+			//@ witness tgep:assigned(*,*);
+			//@ witness tlep:assigned(*,*);
+
+			int check = get() /*@ with { r = role; l = curr; grh = tcehn; grp = tcepn; } then { tgep = gep; tgeh = geh; } */;
+			
+			//@ loop_invariant invh: handle(role,check);
+			//@ loop_invariant invp: assigned(role,check);
+
+			while(check ==1) /*@ with { invh = tgeh ; invp = tgep ; } then { fopeh = invh; tlep = invp; } */{
+				check = get() /*@ with { r = role; l = check; grh = invh; grp = invp; } then { invh = geh; invp = gep; } */;
+			}
+			
+			if (check == 2) {
+				//@ unfold tlep:assigned(role,2);
+				if(data == v){
+					
+					//@ fold fopecf:contains(v);
+					return 1; // FOUND
+				}
+				return -1; // COLL
+			}
+		}
+		
+		return -2; // ERROR
+	}
+	    
+}
+</textarea>
+            <span class="code-buttons">
+                <span class="fa fa-times-circle code-close-button"></span>
+                <span class="fa fa-play code-run-button"></span>
+            </span>
+        </div>
+
+        <div style="background-color: #dddddd; padding: 0.4ex 1ex">
+            <label class="control-label" for="example-backendid">Language:</label>
+            <select name="lang" id="example-backendid" class="form-control">
+                
+                    <option value="pvl" selected="">PVL</option>
+                
+                    <option value="java" >Java</option>
+                
+                    <option value="cu" >Cuda</option>
+                
+                    <option value="c" >C / OpenMP / OpenCL</option>
+                
+                    <option value="sil" >Viper</option>
+                
+            </select>
+        </div>
+    </div>
+    <div class="verification-progress verification-non-plain" style="display: none; background-color: #dddddd; padding: 0.4ex 1ex" >
+        <span class="fa"></span>
+        <span class="verification-progress-text"></span>
+    </div>
+    <pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+    </div>
+
+    </div>
+</div>
+
+
+        <div id="footer">
+            <div class="row">
+                <a href="//fmt.ewi.utwente.nl" target="_blank"><img src="/images/FMT logo.png" alt=""></a>
+                <div class="copyright">
+                    <a href="//fmt.ewi.utwente.nl/research/projects/view/vercors/" target="_blank">Copyright <code>&copy</code> The VerCors Project 2007-2022</a>
+                    | <a href="//fmt.ewi.utwente.nl" target="_blank">FMT - University of Twente</a>
+                    | <a href="/about/">About Us</a>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

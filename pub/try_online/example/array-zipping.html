@@ -1,0 +1,278 @@
+
+<!DOCTYPE HTML>
+<!--
+VerCors Tool --- Formal Methods and Tools Group (EWI)
+University of Twente, Enschede, The Netherlands
+-->
+<html lang="en">
+    <head>
+        <title>Array zipping · VerCors Tool FMT | UTwente </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <meta name="description" content="">
+        <meta name="keywords" content="">
+
+        <link rel="stylesheet" href="/css/codemirror.css">
+        <link rel="stylesheet" href="/css/codemirror-monokai.css">
+        <link rel="stylesheet" href="/css/highlight/default.css">
+        <link rel="stylesheet" href="/css/datatables.min.css">
+        <link rel="stylesheet" href="/css/style.css">
+
+        <script src="/js/jquery.min.js"></script>
+        <script src="/js/highlight.pack.js"></script>
+        <script src="/js/codemirror.js"></script>
+        <script src="/js/datatables.min.js"></script>
+        <script src="/js/vercorsonline.js"></script>
+        <script src="/js/init.js"></script>
+
+        <!--<script type="text/javascript">
+            hljs.initHighlightingOnLoad();
+        </script>-->
+    </head>
+    <body class="no-sidebar">
+        <div id="header">
+            <h1 id="logo" style="position: relative">
+                <span id="hamburger" onclick="document.querySelector('#nav').classList.toggle('open')" class="fa fa-bars"></span>
+                <a href="/">The VerCors Verifier</a>
+            </h1>
+            <nav id="nav">
+                <ul>
+                    <li>
+                        <a href="/wiki/#introduction">Getting Started</a>
+                        <ul>
+                            <li><a href="/wiki/#introduction">Introduction</a></li>
+                            <li><a href="/wiki/#installing-and-running-vercors">Installation Guide</a></li>
+                            <li><a href="/wiki/">Tutorial</a></li>
+                            <li>
+                                <a href="//github.com/utwente-fmt/vercors/issues" target="_blank">
+                                    Issue Tracker
+                                    <span class="fa fa-external-link" style="font-size: 10pt"></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><a href="/try_online/examples/">Showcases</a></li>
+                    <li><a href="/news/">News</a></li>
+                    <li><a href="/publications/">Publications</a></li>
+                    <li>
+                        <a href="/about/">About</a>
+                        <ul>
+                            <li><a href="/about/#Team">VerCors Team</a></li>
+                            <li><a href="/about/#Contact">Contact</a></li>
+                            <li><a href="/about/#Credits">Credits</a></li>
+                            <li><a href="/license/">License</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+            <div class="container">
+                <div id="banner">
+                    <div class="container">
+                        <section>
+                            
+                            <p>
+                                <a href="//github.com/utwente-fmt/vercors" class="button alt" target="_blank">
+                                    View on Github
+                                </a>
+                                <a href="/try_online/" class="button alt">Try VerCors Online</a>
+                            </p>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+<div id="main" class="style1 wrapper">
+    <div class="container">
+        
+    <div class="example-view">
+        <h1>Array zipping</h1>
+        <p>Zipping the contents of two given arrays `a` and `b` of equal length into an array of length `|a| + |b|`. This is also the answer to question 4 of the FMSE exam on April 16, 2015 (University of Twente). Also some other verification examples are added (such as shifting elements of the array to the left/right).</p>
+
+        <h3>General Information</h3>
+        <ul>
+            <li><strong>Backend</strong>: Silicon</li>
+            <li><strong>Language</strong>: Java</li>
+            <li><strong>Features</strong>: Iteration contracts, Arrays, Loop parallelisations</li>
+            <li><strong>Path to Example File</strong>: arrays/JavaArrayExamples.java</li>
+            <li><strong>Should Verify</strong>: Yes</li>
+            <li><strong>Date</strong>: 2017-06-12</li>
+            <li><strong>Lines of Code</strong>: 109 (comments not included)</li>
+            <li><strong>Lines of Specification</strong>: 35 (32.1% of total)</li>
+            
+                <li><strong>Computation Time</strong>: 61.5 seconds</li>
+            
+        </ul>
+
+        
+<div class="verification-container">
+    
+    <div class="verification-widget verification-non-plain" >
+        <div style="position: relative">
+            <textarea name="examplecode" rows="20" data-code-mirror="true">// -*- tab-width:2 ; indent-tabs-mode:nil -*-
+//:: cases JavaArrayExamples
+//:: suite puptol
+//:: tools silicon
+//:: verdict Pass
+
+/*
+  Answer to question 4 of the FMSE exam on April 16, 2015.
+*/
+class Exercise4 {
+  
+  /*@
+     context_everywhere a!=null &amp;&amp; b != null &amp;&amp; res != null;
+     context_everywhere a.length==b.length &amp;&amp; res.length==2*a.length;
+     context_everywhere (\forall* int i ; 0 &lt;= i &amp;&amp; i &lt; a.length ; Perm(a[i],1));
+     context_everywhere (\forall* int i ; 0 &lt;= i &amp;&amp; i &lt; b.length ; Perm(b[i],1));
+     context_everywhere (\forall* int i ; 0 &lt;= i &amp;&amp; i &lt; res.length ; Perm(res[i],1));
+     ensures (\forall int i ; 0 &lt;= i &amp;&amp; i &lt; a.length ; res[2*i]==a[i] );
+     ensures (\forall int i ; 0 &lt;= i &amp;&amp; i &lt; b.length ; res[2*i+1]==b[i] );
+   */
+  void zip(int[] a, int[] b, int[] res) {
+    int k = 0;
+    /*@
+      loop_invariant 0 &lt;= k ** k%2 ==0 ** k &lt;= res.length;
+      loop_invariant (\forall int i ; 0 &lt;= i &amp;&amp; i &lt; k/2 ; res[2*i]==a[i] );
+      loop_invariant (\forall int i ; 0 &lt;= i &amp;&amp; i &lt; k/2 ; res[2*i+1]==b[i] );      
+     */
+    while (k &lt; res.length) {
+      res[k] = a[k/2];
+      res[k+1] = b[k/2];
+      k = k+2;
+    }
+  }
+}
+
+class JavaArrayExamples {
+  /*@
+    context_everywhere a != null;
+    context (\forall* int i ; 0 &lt;= i &amp;&amp; i &lt; a.length ; Perm(a[i],write));
+  @*/
+  public void shift_drf(int a[]){
+    for(int i=0;i&lt;a.length;i++)
+    /*@
+      requires Perm(a[i],1\2);
+      requires i==0 ==&gt; Perm(a[i],1\2);
+      requires i &lt; a.length-1 ==&gt; Perm(a[i+1],1\2);
+      ensures  Perm(a[i],write);
+    @*/
+    {
+      //@ ghost S1:if(i&gt;0){ recv 0 &lt; i ** i &lt; a.length ** Perm(a[i],1\2) from S2,1; }
+      S2:if (i &lt; a.length-1) {
+        a[i]=a[i+1];
+        //@ send 0 &lt;= i ** i &lt; a.length - 1 ** Perm(a[i+1],1\2) to S1,1;
+      }
+    }
+  }
+  
+  /*@ 
+    context_everywhere ar!=null;
+    context_everywhere (\forall* int k ; 0 &lt;= k &amp;&amp; k &lt; ar.length ; Perm(ar[k],1));
+    ensures (\forall int k ; 0 &lt;= k &amp;&amp; k &lt; ar.length ; ar[k]==0 ) ;
+  @*/
+  public void zero_array(int ar[]){
+    int i=0;
+    int N=ar.length;
+    //@ loop_invariant 0&lt;= i &amp;&amp; i&lt;=N &amp;&amp; N==ar.length ;
+    //@ loop_invariant (\forall int k ; 0 &lt;= k &amp;&amp; k &lt; i ; ar[k]==0 ) ;
+    while(i&lt;N){
+      ar[i]=0;
+      i++;
+    }
+  }
+	
+  /*@ 
+      context_everywhere ar != null ** M&gt;0 ** N &gt; 0 ** M * N == ar.length;
+      context   (\forall* int k ; 0 &lt;= k &amp;&amp; k &lt; ar.length ; Perm(ar[k],write));
+      ensures   (\forall  int k ; 0 &lt;= k &amp;&amp; k &lt; ar.length ; ar[k]==0 ) ;
+   */
+  public void zero_array_nested(int ar[],int M,int N){
+    for(int i=0;i&lt;M;i++)
+    /*@
+      context (\forall* int k ; i*N &lt;= k &amp;&amp; k &lt; (i+1)*N ; Perm(ar[k],write));
+      ensures (\forall  int k ; i*N &lt;= k &amp;&amp; k &lt; (i+1)*N ; ar[k]==0 ) ;
+    @*/
+    {
+      for(int j=0;j&lt;N;j++)
+      /*@
+		context 0 &lt;= i &amp;&amp; i &lt; M;
+        context Perm(ar[i*N+j],write);
+        ensures  ar[i*N+j]==0;
+      @*/
+      {
+        ar[i*N+j]=0;
+      }
+    }
+  }
+
+  /*@ 
+    context_everywhere ar != null ** M&gt;0 ** N &gt; 0 ** M * N == ar.length;
+    context (\forall* int k ; 0 &lt;= k &amp;&amp; k &lt; ar.length ; Perm(ar[k],write));
+    ensures (\forall  int k ; 0 &lt;= k &amp;&amp; k &lt; ar.length ; ar[k]==0 ) ;
+  @*/
+  public void zero_array_smart_nested(int ar[],int M,int N) {
+    for(int i=0;i&lt;M;i++) {
+      for(int j=0;j&lt;N;j++)
+      /*@
+        context Perm(ar[i*N+j],write);
+        ensures ar[i*N+j]==0;
+      @*/
+      {
+        ar[i*N+j]=0;
+      }
+    }
+  }
+
+}
+
+</textarea>
+            <span class="code-buttons">
+                <span class="fa fa-times-circle code-close-button"></span>
+                <span class="fa fa-play code-run-button"></span>
+            </span>
+        </div>
+
+        <div style="background-color: #dddddd; padding: 0.4ex 1ex">
+            <label class="control-label" for="example-backendid">Language:</label>
+            <select name="lang" id="example-backendid" class="form-control">
+                
+                    <option value="pvl" selected="">PVL</option>
+                
+                    <option value="java" >Java</option>
+                
+                    <option value="cu" >Cuda</option>
+                
+                    <option value="c" >C / OpenMP / OpenCL</option>
+                
+                    <option value="sil" >Viper</option>
+                
+            </select>
+        </div>
+    </div>
+    <div class="verification-progress verification-non-plain" style="display: none; background-color: #dddddd; padding: 0.4ex 1ex" >
+        <span class="fa"></span>
+        <span class="verification-progress-text"></span>
+    </div>
+    <pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+    </div>
+
+    </div>
+</div>
+
+
+        <div id="footer">
+            <div class="row">
+                <a href="//fmt.ewi.utwente.nl" target="_blank"><img src="/images/FMT logo.png" alt=""></a>
+                <div class="copyright">
+                    <a href="//fmt.ewi.utwente.nl/research/projects/view/vercors/" target="_blank">Copyright <code>&copy</code> The VerCors Project 2007-2022</a>
+                    | <a href="//fmt.ewi.utwente.nl" target="_blank">FMT - University of Twente</a>
+                    | <a href="/about/">About Us</a>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

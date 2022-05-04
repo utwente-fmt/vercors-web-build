@@ -1,0 +1,261 @@
+
+<!DOCTYPE HTML>
+<!--
+VerCors Tool --- Formal Methods and Tools Group (EWI)
+University of Twente, Enschede, The Netherlands
+-->
+<html lang="en">
+    <head>
+        <title>Model-based reasoning: generalised concurrent counting  · VerCors Tool FMT | UTwente </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <meta name="description" content="">
+        <meta name="keywords" content="">
+
+        <link rel="stylesheet" href="/css/codemirror.css">
+        <link rel="stylesheet" href="/css/codemirror-monokai.css">
+        <link rel="stylesheet" href="/css/highlight/default.css">
+        <link rel="stylesheet" href="/css/datatables.min.css">
+        <link rel="stylesheet" href="/css/style.css">
+
+        <script src="/js/jquery.min.js"></script>
+        <script src="/js/highlight.pack.js"></script>
+        <script src="/js/codemirror.js"></script>
+        <script src="/js/datatables.min.js"></script>
+        <script src="/js/vercorsonline.js"></script>
+        <script src="/js/init.js"></script>
+
+        <!--<script type="text/javascript">
+            hljs.initHighlightingOnLoad();
+        </script>-->
+    </head>
+    <body class="no-sidebar">
+        <div id="header">
+            <h1 id="logo" style="position: relative">
+                <span id="hamburger" onclick="document.querySelector('#nav').classList.toggle('open')" class="fa fa-bars"></span>
+                <a href="/">The VerCors Verifier</a>
+            </h1>
+            <nav id="nav">
+                <ul>
+                    <li>
+                        <a href="/wiki/#introduction">Getting Started</a>
+                        <ul>
+                            <li><a href="/wiki/#introduction">Introduction</a></li>
+                            <li><a href="/wiki/#installing-and-running-vercors">Installation Guide</a></li>
+                            <li><a href="/wiki/">Tutorial</a></li>
+                            <li>
+                                <a href="//github.com/utwente-fmt/vercors/issues" target="_blank">
+                                    Issue Tracker
+                                    <span class="fa fa-external-link" style="font-size: 10pt"></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><a href="/try_online/examples/">Showcases</a></li>
+                    <li><a href="/news/">News</a></li>
+                    <li><a href="/publications/">Publications</a></li>
+                    <li>
+                        <a href="/about/">About</a>
+                        <ul>
+                            <li><a href="/about/#Team">VerCors Team</a></li>
+                            <li><a href="/about/#Contact">Contact</a></li>
+                            <li><a href="/about/#Credits">Credits</a></li>
+                            <li><a href="/license/">License</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+            <div class="container">
+                <div id="banner">
+                    <div class="container">
+                        <section>
+                            
+                            <p>
+                                <a href="//github.com/utwente-fmt/vercors" class="button alt" target="_blank">
+                                    View on Github
+                                </a>
+                                <a href="/try_online/" class="button alt">Try VerCors Online</a>
+                            </p>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+<div id="main" class="style1 wrapper">
+    <div class="container">
+        
+    <div class="example-view">
+        <h1>Model-based reasoning: generalised concurrent counting </h1>
+        <p>Verification example with `n` threads, each decrementing a shared variable. This verification problem shows that our model-based abstraction approach can be applied to applications that spawn a dynamic number of threads. </p>
+
+        <h3>General Information</h3>
+        <ul>
+            <li><strong>Backend</strong>: Silicon</li>
+            <li><strong>Language</strong>: PVL</li>
+            <li><strong>Features</strong>: Fork/join concurrency, Futures, Statically-scoped locking</li>
+            <li><strong>Path to Example File</strong>: futures/counteradd_n.pvl</li>
+            <li><strong>Should Verify</strong>: Yes</li>
+            <li><strong>Date</strong>: 2017-06-19</li>
+            <li><strong>Lines of Code</strong>: 91 (comments not included)</li>
+            <li><strong>Lines of Specification</strong>: 26 (28.6% of total)</li>
+            
+                <li><strong>Computation Time</strong>: 27.9 seconds</li>
+            
+        </ul>
+
+        
+<div class="verification-container">
+    
+    <div class="verification-widget verification-non-plain" >
+        <div style="position: relative">
+            <textarea name="examplecode" rows="20" data-code-mirror="true">// -*- tab-width:2 ; indent-tabs-mode:nil -*-
+//:: case GeneralisedConcurrentCounting
+//:: suite puptol
+//:: tool silicon
+//:: option --check-history
+
+class `Future` {
+	int counter;
+
+	// Models a single atomic &#34;decrease&#34; operation.
+	modifies counter;
+	ensures counter == \old(counter) - 1;
+	process decr();
+
+	// Models a concurrent system with `n` &#34;decrease&#34; actions.
+	requires 0 &lt;= n;
+	ensures counter == \old(counter) - n;
+	process pardecr(int n) = 0 &lt; n ? (decr() || pardecr(n - 1)) : empty;
+}
+
+class Worker {
+	/* ghost */ frac p;
+	Program prog;
+
+	requires Value(pr.f) ** fr != none;
+	ensures Value(prog) ** Value(prog.f) ** Value(p) ** p != none;
+	ensures prog == pr ** p == fr;
+	Worker(Program pr, frac fr) {
+		this.prog = pr;
+		this.p = fr;
+	}
+
+	// Performs the atomic &#34;decrease&#34; action.
+	context Value(p) ** Value(prog) ** Value(prog.f) ** p != none;
+	requires Future(prog.f, p, prog.f.decr());
+	ensures Future(prog.f, p, empty);
+	void run() {
+		lock prog;
+		action(prog.f, p, empty, prog.f.decr()) {
+			prog.f.counter = prog.f.counter - 1;
+		}
+		unlock prog;
+	}
+}
+
+class Program {
+	/* ghost */ int count;
+	/* ghost */ int threads;
+	`Future` f;
+
+	resource lock_invariant() = Value(f) ** HPerm(f.counter, 1);
+
+	requires threads &gt; 0;
+	ensures Value(f) ** Future(f, 1, f.pardecr(threads));
+	ensures Value(this.count) ** Value(this.threads) ** AbstractState(f, counter == this.count - this.threads);
+	ensures this.count == count ** this.threads == threads;
+	Program(int count, int threads) {
+		this.count = count;
+		this.threads = threads;
+		this.f = new `Future`();
+		this.f.counter = count;
+		create f, f.pardecr(threads);
+	}
+
+	// Recursively forks and joins `n` concurrent threads.
+	given frac p;
+	requires p &lt;= 1;
+	context n &gt;= 0 ** p != none ** Value(f);
+	context Value(count) ** Value(threads) ** AbstractState(f, counter == count - threads);
+	requires Future(f, p, f.pardecr(n));
+	ensures Future(f, p, empty);
+	void spawn(int n) {
+		if (n &gt; 0) {
+			// split-off a `decr()` process.
+			split f, p\2, f.decr(), p\2, f.pardecr(n - 1);
+
+			// spawn `n` concurrent threads.
+			Worker t = new Worker(this, p\2);
+			fork t;
+			spawn(n - 1) with { p = p\2; };
+			join t;
+
+			// merge the resulting process.
+			merge f, p\2, empty, p\2, empty;
+		}
+	}
+}
+
+class Main {
+
+	requires threads &gt; 0;
+	void main(int count, int threads) {
+		Program p = new Program(count, threads);
+		p.spawn(threads) with { p = 1; };
+
+		lock p;
+		destroy p.f;
+		assert p.f.counter == count - threads;
+	}
+}
+</textarea>
+            <span class="code-buttons">
+                <span class="fa fa-times-circle code-close-button"></span>
+                <span class="fa fa-play code-run-button"></span>
+            </span>
+        </div>
+
+        <div style="background-color: #dddddd; padding: 0.4ex 1ex">
+            <label class="control-label" for="example-backendid">Language:</label>
+            <select name="lang" id="example-backendid" class="form-control">
+                
+                    <option value="pvl" selected="">PVL</option>
+                
+                    <option value="java" >Java</option>
+                
+                    <option value="cu" >Cuda</option>
+                
+                    <option value="c" >C / OpenMP / OpenCL</option>
+                
+                    <option value="sil" >Viper</option>
+                
+            </select>
+        </div>
+    </div>
+    <div class="verification-progress verification-non-plain" style="display: none; background-color: #dddddd; padding: 0.4ex 1ex" >
+        <span class="fa"></span>
+        <span class="verification-progress-text"></span>
+    </div>
+    <pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+    </div>
+
+    </div>
+</div>
+
+
+        <div id="footer">
+            <div class="row">
+                <a href="//fmt.ewi.utwente.nl" target="_blank"><img src="/images/FMT logo.png" alt=""></a>
+                <div class="copyright">
+                    <a href="//fmt.ewi.utwente.nl/research/projects/view/vercors/" target="_blank">Copyright <code>&copy</code> The VerCors Project 2007-2022</a>
+                    | <a href="//fmt.ewi.utwente.nl" target="_blank">FMT - University of Twente</a>
+                    | <a href="/about/">About Us</a>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

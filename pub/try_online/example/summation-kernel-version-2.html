@@ -1,0 +1,234 @@
+
+<!DOCTYPE HTML>
+<!--
+VerCors Tool --- Formal Methods and Tools Group (EWI)
+University of Twente, Enschede, The Netherlands
+-->
+<html lang="en">
+    <head>
+        <title>Summation kernel (version 2) · VerCors Tool FMT | UTwente </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <meta name="description" content="">
+        <meta name="keywords" content="">
+
+        <link rel="stylesheet" href="/css/codemirror.css">
+        <link rel="stylesheet" href="/css/codemirror-monokai.css">
+        <link rel="stylesheet" href="/css/highlight/default.css">
+        <link rel="stylesheet" href="/css/datatables.min.css">
+        <link rel="stylesheet" href="/css/style.css">
+
+        <script src="/js/jquery.min.js"></script>
+        <script src="/js/highlight.pack.js"></script>
+        <script src="/js/codemirror.js"></script>
+        <script src="/js/datatables.min.js"></script>
+        <script src="/js/vercorsonline.js"></script>
+        <script src="/js/init.js"></script>
+
+        <!--<script type="text/javascript">
+            hljs.initHighlightingOnLoad();
+        </script>-->
+    </head>
+    <body class="no-sidebar">
+        <div id="header">
+            <h1 id="logo" style="position: relative">
+                <span id="hamburger" onclick="document.querySelector('#nav').classList.toggle('open')" class="fa fa-bars"></span>
+                <a href="/">The VerCors Verifier</a>
+            </h1>
+            <nav id="nav">
+                <ul>
+                    <li>
+                        <a href="/wiki/#introduction">Getting Started</a>
+                        <ul>
+                            <li><a href="/wiki/#introduction">Introduction</a></li>
+                            <li><a href="/wiki/#installing-and-running-vercors">Installation Guide</a></li>
+                            <li><a href="/wiki/">Tutorial</a></li>
+                            <li>
+                                <a href="//github.com/utwente-fmt/vercors/issues" target="_blank">
+                                    Issue Tracker
+                                    <span class="fa fa-external-link" style="font-size: 10pt"></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><a href="/try_online/examples/">Showcases</a></li>
+                    <li><a href="/news/">News</a></li>
+                    <li><a href="/publications/">Publications</a></li>
+                    <li>
+                        <a href="/about/">About</a>
+                        <ul>
+                            <li><a href="/about/#Team">VerCors Team</a></li>
+                            <li><a href="/about/#Contact">Contact</a></li>
+                            <li><a href="/about/#Credits">Credits</a></li>
+                            <li><a href="/license/">License</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+            <div class="container">
+                <div id="banner">
+                    <div class="container">
+                        <section>
+                            
+                            <p>
+                                <a href="//github.com/utwente-fmt/vercors" class="button alt" target="_blank">
+                                    View on Github
+                                </a>
+                                <a href="/try_online/" class="button alt">Try VerCors Online</a>
+                            </p>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+<div id="main" class="style1 wrapper">
+    <div class="container">
+        
+    <div class="example-view">
+        <h1>Summation kernel (version 2)</h1>
+        <p>Verification of a GPU kernel program, encoded in PVL, that sums the elements of an input array.</p>
+
+        <h3>General Information</h3>
+        <ul>
+            <li><strong>Backend</strong>: Silicon</li>
+            <li><strong>Language</strong>: PVL</li>
+            <li><strong>Features</strong>: GPU Kernels, Iteration contracts, Arrays, Barriers, Loop parallelisations, Atomics</li>
+            <li><strong>Path to Example File</strong>: carp/summation-kernel-1.pvl</li>
+            <li><strong>Should Verify</strong>: Yes</li>
+            <li><strong>Date</strong>: 2017-06-15</li>
+            <li><strong>Lines of Code</strong>: 64 (comments not included)</li>
+            <li><strong>Lines of Specification</strong>: 23 (35.9% of total)</li>
+            
+                <li><strong>Computation Time</strong>: 75.9 seconds</li>
+            
+        </ul>
+
+        
+<div class="verification-container">
+    
+    <div class="verification-widget verification-non-plain" >
+        <div style="position: relative">
+            <textarea name="examplecode" rows="20" data-code-mirror="true">// -*- tab-width:2 ; indent-tabs-mode:nil -*-
+//:: cases SummationKernel1
+//:: tools silicon
+//:: verdict Pass
+
+class Ref {
+
+  int res;
+
+  context_everywhere ar != null ** N &gt; 0 ** M &gt; 0 ** \array(ar,M*N);
+  context Perm(res,write);
+  context (\forall* int i;0 &lt;= i &amp;&amp; i &lt; M*N ; Perm(ar[i],1\2));
+  requires res==0;
+  ensures  (\forall int i;0 &lt;= i &amp;&amp; i &lt; M*N ; ar[i]==\old(ar[i]));
+  void do_sum(int M,int N, int[M*N] ar){
+    int[M] temp=new int[M];
+    invariant outer(
+      Perm(res,write)
+    ){
+      par kern(int g = 0 .. M)
+        context (\forall* int k ; 0 &lt;= k &amp;&amp; k &lt; N ; Perm(ar[g*N+k],1\4));
+      {
+        int[1] temp=new int[1];
+        int[N] contrib=new int [N];
+        temp[0]=0;
+        par (int t=0..N)
+          context \array(contrib,N) ** Perm(contrib[t],write);
+          ensures contrib[t]==0;
+        { contrib[t] = 0; }
+        
+        invariant inner(
+          \array(temp,1) ** Perm(temp[0],1) **
+          \array(contrib,N) ** (\forall* int k; 0 &lt;= k &amp;&amp; k &lt; N ; Perm(contrib[k],1\2))
+          // temp[0]==(\sum int k; 0 &lt;= k &amp;&amp; k &lt; N ; contrib[k])
+        ){
+          par group(int t = 0 .. N)
+            context \array(contrib,N);
+						context_everywhere 0 &lt;= g &amp;&amp; g &lt; M;
+            requires PointsTo(contrib[t],1\2,0);
+            requires Perm(ar[g*N+t],1\4);
+            ensures t==0 ==&gt; (\forall* int k; 0 &lt;= k &amp;&amp; k &lt; N ; Perm(ar[g*N+k],1\4));
+          {
+            atomic(inner){
+              temp[0]=temp[0]+ar[g*N+t];
+              contrib[t]=ar[g*N+t];
+            }
+            barrier(group)
+              context  \array(contrib,N);
+							context 0 &lt;= t &amp;&amp; t &lt; N;
+							context 0 &lt;= g &amp;&amp; g &lt; M;
+              requires Perm(ar[g*N+t],1\4);
+              requires PointsTo(contrib[t],1\2,ar[g*N+t]);
+              ensures  t==0 ==&gt; (\forall* int k; 0 &lt;= k &amp;&amp; k &lt; N ; Perm(ar[g*N+k],1\4));
+              ensures  t==0 ==&gt; (\forall* int k; 0 &lt;= k &amp;&amp; k &lt; N ; Perm(contrib[k],1\4));
+              ensures  t==0 ==&gt; (\forall int k; 0 &lt;= k &amp;&amp; k &lt; N ; contrib[k]==ar[g*N+k]);
+            {
+            }
+            if(t==0){
+              int tmp;
+              atomic(inner){
+                tmp=temp[0];
+                // tmp==(\sum int k; 0 &lt;= k &amp;&amp; k &lt; N ; ar[g*N+k])
+              }
+              atomic(outer){
+                res=res+tmp;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+</textarea>
+            <span class="code-buttons">
+                <span class="fa fa-times-circle code-close-button"></span>
+                <span class="fa fa-play code-run-button"></span>
+            </span>
+        </div>
+
+        <div style="background-color: #dddddd; padding: 0.4ex 1ex">
+            <label class="control-label" for="example-backendid">Language:</label>
+            <select name="lang" id="example-backendid" class="form-control">
+                
+                    <option value="pvl" selected="">PVL</option>
+                
+                    <option value="java" >Java</option>
+                
+                    <option value="cu" >Cuda</option>
+                
+                    <option value="c" >C / OpenMP / OpenCL</option>
+                
+                    <option value="sil" >Viper</option>
+                
+            </select>
+        </div>
+    </div>
+    <div class="verification-progress verification-non-plain" style="display: none; background-color: #dddddd; padding: 0.4ex 1ex" >
+        <span class="fa"></span>
+        <span class="verification-progress-text"></span>
+    </div>
+    <pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+    </div>
+
+    </div>
+</div>
+
+
+        <div id="footer">
+            <div class="row">
+                <a href="//fmt.ewi.utwente.nl" target="_blank"><img src="/images/FMT logo.png" alt=""></a>
+                <div class="copyright">
+                    <a href="//fmt.ewi.utwente.nl/research/projects/view/vercors/" target="_blank">Copyright <code>&copy</code> The VerCors Project 2007-2022</a>
+                    | <a href="//fmt.ewi.utwente.nl" target="_blank">FMT - University of Twente</a>
+                    | <a href="/about/">About Us</a>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

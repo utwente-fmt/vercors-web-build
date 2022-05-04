@@ -1,0 +1,393 @@
+
+<!DOCTYPE HTML>
+<!--
+VerCors Tool --- Formal Methods and Tools Group (EWI)
+University of Twente, Enschede, The Netherlands
+-->
+<html lang="en">
+    <head>
+        <title>Linked list · VerCors Tool FMT | UTwente </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <meta name="description" content="">
+        <meta name="keywords" content="">
+
+        <link rel="stylesheet" href="/css/codemirror.css">
+        <link rel="stylesheet" href="/css/codemirror-monokai.css">
+        <link rel="stylesheet" href="/css/highlight/default.css">
+        <link rel="stylesheet" href="/css/datatables.min.css">
+        <link rel="stylesheet" href="/css/style.css">
+
+        <script src="/js/jquery.min.js"></script>
+        <script src="/js/highlight.pack.js"></script>
+        <script src="/js/codemirror.js"></script>
+        <script src="/js/datatables.min.js"></script>
+        <script src="/js/vercorsonline.js"></script>
+        <script src="/js/init.js"></script>
+
+        <!--<script type="text/javascript">
+            hljs.initHighlightingOnLoad();
+        </script>-->
+    </head>
+    <body class="no-sidebar">
+        <div id="header">
+            <h1 id="logo" style="position: relative">
+                <span id="hamburger" onclick="document.querySelector('#nav').classList.toggle('open')" class="fa fa-bars"></span>
+                <a href="/">The VerCors Verifier</a>
+            </h1>
+            <nav id="nav">
+                <ul>
+                    <li>
+                        <a href="/wiki/#introduction">Getting Started</a>
+                        <ul>
+                            <li><a href="/wiki/#introduction">Introduction</a></li>
+                            <li><a href="/wiki/#installing-and-running-vercors">Installation Guide</a></li>
+                            <li><a href="/wiki/">Tutorial</a></li>
+                            <li>
+                                <a href="//github.com/utwente-fmt/vercors/issues" target="_blank">
+                                    Issue Tracker
+                                    <span class="fa fa-external-link" style="font-size: 10pt"></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><a href="/try_online/examples/">Showcases</a></li>
+                    <li><a href="/news/">News</a></li>
+                    <li><a href="/publications/">Publications</a></li>
+                    <li>
+                        <a href="/about/">About</a>
+                        <ul>
+                            <li><a href="/about/#Team">VerCors Team</a></li>
+                            <li><a href="/about/#Contact">Contact</a></li>
+                            <li><a href="/about/#Credits">Credits</a></li>
+                            <li><a href="/license/">License</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+            <div class="container">
+                <div id="banner">
+                    <div class="container">
+                        <section>
+                            
+                            <p>
+                                <a href="//github.com/utwente-fmt/vercors" class="button alt" target="_blank">
+                                    View on Github
+                                </a>
+                                <a href="/try_online/" class="button alt">Try VerCors Online</a>
+                            </p>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+<div id="main" class="style1 wrapper">
+    <div class="container">
+        
+    <div class="example-view">
+        <h1>Linked list</h1>
+        <p>Verifying several operations (e.g. append, clone, concatenate, prepend, etc.) on a linked list structure. </p>
+
+        <h3>General Information</h3>
+        <ul>
+            <li><strong>Backend</strong>: Chalice</li>
+            <li><strong>Language</strong>: PVL</li>
+            <li><strong>Features</strong>: Sequences, Lists</li>
+            <li><strong>Path to Example File</strong>: lists/linkedlist.pvl</li>
+            <li><strong>Should Verify</strong>: Yes</li>
+            <li><strong>Date</strong>: 2017-06-20</li>
+            <li><strong>Lines of Code</strong>: 215 (comments not included)</li>
+            <li><strong>Lines of Specification</strong>: 98 (45.6% of total)</li>
+            
+        </ul>
+
+        
+<div class="verification-container">
+    
+    <div class="verification-widget verification-non-plain" >
+        <div style="position: relative">
+            <textarea name="examplecode" rows="20" data-code-mirror="true">// -*- tab-width:2 ; indent-tabs-mode:nil -*-
+//:: cases LinkedList
+//:: tools silicon
+//:: verdict Pass
+
+/** Contains helper methods for integer sequences */
+class Seq {
+	/** appends an integer `v` to the front of the sequence `s` */
+	pure static seq&lt;int&gt; append(int v, seq&lt;int&gt; s) = seq&lt;int&gt; { v } + s;
+	
+	/** gives an empty integer sequence */
+	pure static seq&lt;int&gt; create_empty() = seq&lt;int&gt; { };
+	
+	/** tests whether the given sequence `s` is empty */
+	pure static boolean is_empty(seq&lt;int&gt; s) = s == Seq.create_empty();
+	
+	/** prepends an integer `v` to the back of the sequence `s` */
+	pure static seq&lt;int&gt; prepend(int v, seq&lt;int&gt; s) = s + seq&lt;int&gt; { v };
+	
+	/** removes the first occurence of `v` in `s`. */
+	pure static seq&lt;int&gt; `remove`(seq&lt;int&gt; s, int v) = Seq.is_empty(s) ? Seq.create_empty() :
+		(head(s) == v ? tail(s) : Seq.append(head(s), `remove`(tail(s), v)));
+		
+	/** gives the reverse of `s`. */
+	pure static seq&lt;int&gt; reverse(seq&lt;int&gt; s) = Seq.is_empty(s) ? Seq.create_empty() : Seq.reverse(tail(s)) + seq&lt;int&gt; { head(s) };
+}
+
+class List {
+	List next;
+	int value;
+	
+	resource state(frac p) = p != none ** Perm(value, p) ** Perm(next, p) ** next-&gt;state(p);
+	
+	/** tests whether `list` is empty. */
+	pure static boolean is_empty(List list) = list == null;
+	
+	/** yields a sequence containing the values of `list`. */
+	requires p != none ** list-&gt;state(p);
+	pure static seq&lt;int&gt; as_seq(List list, frac p) =
+		List.is_empty(list) ? Seq.create_empty() : \unfolding list.state(p) \in seq&lt;int&gt; { list.value } + List.as_seq(list.next, p);
+
+	/** constructs a new list with tail `n` and value `v` */
+	given seq&lt;int&gt; orig;
+	requires n-&gt;state(write);
+	requires List.as_seq(n, write) == orig;
+	ensures state(write);
+	ensures \unfolding state(write) \in value == v;
+	ensures \unfolding state(write) \in next == n;
+	ensures \unfolding state(write) \in List.as_seq(next, write) == orig;
+	ensures List.as_seq(this, write) == Seq.append(v, orig);
+	List(List n, int v) {
+		next = n;
+		value = v;
+		fold state(write);
+	}
+	
+	/** gives a new list equal to `list` but with `value` appended to the front. */
+	given frac p;
+	given seq&lt;int&gt; orig;
+	context p != none ** list-&gt;state(p);
+	requires orig == List.as_seq(list, p);
+	ensures \result != null;
+	ensures \result.state(write);
+	ensures value == \unfolding \result.state(write) \in \result.value;
+	ensures List.as_seq(\result, write) == Seq.append(value, orig);
+	static List append(List list, int value) {
+		List tail_list = List.clone(list) with {
+			orig = orig;
+			p = p;
+		};
+		
+		return new List(tail_list, value) with {
+			orig = orig;
+		};
+	}
+	
+	/** yields a clone (hard copy) of the input list `a`. */
+	given frac p;
+	given seq&lt;int&gt; orig;
+	context p != none ** a-&gt;state(p);
+	requires orig == List.as_seq(a, p);
+	ensures \result-&gt;state(write);
+	ensures List.as_seq(\result, write) == orig;
+	static List clone(List a) {
+		if (List.is_empty(a)) {
+			return null;
+		}
+		
+		unfold a.state(p);
+		
+		List rec = clone(a.next) with {
+			orig = tail(orig);
+			p = p;
+		};
+
+		List result = new List(rec, a.value) with {
+			orig = List.as_seq(rec, write);
+		};
+		
+		fold a.state(p);
+		return result;
+	}
+	
+	/** returns a list that represents the concatenation of `a` with `b`. */
+	given frac p;
+	given frac q;
+	given seq&lt;int&gt; orig_a;
+	given seq&lt;int&gt; orig_b;
+	context p != none ** q != none ** a-&gt;state(p) ** b-&gt;state(q);
+	requires orig_a == List.as_seq(a, p);
+	requires orig_b == List.as_seq(b, q);
+	ensures \result-&gt;state(write);
+	ensures List.as_seq(\result, write) == orig_a + orig_b;
+	static List concatenate(List a, List b) {
+		if (List.is_empty(a)) {
+			return List.clone(b) with {
+				orig = orig_b;
+				p = q;
+			};
+		}
+		
+		unfold a.state(p);
+		
+		List rec = concatenate(a.next, b) with {
+			orig_a = List.as_seq(a.next, p);
+			orig_b = List.as_seq(b, q);
+			p = p;
+			q = q;
+		};
+		
+		List result = new List(rec, a.value) with {
+			orig = List.as_seq(rec, write);
+		};
+		
+		fold a.state(p);
+		return result;
+	}
+	
+	/** prepends `value` to the back of `list`. */
+	given frac p;
+	given seq&lt;int&gt; orig;
+	context p != none ** list-&gt;state(p);
+	requires List.as_seq(list, p) == orig;
+	ensures \result != null;
+	ensures \result.state(write);
+	ensures List.as_seq(\result, write) == Seq.prepend(value, orig);
+	static List prepend(List list, int value) {
+		if (List.is_empty(list)) {
+			return new List(null, value) with {
+				orig = Seq.create_empty();
+			};
+		}
+		
+		unfold list.state(p);
+		
+		List rec = prepend(list.next, value) with {
+			orig = tail(orig);
+			p = p;
+		};
+		
+		List result = new List(rec, list.value) with {
+			orig = List.as_seq(rec, write);
+		};
+		
+		fold list.state(p);
+		return result;
+	}
+	
+	
+	/** gives a new list equal to `list` but with the first occurence of `value` removed. */
+	given frac p;
+	given seq&lt;int&gt; orig;
+	context p != none ** list-&gt;state(p);
+	requires orig == List.as_seq(list, p);
+	ensures \result-&gt;state(write);
+	ensures List.as_seq(\result, write) == Seq.`remove`(orig, value);
+	static List `remove`(List list, int value) {
+		if (List.is_empty(list)) {
+			return null;
+		}
+		
+		unfold list.state(p);
+		
+		if (list.value == value) {
+			List result = List.clone(list.next) with {
+				orig = tail(orig);
+				p = p;
+			};
+			
+			fold list.state(p);
+			return result;
+		}
+		
+		List rec = `remove`(list.next, value) with {
+			orig = tail(orig);
+			p = p;
+		};
+		
+		List result = new List(rec, list.value) with {
+			orig = List.as_seq(rec, write);
+		};
+		
+		fold list.state(p);
+		return result;
+	}
+
+	/** gives a new list equal to the reversed `list`. */
+	given frac p;
+	given seq&lt;int&gt; orig;
+	context p != none ** list-&gt;state(p);
+	requires orig == List.as_seq(list, p);
+	ensures \result-&gt;state(write);
+	ensures List.as_seq(\result, write) == Seq.reverse(orig);
+	static List reverse(List list) {
+		if (List.is_empty(list)) {
+			return null;
+		}
+		
+		unfold list.state(p);
+		
+		List rec = List.reverse(list.next) with {
+			orig = tail(orig);
+			p = p;
+		};
+		
+		// this should be done nice when we have the non-static members!
+		List result = List.prepend(rec, list.value) with {
+			orig = List.as_seq(rec, write);
+			p = write;
+		};
+		
+		fold list.state(p);
+		return result;
+	}
+}</textarea>
+            <span class="code-buttons">
+                <span class="fa fa-times-circle code-close-button"></span>
+                <span class="fa fa-play code-run-button"></span>
+            </span>
+        </div>
+
+        <div style="background-color: #dddddd; padding: 0.4ex 1ex">
+            <label class="control-label" for="example-backendid">Language:</label>
+            <select name="lang" id="example-backendid" class="form-control">
+                
+                    <option value="pvl" selected="">PVL</option>
+                
+                    <option value="java" >Java</option>
+                
+                    <option value="cu" >Cuda</option>
+                
+                    <option value="c" >C / OpenMP / OpenCL</option>
+                
+                    <option value="sil" >Viper</option>
+                
+            </select>
+        </div>
+    </div>
+    <div class="verification-progress verification-non-plain" style="display: none; background-color: #dddddd; padding: 0.4ex 1ex" >
+        <span class="fa"></span>
+        <span class="verification-progress-text"></span>
+    </div>
+    <pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+    </div>
+
+    </div>
+</div>
+
+
+        <div id="footer">
+            <div class="row">
+                <a href="//fmt.ewi.utwente.nl" target="_blank"><img src="/images/FMT logo.png" alt=""></a>
+                <div class="copyright">
+                    <a href="//fmt.ewi.utwente.nl/research/projects/view/vercors/" target="_blank">Copyright <code>&copy</code> The VerCors Project 2007-2022</a>
+                    | <a href="//fmt.ewi.utwente.nl" target="_blank">FMT - University of Twente</a>
+                    | <a href="/about/">About Us</a>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

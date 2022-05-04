@@ -1,0 +1,333 @@
+
+<!DOCTYPE HTML>
+<!--
+VerCors Tool --- Formal Methods and Tools Group (EWI)
+University of Twente, Enschede, The Netherlands
+-->
+<html lang="en">
+    <head>
+        <title>Synchronisers: ReentrantLock · VerCors Tool FMT | UTwente </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <meta name="description" content="">
+        <meta name="keywords" content="">
+
+        <link rel="stylesheet" href="/css/codemirror.css">
+        <link rel="stylesheet" href="/css/codemirror-monokai.css">
+        <link rel="stylesheet" href="/css/highlight/default.css">
+        <link rel="stylesheet" href="/css/datatables.min.css">
+        <link rel="stylesheet" href="/css/style.css">
+
+        <script src="/js/jquery.min.js"></script>
+        <script src="/js/highlight.pack.js"></script>
+        <script src="/js/codemirror.js"></script>
+        <script src="/js/datatables.min.js"></script>
+        <script src="/js/vercorsonline.js"></script>
+        <script src="/js/init.js"></script>
+
+        <!--<script type="text/javascript">
+            hljs.initHighlightingOnLoad();
+        </script>-->
+    </head>
+    <body class="no-sidebar">
+        <div id="header">
+            <h1 id="logo" style="position: relative">
+                <span id="hamburger" onclick="document.querySelector('#nav').classList.toggle('open')" class="fa fa-bars"></span>
+                <a href="/">The VerCors Verifier</a>
+            </h1>
+            <nav id="nav">
+                <ul>
+                    <li>
+                        <a href="/wiki/#introduction">Getting Started</a>
+                        <ul>
+                            <li><a href="/wiki/#introduction">Introduction</a></li>
+                            <li><a href="/wiki/#installing-and-running-vercors">Installation Guide</a></li>
+                            <li><a href="/wiki/">Tutorial</a></li>
+                            <li>
+                                <a href="//github.com/utwente-fmt/vercors/issues" target="_blank">
+                                    Issue Tracker
+                                    <span class="fa fa-external-link" style="font-size: 10pt"></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><a href="/try_online/examples/">Showcases</a></li>
+                    <li><a href="/news/">News</a></li>
+                    <li><a href="/publications/">Publications</a></li>
+                    <li>
+                        <a href="/about/">About</a>
+                        <ul>
+                            <li><a href="/about/#Team">VerCors Team</a></li>
+                            <li><a href="/about/#Contact">Contact</a></li>
+                            <li><a href="/about/#Credits">Credits</a></li>
+                            <li><a href="/license/">License</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+            <div class="container">
+                <div id="banner">
+                    <div class="container">
+                        <section>
+                            
+                            <p>
+                                <a href="//github.com/utwente-fmt/vercors" class="button alt" target="_blank">
+                                    View on Github
+                                </a>
+                                <a href="/try_online/" class="button alt">Try VerCors Online</a>
+                            </p>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+<div id="main" class="style1 wrapper">
+    <div class="container">
+        
+    <div class="example-view">
+        <h1>Synchronisers: ReentrantLock</h1>
+        <p>In this example case a re-entrant lock, implemented in Java, is verified. An atomic integer is used as the synchroniser.</p>
+
+        <h3>General Information</h3>
+        <ul>
+            <li><strong>Backend</strong>: Chalice</li>
+            <li><strong>Language</strong>: Java</li>
+            <li><strong>Features</strong>: Atomics, Witnesses, Locking, Loop invariants</li>
+            <li><strong>Path to Example File</strong>: synchronizers/ReentrantLock.java</li>
+            <li><strong>Should Verify</strong>: Yes</li>
+            <li><strong>Date</strong>: 2017-06-21</li>
+            <li><strong>Lines of Code</strong>: 140 (comments not included)</li>
+            <li><strong>Lines of Specification</strong>: 81 (57.9% of total)</li>
+            
+                <li><strong>Computation Time</strong>: 20.9 seconds</li>
+            
+        </ul>
+
+        
+<div class="verification-container">
+    
+    <div class="verification-widget verification-non-plain" >
+        <div style="position: relative">
+            <textarea name="examplecode" rows="20" data-code-mirror="true">// -*- tab-width:2 ; indent-tabs-mode:nil -*-
+//:: cases ReentLock
+//:: tools chalice
+//:: verdict Pass
+//:: options --explicit
+ /*
+ Example: ReentLock
+ Description: ReentLock is the re-entrant lock using AtomicInteger as synchronizer.
+ Author: Afshin Amighi
+ Status: Pass.
+ command: vct --chalice --explicit ReentrantLock.java
+ */
+
+public class ReentLock{
+
+    //shared resource
+    private int data;
+
+    //  int SynchronizerRole (S) = 0, ThreadRole = 1;
+    //    int UNLOCKED = 0 , LOCKED = threadid;
+
+    //@ resource handle(int role,int val);
+    //@ resource trans(int role,int last,int next)=( role == 1  ==&gt; true );
+    //@ pure zfrac part(int r, int v,int M){ return (r == 0 &amp;&amp; v == 0) ? 100:0; }
+    // for simplicity we take resource_invariant=Perm(data,p)
+    //@ resource inv(zfrac p)= Perm(data,p) ** Perm(count,p);
+
+    private int        count;
+
+    //@ resource state(int id , int held) = (held &gt; 0 )==&gt; Perm(count,100);
+
+    /*@
+     given int r, l, max;
+     requires (srh:handle(r,l)) ** (sra:trans(r,l,x)) ** (srp:inv(part(r,l,max))) ** (srs:inv(part(0,x,max)));
+     ensures (seh:handle(r,x)) ** (sep:inv(part(r,x,max)));
+     */
+    void set(int x);
+
+    /*@
+     given int r,l,max;
+     requires (grh:handle(r,l)) ** grp:inv(part(r,l,max));
+     ensures (geh:handle(r,\result)) ** gep:inv(part(r,\result,max));
+     */
+    int get();
+
+    /*@
+     given int r, l, max;
+     requires (crh:handle(r,l)) ** (cra:trans(r,x,n)) ** (crp:inv(part(r,l,max))) ** (crs:inv(part(0,n,max)-part(0,x,max)));
+     ensures \result ==&gt; (cehp:handle(r,n)) ** (cepp:inv(part(r,n,max))) ** cesp:inv(part(0,x,max)-part(0,n,max));
+     ensures !\result ==&gt; (cehn:handle(r,l)) ** (cepn:inv(part(r,l,max))) ** cesn:inv(part(0,n,max)-part(0,x,max));
+     */
+    boolean compareAndSet(int x,int n);
+
+    /*
+     requires Perm(owner,100) * Perm(holds,100) * P ; where P is what is needed for lock constructor
+     ensures Perm(owner,100) * Perm(holds,100) * P * (\forall* handles(T,UNLOCKED));
+     */
+    /*ReentLock(){
+
+        state = new AtomicInteger(UNLOCKED);
+        // handles for all the threads
+        owner = null;
+        holds = 0;
+
+    }*/
+
+    //@ given int last;
+    //@ given int held;
+    //@ requires tid &gt; 0;
+    //@ requires lrs: state(tid,held);
+    //@ requires lrh: handle(1,last);
+    //@ ensures les: state(tid,held+1);
+    //@ ensures (held == 0) ==&gt; Perm(data,100) ;
+    //@ ensures leh: handle(1,tid);
+    public void dolock(int tid){
+        boolean res = false;
+
+        //@ int role = 1, S=0, M=1;
+
+        /*@ witness tgrp:inv(*);
+            fold tgrp:inv(part(role,last,M));
+
+            witness tgep:inv(*);
+            witness tgeh:handle(*,*);
+         */
+
+        int curr = get() /*@ with { max = M; r=role; l = last; grh = lrh;  grp = tgrp; } then { tgeh = geh; tgep = gep; } */;
+        // check re-entrant
+        if ( tid == curr ) {
+            //@ assume (held &gt; 0);
+            //@ unfold lrs:state(tid,held);
+            //@ assume (held == count);
+
+            count = count+1;
+
+            //@ leh=tgeh;
+        }
+        // check first-entrant
+        if( tid != curr){
+            //@ assume (held == 0);
+
+            boolean succ = false;
+            //@ witness tcra:trans(*,*,*);
+            //@ witness tcrs:inv(*);
+            //@ witness tces:inv(*);
+            //@ witness tcepp:inv(*);
+            //@ fold tcrs:inv(part(S,tid,M)-part(S,0,M));
+            //@ loop_invariant  !succ    ==&gt; (invhn:handle(role,curr)) ** (invpn: inv(part(role,curr,M))) ** invsn: inv(part(S,tid,M)-part(S,0,M));
+            //@ loop_invariant  succ    ==&gt;    (invhp:handle(role,tid)) ** (invpp: inv(part(role,tid,M))) ** invsp: inv(part(S,0,M)-part(S,tid,M));
+            while (!succ) /*@ with{ invhn = tgeh; invpn = tgep; invpp = tgep;  invsn = tcrs; }
+                           then { tces = invsp; tcepp = invpp; leh = invhp;   } @*/ {
+
+               //@     fold tcra:trans(role,0,tid);
+                succ = compareAndSet(0,tid) /*@ with{ max = 1; r = role; l = curr; crh = invhn; crp = invpn; cra = tcra; crs = invsn; }
+                                        then{ invhn = cehn; invpn = cepn; invsn = cesn; invhp = cehp; invpp = cepp; invsp = cesp;  } @*/ ;
+            }
+            //@ unfold tces: inv(part(S,0,1)-part(S,tid,1));
+            //@ assume (held == count);
+            count = count+1;
+        }
+        //@ fold les:state(tid,held+1);
+        return;
+    }
+
+    // unlock is only called with a valid tid (tid &gt; 0) and valid held (held &gt; 0)
+    //@ given int held;
+    //@ requires tid &gt; 0;
+    //@ requires held &gt; 0;
+    //@ requires urs: state(tid,held);
+    //@ requires urh:handle(1,tid);
+    //@ requires held &gt; 0 ==&gt; Perm(data,100);
+    //@ ensures held == 1 ==&gt; ueuh: handle(1,0);
+    //@ ensures held &gt; 1 ==&gt; (uelh: handle(1,tid)) ** Perm(data,100);
+    //@ ensures ues:state(tid,held-1);
+    public void unlock(int tid){
+        //@ int role = 1, S=0, M=1;
+        //@ int last = tid;
+
+        //@ witness tgrp:inv(*);
+        //@ fold tgrp:inv(part(role,last,M));
+        //@ witness tgep:inv(*);
+        //@ witness tgeh:handle(*,*);
+        int curr = get() /*@ with { max = M; r=role; l=last; grh=urh;  grp=tgrp; } then { tgeh=geh; tgep=gep; } @*/;
+
+        // this should be a global invariant
+        //@ assume( curr==tid );
+
+        if ( curr == tid) {
+
+            //@ unfold urs:state(tid,held);
+            //@ assume (count == held);
+            if (count == 1) {
+                count = count-1;
+                //@ fold ues:state(tid,count);
+                //@ witness tsrp:inv(*);
+                //@ witness tsrs:inv(*);
+                //@ fold tsrp:inv(part(role,curr,M));
+                //@ fold tsrs:inv(part(S,0,M));
+                //@ witness tsra:trans(*,*,*);
+                //@ fold tsra:trans(role,curr,0);
+                set(0) /*@ with{ max = M; r = role; l = curr; srh = tgeh; srp = tsrp; sra = tsra; srs = tsrs; } then { ueuh = seh; } @*/;
+            }
+            else{
+                if (count &gt; 1) {
+                    count = count-1;
+                    //@ fold ues:state(tid,held-1);
+                    //@ uelh = tgeh;
+                }
+            }
+        }
+    }
+}
+</textarea>
+            <span class="code-buttons">
+                <span class="fa fa-times-circle code-close-button"></span>
+                <span class="fa fa-play code-run-button"></span>
+            </span>
+        </div>
+
+        <div style="background-color: #dddddd; padding: 0.4ex 1ex">
+            <label class="control-label" for="example-backendid">Language:</label>
+            <select name="lang" id="example-backendid" class="form-control">
+                
+                    <option value="pvl" selected="">PVL</option>
+                
+                    <option value="java" >Java</option>
+                
+                    <option value="cu" >Cuda</option>
+                
+                    <option value="c" >C / OpenMP / OpenCL</option>
+                
+                    <option value="sil" >Viper</option>
+                
+            </select>
+        </div>
+    </div>
+    <div class="verification-progress verification-non-plain" style="display: none; background-color: #dddddd; padding: 0.4ex 1ex" >
+        <span class="fa"></span>
+        <span class="verification-progress-text"></span>
+    </div>
+    <pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+    </div>
+
+    </div>
+</div>
+
+
+        <div id="footer">
+            <div class="row">
+                <a href="//fmt.ewi.utwente.nl" target="_blank"><img src="/images/FMT logo.png" alt=""></a>
+                <div class="copyright">
+                    <a href="//fmt.ewi.utwente.nl/research/projects/view/vercors/" target="_blank">Copyright <code>&copy</code> The VerCors Project 2007-2022</a>
+                    | <a href="//fmt.ewi.utwente.nl" target="_blank">FMT - University of Twente</a>
+                    | <a href="/about/">About Us</a>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

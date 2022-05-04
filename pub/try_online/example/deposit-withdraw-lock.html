@@ -1,0 +1,280 @@
+
+<!DOCTYPE HTML>
+<!--
+VerCors Tool --- Formal Methods and Tools Group (EWI)
+University of Twente, Enschede, The Netherlands
+-->
+<html lang="en">
+    <head>
+        <title>Deposit/withdraw lock · VerCors Tool FMT | UTwente </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <meta name="description" content="">
+        <meta name="keywords" content="">
+
+        <link rel="stylesheet" href="/css/codemirror.css">
+        <link rel="stylesheet" href="/css/codemirror-monokai.css">
+        <link rel="stylesheet" href="/css/highlight/default.css">
+        <link rel="stylesheet" href="/css/datatables.min.css">
+        <link rel="stylesheet" href="/css/style.css">
+
+        <script src="/js/jquery.min.js"></script>
+        <script src="/js/highlight.pack.js"></script>
+        <script src="/js/codemirror.js"></script>
+        <script src="/js/datatables.min.js"></script>
+        <script src="/js/vercorsonline.js"></script>
+        <script src="/js/init.js"></script>
+
+        <!--<script type="text/javascript">
+            hljs.initHighlightingOnLoad();
+        </script>-->
+    </head>
+    <body class="no-sidebar">
+        <div id="header">
+            <h1 id="logo" style="position: relative">
+                <span id="hamburger" onclick="document.querySelector('#nav').classList.toggle('open')" class="fa fa-bars"></span>
+                <a href="/">The VerCors Verifier</a>
+            </h1>
+            <nav id="nav">
+                <ul>
+                    <li>
+                        <a href="/wiki/#introduction">Getting Started</a>
+                        <ul>
+                            <li><a href="/wiki/#introduction">Introduction</a></li>
+                            <li><a href="/wiki/#installing-and-running-vercors">Installation Guide</a></li>
+                            <li><a href="/wiki/">Tutorial</a></li>
+                            <li>
+                                <a href="//github.com/utwente-fmt/vercors/issues" target="_blank">
+                                    Issue Tracker
+                                    <span class="fa fa-external-link" style="font-size: 10pt"></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><a href="/try_online/examples/">Showcases</a></li>
+                    <li><a href="/news/">News</a></li>
+                    <li><a href="/publications/">Publications</a></li>
+                    <li>
+                        <a href="/about/">About</a>
+                        <ul>
+                            <li><a href="/about/#Team">VerCors Team</a></li>
+                            <li><a href="/about/#Contact">Contact</a></li>
+                            <li><a href="/about/#Credits">Credits</a></li>
+                            <li><a href="/license/">License</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+            <div class="container">
+                <div id="banner">
+                    <div class="container">
+                        <section>
+                            
+                            <p>
+                                <a href="//github.com/utwente-fmt/vercors" class="button alt" target="_blank">
+                                    View on Github
+                                </a>
+                                <a href="/try_online/" class="button alt">Try VerCors Online</a>
+                            </p>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+<div id="main" class="style1 wrapper">
+    <div class="container">
+        
+    <div class="example-view">
+        <h1>Deposit/withdraw lock</h1>
+        <p>How to implement a single-entrant lock using AtomicInteger? A single-entrant lock which uses deposit-withdraw approach of AtomicInteger specification.</p>
+
+        <h3>General Information</h3>
+        <ul>
+            <li><strong>Backend</strong>: Chalice</li>
+            <li><strong>Language</strong>: Java</li>
+            <li><strong>Features</strong>: Atomics, Witnesses, Locking</li>
+            <li><strong>Path to Example File</strong>: atomics/DWLock.java</li>
+            <li><strong>Should Verify</strong>: Yes</li>
+            <li><strong>Date</strong>: 2017-06-15</li>
+            <li><strong>Lines of Code</strong>: 102 (comments not included)</li>
+            <li><strong>Lines of Specification</strong>: 39 (38.2% of total)</li>
+            
+                <li><strong>Computation Time</strong>: 13.5 seconds</li>
+            
+        </ul>
+
+        
+<div class="verification-container">
+    
+    <div class="verification-widget verification-non-plain" >
+        <div style="position: relative">
+            <textarea name="examplecode" rows="20" data-code-mirror="true">// -*- tab-width:4 ; indent-tabs-mode:nil -*-
+//:: cases DepositWithdrawLockWitnesses
+//:: tools chalice
+//:: options --explicit
+/*
+ 
+ Example:
+    DWLock (stands for Deposit-Withdraw Lock)
+ Description:
+    How to implement a single-entrant lock using AtomicInteger? 
+    A single-entrant lock which uses deposit-withdraw approach of AtomicInteger specification.
+ 
+  The command line to verify with the VerCors Tool is:
+  
+  vct --chalice --explicit DWLock.java
+  
+  The expected result is Pass.
+
+ Author:
+    Afshin Amighi
+ Status:
+    Pass.
+ */
+
+class DWLock{
+    
+    // LOCK = 1 , UNLOCK = 0
+    /*@
+        public resource resource_pred(int x) = true;
+        public resource value(int x) = x==0 ==&gt; Perm(data,100);
+     
+        public resource resource_invariant() = Perm(data,100);
+     */
+    
+    //@ resource state(int x) = true;
+    
+    
+    private int data;
+
+    /*@
+     requires (set_rr:resource_pred(n)) ** set_rv:value(n);
+     ensures set_ev:value(n); 
+     */
+    void set(int n);
+    
+    /*@
+     requires  true;
+     ensures ((\result ==&gt; eql_evp:value(n) ) ** (!\result ==&gt; true)) ;
+     */
+    boolean equal(int n);
+    
+    /*@
+     requires    (cas_rr:resource_pred(n)) ** cas_rv:value(n);
+     ensures    (\result ==&gt; (cas_erp:resource_pred(o)) ** cas_evp:value(o) ) ** 
+     (!\result ==&gt; (cas_ern:resource_pred(n)) ** cas_evn:value(n));
+     */
+    boolean cas(int o, int n);    
+
+        
+    DWLock(){  }
+    
+
+    /*@
+     requires true;
+     ensures lck_eri:resource_invariant();
+     */
+    void dolock(){
+
+        boolean succ = false;
+        
+        /*@
+            witness vtmp1:value(*);
+            witness rtmp1:resource_pred(*);
+            witness ri:resource_invariant();
+         
+            fold vtmp1:value(1);
+            fold rtmp1:resource_pred(1);
+         */
+        //@ loop_invariant !succ ==&gt; ((invv:value(1)) ** invr:resource_pred(1)) ;
+        //@ loop_invariant succ ==&gt; ((vtmp2:value(0)) ** rtmp2:resource_pred(0)) ;
+        while (!succ) /*@ with { invv = vtmp1; invr = rtmp1; } then { unfold vtmp2:value(0); } */ {
+            succ = (cas(0,1) /*@ with { cas_rr = invr; cas_rv = invv; } then { invv = cas_evn; invr = cas_ern; rtmp2 = cas_erp; vtmp2 = cas_evp; } */);
+        }
+        //@ fold ri:resource_invariant();
+        //@ lck_eri = ri;
+    }
+    
+    /*@
+     requires ulk_rri:resource_invariant();
+     ensures true;
+     */
+    void dounlock(){
+        
+        /*@
+            witness vtmp1:value(*);
+            witness rtmp1:resource_pred(*);
+         */
+        //@ unfold ulk_rri:resource_invariant();
+        //@ fold rtmp1:resource_pred(0);
+        //@ fold vtmp1:value(0);
+        this.set(0) /*@ with{ set_rr=rtmp1; set_rv=vtmp1; } */;
+        
+    }
+    
+    
+    /*@
+     requires true;
+     ensures true;
+     */
+    void write(int v){
+        
+        //@ witness inv:resource_invariant();
+        dolock() /*@ with{} then { inv = lck_eri; } */;
+        //@ unfold inv:resource_invariant();
+        data = 1;
+        //@ fold inv:resource_invariant();
+        dounlock() /*@ with { ulk_rri=inv; } */;
+    }
+}
+</textarea>
+            <span class="code-buttons">
+                <span class="fa fa-times-circle code-close-button"></span>
+                <span class="fa fa-play code-run-button"></span>
+            </span>
+        </div>
+
+        <div style="background-color: #dddddd; padding: 0.4ex 1ex">
+            <label class="control-label" for="example-backendid">Language:</label>
+            <select name="lang" id="example-backendid" class="form-control">
+                
+                    <option value="pvl" selected="">PVL</option>
+                
+                    <option value="java" >Java</option>
+                
+                    <option value="cu" >Cuda</option>
+                
+                    <option value="c" >C / OpenMP / OpenCL</option>
+                
+                    <option value="sil" >Viper</option>
+                
+            </select>
+        </div>
+    </div>
+    <div class="verification-progress verification-non-plain" style="display: none; background-color: #dddddd; padding: 0.4ex 1ex" >
+        <span class="fa"></span>
+        <span class="verification-progress-text"></span>
+    </div>
+    <pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+    </div>
+
+    </div>
+</div>
+
+
+        <div id="footer">
+            <div class="row">
+                <a href="//fmt.ewi.utwente.nl" target="_blank"><img src="/images/FMT logo.png" alt=""></a>
+                <div class="copyright">
+                    <a href="//fmt.ewi.utwente.nl/research/projects/view/vercors/" target="_blank">Copyright <code>&copy</code> The VerCors Project 2007-2022</a>
+                    | <a href="//fmt.ewi.utwente.nl" target="_blank">FMT - University of Twente</a>
+                    | <a href="/about/">About Us</a>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

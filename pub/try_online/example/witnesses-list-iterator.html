@@ -1,0 +1,444 @@
+
+<!DOCTYPE HTML>
+<!--
+VerCors Tool --- Formal Methods and Tools Group (EWI)
+University of Twente, Enschede, The Netherlands
+-->
+<html lang="en">
+    <head>
+        <title>Witnesses: List iterator · VerCors Tool FMT | UTwente </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <meta name="description" content="">
+        <meta name="keywords" content="">
+
+        <link rel="stylesheet" href="/css/codemirror.css">
+        <link rel="stylesheet" href="/css/codemirror-monokai.css">
+        <link rel="stylesheet" href="/css/highlight/default.css">
+        <link rel="stylesheet" href="/css/datatables.min.css">
+        <link rel="stylesheet" href="/css/style.css">
+
+        <script src="/js/jquery.min.js"></script>
+        <script src="/js/highlight.pack.js"></script>
+        <script src="/js/codemirror.js"></script>
+        <script src="/js/datatables.min.js"></script>
+        <script src="/js/vercorsonline.js"></script>
+        <script src="/js/init.js"></script>
+
+        <!--<script type="text/javascript">
+            hljs.initHighlightingOnLoad();
+        </script>-->
+    </head>
+    <body class="no-sidebar">
+        <div id="header">
+            <h1 id="logo" style="position: relative">
+                <span id="hamburger" onclick="document.querySelector('#nav').classList.toggle('open')" class="fa fa-bars"></span>
+                <a href="/">The VerCors Verifier</a>
+            </h1>
+            <nav id="nav">
+                <ul>
+                    <li>
+                        <a href="/wiki/#introduction">Getting Started</a>
+                        <ul>
+                            <li><a href="/wiki/#introduction">Introduction</a></li>
+                            <li><a href="/wiki/#installing-and-running-vercors">Installation Guide</a></li>
+                            <li><a href="/wiki/">Tutorial</a></li>
+                            <li>
+                                <a href="//github.com/utwente-fmt/vercors/issues" target="_blank">
+                                    Issue Tracker
+                                    <span class="fa fa-external-link" style="font-size: 10pt"></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><a href="/try_online/examples/">Showcases</a></li>
+                    <li><a href="/news/">News</a></li>
+                    <li><a href="/publications/">Publications</a></li>
+                    <li>
+                        <a href="/about/">About</a>
+                        <ul>
+                            <li><a href="/about/#Team">VerCors Team</a></li>
+                            <li><a href="/about/#Contact">Contact</a></li>
+                            <li><a href="/about/#Credits">Credits</a></li>
+                            <li><a href="/license/">License</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+            <div class="container">
+                <div id="banner">
+                    <div class="container">
+                        <section>
+                            
+                            <p>
+                                <a href="//github.com/utwente-fmt/vercors" class="button alt" target="_blank">
+                                    View on Github
+                                </a>
+                                <a href="/try_online/" class="button alt">Try VerCors Online</a>
+                            </p>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+<div id="main" class="style1 wrapper">
+    <div class="container">
+        
+    <div class="example-view">
+        <h1>Witnesses: List iterator</h1>
+        <p>Verifying a list iterator, implemented in Java, using witness encodings. Note that depending on which version of chalice is used, this spec may take a very very long time to check. Also, this example currently does not verify because it must be rewritten.</p>
+
+        <h3>General Information</h3>
+        <ul>
+            <li><strong>Backend</strong>: Silicon</li>
+            <li><strong>Language</strong>: Java</li>
+            <li><strong>Features</strong>: Witnesses, Lists, Loop invariants, Magic wands</li>
+            <li><strong>Path to Example File</strong>: witnesses/ListIterator.java</li>
+            <li><strong>Should Verify</strong>: Yes</li>
+            <li><strong>Date</strong>: 2017-06-21</li>
+            <li><strong>Lines of Code</strong>: 263 (comments not included)</li>
+            <li><strong>Lines of Specification</strong>: 162 (61.6% of total)</li>
+            
+        </ul>
+
+        
+<div class="verification-container">
+    
+    <div class="verification-widget verification-non-plain" >
+        <div style="position: relative">
+            <textarea name="examplecode" rows="20" data-code-mirror="true">// -*- tab-width:2 ; indent-tabs-mode:nil -*-
+//:: cases ListIterator
+//:: tools
+//:: verdict Pass
+//:: option --explicit
+//:: suite slow
+
+// Example disabled because it must be rewritten.
+
+/**
+  
+  The command line to verify with the VerCors Tool is:
+  
+  vct --chalice ListIterator.java
+  
+  The expected result is Pass.
+  
+  Note that depending on which version of chalice is used,
+  this spec may take a very very long time to check.
+*/
+
+public class ListIterator {
+
+  /*@
+  resource ready()=
+    Value(iteratee) ** iteratee!=null **Perm(iteratee.sentinel,100) ** iteratee.sentinel!=null
+    **Perm(current,100)**Perm(last,100)**current!=null
+    **Perm(current.val,100)**Perm(current.next,100)**Perm(current.prev,100)
+    **(current.prev==null ==&gt; current==iteratee.sentinel)
+    **(current.prev!=null ==&gt; current.prev.reverse() ** current.prev.first()==iteratee.sentinel ** current.prev.rev_next()==current)
+    **current.next-&gt;state();
+  resource readyForNext()=
+    Value(iteratee) ** iteratee!=null **Perm(iteratee.sentinel,100) ** iteratee.sentinel!=null
+    **Perm(current,100)**Perm(last,100)**current!=null
+    **Perm(current.val,100)**Perm(current.next,100)**Perm(current.prev,100)
+    **(current.prev==null ==&gt; current==iteratee.sentinel)
+    **(current.prev!=null ==&gt; current.prev.reverse() ** current.prev.first()==iteratee.sentinel ** current.prev.rev_next()==current)
+    **current.next-&gt;state()**current.next!=null;
+  resource readyForRemove()=
+    Value(iteratee) ** iteratee!=null **Perm(iteratee.sentinel,100) ** iteratee.sentinel!=null
+    **Perm(current,100)**Perm(last,100)**current!=null
+    **Perm(current.val,100)**Perm(current.next,100)**Perm(current.prev,100)
+    **current.next-&gt;state()**current.prev==last
+    **last!=null**Perm(last.val,100)**Perm(last.next,100)**Perm(last.prev,100)
+    **(last.prev==null ==&gt; last==iteratee.sentinel)
+    **(last.prev!=null ==&gt; last.prev.reverse() ** last.prev.first()==iteratee.sentinel ** last.prev.rev_next()==last)
+    **last.next==current;
+  @*/
+  
+  List iteratee;
+  Node current;
+  Node last;
+    
+  /*@
+    requires l!=null ** l.state();
+    ensures  ready();
+    ensures  wand:(ready() -* l.state());
+  @*/
+  public ListIterator(List l){
+    //@ unfold l.state();
+    current=l.sentinel;
+    //@ unfold current.state();
+    current.prev=null;
+    iteratee=l;
+    //@ fold ready();
+    /*@
+      create wand:(ready() -* l.state()){
+        use Value(this.iteratee);
+        use this.iteratee==l;
+        unfold ready();
+        fold this.current.state();
+        if (this.current.get_prev()!=null){
+            this.current.get_prev().swap(this.iteratee.sentinel,this.current);
+        }
+        fold l.state();
+      }
+    @*/
+  }
+
+  /*@
+    requires ready();
+    ensures  \result ==&gt; readyForNext();
+    ensures  !\result ==&gt; ready();
+  @*/
+  boolean hasNext(){
+    //@ unfold ready();
+    boolean res=current.next!=null;
+    /*@
+      if(!res) {
+        fold ready();
+      } else {
+        fold readyForNext();
+      }
+    @*/
+    return res;
+  }
+  
+  /*@
+    requires readyForNext();
+    ensures  readyForRemove();
+    ensures  wand:(readyForRemove() -* ready());
+  @*/
+  int next(){
+    int res;
+    //@ unfold readyForNext();
+    last=current;
+    current=current.next;
+    //@ unfold current.state();    
+    res=current.val;
+    current.prev=last;
+    //@ fold readyForRemove();
+    /*@
+        create wand:(readyForRemove() -* ready()){
+          unfold readyForRemove();
+          fold   this.current.prev.reverse();
+          fold   ready();
+        }
+    @*/
+    return res;
+  }
+
+  /*@
+    requires readyForRemove();
+    ensures  ready();
+  @*/  
+  void remove(){
+    //@ unfold readyForRemove();
+    last.next=current.next;
+    current=last;
+    //@ fold ready();
+  }
+
+  /* @ spec_ignore * /
+  public static void main(String args[]){
+    List l=new List();
+    Example e=new Example();
+    e.main(l);
+  }*/
+
+}
+
+class List {
+
+  Node sentinel;
+  
+  /*@
+    resource state()=Perm(sentinel,100)**sentinel!=null**sentinel.state();
+  @*/
+
+  /*@
+    ensures state();
+  @*/
+  public List(){
+    sentinel=new Node(0,null);
+    //@ fold state();
+  }
+  
+  /*@
+    requires state();
+    ensures  state();
+  @*/
+  public void put(int v){
+    //@ unfold state();
+    //@ unfold sentinel.state();
+    sentinel.next=new Node(v,sentinel.next);
+    //@ fold sentinel.state();
+    //@ fold state();
+  }
+  
+  /* @ spec_ignore * /
+  void print(){
+    ListIterator i=new ListIterator(this);
+    System.out.printf(&#34;[&#34;);
+    while(i.hasNext()){
+       System.out.printf(&#34; %d&#34;,i.next()); 
+    }
+    System.out.printf(&#34; ]%n&#34;);
+  }*/
+}
+
+
+class Example {
+
+  /*@
+    requires l!=null ** l.state();
+    ensures  l!=null ** l.state();
+  @*/
+  void main(List l){
+    boolean b;
+    l.put(1);
+    l.put(0);
+    l.put(-1);
+    /* @ spec_ignore * / l.print();*/
+    ListIterator i;
+    //@ witness recover:(i.ready() -* l.state());
+    //@ witness keep:(i.readyForRemove() -* i.ready());
+    i=new ListIterator(l) /*@ then { recover = wand; } */;
+    b=i.hasNext();
+    /*@
+      loop_invariant b ==&gt; i.readyForNext();
+      loop_invariant !b ==&gt; i.ready();
+    @*/
+    while(b){
+      int tmp=i.next() /*@ then { keep = wand ;} */;
+      if (tmp&lt;0) {
+         i.remove();
+      } else {
+         //@ apply keep:(i.readyForRemove() -* i.ready());
+      }
+      b=i.hasNext();
+    }
+    //@ apply recover:(i.ready() -* l.state());
+    /* @ spec_ignore * / l.print();*/
+  }
+  
+}
+
+class Node {
+
+  public int val;
+  public Node prev;
+  public Node next;
+
+  /*@
+    resource state()=Perm(val,100)**Perm(prev,100)**Perm(next,100)**next-&gt;state();
+
+    resource reverse()=Perm(val,100)**Perm(prev,100)**Perm(next,100)**
+      (prev!=null ==&gt; prev.reverse() ** prev.rev_next()==this);
+  @*/
+
+  /*@
+    requires state();
+    pure Node get_next()=next;
+  @*/
+  /*@
+    requires state();
+    pure Node get_prev()=prev;
+  @*/
+  /*@
+    requires reverse();
+    pure Node rev_next()=next;
+  @*/
+
+  /*@
+    requires reverse();
+    pure Node rev_prev()=prev;
+  @*/
+
+  /*@
+    requires reverse();
+    pure Node first()=(prev==null)?this:(prev.first());
+  @*/
+  
+
+  /*@
+    requires n-&gt;state();
+    ensures  state() ** get_next()==n;
+  @*/
+  Node(int v,Node n){
+    val=v;
+    next=n;
+    //@fold state();
+  }
+
+  /*@
+    requires fst!=null ** reverse() ** rev_next()==nxt ** nxt-&gt;state() ** first()==fst;
+    ensures  fst!=null ** fst.state();    
+  @*/
+  void swap(Node fst,Node nxt){
+    //@ unfold reverse();
+    if (prev==null) {
+      //@ fold state();
+    } else {
+      // Chalice cannot prove this simple fact:
+      //  assert prev.first()==fst;
+      // So we assume it
+      //@ assume prev.first()==fst;
+      Node tmp=prev;
+      //@ fold state();
+      tmp.swap(fst,this);
+    }
+  }
+  
+}
+
+</textarea>
+            <span class="code-buttons">
+                <span class="fa fa-times-circle code-close-button"></span>
+                <span class="fa fa-play code-run-button"></span>
+            </span>
+        </div>
+
+        <div style="background-color: #dddddd; padding: 0.4ex 1ex">
+            <label class="control-label" for="example-backendid">Language:</label>
+            <select name="lang" id="example-backendid" class="form-control">
+                
+                    <option value="pvl" selected="">PVL</option>
+                
+                    <option value="java" >Java</option>
+                
+                    <option value="cu" >Cuda</option>
+                
+                    <option value="c" >C / OpenMP / OpenCL</option>
+                
+                    <option value="sil" >Viper</option>
+                
+            </select>
+        </div>
+    </div>
+    <div class="verification-progress verification-non-plain" style="display: none; background-color: #dddddd; padding: 0.4ex 1ex" >
+        <span class="fa"></span>
+        <span class="verification-progress-text"></span>
+    </div>
+    <pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+    </div>
+
+    </div>
+</div>
+
+
+        <div id="footer">
+            <div class="row">
+                <a href="//fmt.ewi.utwente.nl" target="_blank"><img src="/images/FMT logo.png" alt=""></a>
+                <div class="copyright">
+                    <a href="//fmt.ewi.utwente.nl/research/projects/view/vercors/" target="_blank">Copyright <code>&copy</code> The VerCors Project 2007-2022</a>
+                    | <a href="//fmt.ewi.utwente.nl" target="_blank">FMT - University of Twente</a>
+                    | <a href="/about/">About Us</a>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

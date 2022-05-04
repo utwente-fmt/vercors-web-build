@@ -1,0 +1,389 @@
+
+<!DOCTYPE HTML>
+<!--
+VerCors Tool --- Formal Methods and Tools Group (EWI)
+University of Twente, Enschede, The Netherlands
+-->
+<html lang="en">
+    <head>
+        <title>Verifying a queue · VerCors Tool FMT | UTwente </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <meta name="description" content="">
+        <meta name="keywords" content="">
+
+        <link rel="stylesheet" href="/css/codemirror.css">
+        <link rel="stylesheet" href="/css/codemirror-monokai.css">
+        <link rel="stylesheet" href="/css/highlight/default.css">
+        <link rel="stylesheet" href="/css/datatables.min.css">
+        <link rel="stylesheet" href="/css/style.css">
+
+        <script src="/js/jquery.min.js"></script>
+        <script src="/js/highlight.pack.js"></script>
+        <script src="/js/codemirror.js"></script>
+        <script src="/js/datatables.min.js"></script>
+        <script src="/js/vercorsonline.js"></script>
+        <script src="/js/init.js"></script>
+
+        <!--<script type="text/javascript">
+            hljs.initHighlightingOnLoad();
+        </script>-->
+    </head>
+    <body class="no-sidebar">
+        <div id="header">
+            <h1 id="logo" style="position: relative">
+                <span id="hamburger" onclick="document.querySelector('#nav').classList.toggle('open')" class="fa fa-bars"></span>
+                <a href="/">The VerCors Verifier</a>
+            </h1>
+            <nav id="nav">
+                <ul>
+                    <li>
+                        <a href="/wiki/#introduction">Getting Started</a>
+                        <ul>
+                            <li><a href="/wiki/#introduction">Introduction</a></li>
+                            <li><a href="/wiki/#installing-and-running-vercors">Installation Guide</a></li>
+                            <li><a href="/wiki/">Tutorial</a></li>
+                            <li>
+                                <a href="//github.com/utwente-fmt/vercors/issues" target="_blank">
+                                    Issue Tracker
+                                    <span class="fa fa-external-link" style="font-size: 10pt"></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><a href="/try_online/examples/">Showcases</a></li>
+                    <li><a href="/news/">News</a></li>
+                    <li><a href="/publications/">Publications</a></li>
+                    <li>
+                        <a href="/about/">About</a>
+                        <ul>
+                            <li><a href="/about/#Team">VerCors Team</a></li>
+                            <li><a href="/about/#Contact">Contact</a></li>
+                            <li><a href="/about/#Credits">Credits</a></li>
+                            <li><a href="/license/">License</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+            <div class="container">
+                <div id="banner">
+                    <div class="container">
+                        <section>
+                            
+                            <p>
+                                <a href="//github.com/utwente-fmt/vercors" class="button alt" target="_blank">
+                                    View on Github
+                                </a>
+                                <a href="/try_online/" class="button alt">Try VerCors Online</a>
+                            </p>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+<div id="main" class="style1 wrapper">
+    <div class="container">
+        
+    <div class="example-view">
+        <h1>Verifying a queue</h1>
+        <p>Verification example in which certain operations on a Queue are verified. The verification example also shows the use of methods/functions as lemmas to do certain parts of the proof.</p>
+
+        <h3>General Information</h3>
+        <ul>
+            <li><strong>Backend</strong>: Silicon</li>
+            <li><strong>Language</strong>: Java</li>
+            <li><strong>Features</strong>: Atomics, Lists</li>
+            <li><strong>Path to Example File</strong>: layers/LFQ.java</li>
+            <li><strong>Should Verify</strong>: Yes</li>
+            <li><strong>Date</strong>: 2017-06-19</li>
+            <li><strong>Lines of Code</strong>: 210 (comments not included)</li>
+            <li><strong>Lines of Specification</strong>: 80 (38.1% of total)</li>
+            
+                <li><strong>Computation Time</strong>: 39.8 seconds</li>
+            
+        </ul>
+
+        
+<div class="verification-container">
+    
+    <div class="verification-widget verification-non-plain" >
+        <div style="position: relative">
+            <textarea name="examplecode" rows="20" data-code-mirror="true">// -*- tab-width:2 ; indent-tabs-mode:nil -*-
+//:: cases LFQatomicsImplementation
+//:: tools silicon
+
+/*
+  verify with
+    vct --silver=silicon LFQ.java
+ */
+
+final class Node {
+  int val;
+  AtomicNode next;
+}
+
+
+final class AtomicNode {
+  Node val;
+  
+  // the set method is inlined as an atomic block
+  void set(Node n){ this.val = n; }
+  
+  // the get method is inlined as an atomic block
+	Node get(){ return this.val; }
+	
+  // the cas method is inlined as an atomic block
+	boolean compareAndSet(Node e, Node v){
+		boolean res=(this.val==e);
+		if(res) {
+			this.val=v;
+		}
+		return res;
+	}
+
+  /*@
+    ensures PointsTo(val,1,n);
+  @*/
+  public AtomicNode(Node n){
+    val=n;
+  }
+}
+
+final class Integer {
+  int val;
+  /*@
+    ensures PointsTo(val,1,v);
+  @*/
+  public Integer(int v){
+    val=v;
+  }
+}
+
+final class Queue {
+/*@
+  ensures Value(begin) ** Value(`head`) ** Value(`tail`);
+@*/
+  public Queue(){
+    begin=new Node();
+    begin.next=new AtomicNode(null);
+    head=new AtomicNode(begin);
+    tail=new AtomicNode(begin);
+    last=begin;
+    //@ fold reachable(begin,`head`.val);
+    //@ fold reachable(begin,`tail`.val);
+    //@ fold reachable(begin,last);
+    //@ fold chain(begin,last);
+  }
+
+
+  //@ ghost Node begin;
+  AtomicNode head;
+  AtomicNode tail;
+  //@ ghost Node last;
+
+  /*@
+    // n is a final link in the history list.
+    inline static resource final_link(Node n)=
+        Value(n.next)**Value(n.next.val);
+    
+    resource reachable(Node n1,Node n2)=
+      (n1!=n2 ==&gt; final_link(n1) ** reachable(n1.next.val,n2));
+  @*/
+
+  /*@
+  
+  // n is a link in the live data part of the history list.
+  inline static resource chain_link(Node n)=
+    final_link(n) ** Perm(n.next.val.val,1);
+  
+  // the final field ref is an atomic reference,
+  // for which we have write permission.
+  inline static resource RPerm(loc&lt;AtomicNode&gt; ref)=
+    Value(ref) ** Perm(ref.val,1);
+  
+  // the final field ref is an atomic reference,
+  // for which we have write permission and know the value.
+  inline static resource RPointsTo(loc&lt;AtomicNode&gt; ref, Node val)=
+    Value(ref) ** PointsTo(ref.val,1,val);
+  
+  resource chain(Node n1,Node n2)=n1 !=null ** n2 !=null **
+    (n1!=n2 ==&gt; chain_link(n1) ** chain(n1.next.val,n2));
+
+  resource csl_invariant() = Value(begin) **
+    RPerm(`head`) ** ([read]reachable(begin,`head`.val)) **
+    RPerm(`tail`) ** ([read]reachable(begin,`tail`.val)) **
+    Perm(last,1)   ** ([read]reachable(begin,last)) **
+    chain(`head`.val,last) ** RPointsTo(last.next,null);
+   */
+   
+  /*@
+    requires chain(n1,n2) ** chain_link(n2) ** n2.next.val==n3
+      ** RPointsTo(n3.next,null);
+    ensures  chain(n1,n3) ** RPointsTo(n3.next,null);
+  @*/
+  void append_lemma(Node n1,Node n2,Node n3){
+    if (n1==n2) {
+      int v=n3.val;
+      //@ fold chain(n3,n3);
+      //@ fold chain(n2,n3);
+    } else {
+      //@ unfold chain(n1,n2);
+      append_lemma(n1.next.val,n2,n3);
+      //@ fold chain(n1,n3);
+    }
+  }
+  
+/*@ requires Value(`head`) ** Value(`tail`);
+      ensures  Value(`head`) ** Value(`tail`)
+      ** (\result != null ==&gt; Perm(\result.val,1)); @*/
+  Integer try_deq(){
+    Node n1,n2; boolean tmp; Integer res=null;
+    n1=head.get();
+    n2=n1.next.get()/*@ with {
+      lemma_readable_or_last(this.begin,n1); } @*/;
+    if (n2!=null) {
+      tmp=head.compareAndSet(n1,n2)/*@ with {
+        if (`head`.val==n1) { unfold chain(`head`.val,last); } } @*/;
+      if(tmp){ res=new Integer(n2.val); }
+    }
+    return res; }
+
+  /*@
+    requires Perm(last,1\2) ** RPerm(last.next) **
+      ([read]reachable(n1,n2)) ** ([read]reachable(n1,last));
+    ensures  Perm(last,1\2) ** RPerm(last.next) **
+      last==\old(last) ** last.next.val==\old(last.next.val);
+    ensures  n2!=last ==&gt; final_link(n2) **
+      reachable(n1,n2.next.val) ** Value(n2.next.val.next);
+  @*/
+  void lemma_readable_or_last(Node n1,Node n2){
+    if (n2!=last){
+      //@ unfold [read]reachable(n1,n2);
+      //@ unfold [read]reachable(n1,last);      
+      if (n1==n2) {
+        //@ unfold [read]reachable(n2,last);
+        //@ unfold [read]reachable(n2.next.val,last);
+        //@ fold reachable(n2.next.val,n2.next.val);
+        //@ fold reachable(n1,n2.next.val);
+      } else {
+        //@ assert [read]reachable(n1.next.val,last);
+        lemma_readable_or_last(n1.next.val,n2);
+        //@ fold reachable(n1,n2.next.val);
+      }
+    }
+  }
+  
+/*@ requires Value(`tail`) ** Perm(nn.val,1)
+             ** RPointsTo(nn.next,null);
+    ensures  Value(`tail`) ** (!\result ==&gt;
+      Perm(nn.val,1) ** RPointsTo(nn.next,null)); @*/
+  boolean try_enq(Node nn){
+    Node n1,n2; boolean res=false;
+    n1=tail.get();
+    n2=n1.next.get()/*@ with {
+      lemma_readable_or_last(this.begin,n1); } @*/;
+    if (n2==null) {
+      res=n1.next.compareAndSet(null,nn)/*@
+        with { lemma_readable_or_last(this.begin,n1); }
+        then { if (\result) { lemma_shift_last(n1,nn); } } @*/;
+    } else { tail.compareAndSet(n1,n2); }
+    return res; }
+
+  /*@
+    requires Perm(last,1) ** last==n1 ** RPointsTo(last.next,n2)
+      ** RPointsTo(n2.next,null) ** Perm(n2.val,1)
+      ** Value(`head`) ** Perm(`head`.val,1\2) ** chain(`head`.val,last)
+      ** Value(begin) ** ([read]reachable(begin,last))
+      ** ([read]reachable(begin,`head`.val));
+    ensures  Perm(last,1) ** last==n2 ** RPointsTo(last.next,null)
+      ** Value(begin) ** ([read]reachable(begin,last))
+      ** Value(`head`) ** Perm(`head`.val,1\2)
+      ** chain(`head`.val,last) ** `head`.val==\old(`head`.val);
+  @*/
+  void lemma_shift_last(Node n1,Node n2){
+    last=n2;
+    //@ fold reachable(n2,n2);
+    //@ fold reachable(n1,n2);
+    lemma_reach_transitive(begin,n1,n2);
+    append_lemma(head.val,n1,n2);
+  }
+  
+  /*@
+    requires ([read]reachable(n1,n2)) ** ([read]reachable(n2,n3));
+    ensures  reachable(n1,n3);
+  @*/
+  void lemma_reach_transitive(Node n1, Node n2, Node n3){
+    if (n1!=n2){
+      //@ unfold [read]reachable(n1,n2);
+      lemma_reach_transitive(n1.next.val,n2,n3);
+      //@ assert reachable(n1.next.val,n3);
+      //@ fold reachable(n1,n3);
+    } else {
+      lemma_rebuild_full(n2,n3);
+    }
+  }
+  
+  /*@
+    requires ([read]reachable(n1,n2));
+    ensures  reachable(n1,n2);
+  @*/
+  void lemma_rebuild_full(Node n1, Node n2){
+    //@ unfold [read]reachable(n1,n2);
+    if (n1!=n2){
+      lemma_rebuild_full(n1.next.val,n2);
+    }
+    //@ fold reachable(n1,n2);
+  }
+}
+
+</textarea>
+            <span class="code-buttons">
+                <span class="fa fa-times-circle code-close-button"></span>
+                <span class="fa fa-play code-run-button"></span>
+            </span>
+        </div>
+
+        <div style="background-color: #dddddd; padding: 0.4ex 1ex">
+            <label class="control-label" for="example-backendid">Language:</label>
+            <select name="lang" id="example-backendid" class="form-control">
+                
+                    <option value="pvl" selected="">PVL</option>
+                
+                    <option value="java" >Java</option>
+                
+                    <option value="cu" >Cuda</option>
+                
+                    <option value="c" >C / OpenMP / OpenCL</option>
+                
+                    <option value="sil" >Viper</option>
+                
+            </select>
+        </div>
+    </div>
+    <div class="verification-progress verification-non-plain" style="display: none; background-color: #dddddd; padding: 0.4ex 1ex" >
+        <span class="fa"></span>
+        <span class="verification-progress-text"></span>
+    </div>
+    <pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+    </div>
+
+    </div>
+</div>
+
+
+        <div id="footer">
+            <div class="row">
+                <a href="//fmt.ewi.utwente.nl" target="_blank"><img src="/images/FMT logo.png" alt=""></a>
+                <div class="copyright">
+                    <a href="//fmt.ewi.utwente.nl/research/projects/view/vercors/" target="_blank">Copyright <code>&copy</code> The VerCors Project 2007-2022</a>
+                    | <a href="//fmt.ewi.utwente.nl" target="_blank">FMT - University of Twente</a>
+                    | <a href="/about/">About Us</a>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

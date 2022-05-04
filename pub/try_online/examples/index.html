@@ -1,0 +1,1915 @@
+
+<!DOCTYPE HTML>
+<!--
+VerCors Tool --- Formal Methods and Tools Group (EWI)
+University of Twente, Enschede, The Netherlands
+-->
+<html lang="en">
+    <head>
+        <title>Example Database · VerCors Tool FMT | UTwente </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <meta name="description" content="">
+        <meta name="keywords" content="">
+
+        <link rel="stylesheet" href="/css/codemirror.css">
+        <link rel="stylesheet" href="/css/codemirror-monokai.css">
+        <link rel="stylesheet" href="/css/highlight/default.css">
+        <link rel="stylesheet" href="/css/datatables.min.css">
+        <link rel="stylesheet" href="/css/style.css">
+
+        <script src="/js/jquery.min.js"></script>
+        <script src="/js/highlight.pack.js"></script>
+        <script src="/js/codemirror.js"></script>
+        <script src="/js/datatables.min.js"></script>
+        <script src="/js/vercorsonline.js"></script>
+        <script src="/js/init.js"></script>
+
+        <!--<script type="text/javascript">
+            hljs.initHighlightingOnLoad();
+        </script>-->
+    </head>
+    <body class="no-sidebar">
+        <div id="header">
+            <h1 id="logo" style="position: relative">
+                <span id="hamburger" onclick="document.querySelector('#nav').classList.toggle('open')" class="fa fa-bars"></span>
+                <a href="/">The VerCors Verifier</a>
+            </h1>
+            <nav id="nav">
+                <ul>
+                    <li>
+                        <a href="/wiki/#introduction">Getting Started</a>
+                        <ul>
+                            <li><a href="/wiki/#introduction">Introduction</a></li>
+                            <li><a href="/wiki/#installing-and-running-vercors">Installation Guide</a></li>
+                            <li><a href="/wiki/">Tutorial</a></li>
+                            <li>
+                                <a href="//github.com/utwente-fmt/vercors/issues" target="_blank">
+                                    Issue Tracker
+                                    <span class="fa fa-external-link" style="font-size: 10pt"></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><a href="/try_online/examples/">Showcases</a></li>
+                    <li><a href="/news/">News</a></li>
+                    <li><a href="/publications/">Publications</a></li>
+                    <li>
+                        <a href="/about/">About</a>
+                        <ul>
+                            <li><a href="/about/#Team">VerCors Team</a></li>
+                            <li><a href="/about/#Contact">Contact</a></li>
+                            <li><a href="/about/#Credits">Credits</a></li>
+                            <li><a href="/license/">License</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+            <div class="container">
+                <div id="banner">
+                    <div class="container">
+                        <section>
+                            
+                            <p>
+                                <a href="//github.com/utwente-fmt/vercors" class="button alt" target="_blank">
+                                    View on Github
+                                </a>
+                                <a href="/try_online/" class="button alt">Try VerCors Online</a>
+                            </p>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+<div id="main" class="style1 wrapper">
+    <div class="container">
+        
+<header class="major">
+    <h2><strong>Example Database</strong></h2>
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Verification Features</th>
+                <th>Language</th>
+                <th>Verify</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+            <tr>
+                <td>Matrix transpose</td>
+                <td>
+                    <span>Iteration contracts</span>, <span>Arrays</span>, <span>Matrices</span>
+                </td>
+                <td>PVL</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/matrix-transpose.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Array zipping</td>
+                <td>
+                    <span>Iteration contracts</span>, <span>Arrays</span>, <span>Loop parallelisations</span>
+                </td>
+                <td>Java</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/array-zipping.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Parallel prefix sum</td>
+                <td>
+                    <span>GPU Kernels</span>, <span>Arrays</span>, <span>Matrices</span>, <span>Barriers</span>
+                </td>
+                <td>PVL</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/parallel-prefix-sum.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Backward dependencies (error 1)</td>
+                <td>
+                    <span>Iteration contracts</span>, <span>Arrays</span>, <span>Loop parallelisations</span>
+                </td>
+                <td>C / OpenMP / OpenCL</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/backward-dependencies-error-1.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Basic C example</td>
+                <td>
+                    <span>Iteration contracts</span>, <span>Arrays</span>, <span>Matrices</span>, <span>Loop parallelisations</span>
+                </td>
+                <td>C / OpenMP / OpenCL</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/basic-c-example.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Forward dependencies (error 1)</td>
+                <td>
+                    <span>Iteration contracts</span>, <span>Arrays</span>, <span>Loop parallelisations</span>
+                </td>
+                <td>C / OpenMP / OpenCL</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/forward-dependencies-error-1.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Forward dependencies (kernel 1)</td>
+                <td>
+                    <span>GPU Kernels</span>, <span>Arrays</span>, <span>Barriers</span>
+                </td>
+                <td>PVL</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/forward-dependencies-kernel-1.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Forward dependencies (kernel 2)</td>
+                <td>
+                    <span>GPU Kernels</span>, <span>Arrays</span>, <span>Barriers</span>
+                </td>
+                <td>PVL</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/forward-dependencies-kernel-2.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>PVL kernel (version 2)</td>
+                <td>
+                    <span>GPU Kernels</span>, <span>Arrays</span>, <span>Barriers</span>
+                </td>
+                <td>PVL</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/pvl-kernel-version-2.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>PVL kernel (version 3)</td>
+                <td>
+                    <span>GPU Kernels</span>, <span>Arrays</span>, <span>Barriers</span>
+                </td>
+                <td>PVL</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/pvl-kernel-version-3.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>PVL kernel (version 1)</td>
+                <td>
+                    <span>GPU Kernels</span>, <span>Arrays</span>, <span>Barriers</span>
+                </td>
+                <td>PVL</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/pvl-kernel-version-1.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Vector addition</td>
+                <td>
+                    <span>GPU Kernels</span>, <span>Arrays</span>, <span>Barriers</span>
+                </td>
+                <td>PVL</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/vector-addition.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Atomic read/write witnesses</td>
+                <td>
+                    <span>Atomics</span>, <span>Witnesses</span>
+                </td>
+                <td>Java</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/atomic-read-write-witnesses.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Deposit/withdraw lock</td>
+                <td>
+                    <span>Atomics</span>, <span>Witnesses</span>, <span>Locking</span>
+                </td>
+                <td>Java</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/deposit-withdraw-lock.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Single-entrant spin lock</td>
+                <td>
+                    <span>Atomics</span>, <span>Witnesses</span>, <span>Locking</span>
+                </td>
+                <td>Java</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/single-entrant-spin-lock.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Single producer/consumer</td>
+                <td>
+                    <span>Atomics</span>, <span>Witnesses</span>
+                </td>
+                <td>Java</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/single-producer-consumer.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Simple hash table (with find-or-put)</td>
+                <td>
+                    <span>Atomics</span>, <span>Witnesses</span>
+                </td>
+                <td>Java</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/simple-hash-table-with-find-or-put.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Reentrant locking</td>
+                <td>
+                    <span>Atomics</span>, <span>Witnesses</span>, <span>Locking</span>
+                </td>
+                <td>Java</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/reentrant-locking.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Single cell</td>
+                <td>
+                    <span>Atomics</span>, <span>Witnesses</span>
+                </td>
+                <td>Java</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/single-cell.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Postfix unary operators</td>
+                <td>
+                    
+                </td>
+                <td>PVL</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/postfix-unary-operators.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Basic contracts</td>
+                <td>
+                    
+                </td>
+                <td>C / OpenMP / OpenCL</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/basic-contracts.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Array clearing (succeeding)</td>
+                <td>
+                    <span>Iteration contracts</span>, <span>Arrays</span>
+                </td>
+                <td>Java</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/array-clearing-succeeding.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Matrix accessing</td>
+                <td>
+                    <span>Matrices</span>
+                </td>
+                <td>C / OpenMP / OpenCL</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/matrix-accessing.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Kernel with host code</td>
+                <td>
+                    <span>GPU Kernels</span>, <span>Arrays</span>, <span>Barriers</span>, <span>Loop parallelisations</span>
+                </td>
+                <td>PVL</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/kernel-with-host-code.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Forward dependencies (succeeding)</td>
+                <td>
+                    <span>Iteration contracts</span>, <span>Arrays</span>, <span>Loop parallelisations</span>
+                </td>
+                <td>C / OpenMP / OpenCL</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/forward-dependencies-succeeding.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Histogram matrix</td>
+                <td>
+                    <span>Iteration contracts</span>, <span>Arrays</span>, <span>Matrices</span>
+                </td>
+                <td>C / OpenMP / OpenCL</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/histogram-matrix.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Histogram submatrix</td>
+                <td>
+                    <span>Iteration contracts</span>, <span>Arrays</span>, <span>Matrices</span>
+                </td>
+                <td>C / OpenMP / OpenCL</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/histogram-submatrix.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Summation kernel (version 1)</td>
+                <td>
+                    <span>GPU Kernels</span>, <span>Iteration contracts</span>, <span>Arrays</span>
+                </td>
+                <td>PVL</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/summation-kernel-version-1.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Summation kernel (version 2)</td>
+                <td>
+                    <span>GPU Kernels</span>, <span>Iteration contracts</span>, <span>Arrays</span>, <span>Barriers</span>, <span>Loop parallelisations</span>, <span>Atomics</span>
+                </td>
+                <td>PVL</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/summation-kernel-version-2.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Summation reduction</td>
+                <td>
+                    <span>Sequences</span>, <span>Iteration contracts</span>, <span>Arrays</span>, <span>Summation patterns</span>, <span>Floats</span>
+                </td>
+                <td>C / OpenMP / OpenCL</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/summation-reduction.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Array clearing kernel</td>
+                <td>
+                    <span>GPU Kernels</span>, <span>Arrays</span>
+                </td>
+                <td>PVL</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/array-clearing-kernel.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Array clearing in C (succeeding)</td>
+                <td>
+                    <span>Iteration contracts</span>, <span>Arrays</span>
+                </td>
+                <td>C / OpenMP / OpenCL</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/array-clearing-in-c-succeeding.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Submatrix clearing</td>
+                <td>
+                    <span>Iteration contracts</span>, <span>Arrays</span>, <span>Matrices</span>
+                </td>
+                <td>C / OpenMP / OpenCL</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/submatrix-clearing.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Annotating function declarations in C</td>
+                <td>
+                    
+                </td>
+                <td>C / OpenMP / OpenCL</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/annotating-function-declarations-in-c.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Overloading in Java</td>
+                <td>
+                    
+                </td>
+                <td>Java</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/overloading-in-java.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Domain of floats</td>
+                <td>
+                    <span>Sequences</span>, <span>Floats</span>
+                </td>
+                <td>Viper</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/domain-of-floats.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Domain of lists</td>
+                <td>
+                    <span>Lists</span>
+                </td>
+                <td>Viper</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/domain-of-lists.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Domain of option types</td>
+                <td>
+                    <span>Option types</span>
+                </td>
+                <td>Viper</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/domain-of-option-types.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Counting test</td>
+                <td>
+                    <span>Sequences</span>, <span>Arrays</span>, <span>Summation patterns</span>
+                </td>
+                <td>Java</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/counting-test.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Float summations</td>
+                <td>
+                    <span>Sequences</span>, <span>Arrays</span>, <span>Summation patterns</span>, <span>Floats</span>
+                </td>
+                <td>Java</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/float-summations.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Histogram with summations</td>
+                <td>
+                    <span>Sequences</span>, <span>Arrays</span>, <span>Summation patterns</span>
+                </td>
+                <td>Java</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/histogram-with-summations.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Fork/join updates</td>
+                <td>
+                    <span>Fork/join concurrency</span>
+                </td>
+                <td>PVL</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/fork-join-updates.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>No-send-after-read</td>
+                <td>
+                    <span>Futures</span>
+                </td>
+                <td>Java</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/no-send-after-read.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Parallel GCD</td>
+                <td>
+                    <span>Futures</span>, <span>Statically-scoped locking</span>, <span>Statically-scoped parallelism</span>
+                </td>
+                <td>PVL</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/parallel-gcd.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Simple model abstraction</td>
+                <td>
+                    <span>Futures</span>
+                </td>
+                <td>PVL</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/simple-model-abstraction.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Model-abstraction permissions</td>
+                <td>
+                    <span>Futures</span>
+                </td>
+                <td>PVL</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/model-abstraction-permissions.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Model-based reasoning: concurrent counting </td>
+                <td>
+                    <span>Futures</span>, <span>Statically-scoped locking</span>, <span>Statically-scoped parallelism</span>
+                </td>
+                <td>PVL</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/model-based-reasoning-concurrent-counting.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Model-based reasoning: generalised concurrent counting </td>
+                <td>
+                    <span>Fork/join concurrency</span>, <span>Futures</span>, <span>Statically-scoped locking</span>
+                </td>
+                <td>PVL</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/model-based-reasoning-generalised-concurrent-counting.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Model-based reasoning: locking protocol</td>
+                <td>
+                    <span>Atomics</span>, <span>Futures</span>
+                </td>
+                <td>PVL</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/model-based-reasoning-locking-protocol.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Model-based reasoning: unequal counting</td>
+                <td>
+                    <span>Fork/join concurrency</span>, <span>Statically-scoped locking</span>, <span>Statically-scoped parallelism</span>
+                </td>
+                <td>PVL</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/model-based-reasoning-unequal-counting.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Verifying goto (failing)</td>
+                <td>
+                    <span>Goto</span>
+                </td>
+                <td>PVL</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/verifying-goto-failing.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Verifying goto (succeeding)</td>
+                <td>
+                    <span>Goto</span>
+                </td>
+                <td>PVL</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/verifying-goto-succeeding.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>History-based reasoning: correctness checking (PVL)</td>
+                <td>
+                    <span>Histories</span>
+                </td>
+                <td>PVL</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/history-based-reasoning-correctness-checking-pvl.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>History-based reasoning: incrementing (Java)</td>
+                <td>
+                    <span>Histories</span>
+                </td>
+                <td>Java</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/history-based-reasoning-incrementing-java.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>History-based reasoning: correctness checking (Java)</td>
+                <td>
+                    <span>Histories</span>
+                </td>
+                <td>Java</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/history-based-reasoning-correctness-checking-java.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>History-based reasoning: loops</td>
+                <td>
+                    <span>Histories</span>
+                </td>
+                <td>Java</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/history-based-reasoning-loops.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>History-based reasoning: incrementing (PVL)</td>
+                <td>
+                    <span>Histories</span>
+                </td>
+                <td>PVL</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/history-based-reasoning-incrementing-pvl.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Parallel Fibonacci</td>
+                <td>
+                    <span>Witnesses</span>, <span>Fork/join concurrency</span>
+                </td>
+                <td>Java</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/parallel-fibonacci.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Java threading</td>
+                <td>
+                    <span>Witnesses</span>, <span>Fork/join concurrency</span>
+                </td>
+                <td>Java</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/java-threading.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Function problem</td>
+                <td>
+                    
+                </td>
+                <td>PVL</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/function-problem.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Layered verification approach</td>
+                <td>
+                    <span>Arrays</span>, <span>Histories</span>
+                </td>
+                <td>Java</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/layered-verification-approach.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Verifying Java 6 Lock</td>
+                <td>
+                    <span>Arrays</span>, <span>Atomics</span>, <span>Locking</span>
+                </td>
+                <td>Java</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/verifying-java-6-lock.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Verifying a queue</td>
+                <td>
+                    <span>Atomics</span>, <span>Lists</span>
+                </td>
+                <td>Java</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/verifying-a-queue.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>History-based reasoning: verifying a queue</td>
+                <td>
+                    <span>Sequences</span>, <span>Atomics</span>, <span>Histories</span>
+                </td>
+                <td>Java</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/history-based-reasoning-verifying-a-queue.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Linked list</td>
+                <td>
+                    <span>Sequences</span>, <span>Lists</span>
+                </td>
+                <td>PVL</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/linked-list.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Owicki-Gries</td>
+                <td>
+                    <span>Locking</span>, <span>Fork/join concurrency</span>
+                </td>
+                <td>PVL</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/owicki-gries.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Array properties</td>
+                <td>
+                    <span>Sequences</span>, <span>Arrays</span>
+                </td>
+                <td>PVL</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/array-properties.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Exponentials</td>
+                <td>
+                    
+                </td>
+                <td>Java</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/exponentials.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Parallel Fibonacci (PVL)</td>
+                <td>
+                    <span>Fork/join concurrency</span>
+                </td>
+                <td>PVL</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/parallel-fibonacci-pvl.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Functions and resources</td>
+                <td>
+                    
+                </td>
+                <td>Java</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/functions-and-resources.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Induction lemma (succeeding)</td>
+                <td>
+                    <span>Sequences</span>
+                </td>
+                <td>PVL</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/induction-lemma-succeeding.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Linked list properties</td>
+                <td>
+                    <span>Sequences</span>, <span>Lists</span>
+                </td>
+                <td>PVL</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/linked-list-properties.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Loop invariants</td>
+                <td>
+                    <span>Loop invariants</span>
+                </td>
+                <td>PVL</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/loop-invariants.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Option types</td>
+                <td>
+                    <span>Option types</span>
+                </td>
+                <td>PVL</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/option-types.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Input/output parameters (succeeding)</td>
+                <td>
+                    
+                </td>
+                <td>PVL</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/input-output-parameters-succeeding.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Witness encoding</td>
+                <td>
+                    <span>Witnesses</span>
+                </td>
+                <td>PVL</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/witness-encoding.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Zero Array (PVL)</td>
+                <td>
+                    <span>Arrays</span>, <span>Loop invariants</span>, <span>Quantified permissions</span>
+                </td>
+                <td>PVL</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/zero-array-pvl.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Incrementing in OpenCL</td>
+                <td>
+                    <span>GPU Kernels</span>, <span>Arrays</span>
+                </td>
+                <td>Cuda</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/incrementing-in-opencl.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>OpenMP: SIMD programs</td>
+                <td>
+                    <span>Iteration contracts</span>, <span>Arrays</span>, <span>Loop parallelisations</span>, <span>Quantified permissions</span>, <span>Pragmas</span>
+                </td>
+                <td>C / OpenMP / OpenCL</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/openmp-simd-programs.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>OpenMP: Loop fusion</td>
+                <td>
+                    <span>Iteration contracts</span>, <span>Arrays</span>, <span>Quantified permissions</span>, <span>Pragmas</span>
+                </td>
+                <td>C / OpenMP / OpenCL</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/openmp-loop-fusion.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>OpenMP: Vector addition (PVL)</td>
+                <td>
+                    <span>Arrays</span>, <span>Quantified permissions</span>, <span>Loop vectorisation</span>
+                </td>
+                <td>PVL</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/openmp-vector-addition-pvl.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>OpenMP: SIMD translation</td>
+                <td>
+                    <span>Iteration contracts</span>, <span>Arrays</span>, <span>Loop parallelisations</span>, <span>Quantified permissions</span>, <span>Loop vectorisation</span>
+                </td>
+                <td>PVL</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/openmp-simd-translation.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>OpenMP: Array copying</td>
+                <td>
+                    <span>Iteration contracts</span>, <span>Arrays</span>, <span>Loop parallelisations</span>, <span>Quantified permissions</span>, <span>Pragmas</span>
+                </td>
+                <td>C / OpenMP / OpenCL</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/openmp-array-copying.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Statically-scoped parallelism</td>
+                <td>
+                    <span>Iteration contracts</span>, <span>Arrays</span>, <span>Statically-scoped parallelism</span>, <span>Quantified permissions</span>
+                </td>
+                <td>PVL</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/statically-scoped-parallelism.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>OpenMP: Vector addition (single)</td>
+                <td>
+                    <span>Arrays</span>, <span>Quantified permissions</span>, <span>Loop vectorisation</span>
+                </td>
+                <td>PVL</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/openmp-vector-addition-single.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>OpenMP: Parallel sections (succeeding)</td>
+                <td>
+                    <span>Iteration contracts</span>, <span>Arrays</span>, <span>Loop parallelisations</span>, <span>Quantified permissions</span>, <span>Pragmas</span>
+                </td>
+                <td>C / OpenMP / OpenCL</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/openmp-parallel-sections-succeeding.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>OpenMP: Array blanking</td>
+                <td>
+                    <span>Iteration contracts</span>, <span>Arrays</span>, <span>Quantified permissions</span>, <span>Pragmas</span>
+                </td>
+                <td>C / OpenMP / OpenCL</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/openmp-array-blanking.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Barrier with atomics</td>
+                <td>
+                    <span>Arrays</span>, <span>Barriers</span>, <span>Loop parallelisations</span>, <span>Atomics</span>, <span>Statically-scoped locking</span>, <span>Statically-scoped parallelism</span>, <span>Quantified permissions</span>
+                </td>
+                <td>PVL</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/barrier-with-atomics.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Block parallelism</td>
+                <td>
+                    <span>Iteration contracts</span>, <span>Loop parallelisations</span>, <span>Statically-scoped parallelism</span>
+                </td>
+                <td>PVL</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/block-parallelism.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Invariants and atomics</td>
+                <td>
+                    <span>Atomics</span>, <span>Statically-scoped locking</span>
+                </td>
+                <td>PVL</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/invariants-and-atomics.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Parallel Block: Blanking</td>
+                <td>
+                    <span>Iteration contracts</span>, <span>Arrays</span>, <span>Matrices</span>, <span>Statically-scoped parallelism</span>, <span>Quantified permissions</span>
+                </td>
+                <td>PVL</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/parallel-block-blanking.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Permissions: Bad loop (failing case 1)</td>
+                <td>
+                    <span>Loop invariants</span>
+                </td>
+                <td>Java</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/permissions-bad-loop-failing-case-1.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Permissions: Bad loop (failing case 2)</td>
+                <td>
+                    <span>Loop invariants</span>
+                </td>
+                <td>Java</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/permissions-bad-loop-failing-case-2.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Single-threaded counting</td>
+                <td>
+                    <span>Loop invariants</span>
+                </td>
+                <td>Java</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/single-threaded-counting.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Single-threaded incrementing</td>
+                <td>
+                    <span>Loop invariants</span>
+                </td>
+                <td>Java</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/single-threaded-incrementing.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Permissions: multi-increment</td>
+                <td>
+                    <span>Loop invariants</span>
+                </td>
+                <td>Java</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/permissions-multi-increment.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Permissions: Roster (fixed)</td>
+                <td>
+                    <span>Lists</span>
+                </td>
+                <td>Java</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/permissions-roster-fixed.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Permissions: Integer swapping</td>
+                <td>
+                    
+                </td>
+                <td>Java</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/permissions-integer-swapping.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Permissions: Long swapping</td>
+                <td>
+                    
+                </td>
+                <td>Java</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/permissions-long-swapping.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Permissions: Binary search tree</td>
+                <td>
+                    <span>Loop invariants</span>, <span>Stacks</span>, <span>Trees</span>
+                </td>
+                <td>Java</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/permissions-binary-search-tree.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Permissions: Boxing</td>
+                <td>
+                    
+                </td>
+                <td>PVL</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/permissions-boxing.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Predicates: Linked integer list</td>
+                <td>
+                    <span>Lists</span>
+                </td>
+                <td>Java</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/predicates-linked-integer-list.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Predicates: Tree traversal</td>
+                <td>
+                    <span>Sequences</span>, <span>Trees</span>
+                </td>
+                <td>Java</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/predicates-tree-traversal.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Predicates: Min-max list</td>
+                <td>
+                    <span>Lists</span>
+                </td>
+                <td>Java</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/predicates-min-max-list.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Refute: require false</td>
+                <td>
+                    
+                </td>
+                <td>Java</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/refute-require-false.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Refute: unsatisfiable</td>
+                <td>
+                    
+                </td>
+                <td>Java</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/refute-unsatisfiable.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Refute: bad framing</td>
+                <td>
+                    
+                </td>
+                <td>PVL</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/refute-bad-framing.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Refute: refuting (case 1)</td>
+                <td>
+                    
+                </td>
+                <td>Java</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/refute-refuting-case-1.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Refute: refuting (case 2)</td>
+                <td>
+                    
+                </td>
+                <td>Java</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/refute-refuting-case-2.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Refute: refuting (case 3)</td>
+                <td>
+                    
+                </td>
+                <td>Java</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/refute-refuting-case-3.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Refute: refuting (case 4)</td>
+                <td>
+                    
+                </td>
+                <td>Java</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/refute-refuting-case-4.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Refute: refuting (case 5)</td>
+                <td>
+                    
+                </td>
+                <td>Java</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/refute-refuting-case-5.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Synchronisers: CountDownLatch</td>
+                <td>
+                    <span>Atomics</span>, <span>Witnesses</span>, <span>Loop invariants</span>
+                </td>
+                <td>Java</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/synchronisers-countdownlatch.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Synchronisers: ReentrantLock</td>
+                <td>
+                    <span>Atomics</span>, <span>Witnesses</span>, <span>Locking</span>, <span>Loop invariants</span>
+                </td>
+                <td>Java</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/synchronisers-reentrantlock.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Synchronisers: Semaphore</td>
+                <td>
+                    <span>Atomics</span>, <span>Witnesses</span>, <span>Loop invariants</span>
+                </td>
+                <td>Java</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/synchronisers-semaphore.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Fork/join incrementing (succeeding)</td>
+                <td>
+                    <span>Fork/join concurrency</span>
+                </td>
+                <td>Java</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/fork-join-incrementing-succeeding.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Fork/join incrementing (failing 1)</td>
+                <td>
+                    <span>Fork/join concurrency</span>
+                </td>
+                <td>Java</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/fork-join-incrementing-failing-1.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Fork/join incrementing (failing 2)</td>
+                <td>
+                    <span>Fork/join concurrency</span>
+                </td>
+                <td>Java</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/fork-join-incrementing-failing-2.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Type casting</td>
+                <td>
+                    <span>Trees</span>
+                </td>
+                <td>Java</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/type-casting.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Using \\\\instanceof and \\\\typeof</td>
+                <td>
+                    
+                </td>
+                <td>Java</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/using-instanceof-and-typeof.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Longest common prefix</td>
+                <td>
+                    <span>Arrays</span>, <span>Loop invariants</span>, <span>Quantified permissions</span>
+                </td>
+                <td>PVL</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/longest-common-prefix.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Relaxed prefix</td>
+                <td>
+                    <span>Loop invariants</span>, <span>Quantified permissions</span>
+                </td>
+                <td>PVL</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/relaxed-prefix.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Verifying wait-notify patterns</td>
+                <td>
+                    <span>Locking</span>, <span>Fork/join concurrency</span>, <span>Loop invariants</span>
+                </td>
+                <td>PVL</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/verifying-wait-notify-patterns.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Witnesses: CounterState</td>
+                <td>
+                    <span>Witnesses</span>, <span>Loop invariants</span>
+                </td>
+                <td>Java</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/witnesses-counterstate.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Witnesses: Getters</td>
+                <td>
+                    <span>Witnesses</span>
+                </td>
+                <td>Java</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/witnesses-getters.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Witnesses: List appending (magic wand)</td>
+                <td>
+                    <span>Sequences</span>, <span>Witnesses</span>, <span>Lists</span>, <span>Magic wands</span>
+                </td>
+                <td>Java</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/witnesses-list-appending-magic-wand.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Witnesses: List appending (out-of-sync)</td>
+                <td>
+                    <span>Sequences</span>, <span>Lists</span>
+                </td>
+                <td>Java</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/witnesses-list-appending-out-of-sync.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Witnesses: List appending (inline)</td>
+                <td>
+                    <span>Sequences</span>, <span>Lists</span>
+                </td>
+                <td>Java</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/witnesses-list-appending-inline.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Witnesses: List iterator</td>
+                <td>
+                    <span>Witnesses</span>, <span>Lists</span>, <span>Loop invariants</span>, <span>Magic wands</span>
+                </td>
+                <td>Java</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/witnesses-list-iterator.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Witnesses: Roster</td>
+                <td>
+                    <span>Witnesses</span>
+                </td>
+                <td>Java</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/witnesses-roster.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Recursive trees: Deleting smallest element</td>
+                <td>
+                    <span>Sequences</span>, <span>Trees</span>
+                </td>
+                <td>Java</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/recursive-trees-deleting-smallest-element.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Witnesses: Recursive tree 3 (magic wand)</td>
+                <td>
+                    <span>Sequences</span>, <span>Witnesses</span>, <span>Trees</span>, <span>Magic wands</span>
+                </td>
+                <td>Java</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/witnesses-recursive-tree-3-magic-wand.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Witnesses: Twice</td>
+                <td>
+                    
+                </td>
+                <td>Java</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/witnesses-twice.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Witnesses: Magic wand</td>
+                <td>
+                    <span>Witnesses</span>, <span>Loop invariants</span>, <span>Magic wands</span>
+                </td>
+                <td>Java</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/witnesses-magic-wand.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Witnesses: Magic wand (Silver)</td>
+                <td>
+                    <span>Loop invariants</span>, <span>Magic wands</span>
+                </td>
+                <td>Java</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/witnesses-magic-wand-silver.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Witnesses: Predicates</td>
+                <td>
+                    <span>Witnesses</span>
+                </td>
+                <td>Java</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/witnesses-predicates.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>GapBuffer</td>
+                <td>
+                    <span>Sequences</span>, <span>Arrays</span>, <span>Loop invariants</span>
+                </td>
+                <td>PVL</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/gapbuffer.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>ColoredTiles</td>
+                <td>
+                    <span>Sequences</span>, <span>Iteration contracts</span>, <span>Arrays</span>, <span>Loop invariants</span>, <span>Quantified permissions</span>
+                </td>
+                <td>PVL</td>
+                <td class="table-verify-button">
+                    <a href="/try_online/example/coloredtiles.html">
+                        <span class="fa fa-play fa-lg"></span>
+                    </a>
+                </td>
+            </tr>
+            
+        </tbody>
+    </table>
+</header>
+
+    </div>
+</div>
+
+
+        <div id="footer">
+            <div class="row">
+                <a href="//fmt.ewi.utwente.nl" target="_blank"><img src="/images/FMT logo.png" alt=""></a>
+                <div class="copyright">
+                    <a href="//fmt.ewi.utwente.nl/research/projects/view/vercors/" target="_blank">Copyright <code>&copy</code> The VerCors Project 2007-2022</a>
+                    | <a href="//fmt.ewi.utwente.nl" target="_blank">FMT - University of Twente</a>
+                    | <a href="/about/">About Us</a>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
