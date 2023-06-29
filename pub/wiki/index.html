@@ -7562,7 +7562,7 @@ static boolean check_left_priority_sorted(Tree t, int max_priority) {
 }
 </code></pre>
 <ul>
-<li>The keyword <code>this</code> is used to refer to the current object.</li>
+<li>The keyword <code>this</code> is used to refer to the current object, <code>null</code> for the null reference ("pointer to nothing").</li>
 <li>You can write single-line or multi-line comments as follows:</li>
 </ul>
 <!-- end list -->
@@ -7577,6 +7577,75 @@ static boolean check_left_priority_sorted(Tree t, int max_priority) {
 <li>Like in C or Java, statements in PVL should end with a semi-colon <code>;</code>.</li>
 </ul>
 <h2 id="types-and-data-structures">Types and Data Structures</h2>
+<p>The following table lists the basic and composed data types supported in the specification language.</p>
+<table>
+<thead>
+<tr class="header">
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>resource</code></td>
+<td>Boolean-like type that also allows reasoning about permissions. See <a href="https://github.com/utwente-fmt/vercors/wiki/Predicates">https://github.com/utwente-fmt/vercors/wiki/Predicates</a></td>
+</tr>
+<tr class="even">
+<td><code>frac</code></td>
+<td>Fraction, used for permission amounts. See <a href="https://github.com/utwente-fmt/vercors/wiki/Permissions">https://github.com/utwente-fmt/vercors/wiki/Permissions</a></td>
+</tr>
+<tr class="odd">
+<td><code>zfrac</code></td>
+<td>Fraction that can also be zero.</td>
+</tr>
+<tr class="even">
+<td><code>process</code></td>
+<td>Type of actions and defined processes in process algebra models. See <a href="https://github.com/utwente-fmt/vercors/wiki/Process-Algebra-Models">https://github.com/utwente-fmt/vercors/wiki/Process-Algebra-Models</a></td>
+</tr>
+<tr class="odd">
+<td><code>seq&lt;T&gt;</code></td>
+<td>Defines an immutable ordered list (sequence). <code>T</code> should be replaced by a type. See <a href="https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types">https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types</a></td>
+</tr>
+<tr class="even">
+<td><code>set&lt;T&gt;</code></td>
+<td>Defines an immutable orderless collection (set) that does not allow duplicates. <code>T</code> should be replaced by a type. See <a href="https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types">https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types</a></td>
+</tr>
+<tr class="odd">
+<td><code>bag&lt;T&gt;</code></td>
+<td>Defines an immutable orderless collection (bag or multiset) that does allow duplicates. <code>T</code> should be replaced by a type. See <a href="https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types">https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types</a></td>
+</tr>
+<tr class="even">
+<td><code>map&lt;T1, T2&gt;</code></td>
+<td>Defines an immutable orderless collection of key/value pairs (map, record or dictionary) that does not allow duplicate keys. <code>T1</code> and <code>T2</code> should be replaced by Types. See <a href="https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types">https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types</a></td>
+</tr>
+<tr class="odd">
+<td><code>option&lt;T&gt;</code></td>
+<td>Extends type <code>T</code> with an extra element <code>None</code>. Each element is then either of the type <code>None</code> or of the type <code>Some(e)</code> where <code>e</code> is of type <code>T</code>. <code>T</code> should be replaced by a type. Options cannot be unpacked at the moment. See <a href="https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types">https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types</a></td>
+</tr>
+<tr class="even">
+<td><code>tuple&lt;T1,T2&gt;</code></td>
+<td>Defines a pair, where the first entry is of type <code>T1</code> and the second of type <code>T2</code>. Can be nested to create larger tuples. See <a href="https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types">https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types</a></td>
+</tr>
+<tr class="odd">
+<td><code>pointer&lt;T&gt;</code></td>
+<td>Defines the type of a pointer to an element of type <code>T</code>. <code>T</code> should be replaced by a type. See <a href="https://github.com/utwente-fmt/vercors/wiki/Arrays-and-Pointers">https://github.com/utwente-fmt/vercors/wiki/Arrays-and-Pointers</a></td>
+</tr>
+<tr class="even">
+<td><code>type&lt;T&gt;</code></td>
+<td>// unclear. TODO</td>
+</tr>
+<tr class="odd">
+<td><code>either&lt;T1, T2&gt;</code></td>
+<td>Defines the type of an object <code>o</code> that is either of type <code>T1</code> or of type <code>T2</code>. See TODO</td>
+</tr>
+<tr class="even">
+<td>language type</td>
+<td>A type from the base language, e.g. Java, can also be used in the specifications for that language. This usually provides basic types like <code>int</code>.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="pvl-1">PVL</h3>
+<p>In PVL, the specification types above can also be used in the regular program. Additionally, the following types are available:</p>
 <table>
 <thead>
 <tr class="header">
@@ -7598,46 +7667,180 @@ static boolean check_left_priority_sorted(Tree t, int max_priority) {
 <td>Used when a method does not return anything</td>
 </tr>
 <tr class="even">
-<td><code>resource</code></td>
-<td>Boolean-like type that also allows reasoning about permissions</td>
-</tr>
-<tr class="odd">
-<td><code>frac</code></td>
-<td>Fraction</td>
-</tr>
-<tr class="even">
-<td><code>zfrac</code></td>
-<td>Fraction that can also be zero.</td>
-</tr>
-<tr class="odd">
-<td><code>process</code></td>
-<td>Type of actions and defined processes in histories. For more information on histories &amp; futures, have a look at the section on <a href="#historiesAndFutures">Histories &amp; Futures</a>.</td>
-</tr>
-<tr class="even">
 <td><code>T[]</code></td>
 <td>Array which contains elements of type <code>T</code>. <code>T</code> should be replaced by a type. Note that when you initialize a new array, you should always define the length of the array, e.g. <code>new int[3]</code> instead of <code>new int[]</code>.</td>
 </tr>
+</tbody>
+</table>
+<h2 id="expressions-1">Expressions</h2>
+<h3 id="operators">Operators</h3>
+<table>
+<thead>
+<tr class="header">
+<th>Code</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
 <tr class="odd">
-<td><code>seq&lt;T&gt; var</code></td>
-<td>Defines an immutable ordered list (sequence) named <code>var</code>. <code>T</code> should be replaced by a type.</td>
+<td><code>\</code></td>
+<td>Division that creates a <code>frac</code>, rather than integer rounding.</td>
 </tr>
 <tr class="even">
-<td><code>set&lt;T&gt; var</code></td>
-<td>Defines an immutable orderless collection (set) that does not allow duplicates. <code>T</code> should be replaced by a type.</td>
+<td><code>==&gt;</code></td>
+<td>Logical implication. The left side should be boolean-typed, the right side boolean or resource. Lower precedence than <code>||</code>. See <a href="https://github.com/utwente-fmt/vercors/wiki/Specification-Syntax">https://github.com/utwente-fmt/vercors/wiki/Specification-Syntax</a></td>
 </tr>
 <tr class="odd">
-<td><code>bag&lt;T&gt; var</code></td>
-<td>Defines an immutable orderless collection (bag) that does allow duplicates. <code>T</code> should be replaced by a type.</td>
+<td><code>**</code></td>
+<td>Separating conjunction. <code>a ** b</code> denotes that <code>a</code> and <code>b</code> point to different variables on the heap and that both expressions must evaluate to true. This is used to reason about multiple resources. Same precedence as <code>&amp;&amp;</code>. See <a href="https://github.com/utwente-fmt/vercors/wiki/Permissions">https://github.com/utwente-fmt/vercors/wiki/Permissions</a></td>
 </tr>
 <tr class="even">
-<td><code>option&lt;T&gt;</code></td>
-<td>Extends type <code>T</code> with an extra element <code>None</code>. Each element is then either of the type <code>None</code> or of the type <code>Some(e)</code> where <code>e</code> is of type <code>T</code>. <code>T</code> should be replaced by a type. Options cannot be unpacked at the moment.</td>
+<td><code>-*</code></td>
+<td>Magic wand or separating implication. Same precedence as <code>==&gt;</code>. See <a href="https://github.com/utwente-fmt/vercors/wiki/Magic-Wands">https://github.com/utwente-fmt/vercors/wiki/Magic-Wands</a></td>
+</tr>
+<tr class="odd">
+<td><code>[p]pred(&lt;args&gt;)</code></td>
+<td><code>[p]</code> before a predicate invocation scales all permissions in <code>pred</code> by a factor of <code>p</code>. See <a href="https://github.com/utwente-fmt/vercors/wiki/Predicates">https://github.com/utwente-fmt/vercors/wiki/Predicates</a></td>
+</tr>
+<tr class="even">
+<td><code>Left(e)</code></td>
+<td>// unclear. Seems related to type "either" TODO</td>
+</tr>
+<tr class="odd">
+<td><code>Right(e)</code></td>
+<td>// unclear. Seems related to type "either" TODO</td>
+</tr>
+<tr class="even">
+<td><code>?.</code></td>
+<td><code>o?.m(&lt;args&gt;)</code> is a conditional invocation of method <code>m</code>, equivalent to <code>o!=null ==&gt; o.m(&lt;args&gt;)</code>. See <a href="https://github.com/utwente-fmt/vercors/wiki/Specification-Syntax">https://github.com/utwente-fmt/vercors/wiki/Specification-Syntax</a></td>
+</tr>
+<tr class="odd">
+<td><code>m() given {a=b, c=d}</code></td>
+<td>Invokes method <code>m</code> with expression <code>b</code> as value of ghost parameter <code>a</code> and similar for <code>c</code> and <code>d</code>. See <a href="https://github.com/utwente-fmt/vercors/wiki/Specification-Syntax">https://github.com/utwente-fmt/vercors/wiki/Specification-Syntax</a></td>
+</tr>
+<tr class="even">
+<td><code>m() yields {a=b, c=d}</code></td>
+<td>Invokes method <code>m</code>, and storing ghost return value <code>b</code> in <code>a</code> and similar for <code>c</code> and <code>d</code>. See <a href="https://github.com/utwente-fmt/vercors/wiki/Specification-Syntax">https://github.com/utwente-fmt/vercors/wiki/Specification-Syntax</a></td>
+</tr>
+<tr class="odd">
+<td><code>with</code></td>
+<td>// unclear. Legacy syntax? TODO</td>
+</tr>
+<tr class="even">
+<td><code>then</code></td>
+<td>// unclear. Legacy syntax? TODO</td>
+</tr>
+<tr class="odd">
+<td><code>(\let T t = exprA; exprB)</code></td>
+<td>Evaluates <code>exprB</code>, replacing every occurence of <code>t</code> with the result of evaluating<code>exprA</code>. The surrounding parentheses <code>(</code> <code>)</code> are required.</td>
 </tr>
 </tbody>
 </table>
-<p>For more information on sequences, sets, bags and options, have a look at the wiki page on <a href="https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types">Axiomatic Data Types</a>.</p>
-<h2 id="expressions-1">Expressions</h2>
-<h3 id="infix-operators">Infix Operators</h3>
+<h4 id="adts">ADTs</h4>
+<p>Axiomatic Data types have several dedicated operators. Some also have corresponding functions, e.g. <code>s1.subsetOf(s2)</code> for <code>s1 &lt;= s2</code>. There are also functions that do not have an operator equivalence, e.g. <code>xs.removeAt(i)</code>. See <a href="https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types">https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types</a> for the full list.</p>
+<table>
+<thead>
+<tr class="header">
+<th>Code</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>+</code></td>
+<td>Sequence concatenation, Set union, Bag union</td>
+</tr>
+<tr class="even">
+<td><code>-</code></td>
+<td>Set difference, Bag difference</td>
+</tr>
+<tr class="odd">
+<td><code>*</code></td>
+<td>Set intersection, Bag intersection</td>
+</tr>
+<tr class="even">
+<td><code>&lt;</code>, <code>&lt;=</code></td>
+<td>strict subset, or subset-or-equal, respectively (also for bags)</td>
+</tr>
+<tr class="odd">
+<td><code>+</code></td>
+<td>Sequence concatenation, Set union, Bag union</td>
+</tr>
+<tr class="even">
+<td><code>xs[k]</code></td>
+<td>Sequence indexing: <code>i</code>th element of sequence <code>xs</code>; Map indexing: value associated with key <code>k</code></td>
+</tr>
+<tr class="odd">
+<td><code>::</code></td>
+<td><code>x :: xs</code> prepends element <code>x</code> to the front of sequence <code>xs</code>.</td>
+</tr>
+<tr class="even">
+<td><code>++</code></td>
+<td><code>xs ++ x</code> appends element <code>x</code> to the end of sequence <code>xs</code>. // Note: Discouraged, support may get removed.</td>
+</tr>
+<tr class="odd">
+<td><code>e[l .. r]</code></td>
+<td>Range indexing of sequence <code>e</code> (slicing). Creates a new sequence with the elements of <code>e</code> between indices <code>l</code> (incl.) and <code>r</code>(excl.). One of <code>l</code> or <code>r</code> may be omitted.</td>
+</tr>
+<tr class="even">
+<td><code>e[k -&gt; v]</code></td>
+<td>Updating of map <code>e</code> at index <code>k</code> to new value <code>v</code> (<strong>not</strong> in-place).</td>
+</tr>
+<tr class="odd">
+<td><code>|xs|</code></td>
+<td>Cardinality of collection <code>xs</code>, e.g. length of sequence, size of set.</td>
+</tr>
+<tr class="even">
+<td><code>\values(e1, e2, e3)</code></td>
+<td>// unclear. Probably creating a sequence that stores the values from array <code>e1</code> between indices <code>e2</code> and <code>e3</code>. TODO</td>
+</tr>
+<tr class="odd">
+<td><code>Some(e)</code></td>
+<td>Turns expression <code>e</code> of type <code>T</code> into an expression of type <code>option&lt;T&gt;</code> containing <code>e</code>.</td>
+</tr>
+<tr class="even">
+<td><code>seq&lt;T&gt;{vals}</code> or <code>[vals]</code></td>
+<td>sequence literal containing values <code>vals</code> (of type <code>T</code>).</td>
+</tr>
+<tr class="odd">
+<td><code>set&lt;T&gt;{vals}</code> or <code>{vals}</code></td>
+<td>set literal containing values <code>vals</code> (of type <code>T</code>).</td>
+</tr>
+<tr class="even">
+<td><code>bag&lt;T&gt;{vals}</code> or <code>b{vals}</code></td>
+<td>bag literal containing values <code>vals</code> (of type <code>T</code>).</td>
+</tr>
+<tr class="odd">
+<td><code>map&lt;T1, T2&gt;{k1-&gt;v1, k2-&gt;v2,...}</code></td>
+<td>map literal mapping <code>k1</code> (of type <code>T1</code>) to <code>v1</code> (of type <code>T2</code>), etc.</td>
+</tr>
+<tr class="even">
+<td><code>tuple&lt;T1, T2&gt;{v1, v2}</code></td>
+<td>tuple literal containing the two values <code>v1</code> (of type <code>T1</code>) and <code>v2</code> (of type <code>T2</code>).</td>
+</tr>
+<tr class="odd">
+<td><code>[t: T]</code>, <code>{t: T}</code>, <code>b{t: T}</code></td>
+<td>literal describing the empty <code>seq&lt;T&gt;</code>, <code>set&lt;T&gt;</code> and <code>bag&lt;T&gt;</code>, respectively.</td>
+</tr>
+<tr class="even">
+<td><code>{l .. r}</code></td>
+<td>Literal of type <code>seq&lt;int&gt;</code> describing the integer range from <code>l</code> (incl) to <code>r</code> (excl).</td>
+</tr>
+<tr class="odd">
+<td>`set<T>{ e</td>
+<td>selectors ; filter }`</td>
+</tr>
+<tr class="even">
+<td><code>x \in xs</code></td>
+<td>Membership check if element <code>x</code> is contained in collection <code>xs</code>. Note: For bags, it returns the number of occurrences, <strong>not</strong> a boolean.</td>
+</tr>
+<tr class="odd">
+<td><code>(\sum int idx; range; e)</code></td>
+<td>Sequence summation: sum expression <code>e</code> (which depends on the index <code>idx</code>) for all indices within the given range.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="pvl-2">PVL</h4>
 <table>
 <thead>
 <tr class="header">
@@ -7659,40 +7862,24 @@ static boolean check_left_priority_sorted(Tree t, int max_priority) {
 <td>Smaller than, smaller than equals, greater than and greater than equals respectively. They are used to compare integers.</td>
 </tr>
 <tr class="even">
-<td><code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>\</code></td>
-<td>Addition, subtraction, multiplication, integer division and fractional division respectively.</td>
+<td><code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>%</code>, <code>^^</code></td>
+<td>Addition, subtraction, multiplication, integer division, modulo and power/exponentiation respectively.</td>
 </tr>
 <tr class="odd">
 <td><code>++</code>, <code>--</code></td>
-<td>Increase by 1 and decrease by 1 respectively. Unlike the other operators, this only requires an variable on the left-hand side.</td>
+<td>As a postfix operator <code>i++</code>, increase <code>i</code> by 1 (resp. decrease for <code>--</code>). Also note the <code>++</code> binary operator above.</td>
 </tr>
 <tr class="even">
-<td><code>==&gt;</code></td>
-<td>Implication. This statement evaluates to true unless the statement before the arrow evaluates to true and the statement after the arrow evaluates to false.</td>
-</tr>
-<tr class="odd">
-<td><code>**</code></td>
-<td>Separating conjunction. <code>a ** b</code> denotes that <code>a</code> and <code>b</code>point to different variables on the heap and that both expressions mus tevaluate to true. This is used to reason about multiple resources.</td>
-</tr>
-<tr class="even">
-<td><code>-*</code></td>
-<td>Magic wand or separating implication. This is used to reason about resources. //TODO: investigate what is supported.</td>
-</tr>
-<tr class="odd">
-<td><code>new T()</code></td>
+<td><code>new T(&lt;args&gt;)</code></td>
 <td>Creates a new object of type <code>T</code>.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>new T[length]</code></td>
 <td>Creates a new array which contains objects of type <code>T</code> with <code>length</code> number of items.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>boolExpr ? exprA : exprB;</code></td>
 <td>Evaluates <code>boolExpr</code>, if this is true it will return <code>exprA</code> and otherwise <code>exprB</code>.</td>
-</tr>
-<tr class="even">
-<td><code>(\let T t = exprA; exprB)</code></td>
-<td>Evaluates <code>exprB</code>, replacing every occurence of <code>t</code> with the result of evaluating<code>exprA</code>. The surrounding parens <code>(</code> <code>)</code> are required.</td>
 </tr>
 </tbody>
 </table>
@@ -7706,20 +7893,24 @@ static boolean check_left_priority_sorted(Tree t, int max_priority) {
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>(\forall vars; range; boolExpr)</code></td>
-<td>Construct that allows you to repeat a certain expression for several variables. For example, <code>(\forall int j; j &gt;= 0 &amp;&amp; j &lt; n; array[j] &gt;= 0)</code> denotes that all elements in <code>array</code> nonnegative. It is equal to the following statement: <code>array[0] &gt;= 0 &amp;&amp; array[1] &gt;= 0 &amp;&amp; ... &amp;&amp; array[n-1] &gt;= 0</code>. <code>vars</code> should declare the variables over which we will reason. <code>range</code> can be any boolean expression, often used to describe the range of <code>vars</code>. <code>boolExpr</code> is some expression that should evaluate to a boolean for all variables in the given range.</td>
+<td><code>(\forall vars; cond; boolExpr)</code></td>
+<td>Universal quantifier: For all specified variables, if they fulfil the given condition, they must fulfil the boolean expression. <code>vars</code> should declare one or more variables over which we will reason. For integer variables, it can also directly specify their range. <code>cond</code> can be any boolean expression, often used to describe the range of <code>vars</code> (if not already defined in <code>vars</code> itself). <code>cond</code> and the subsequent semicolon can be omitted. <code>boolExpr</code> is some expression that should evaluate to a boolean for all variables in the given range. Example: <code>(\forall int i=0 .. a.length; a[i]&gt;0)</code>, which means <code>a[0]&gt;0 &amp;&amp; a[1]&gt;0 &amp;&amp; ...</code> Note: the outer parentheses are required. See <a href="https://github.com/utwente-fmt/vercors/wiki/Specification-Syntax">https://github.com/utwente-fmt/vercors/wiki/Specification-Syntax</a></td>
 </tr>
 <tr class="even">
-<td><code>(\forall* vars; range; expr)</code></td>
-<td>Similar construct to the <code>\forall</code> except that the expressions are separated by <code>**</code> instead of <code>&amp;&amp;</code>. One can for example write <code>(\forall* int j; j &gt;= 0 &amp;&amp; j &lt; array.length; Perm(array[j], write)</code> which denotes that the thread has writing access to all elements in <code>array</code>.</td>
+<td><code>(\forall* vars; cond; expr)</code></td>
+<td>Similar construct to the <code>\forall</code> except that the expressions are separated by <code>**</code> instead of <code>&amp;&amp;</code>. One can for example write <code>(\forall* int j=0 .. a.length; Perm(a[j], write))</code> which denotes that the thread has writing access to all elements in <code>a</code>. Note: the outer parentheses are required. See <a href="https://github.com/utwente-fmt/vercors/wiki/Specification-Syntax">https://github.com/utwente-fmt/vercors/wiki/Specification-Syntax</a></td>
 </tr>
 <tr class="odd">
-<td><code>(\exists Type id; range; expr)</code></td>
-<td>Evaluates to true if there exists an element, called <code>id</code>, such that the final expression evaluates to true.</td>
+<td><code>(\exists vars; cond; expr)</code></td>
+<td>Evaluates to true if <code>expr</code> evaluates to true for at least one of the possible assignments to the variables in <code>vars</code>, where the assignment also satisfies the condition <code>cond</code>. The latter and the respective semicolon can be omitted. Note: the outer parentheses are required. See <a href="https://github.com/utwente-fmt/vercors/wiki/Specification-Syntax">https://github.com/utwente-fmt/vercors/wiki/Specification-Syntax</a></td>
 </tr>
 <tr class="even">
 <td><code>array[*]</code></td>
-<td>This is a simplified <code>\forall*</code> expression that ranges over all elements in the array <code>array</code>. Instead of the example mentioned above for <code>\forall*</code>, you can then write <code>Perm(array[*], write)</code>. This <strong>cannot</strong> be used within nested <code>\forall*</code> expressions.</td>
+<td>This is syntactic sugar for a <code>\forall*</code> expression that ranges over all elements in the array <code>array</code>, typically used in a <code>Perm</code> expression. Instead of the example above for <code>\forall*</code>, you can then write <code>Perm(array[*], write)</code>. This <strong>cannot</strong> be used within nested <code>\forall*</code> expressions. See <a href="https://github.com/utwente-fmt/vercors/wiki/Permissions">https://github.com/utwente-fmt/vercors/wiki/Permissions</a></td>
+</tr>
+<tr class="odd">
+<td><code>(\forperm T1 o1, ..., Tn on \in col; expr)</code></td>
+<td>Universal quantifier over accessible locations: <code>expr</code> has to hold for all variables <code>o1</code> of type <code>T1</code>, ..., <code>on</code> of type <code>Tn</code> in collection <code>col</code>(? TODO), for which we currently have at least read permission. Note: the outer parentheses are required. See <a href="https://github.com/utwente-fmt/vercors/wiki/Specification-Syntax">https://github.com/utwente-fmt/vercors/wiki/Specification-Syntax</a></td>
 </tr>
 </tbody>
 </table>
@@ -7734,11 +7925,11 @@ static boolean check_left_priority_sorted(Tree t, int max_priority) {
 <tbody>
 <tr class="odd">
 <td><code>\result</code></td>
-<td>Keyword that refers to the object that the method returns</td>
+<td>The value that the method returns, only allowed in postconditions. See <a href="https://github.com/utwente-fmt/vercors/wiki/Specification-Syntax">https://github.com/utwente-fmt/vercors/wiki/Specification-Syntax</a></td>
 </tr>
 <tr class="even">
 <td><code>\old(expr)</code></td>
-<td>Refers to the value of the specified expression in the pre-state. This can be used in a postcondition (ensures) or loop invariant in which case the pre-state is when the method was called.</td>
+<td>Refers to the value of <code>expr</code> based on the heap when the method was called. This expression is typically used in postconditions (ensures) or loop invariants, but can also occur e.g. in <code>assert</code> statements. Note: local variables are evaluated to their current value, <strong>not</strong> their old value. See <a href="https://github.com/utwente-fmt/vercors/wiki/Specification-Syntax">https://github.com/utwente-fmt/vercors/wiki/Specification-Syntax</a></td>
 </tr>
 <tr class="odd">
 <td><code>held(x)</code></td>
@@ -7765,15 +7956,63 @@ static boolean check_left_priority_sorted(Tree t, int max_priority) {
 <tbody>
 <tr class="odd">
 <td><code>Perm(var, p)</code></td>
-<td>Defines permissions for variable <code>var</code>. If <code>p</code> is <code>1</code> or <code>write</code> then it denotes write permission, anything between 0 and 1 or <code>read</code> denotes read permission. Be aware that you cannot use arithmetic when using <code>read</code> such as <code>read/2</code> or dividing <code>read</code> among multiple threads! <code>Perm()</code> is of the type Resource.</td>
+<td>Defines permissions for variable <code>var</code>. If <code>p</code> is <code>1</code> or <code>write</code> then it denotes write permission, anything between 0 and 1 or <code>read</code> denotes read permission. Be aware that you cannot use arithmetic when using <code>read</code> such as <code>read/2</code> or dividing <code>read</code> among multiple threads! <code>Perm()</code> is of the type Resource. See <a href="https://github.com/utwente-fmt/vercors/wiki/Permissions">https://github.com/utwente-fmt/vercors/wiki/Permissions</a></td>
 </tr>
 <tr class="even">
-<td><code>PointsTo(var, p, val)</code></td>
-<td>Denotes permissions <code>p</code> for variable <code>var</code> similar to <code>Perm()</code>. Moreover, variable <code>var</code> points to the value <code>val</code>. <code>PointsTo()</code> is of the type Resource.</td>
+<td><code>perm(var)</code></td>
+<td>The amount of permission currently held for variable <code>var</code>. <strong>Do not confuse with capitalised <code>Perm</code> above!</strong> <code>perm()</code> is of the type frac. See TODO</td>
 </tr>
 <tr class="odd">
+<td><code>PointsTo(var, p, val)</code></td>
+<td>Denotes permissions <code>p</code> for variable <code>var</code> similar to <code>Perm()</code>. Moreover, variable <code>var</code> points to the value <code>val</code>. <code>PointsTo()</code> is of the type Resource. See <a href="https://github.com/utwente-fmt/vercors/wiki/Permissions">https://github.com/utwente-fmt/vercors/wiki/Permissions</a></td>
+</tr>
+<tr class="even">
 <td><code>Value(var)</code></td>
-<td>Defines a read-only permission on the given variable. This read-only permission cannot become a write permission and it can duplicate as often as necessary.</td>
+<td>Defines a read-only permission on the given variable. This read-only permission cannot become a write permission and it can duplicate as often as necessary. See <a href="https://github.com/utwente-fmt/vercors/wiki/Permissions">https://github.com/utwente-fmt/vercors/wiki/Permissions</a></td>
+</tr>
+<tr class="odd">
+<td><code>HPerm(var, p)</code></td>
+<td>History permission, related to process algebra models. See <a href="https://github.com/utwente-fmt/vercors/wiki/Process-Algebra-Models">https://github.com/utwente-fmt/vercors/wiki/Process-Algebra-Models</a></td>
+</tr>
+<tr class="even">
+<td><code>APerm(var, p)</code></td>
+<td>Action permission, related to process algebra models. See <a href="https://github.com/utwente-fmt/vercors/wiki/Process-Algebra-Models">https://github.com/utwente-fmt/vercors/wiki/Process-Algebra-Models</a></td>
+</tr>
+<tr class="odd">
+<td><code>ArrayPerm(langExpr, langExpr, langExpr, langExpr, langExpr)</code></td>
+<td>TODO</td>
+</tr>
+<tr class="even">
+<td><code>\array(arr, len)</code></td>
+<td>Shortcut for <code>arr != null &amp;&amp; arr.length == len</code>. Does <strong>not</strong> specify permissions. See <a href="https://github.com/utwente-fmt/vercors/wiki/Arrays-and-Pointers">https://github.com/utwente-fmt/vercors/wiki/Arrays-and-Pointers</a></td>
+</tr>
+<tr class="odd">
+<td><code>\matrix(mat, m, n)</code></td>
+<td>Indicates that <code>mat</code> is an <code>m</code> by <code>n</code> matrix, i.e. an array of pairwise-distinct arrays. Contains <code>read</code> permissions for the outer array, but no permissions for the matrix elements. See <a href="https://github.com/utwente-fmt/vercors/wiki/Arrays-and-Pointers">https://github.com/utwente-fmt/vercors/wiki/Arrays-and-Pointers</a></td>
+</tr>
+<tr class="even">
+<td><code>\pointer(x, size, p)</code></td>
+<td>Indicates that <code>x</code> is a pointer, like an array in C. Elements <code>x[0]</code> to <code>x[size-1]</code> are not <code>NULL</code> and can be dereferenced. For each of them, we have permission <code>p</code>. See <a href="https://github.com/utwente-fmt/vercors/wiki/Arrays-and-Pointers">https://github.com/utwente-fmt/vercors/wiki/Arrays-and-Pointers</a></td>
+</tr>
+<tr class="odd">
+<td><code>\pointer_index(x, idx, p)</code></td>
+<td>Indicates that <code>x</code> is a pointer or array in C, which is not NULL. For <code>x[idx]</code>, we have permission <code>p</code> (no statement about other array elements). See <a href="https://github.com/utwente-fmt/vercors/wiki/Arrays-and-Pointers">https://github.com/utwente-fmt/vercors/wiki/Arrays-and-Pointers</a></td>
+</tr>
+<tr class="even">
+<td><code>\pointer_block_length(langExpr)</code></td>
+<td>TODO</td>
+</tr>
+<tr class="odd">
+<td><code>\pointer_block_offset(langExpr)</code></td>
+<td>TODO</td>
+</tr>
+<tr class="even">
+<td><code>\pointer_length(langExpr)</code></td>
+<td>TODO</td>
+</tr>
+<tr class="odd">
+<td><code>\polarity_dependent(langExpr, langExpr)</code></td>
+<td>TODO</td>
 </tr>
 </tbody>
 </table>
