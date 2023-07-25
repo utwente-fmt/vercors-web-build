@@ -40,7 +40,6 @@ University of Twente, Enschede, The Netherlands
                     <li>
                         <a href="/wiki/#introduction">Getting Started</a>
                         <ul>
-                            <li><a href="/wiki/#introduction">Introduction</a></li>
                             <li><a href="/wiki/#installing-and-running-vercors">Installation Guide</a></li>
                             <li><a href="/wiki/">Tutorial</a></li>
                             <li>
@@ -6733,33 +6732,13 @@ class C {
 <span id="cb45-9"><a href="#cb45-9" aria-hidden="true"></a>assert r == <span class="dv">20</span>;</span></code></pre></div>
 <p>If it is desired that the loop invariant is checked at <code>goto</code> as well, this can be modeled by adding asserts at the exit labels of the <code>while</code> loop.</p>
 <h1 id="veymont">VeyMont</h1>
-<p>VeyMont is a tool for verification of concurrent message passing programs. The tool has been build on top of VerCors. VeyMont decomposes the global program from the input files into several local programs that can be executed in parallel. The program from the input files has to adhere to the syntax of a 'global program'. Syntax violations result in VeyMont Fail messages. The decomposition preserves the behaviour of the global program. This implies that all functional properties proven (with VerCors) for the global program also hold for the local program. Also, both global programs and their decomposed local programs are deadlock-free by construction.</p>
-<h2 id="user-documentation">User documentation.</h2>
-<h3 id="installing-and-running-veymont">Installing and running VeyMont</h3>
-<p>First build VerCors from source (as there has not been a release with VeyMont yet), following the instructions from the <a href="https://github.com/utwente-fmt/vercors">README on GitHub</a>. Then run VeyMont by executing the following command:</p>
-<p><code>./bin/vct --veymont &lt;filepath-to-output-file-for-local-programs&gt; &lt;filepath-to-global-program&gt;</code></p>
-<p>Here <code>&lt;filepath-to-global-program&gt;</code> is the input file you provide to VeyMont, and <code>&lt;filepath-to-output-file-for-local-programs&gt;</code> is the name of the file VeyMont should write to. The global program files need to be <code>.pvl</code> files; the output file can be either an PVL or Java file. Example global programs can be found in <code>examples/veymont-global-programs</code>.</p>
-<h3 id="using-veymont-for-verifying-concurrent-message-passing-programs">Using VeyMont for verifying concurrent message-passing programs</h3>
-<p>Steps for using VeyMont:</p>
-<ol>
-<li>Write a global program in PVL (an input language of VerCors).</li>
-<li>Add annotations to the global program to prove functional correctness.</li>
-<li>Provide the global program to VerCors for verification. If verification fails, go back to step 1 (incorrect global program) or step 2 (incorrect annotations).</li>
-<li>Provide the verified global program to VeyMont for decomposition. If Vey- Mont rejects, go back to step 1; if it accepts, it generates local programs.</li>
-</ol>
-<p>Example global programs can be found in <code>examples/veymont-global-programs</code>.</p>
-<h2 id="developer-documentation">Developer documentation</h2>
-<p>VeyMont executes the following passes:</p>
+<p>VeyMont is a tool for verification of concurrent message passing programs. The tool has been build on top of VerCors. VeyMont decomposes a sequential program into a parallel program. This decomposition preserves functional correctness proven with VerCors on the sequential program, and guarantees deadlock-freedom.</p>
+<p>For more information see:</p>
 <ul>
-<li><strong>VeyMontStructCheck</strong> This pass checks whether the input file contains a global program of the required syntax, as described in section 4.1 "Global programs" of the paper, and adheres to syntactical conditions of 'well-formedness' and 'sufficiency', see section 4.3 "Checking well-formedness, well-behavedness, and sufficiency". In case of violation, VeyMont aborts with a VeyMont Fail message.</li>
-<li><strong>VeyMontTerminationCheck</strong> This pass checks whether any recursive method calls are used in the Main class and in the other classes. If so, then deadlock-freedom might not hold. If the Main class contains recursion, VeyMont aborts with a VeyMont Fail message, because this is not allowed (for guaranteeing functional correctness). In case of recursion in other classes, VeyMont issues a warning that deadlock-freedom cannot be guaranteed.</li>
-<li><strong>VeyMontDecompose</strong> This pass does most of the transformation of the actual decomposition of the global program into local programs, as given in section 4.2 "Local programs and decomposition", except for the addition of the barrier.await() calls that will be added by the pass VeyMontBarrier.</li>
-<li><strong>removeEmptyBlocks</strong> This pass removes par-blocks that have no statements.</li>
-<li><strong>VeyMontLocalProgConstr</strong> This pass adds the initialization of the channel objects, and the accompanying annotations to the pre-and post conditions of the local program class constructors.</li>
-<li><strong>VeyMontAddChannelPerms</strong> This pass adds the necessary (permission and != null) annotations for the channel objects to the pre-and post conditions and the loop invariants of all non-constructor methods.</li>
-<li><strong>VeyMontAddStartThreads</strong> This pass generates a class that initializes the barrier, channel and local program objects, and then forks and then joins the latter objects for executing the local programs in parallel.</li>
-<li><strong>printVeyMontOutput</strong> This pass prints the decomposed programs to a file, either in the PVL or Java language.</li>
+<li>The tool paper: <a href="https://doi.org/10.1007/978-3-031-27481-7_19">https://doi.org/10.1007/978-3-031-27481-7_19</a></li>
+<li>The artefact: <a href="https://doi.org/10.5281/zenodo.7410640">https://doi.org/10.5281/zenodo.7410640</a></li>
 </ul>
+<p>VeyMont is maintained as part of the VerCors tool set.</p>
 <h1 id="term-rewriting-rules">Term Rewriting Rules</h1>
 <p>VerCors allows you to define your own term rewriting rules via <code>pvl</code> files. This chapter shows you how.</p>
 <h1 id="magic-wands">Magic Wands</h1>
@@ -8838,7 +8817,6 @@ static boolean check_left_priority_sorted(Tree t, int max_priority) {
 <li><a href="#tool-server">tool-server</a></li>
 <li><a href="#antlr4-fork">ANTLR4 fork</a></li>
 <li><a href="#docker-hub">Docker Hub</a></li>
-<li><a href="#phabricator">Phabricator</a></li>
 </ul>
 <h2 id="vercors-the-tool">VerCors (the tool)</h2>
 <ul>
@@ -8847,13 +8825,14 @@ static boolean check_left_priority_sorted(Tree t, int max_priority) {
 <h2 id="vercors-website">VerCors Website</h2>
 <ul>
 <li>Code at <a href="https://github.com/utwente-fmt/vercors-web">https://github.com/utwente-fmt/vercors-web</a></li>
+<li>Auto-rendered via Github Actions to <a href="https://github.com/utwente-fmt/vercors-web-build">https://github.com/utwente-fmt/vercors-web-build</a></li>
 <li>Viewable at <a href="https://vercors.ewi.utwente.nl/">https://vercors.ewi.utwente.nl/</a></li>
 <li>Redirect at <a href="https://utwente.nl/vercors">https://utwente.nl/vercors</a> (Maintained by M&amp;C UTwente)</li>
-<li>Backoffice at <a href="https://vercors.ewi.utwente.nl/backoffice">https://vercors.ewi.utwente.nl/backoffice</a> (Ask Raul Monti for credentials)</li>
 <li>Deployed at <a href="https://webservice.utwente.nl:8443">https://webservice.utwente.nl:8443</a> (Ask Pieter Bos for credentials)
 <ul>
+<li>Auto-pulled from <a href="https://github.com/utwente-fmt/vercors-web-build">https://github.com/utwente-fmt/vercors-web-build</a></li>
+<li>Webhook setup at <a href="https://github.com/utwente-fmt/vercors-web-build/settings/hooks">https://github.com/utwente-fmt/vercors-web-build/settings/hooks</a></li>
 <li>Separate credentials for FTPS access (Ask Pieter Bos)</li>
-<li>Also deploys database (Ask Pieter Bos for credentials)</li>
 </ul></li>
 </ul>
 <h2 id="vercors-server-online-tool-runner">VerCors Server (online tool runner)</h2>
@@ -8888,12 +8867,6 @@ static boolean check_left_priority_sorted(Tree t, int max_priority) {
 <ul>
 <li>Viewable at <a href="https://hub.docker.com/u/utwentefmt">https://hub.docker.com/u/utwentefmt</a></li>
 <li>Contact Tom van Dijk for credentials</li>
-</ul>
-<h2 id="phabricator">Phabricator</h2>
-<p>Maintained by UTwente, used for various projects</p>
-<ul>
-<li>Projects viewable at <a href="https://vcs.utwente.nl/diffusion/query/JmuTk5VR3rfI/">https://vcs.utwente.nl/diffusion/query/JmuTk5VR3rfI/</a></li>
-<li>Contact Marieke Huisman for access</li>
 </ul>
     </span>
     <span class="wiki-side-menu">
@@ -8997,10 +8970,6 @@ static boolean check_left_priority_sorted(Tree t, int max_priority) {
 </li>
 <li>
 <a href="#veymont">VeyMont</a>
-<ul>
-<li><a href="#user-documentation">User documentation.</a></li>
-<li><a href="#developer-documentation">Developer documentation</a></li>
-</ul>
 </li>
 <li>
 <a href="#term-rewriting-rules">Term Rewriting Rules</a>
@@ -9094,7 +9063,6 @@ static boolean check_left_priority_sorted(Tree t, int max_priority) {
 <li><a href="#antlr4-fork">ANTLR4 Fork</a></li>
 <li><a href="#the-wiki">The Wiki</a></li>
 <li><a href="#docker-hub">Docker Hub</a></li>
-<li><a href="#phabricator">Phabricator</a></li>
 </ul>
 </li>
 </ul>
