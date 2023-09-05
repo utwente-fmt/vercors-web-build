@@ -4609,82 +4609,15 @@ class Main {
 
 <p>In the above example, for each object we increase its "<em>val</em>" by one in parallel. As we can see, thread blocks are without names and thread identifiers in this case.</p>
 <h1 id="atomics-and-locks">Atomics and Locks</h1>
-<!--
-
-## Example folders of interest for atomics/locks writing
-
-- atomics
-    - Only chalice examples, should these be deleted?
-    - Or maybe ported?
-- synchronizers
-    - Only chalice examples, delete or port?
-- parallel
-- carp
-- demo
-- futures
-- layers
-    - Java6Lock.java?
-    - Some still use "Value" instead of "read"
-- waitnotify
-- manual
-    - Worker.pvl?
-    - OwickiGries.java?
-
-## Subjects
-
-- General:
-    - `lock_invariant`
-        - explain where the lock_invariant holds/can be used as an assumption, e.g. before/after wait this, lock this, unlock this, notify this
-- Advanced:
-    - "Atomic..." syntax?
-        - This is used in the "Layers" paper, so also in the layers example folder
-        - Seems to work for both Java & PVL
-        - For the Java syntax, maybe require "synchronized"?
-- PVL:
-    - lock x/unlock x
-    - invariant inv(assertion) { ... }
-    - atomic(inv) { ... }
-    - wait/notify
-- Java
-    - synchronized
-
--->
-
-<p>VerCors supports three forms of synchronization primitives. Two can only be used in PVL: intrinsic locks, and atomics. One can only be used in Java: the <code>synchronized</code> block. Each form will be discussed individually in the next sections.</p>
+<p>VerCors supports three forms of synchronization primitives. Two can only be used in PVL: built-in locks, and atomics. One can only be used in Java: the <code>synchronized</code> block. Each form will be discussed individually in the next sections.</p>
 <p>Warning: at the time of writing, VerCors supports only non-reentrant locks. This means locking twice in a row is unsound, which could have implications for code that uses Java's <code>synchronized</code>. See the caveats section at the end of this document for more info.</p>
-<h2 id="pvl-intrinsic-locks">PVL: Intrinsic locks</h2>
-<!-- 
-
-- 3 parts:
-    - lock invariant
-    - lock statement
-    - unlock statement
-- lock invariant
-    - specified on a class, therefore tied to an object instance
-    - could be, permission for a field, and field > 2
-    - established at end of constructor
-- lock statement
-    - gives access to the lock invariant
-    - relies on runtime guarantee: exclusive access
-        - blocks if lock is not available
-- unlock statement
-    - releases the lock
-    - before release, the lock invariant must be established again
-        - this ensures that the next time a thread acquires the lock, the lock invariant can be assumed
-    - runtime guarantee: other threads can now acquire the lock
-- caveats:
-    - locks cannot be locked in the constructor, but vercors does not check for this
-    - non-reentrant: deadlock if acquired twice
-    - some interleavings might deadlock; vercors does not check for this either
-    - VerCors does not require unlocking
-
--->
-
-<p>Intrinsic locking in PVL consists of three parts:</p>
+<h2 id="pvl-built-in-locks">PVL: Built-in locks</h2>
+<p>Using built-in locks in PVL consists of the following parts:</p>
 <ul>
-<li>Lock invariant</li>
+<li>Lock invariant, which describes the resources that the lock guards</li>
 <li>The <code>lock</code> statement</li>
 <li>The <code>unlock</code> statement</li>
+<li>The <code>commit</code> statement and <code>committed(l)</code> expression, which indicate whether or not a lock is initialized.</li>
 </ul>
 <h3 id="lock-invariant">Lock invariant</h3>
 <p>A lock invariant can be defined for a class with the following syntax:</p>
@@ -4701,7 +4634,7 @@ class C {
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases atomics-and-locks-pvl-intrinsic-locks-lock-invariant-1
+            <textarea name="examplecode" rows="20" >//:: cases atomics-and-locks-pvl-built-in-locks-lock-invariant-1
 //:: verdict Pass
 //:: tools silicon
 lock_invariant true /* or: resource expression involving permissions and boolean assertions */;
@@ -4758,7 +4691,7 @@ class C {
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases atomics-and-locks-pvl-intrinsic-locks-lock-invariant-2
+            <textarea name="examplecode" rows="20" >//:: cases atomics-and-locks-pvl-built-in-locks-lock-invariant-2
 //:: verdict Pass
 //:: tools silicon
 lock_invariant Perm(f, write) ** f &gt; 10;
@@ -4802,7 +4735,7 @@ class C {
 </div>
 
 <p>The lock invariant must hold at the end of the constructor. If VerCors cannot prove this, the program will be rejected.</p>
-<p>Using Java terminology, in the above example the field <code>f</code> is "guarded" by the intrinsic lock of the object that has the field <code>f</code>. That is, to write permission for <code>this.f</code>, and hence access to <code>this.f</code>, first the lock on <code>this</code> needs to be acquired. This is done using the <code>lock</code> statement, which is described in the next section.</p>
+<p>Using Java terminology, in the above example the field <code>f</code> is "guarded" by the built-in lock of the object that has the field <code>f</code>. That is, to write permission for <code>this.f</code>, and hence access to <code>this.f</code>, first the lock on <code>this</code> needs to be acquired. This is done using the <code>lock</code> statement, which is described in the next section.</p>
 <h3 id="lock-statement"><code>lock</code> statement</h3>
 <p>The lock statement has the following syntax:</p>
 <!-- standaloneSnip onlyLockStatement
@@ -4882,7 +4815,7 @@ class C {
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases atomics-and-locks-pvl-intrinsic-locks-lock-statement-1
+            <textarea name="examplecode" rows="20" >//:: cases atomics-and-locks-pvl-built-in-locks-lock-statement-1
 //:: verdict Pass
 //:: tools silicon
 lock_invariant Perm(f, write);
@@ -4955,7 +4888,7 @@ class C {
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases atomics-and-locks-pvl-intrinsic-locks-unlock-statement-1
+            <textarea name="examplecode" rows="20" >//:: cases atomics-and-locks-pvl-built-in-locks-unlock-statement-1
 //:: verdict Pass
 //:: tools silicon
 lock_invariant Perm(f, write);
@@ -5001,54 +4934,60 @@ class C {
 </div>
 
 <p>Because the only thing we did between <code>lock</code> and <code>unlock</code> was increment <code>f</code>, the write permission for <code>f</code> is still available, and hence VerCors can trivially prove that the lock invariant can be re-established. Hence, this example verifies.</p>
-<h3 id="intrinsic-locks-caveats">Intrinsic locks: caveats</h3>
-<!--
-- caveats:
-    - locks cannot be locked in the constructor, but vercors does not check for this
-    - non-reentrant: deadlock if acquired twice
-    - some interleavings might deadlock; vercors does not check for this either
--->
-
-<p>There are several caveats to look out for when using intrinsic locks in PVL.</p>
-<h4 id="avoid-locking-in-the-constructor">Avoid: locking in the constructor</h4>
-<p>Since the lock invariant is established at the end of the constructor, it is of vital importance that the object being constructed is not locked before that. This could otherwise lead to unsoundness. Consider the following example:</p>
-<!-- test Pass -->
+<h3 id="commit-statement"><code>commit</code> statement</h3>
+<p>Before a lock can be locked, it must be initialized. In VerCors, a lock is initialized when it is "committed". This is done using the <code>commit e;</code> statement. The lock must be committed before the end of the constructor. After any <code>commit e;</code> statement, the expression <code>committed(e)</code> is guaranteed to be true.</p>
+<p>In the following example, the lock invariant of <code>C</code> requires permission for the field <code>f</code>, and that <code>f</code> has value 3. The constructor writes 3 to <code>f</code>, and then commits the invariant. This ensures that the <code>tryLock</code> method can lock on a newly created object of type <code>C</code>. Without the <code>commit</code> statement, an error would occur. In addition, the postcondition contains <code>committed(this)</code>, to indicate that after the constructor the new object is lockable.</p>
+<!-- testBlock Pass -->
 
 
 <div class="verification-container">
     
-        <pre style="position: relative; margin-bottom: 0" class="verification-text">class C {
-    int f;
+        <pre style="position: relative; margin-bottom: 0" class="verification-text">lock_invariant Perm(f, 1) ** f == 3;
+class C {
+  int f;
 
-    resource lock_invariant() = Perm(f, write);
+  ensures committed(this);
+  constructor() {
+    f = 3;
+    commit this;
+    assert committed(this);
+  }
+}
 
-    C() {
-        assert Perm(f, write);
-        lock this;
-        assert Perm(f, write) ** Perm(f, write);
-        assert false;
-    }
+void tryLock() {
+  C c = new C();
+  lock c;
+  assert Perm(c.f, 1) ** c.f == 3;
 }
 <span class="code-buttons"><span style="display: none" class="fa fa-times-circle code-close-button plain-close"></span><span class="fa fa-pencil code-edit-button"></span><span class="fa fa-play code-run-button"></span></span></pre>
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases atomics-and-locks-pvl-intrinsic-locks-intrinsic-locks-caveats-avoid-locking-in-the-constructor-1
+            <textarea name="examplecode" rows="20" >//:: cases atomics-and-locks-pvl-built-in-locks-commit-statement-1
 //:: verdict Pass
 //:: tools silicon
-class C {
-    int f;
-
-    resource lock_invariant() = Perm(f, write);
-
-    C() {
-        assert Perm(f, write);
-        lock this;
-        assert Perm(f, write) ** Perm(f, write);
-        assert false;
+class Test {
+    void test() {
+        lock_invariant Perm(f, 1) ** f == 3;
+        class C {
+          int f;
+        
+          ensures committed(this);
+          constructor() {
+            f = 3;
+            commit this;
+            assert committed(this);
+          }
+        }
+        
+        void tryLock() {
+          C c = new C();
+          lock c;
+          assert Perm(c.f, 1) ** c.f == 3;
+        }
+        
     }
-}
-</textarea>
+}</textarea>
             <span class="code-buttons">
                 <span class="fa fa-times-circle code-close-button"></span>
                 <span class="fa fa-play code-run-button"></span>
@@ -5079,22 +5018,13 @@ class C {
     <pre class="verification-log verification-non-plain" style="display: none"></pre>
 </div>
 
-<p>Since the lock invariant is not yet established, we still have a write permission to <code>f</code>. Additionally, because we lock on <code>this</code>, we may also assume the lock invariant after the lock statement. This leads to having two write permissions, which is not allowed by VerCors, and hence allows proving <code>false</code>. Note that this can also happen if a method that locks on its argument is called in the constructor. Therefore, care needs to be taken when calling methods from constructors.</p>
+<h3 id="built-in-lock-caveats">Built-in lock: caveats</h3>
+<p>There are several caveats to look out for when using built-in locks in PVL.</p>
 <h4 id="avoid-locking-a-lock-twice">Avoid: locking a lock twice</h4>
 <p>PVL locks are non-reentrant: locking a lock twice, without unlocking the lock inbetween, will result in a deadlock. VerCors does not warn about this situation if it occurs. Hence, it needs to be checked manually that this situation does not occur.</p>
 <h4 id="avoid-deadlocking-interleavings">Avoid: deadlocking interleavings</h4>
-<p>Deadlocks can occur when using multiple locks. For example, consider a situation with two locks, <code>l1</code> and <code>l2</code>. Process A first locks <code>l1</code>, and then tries to acquire <code>l2</code>. Process B locks <code>l2</code>, and then tries to acquire <code>l1</code>. Since intrinsic locks in PVL are blocking, this interleaving will deadlock. VerCors does not warn about this situation if it occurs. Hence, it needs to be checked manually that this situation does not occur, because it can otherwise allow unsoundness to occur.</p>
+<p>Deadlocks can occur when using multiple locks. For example, consider a situation with two locks, <code>l1</code> and <code>l2</code>. Process A first locks <code>l1</code>, and then tries to acquire <code>l2</code>. Process B locks <code>l2</code>, and then tries to acquire <code>l1</code>. Since built-in locks in PVL are blocking, this interleaving will deadlock. VerCors does not warn about this situation if it occurs. Hence, it needs to be checked manually that this situation does not occur, because it can otherwise allow unsoundness to occur.</p>
 <h2 id="pvl-atomics">PVL: Atomics</h2>
-<!--
-- Assume you have read, intrinsic locks
-- Two statements:
-    - invariant invName(expr) { ... }
-    - atomic(invName) { ... }
-- Caveats:
-    - Local variables can only be read from if they appear in the atomic invariant
-    - (?) Do not nest atomic blocks
--->
-
 <p>For this section, we assume you are familiar with the concept of "lock invariant", as introduced int the previous section.</p>
 <p>Atomics in PVL are used through two statements: the <code>invariant</code> statement and the <code>atomic</code> statement. We will discuss them separately.</p>
 <h4 id="invariant-block"><code>invariant</code> block</h4>
@@ -5224,7 +5154,7 @@ atomic(invName) {
 <li>Declaration of the invariant is done at the method level, instead of at the class level.</li>
 </ol>
 <h2 id="java-synchronized">Java: synchronized</h2>
-<p>The <code>synchronized</code> statement allows you to work with lock invariants in Java. It is a combination of intrinsic locks from PVL, and atomics from PVL, which are both explained in previous sections. Specifically, VerCors supports the lock invariant syntax for Java classes, and <code>synchronized</code> blocks work almost identically to atomic blocks. Both concepts will be discussed in the next sections.</p>
+<p>The <code>synchronized</code> statement allows you to work with lock invariants in Java. It is a combination of built-in locks from PVL, and atomics from PVL, which are both explained in previous sections. Specifically, VerCors supports the lock invariant syntax for Java classes, and <code>synchronized</code> blocks work almost identically to atomic blocks. Both concepts will be discussed in the next sections.</p>
 <h3 id="java-lock-invariants">Java: lock invariants</h3>
 <p>VerCors supports the lock invariant syntax for Java classes. The syntax is as follows:</p>
 <!-- test Pass -->
@@ -5352,7 +5282,7 @@ synchronized(expr) {
 <p>The only additional behaviour of the <code>synchronized</code> expr is that it accounts for exceptions. That is, when an exception is thrown before the end of the synchronized block, the lock is still closed, and hence the lock invariant still needs to be re-established.</p>
 <h3 id="caveats">Caveats</h3>
 <p>There are some caveats to verifying Java locks in VerCors.</p>
-<h4 id="avoid-locking-in-the-constructor-1">Avoid: locking in the constructor</h4>
+<h4 id="avoid-locking-in-the-constructor">Avoid: locking in the constructor</h4>
 <p>Similar to PVL, VerCors does not allow locking on an object before the lock invariant is established. However, VerCors does not check for this, so the user must manually ensure that this does not occur.</p>
 <h4 id="avoid-locking-on-an-object-twice">Avoid: locking on an object twice</h4>
 <p>Similar to PVL, VerCors models Java's locks as single-entrant locks. This is inaccurate, as Java's locks are actually re-entrant. We are working on improving this, but this is currently not yet implemented. Therefore, users have to take care that locking twice on a single object does not occur. If it does occur, it might cause unsoundness.</p>
@@ -8939,7 +8869,7 @@ static boolean check_left_priority_sorted(Tree t, int max_priority) {
 <li>
 <a href="#atomics-and-locks">Atomics and Locks</a>
 <ul>
-<li><a href="#pvl-intrinsic-locks">PVL: Intrinsic locks</a></li>
+<li><a href="#pvl-built-in-locks">PVL: Built-in locks</a></li>
 <li><a href="#pvl-atomics">PVL: Atomics</a></li>
 <li><a href="#java-synchronized">Java: synchronized</a></li>
 </ul>
