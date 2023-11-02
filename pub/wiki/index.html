@@ -795,8 +795,8 @@ final class Test {
 </div>
 
 <p>The conditional addition <code>cond_add</code> is defined as a ghost method. Otherwise, it looks like any normal method, including having a method contract (in this case, just a single precondition). Note that the precondition is not wrapped in the special comment <code>//@</code>, like the precondition of <code>some_method</code> is, because the entire ghost method already is inside a special comment <code>/*@</code>. We then use this ghost method in the body of <code>some_method</code> (but only inside annotations!).</p>
-<h5 id="pure-functions-and-methods">Pure Functions and Methods</h5>
-<p><em>Pure functions</em> are, in a way, a special kind of ghost methods. They look like any method, but have an additional keyword <code>pure</code> in the method head and their body is a single expression following an <code>=</code>, rather than a block of statements:</p>
+<h5 id="functions-and-pure-methods">Functions and Pure Methods</h5>
+<p><em>Functions</em> are, in a way, a special kind of ghost methods. They look like any method, but they are pure by design (as signified by the keyword <code>pure</code>) and their body is a single expression following an <code>=</code>, rather than a block of statements:</p>
 <!-- testMethod -->
 
 
@@ -811,7 +811,7 @@ static pure int cond_add(bool cond, int x, int y)
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases specification-syntax-auxiliary-annotations-ghost-code-ghost-methods-and-functions-pure-functions-and-methods-1
+            <textarea name="examplecode" rows="20" >//:: cases specification-syntax-auxiliary-annotations-ghost-code-ghost-methods-and-functions-functions-and-pure-methods-1
 //:: verdict Pass
 //:: tools silicon
 final class Test {
@@ -852,7 +852,7 @@ final class Test {
     <pre class="verification-log verification-non-plain" style="display: none"></pre>
 </div>
 
-<p>Note that the <code>ghost</code> keyword is not used: It is only required when using a construct from the target language (e.g. <code>if</code>, variable declarations, etc), <em>not</em> for specification-internal constructs like defining a pure function. However, using a stand-alone call statement to call the function (e.g. invoke a lemma directly and not in an <code>assert</code>) still needs the <code>ghost</code> keyword, as method calls are constructs from the target language: <code>//@ ghost myLemma();</code>. The important distinction to normal methods, apart from the fact that they have just one expression, is that pure functions <em>must be without side-effects</em>, even on the ghost state. Thus, the body cannot contain for instance calls to non-pure methods.</p>
+<p>Note that the <code>ghost</code> keyword is not used: It is only required when using a construct from the target language (e.g. <code>if</code>, variable declarations, etc), <em>not</em> for specification-internal constructs like defining a function. However, using a stand-alone call statement to call the function (e.g. invoke a lemma directly and not in an <code>assert</code>) still needs the <code>ghost</code> keyword, as method calls are constructs from the target language: <code>//@ ghost myLemma();</code>. The important distinction to normal methods, apart from the fact that they have just one expression, is that functions <em>must be pure, i.e. must be without side-effects</em>, even on the ghost state. Thus, the body cannot contain for instance calls to non-pure methods.</p>
 <p>Remember that in VerCors, only the contract of a method is used to reason about the behaviour of a method call, the actual behaviour of the method body is not taken into account at this point. For functions, this restriction is not as strict: For simple functions like the one above, VerCors actually uses the "real" behaviour of the function to analyse the behaviour of a call to that function. Thus, the behaviour does not need to be specified explicitly in a post-condition, like it does for other methods. However, this only works for simple functions, and for example a recursive function may still need a post-condition specifying its behaviour.</p>
 <p>You can also add the <code>pure</code> keyword to a "real" method. This indicates that the method does not have side-effects, and can therefore be used e.g. in method contracts, while still being accessible by the "real" code. However, for a method to be pure, it has to be actually without side-effects, therefore only a limited number of constructs are allowed in methods that are designated pure: <code>if</code> statements, return statements and variable declarations.</p>
 <!-- testMethod -->
@@ -874,7 +874,7 @@ static /*@ pure @*/ int cond_add(boolean cond, int x, int y) {
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases specification-syntax-auxiliary-annotations-ghost-code-ghost-methods-and-functions-pure-functions-and-methods-2
+            <textarea name="examplecode" rows="20" >//:: cases specification-syntax-auxiliary-annotations-ghost-code-ghost-methods-and-functions-functions-and-pure-methods-2
 //:: verdict Pass
 //:: tools silicon
 final class Test {
