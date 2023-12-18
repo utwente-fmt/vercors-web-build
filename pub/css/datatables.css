@@ -1,0 +1,31 @@
+table.dataTable tbody tr {
+    background-color: var(--background-light-alt) !important;
+}
+
+.alt table.dataTable tbody tr {
+    background-color: var(--background-light) !important;
+}
+
+a.asc:after {
+    content: ' (A-Z)';
+}
+
+a.desc:after {
+    content: ' (Z-A)';
+}
+
+.sort-numerical a.asc:after {
+    content: " (0-9)";
+}
+
+.sort-numerical a.desc:after {
+    content: " (9-0)";
+}
+
+ul.pagination {
+    display: block;
+}
+
+ul.pagination li {
+    display: inline;
+}

@@ -1,0 +1,45 @@
+.wiki-side-menu {
+    width: 25%;
+    vertical-align: top;
+    position: sticky;
+    top: 1rem;
+    float: right;
+    max-height: calc(100vh - 2rem);
+    overflow-y: auto;
+}
+
+.wiki-side-menu a {
+    max-width: 100%;
+}
+
+.wiki-side-menu ul {
+    margin: 0;
+}
+
+.wiki-side-menu > ul > li {
+    list-style: none;
+}
+
+.wiki-side-menu > ul > li > ul > li {
+    list-style: none;
+    padding-left: 4ex;
+}
+
+.wiki-side-menu-js a {
+    text-decoration: none;
+    padding-left: 0.5ex;
+    transition: border-left-color .2s;
+    border-left: 4px solid transparent;
+}
+
+.wiki-side-menu-js a.focus {
+    border-left: 4px solid var(--primary);
+}
+
+.wiki-side-menu-js a + ul {
+    display: none;
+}
+
+.wiki-side-menu-js a.focus + ul {
+    display: block;
+}

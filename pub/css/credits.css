@@ -1,0 +1,15 @@
+.sponsor-list {
+    list-style-type: none;
+}
+
+.sponsor-list li {
+    display: block;
+    border-left: solid 0.5rem var(--ruler-light);
+    padding: 1rem 0 0.5rem 2rem;
+    margin-left: -1.5rem;
+    margin-bottom: 1em;
+}
+
+.sponsor-list li figure, .sponsor-list li p {
+    margin: 0;
+}

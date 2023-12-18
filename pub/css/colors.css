@@ -1,0 +1,63 @@
+a {
+    color: var(--primary);
+}
+
+.secondary a {
+    color: var(--secondary);
+}
+
+.dark a {
+    color: var(--text-light);
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus,
+textarea:focus {
+    border-color: var(--primary);
+}
+
+.secondary input[type="text"]:focus,
+.secondary input[type="password"]:focus,
+.secondary input[type="email"]:focus,
+.secondary textarea:focus {
+    border-color: var(--secondary);
+}
+
+input[type="submit"],
+input[type="reset"],
+input[type="button"],
+.button {
+    background-color: var(--primary);
+}
+
+.secondary input[type="submit"],
+.secondary input[type="reset"],
+.secondary input[type="button"],
+.secondary .button {
+    background-color: var(--secondary);
+}
+
+nav > .container > ul > li:hover > a {
+    background-color: var(--primary);
+}
+
+.secondary nav > .container > ul > li:hover > a {
+    background-color: var(--secondary);
+}
+
+nav > .container > ul > li > ul {
+    background-color: var(--primary);
+}
+
+.secondary nav > .container > ul > li > ul {
+    background-color: var(--secondary);
+}
+
+hr {
+    border-color: var(--ruler-light);
+}
+
+.dark hr {
+    border-color: var(--ruler-dark);
+}

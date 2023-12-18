@@ -1,0 +1,137 @@
+@media (max-width: 840px) {
+    section {
+        padding: 0;
+    }
+
+    #header {
+        padding: 0;
+    }
+
+    #logo {
+        background-color: var(--background-dark);
+        margin: 0;
+        font-size: 1.5rem;
+        width: 100%;
+    }
+
+    #hamburger {
+        display: inline-block;
+        vertical-align: middle;
+        cursor: pointer;
+        height: 3rem;
+    }
+
+    #hamburger span {
+        vertical-align: middle;
+        padding: 0 0.8rem;
+    }
+
+    #logo a {
+        display: inline-block;
+        vertical-align: top;
+        position: absolute;
+    }
+
+    #logo #logo-dark {
+        display: block;
+        height: 3rem;
+        position: relative;
+        top: -0.2rem;
+    }
+
+    #logo #logo-light {
+        display: none;
+    }
+
+    nav {
+        height: auto;
+        text-align: left;
+        margin: 0;
+    }
+
+    nav .container {
+        padding: 0;
+    }
+
+    nav > .container > ul {
+        display: block;
+        max-height: 0;
+        margin: 0;
+        overflow: hidden;
+        background-color: var(--background-dark-alt);
+        padding: 0;
+    }
+
+    nav.open > .container > ul {
+        max-height: 100%;
+        padding: 1em;
+    }
+
+    nav > .container > ul > li {
+        display: block;
+    }
+
+    nav > .container > ul > li > ul, .secondary nav > .container > ul > li > ul {
+        display: block;
+        position: unset;
+        width: unset;
+        background-color: unset;
+    }
+
+    nav > .container > ul > li > ul > li {
+        display: block;
+        padding-left: 2em;
+    }
+
+    nav > .container > ul > li > a {
+        color: var(--text-light);
+    }
+
+    nav > .container > ul > li:hover > a, .secondary nav > .container > ul > li:hover > a {
+        background-color: unset;
+    }
+
+    .container {
+        margin: 0;
+        max-width: 100%;
+        width: 100%;
+        padding: 1rem;
+    }
+
+    /* Banner */
+    #banner {
+        margin-top: 0;
+        padding: 1rem;
+    }
+
+    #header.mountain-background {
+        background-image: none;
+    }
+
+    #title {
+        margin-top: 0;
+        text-align: left;
+    }
+
+    #abstract {
+        max-width: 100%;
+    }
+
+    .button-row {
+        margin: 0;
+    }
+
+    .button, .secondary .button {
+        display: block;
+    }
+
+    .button + .button {
+        margin-left: 0;
+        margin-top: 16px;
+    }
+
+    .card {
+        display: block;
+        width: 100%;
+    }
+}

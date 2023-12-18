@@ -1,0 +1,33 @@
+.code-buttons {
+    z-index: 10;
+    color: var(--text-light);
+    float: right;
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    font-size: 24pt;
+    cursor: pointer;
+}
+
+.code-buttons span + span {
+    margin-left: 1ex;
+}
+
+.fa-spinner {
+    animation: rotation 1s infinite steps(8, end);
+}
+
+@keyframes rotation {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.table-verify-button {
+    text-align: center;
+    font-size: large;
+}

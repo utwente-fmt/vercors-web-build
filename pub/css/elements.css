@@ -1,0 +1,124 @@
+:root {
+    font-family: 'Raleway', sans-serif;
+    font-size: 13pt;
+    font-weight: 500;
+    line-height: 1.75;
+    color: var(--text-dark);
+    background-color: var(--background-light);
+}
+
+strong, b {
+    font-weight: 700;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 800;
+    line-height: 1.25;
+    margin: 0;
+    margin-bottom: 1em;
+}
+
+header h1, header h2, header h3, header h4, header h5, header h6 {
+    margin-bottom: 0;
+}
+
+header {
+    margin-bottom: 1em;
+}
+
+h1 {
+    font-size: 3rem;
+}
+
+h2 {
+    font-size: 2rem;
+}
+
+h3 {
+    font-size: 1.5rem;
+}
+
+section {
+    padding: 2rem 0;
+}
+
+em, i {
+    font-style: italic;
+}
+
+pre {
+    line-height: 1rem;
+    background-color: var(--background-dark);
+    color: var(--text-light);
+    padding: 1rem;
+    overflow-x: auto;
+}
+
+figure {
+    display: inline-block;
+}
+
+a {
+    text-decoration: underline;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+p, ul, ol, dl, table, blockquote, pre, figure, .verification-container {
+    margin: 0 0 2rem;
+}
+
+ul, ol {
+    padding: 0;
+}
+
+sub {
+    font-size: 0.8rem;
+    position: relative;
+    top: 0.5rem;
+}
+
+sup {
+    font-size: 0.8rem;
+    position: relative;
+    top: -0.5rem;
+}
+
+blockquote {
+    font-style: italic;
+    border-left: solid 0.5rem var(--ruler-light);
+    padding: 1rem 0 0.5rem 2rem;
+    margin-left: -1.5rem;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+textarea {
+    appearance: none;
+    background: none;
+    border: solid 1px var(--ruler-light);
+    display: block;
+    outline: 0;
+    padding: 0.75rem;
+    text-decoration: none;
+    line-height: 1rem;
+    width: 100%;
+}
+
+::placeholder {
+    opacity: 0.5;
+}
+
+hr {
+    border: none;
+    border-top: 4px solid;
+    margin: 2rem -2rem;
+}
+
+/* Tables */
+table {
+    width: 100%;
+}

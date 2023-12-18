@@ -1,0 +1,185 @@
+#logo a {
+    text-decoration: none;
+}
+
+#logo img {
+    display: block;
+    height: 5rem;
+}
+
+#logo #logo-dark {
+    display: none;
+}
+
+nav {
+    display: block;
+    z-index: 100;
+    height: 5rem;
+    margin: 2rem 0;
+    font-size: 1.25rem;
+    text-align: center;
+}
+
+nav ul {
+    margin: 0;
+}
+
+nav > .container > * {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+nav a {
+    text-decoration: none;
+}
+
+nav > .container > ul > li > a {
+    color: var(--text-dark);
+}
+
+nav > .container > ul > li {
+    display: inline-block;
+    margin-left: 0.5rem;
+    position: relative;
+}
+
+nav > .container > ul > li > a {
+    text-align: left;
+    padding: 0.5rem 1.5rem;
+}
+
+nav > .container > ul > li:hover > a {
+    color: var(--text-light);
+    border-radius: 0.5rem;
+}
+
+nav > .container > ul > li:hover > a:has(+ ul) {
+    /* firefox 121+ */
+    border-radius: 0.5rem 0.5rem 0 0;
+}
+
+nav > .container > ul > li:hover > a + ul {
+    display: block;
+}
+
+nav > .container > ul > li > ul {
+    display: none;
+    position: absolute;
+    left: 0;
+    top: calc(1.75em - 2px);
+    width: 300px;
+    padding: 0.5rem 0;
+
+    border-radius: 0 0.5rem 0.5rem 0.5rem;
+    text-align: left;
+}
+
+nav > .container > ul > li > ul > li > a {
+    color: var(--text-light);
+    padding: 0.5rem 1.5rem;
+}
+
+nav > .container > ul > li > ul > li {
+    display: block;
+}
+
+.dark {
+    background-color: var(--background-dark);
+    color: var(--text-light);
+}
+
+.alt {
+    background-color: var(--background-light-alt);
+}
+
+#footer {
+    position: sticky;
+    top: 100vh;
+}
+
+footer {
+    padding: 2rem 0;
+}
+
+/* Header */
+#header {
+    padding: 1em 0;
+}
+
+#header.mountain-background {
+    background-image: url('/images/background.svg');
+    background-position: center top;
+    background-repeat: no-repeat;
+}
+
+/* Banner */
+.button-row {
+    text-align: center;
+}
+
+input[type="submit"],
+input[type="reset"],
+input[type="button"],
+.button, .secondary .button {
+    appearance: none;
+    transition: background-color 0.2s ease-in-out;
+    border-radius: 40px;
+    border: 0;
+    color: var(--text-light);
+    cursor: pointer;
+    display: inline-block;
+    padding: 0.80rem 2rem;
+    text-align: center;
+    text-decoration: none;
+    font-size: 1.4rem;
+    font-weight: 700;
+    min-width: 10rem;
+}
+
+input[type="submit"]:hover,
+input[type="reset"]:hover,
+input[type="button"]:hover,
+.button:hover, .secondary .button:hover {
+// TODO background-color: #32b777;
+}
+
+#title {
+    text-align: center;
+    margin-top: 7rem;
+    margin-bottom: 2rem;
+}
+
+#abstract {
+    width: 800px;
+    max-width: calc(100% - 2rem);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Main */
+.no-sidebar #main .major, .left-sidebar #main .major, .right-sidebar #main .major {
+    text-align: left;
+}
+
+#main {
+    padding: 1em 0;
+}
+
+.container {
+    margin-left: auto;
+    margin-right: auto;
+    width: 1200px;
+    max-width: calc(100% - 2rem);
+}
+
+.row > * {
+    padding: 0 0 0 50px;
+}
+
+#hamburger {
+    display: none;
+}
+
+.button + .button {
+    margin-left: 16px;
+}
