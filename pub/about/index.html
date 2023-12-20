@@ -12,6 +12,8 @@ University of Twente, Enschede, The Netherlands
         <meta name="description" content="">
         <meta name="keywords" content="">
 
+        <link rel="icon" href="/images/icon.svg">
+
         <link rel="stylesheet" href="/css/external/codemirror.css">
         <link rel="stylesheet" href="/css/external/codemirror-monokai.css">
         <link rel="stylesheet" href="/css/highlight/default.css">
@@ -48,10 +50,10 @@ University of Twente, Enschede, The Netherlands
                     </div>
                     <ul>
                         <li>
-                            <a href="/wiki/#introduction">Getting Started</a>
+                            <a href="/wiki/">Getting Started</a>
                             <ul>
                                 <li><a href="/wiki/#installing-and-running-vercors">Installation Guide</a></li>
-                                <li><a href="/wiki/">Tutorial</a></li>
+                                <li><a href="/wiki/#prototypical-verification-language">Tutorial</a></li>
                                 <li>
                                     <a href="//github.com/utwente-fmt/vercors/issues" target="_blank">
                                         Issue Tracker
@@ -60,105 +62,288 @@ University of Twente, Enschede, The Netherlands
                                 </li>
                             </ul>
                         </li>
+                        <li>
+                            <a href="/">Tools</a>
+                            <ul>
+                                <li><a href="/">Verifier</a></li>
+                                <li><a href="/alpinist/">Alpinist</a></li>
+                                <li><a href="/vesuv/">VeSUV</a></li>
+                                <li><a href="/veymont/">VeyMont</a></li>
+                            </ul>
+                        </li>
                         <li><a href="/try_online/examples/">Showcases</a></li>
-                        <li><a href="/news/">News</a></li>
                         <li><a href="/publications/">Publications</a></li>
                         <li>
                             <a href="/about/">About</a>
                             <ul>
-                                <li><a href="/about/#Team">VerCors Team</a></li>
-                                <li><a href="/about/#Contact">Contact</a></li>
-                                <li><a href="/about/#Credits">Credits</a></li>
+                                <li><a href="/about/#team">VerCors Team</a></li>
+                                <li><a href="/news/">News</a></li>
+                                <li><a href="/about/#contact">Contact</a></li>
+                                <li><a href="/about/#credits">Credits</a></li>
                                 <li><a href="/license/">License</a></li>
                             </ul>
                         </li>
                     </ul>
                 </div>
             </nav>
-            <div id="banner" class="container">
-                <section>
-                    
-                    <p class="button-row">
-                        <a href="//github.com/utwente-fmt/vercors" class="button" target="_blank">
-                            View on Github
-                        </a>
-                        <a href="/try_online/" class="button">Try VerCors Online</a>
-                    </p>
-                </section>
-            </div>
+            
         </div>
 
         
 <div class="alt">
     <section class="container">
         
-<h2>The VerCors Team</h2>
+<h2 id="team">The VerCors Team</h2>
 
 <h3>Group Leader</h3>
-<figure>
-    <a href="//wwwhome.ewi.utwente.nl/~marieke/">
-        <img src="/images/marieke.jpg" width="144" height="200" alt="prof.dr. Marieke Huisman"
-             style="padding-bottom:0.5em;">
-        <figcaption style="text-align:justify;">prof.dr. Marieke Huisman</figcaption>
-    </a>
-</figure>
+
+<div class="profile">
+    <div class="photo">
+        
+        <img src="/images/marieke.jpg" alt="Photo of prof.dr. Marieke Huisman">
+        
+    </div><ul>
+        <li><span class="fa fa-user"></span> <strong>prof.dr. Marieke Huisman</strong></li>
+        <li><span class="fa fa-link"></span> <a href="https://wwwhome.ewi.utwente.nl/~marieke/">wwwhome.ewi.utwente.nl/~marieke/</a></li>
+    </ul>
+</div>
 
 <h3>Members</h3>
-<ul style="list-style-type: none">
+<ul class="profiles">
     
-    <li><a href="//petravdbos.nl">dr. Petra van den Bos</a></li>
+        <li><div class="profile">
+    <div class="photo">
+        
+        <img src="/images/unknown.png" alt="Silhouette of person with question mark" title="No photo provided">
+        
+    </div><ul>
+        <li><span class="fa fa-user"></span> <strong>dr. Petra van den Bos</strong></li>
+        <li><span class="fa fa-link"></span> <a href="https://petravdbos.nl">petravdbos.nl</a></li>
+    </ul>
+</div></li>
     
-    <li><a href="//people.utwente.nl/l.armborst">Lukas Armborst, MSc</a></li>
+        <li><div class="profile">
+    <div class="photo">
+        
+        <img src="/images/unknown.png" alt="Silhouette of person with question mark" title="No photo provided">
+        
+    </div><ul>
+        <li><span class="fa fa-user"></span> <strong>Lukas Armborst, MSc</strong></li>
+        <li><span class="fa fa-link"></span> <a href="https://people.utwente.nl/l.armborst">people.utwente.nl/l.armborst</a></li>
+    </ul>
+</div></li>
     
-    <li><a href="//people.utwente.nl/o.f.o.sakar">Ömer Şakar, MSc</a></li>
+        <li><div class="profile">
+    <div class="photo">
+        
+        <img src="/images/unknown.png" alt="Silhouette of person with question mark" title="No photo provided">
+        
+    </div><ul>
+        <li><span class="fa fa-user"></span> <strong>Ömer Şakar, MSc</strong></li>
+        <li><span class="fa fa-link"></span> <a href="https://people.utwente.nl/o.f.o.sakar">people.utwente.nl/o.f.o.sakar</a></li>
+    </ul>
+</div></li>
     
-    <li><a href="//people.utwente.nl/r.b.rubbens">Bob Rubbens, MSc</a></li>
+        <li><div class="profile">
+    <div class="photo">
+        
+        <img src="/images/unknown.png" alt="Silhouette of person with question mark" title="No photo provided">
+        
+    </div><ul>
+        <li><span class="fa fa-user"></span> <strong>Bob Rubbens, MSc</strong></li>
+        <li><span class="fa fa-link"></span> <a href="https://people.utwente.nl/r.b.rubbens">people.utwente.nl/r.b.rubbens</a></li>
+    </ul>
+</div></li>
     
-    <li><a href="//people.utwente.nl/p.h.bos">Pieter Bos, MSc</a></li>
+        <li><div class="profile">
+    <div class="photo">
+        
+        <img src="/images/unknown.png" alt="Silhouette of person with question mark" title="No photo provided">
+        
+    </div><ul>
+        <li><span class="fa fa-user"></span> <strong>Pieter Bos, MSc</strong></li>
+        <li><span class="fa fa-link"></span> <a href="https://people.utwente.nl/p.h.bos">people.utwente.nl/p.h.bos</a></li>
+    </ul>
+</div></li>
     
-    <li><a href="//people.utwente.nl/p.b.h.tasche">Philip Tasche, MSc</a></li>
+        <li><div class="profile">
+    <div class="photo">
+        
+        <img src="/images/unknown.png" alt="Silhouette of person with question mark" title="No photo provided">
+        
+    </div><ul>
+        <li><span class="fa fa-user"></span> <strong>Philip Tasche, MSc</strong></li>
+        <li><span class="fa fa-link"></span> <a href="https://people.utwente.nl/p.b.h.tasche">people.utwente.nl/p.b.h.tasche</a></li>
+    </ul>
+</div></li>
     
-    <li><a href="https://www.linkedin.com/in/naum-tomov-82a62b21b/">Naum Tomov, BSc</a></li>
+        <li><div class="profile">
+    <div class="photo">
+        
+        <img src="/images/unknown.png" alt="Silhouette of person with question mark" title="No photo provided">
+        
+    </div><ul>
+        <li><span class="fa fa-user"></span> <strong>Naum Tomov, BSc</strong></li>
+        <li><span class="fa fa-link"></span> <a href="https://www.linkedin.com/in/naum-tomov-82a62b21b/">www.linkedin.com/in/naum-tomov-82a62b21b/</a></li>
+    </ul>
+</div></li>
     
 </ul>
 
 <h3>Alumni</h3>
-<ul style="list-style-type: none">
+<ul class="profiles">
     
-    <li><a href="//wwwhome.ewi.utwente.nl/~lathouwerssam/">dr. Sophie Lathouwers</a></li>
+        <li><div class="profile">
+    <div class="photo">
+        
+        <img src="/images/unknown.png" alt="Silhouette of person with question mark" title="No photo provided">
+        
+    </div><ul>
+        <li><span class="fa fa-user"></span> <strong>dr. Sophie Lathouwers</strong></li>
+        <li><span class="fa fa-link"></span> <a href="https://wwwhome.ewi.utwente.nl/~lathouwerssam/">wwwhome.ewi.utwente.nl/~lathouwerssam/</a></li>
+    </ul>
+</div></li>
     
-    <li><a href="//people.utwente.nl/r.e.monti">dr. Raúl E. Monti</a></li>
+        <li><div class="profile">
+    <div class="photo">
+        
+        <img src="/images/unknown.png" alt="Silhouette of person with question mark" title="No photo provided">
+        
+    </div><ul>
+        <li><span class="fa fa-user"></span> <strong>dr. Raúl E. Monti</strong></li>
+        <li><span class="fa fa-link"></span> <a href="https://people.utwente.nl/r.e.monti">people.utwente.nl/r.e.monti</a></li>
+    </ul>
+</div></li>
     
-    <li><a href="//wwwhome.ewi.utwente.nl/~safarim/">Mohsen Safari, MSc</a></li>
+        <li><div class="profile">
+    <div class="photo">
+        
+        <img src="/images/unknown.png" alt="Silhouette of person with question mark" title="No photo provided">
+        
+    </div><ul>
+        <li><span class="fa fa-user"></span> <strong>Mohsen Safari, MSc</strong></li>
+        <li><span class="fa fa-link"></span> <a href="https://wwwhome.ewi.utwente.nl/~safarim/">wwwhome.ewi.utwente.nl/~safarim/</a></li>
+    </ul>
+</div></li>
     
-    <li><a href="//sjcjoosten.nl">dr.ir. Sebastiaan Joosten</a></li>
+        <li><div class="profile">
+    <div class="photo">
+        
+        <img src="/images/unknown.png" alt="Silhouette of person with question mark" title="No photo provided">
+        
+    </div><ul>
+        <li><span class="fa fa-user"></span> <strong>dr.ir. Sebastiaan Joosten</strong></li>
+        <li><span class="fa fa-link"></span> <a href="https://sjcjoosten.nl">sjcjoosten.nl</a></li>
+    </ul>
+</div></li>
     
-    <li><a href="#">Fauzia Ehsan, MSc</a></li>
+        <li><div class="profile">
+    <div class="photo">
+        
+        <img src="/images/unknown.png" alt="Silhouette of person with question mark" title="No photo provided">
+        
+    </div><ul>
+        <li><span class="fa fa-user"></span> <strong>Fauzia Ehsan, MSc</strong></li>
+        
+    </ul>
+</div></li>
     
-    <li><a href="//wwwhome.ewi.utwente.nl/~oortwijnwhm/">dr. Wytse Oortwijn</a></li>
+        <li><div class="profile">
+    <div class="photo">
+        
+        <img src="/images/unknown.png" alt="Silhouette of person with question mark" title="No photo provided">
+        
+    </div><ul>
+        <li><span class="fa fa-user"></span> <strong>dr. Wytse Oortwijn</strong></li>
+        <li><span class="fa fa-link"></span> <a href="https://wwwhome.ewi.utwente.nl/~oortwijnwhm/">wwwhome.ewi.utwente.nl/~oortwijnwhm/</a></li>
+    </ul>
+</div></li>
     
-    <li><a href="//scholar.google.com/citations?user=zEUh__sAAAAJ&amp;hl=en">dr. Stefan Blom</a></li>
+        <li><div class="profile">
+    <div class="photo">
+        
+        <img src="/images/unknown.png" alt="Silhouette of person with question mark" title="No photo provided">
+        
+    </div><ul>
+        <li><span class="fa fa-user"></span> <strong>dr. Stefan Blom</strong></li>
+        <li><span class="fa fa-link"></span> <a href="https://scholar.google.com/citations?user=zEUh__sAAAAJ&amp;hl=en">scholar.google.com/citations?user=zEUh__sAAAAJ&amp;hl=en</a></li>
+    </ul>
+</div></li>
     
-    <li><a href="//scholar.google.com/citations?user=dmYvWaAAAAAJ&amp;hl=es&amp;oi=sra">dr. Wojciech I. Mostowski</a></li>
+        <li><div class="profile">
+    <div class="photo">
+        
+        <img src="/images/unknown.png" alt="Silhouette of person with question mark" title="No photo provided">
+        
+    </div><ul>
+        <li><span class="fa fa-user"></span> <strong>dr. Wojciech I. Mostowski</strong></li>
+        <li><span class="fa fa-link"></span> <a href="https://scholar.google.com/citations?user=dmYvWaAAAAAJ&amp;hl=es&amp;oi=sra">scholar.google.com/citations?user=dmYvWaAAAAAJ&amp;hl=es&amp;oi=sra</a></li>
+    </ul>
+</div></li>
     
-    <li><a href="#">Henk Mulder, MSc</a></li>
+        <li><div class="profile">
+    <div class="photo">
+        
+        <img src="/images/unknown.png" alt="Silhouette of person with question mark" title="No photo provided">
+        
+    </div><ul>
+        <li><span class="fa fa-user"></span> <strong>Henk Mulder, MSc</strong></li>
+        
+    </ul>
+</div></li>
     
-    <li><a href="//wwwhome.ewi.utwente.nl/~darabis/">dr. Saeed Darabi</a></li>
+        <li><div class="profile">
+    <div class="photo">
+        
+        <img src="/images/unknown.png" alt="Silhouette of person with question mark" title="No photo provided">
+        
+    </div><ul>
+        <li><span class="fa fa-user"></span> <strong>dr. Saeed Darabi</strong></li>
+        <li><span class="fa fa-link"></span> <a href="https://wwwhome.ewi.utwente.nl/~darabis/">wwwhome.ewi.utwente.nl/~darabis/</a></li>
+    </ul>
+</div></li>
     
-    <li><a href="#">dr. Afshin Amighi</a></li>
+        <li><div class="profile">
+    <div class="photo">
+        
+        <img src="/images/unknown.png" alt="Silhouette of person with question mark" title="No photo provided">
+        
+    </div><ul>
+        <li><span class="fa fa-user"></span> <strong>dr. Afshin Amighi</strong></li>
+        
+    </ul>
+</div></li>
     
-    <li><a href="//dblp.org/pers/hd/z/Zaharieva=Stojanovski:Marina">dr. Marina Zaharieva-Stojanovski</a></li>
+        <li><div class="profile">
+    <div class="photo">
+        
+        <img src="/images/unknown.png" alt="Silhouette of person with question mark" title="No photo provided">
+        
+    </div><ul>
+        <li><span class="fa fa-user"></span> <strong>dr. Marina Zaharieva-Stojanovski</strong></li>
+        <li><span class="fa fa-link"></span> <a href="https://dblp.org/pers/hd/z/Zaharieva=Stojanovski:Marina">dblp.org/pers/hd/z/Zaharieva=Stojanovski:Marina</a></li>
+    </ul>
+</div></li>
     
-    <li><a href="#">Jelte Zeilstra, MSc</a></li>
+        <li><div class="profile">
+    <div class="photo">
+        
+        <img src="/images/unknown.png" alt="Silhouette of person with question mark" title="No photo provided">
+        
+    </div><ul>
+        <li><span class="fa fa-user"></span> <strong>Jelte Zeilstra, MSc</strong></li>
+        
+    </ul>
+</div></li>
     
 </ul>
 
-<h2>Contact</h2>
+<h2 id="contact">Contact</h2>
 
 <p>For any further information about VerCors, you can contact us via:</p>
 <p><a href='mailto:vercors@lists.utwente.nl' target='_blank' class='url'>vercors@lists.utwente.nl</a></p>
 
-<h2>Credits</h2>
+<h2 id="credits">Credits</h2>
 
 <p>VerCors is and has been supported by several projects:</p>
 
@@ -250,11 +435,11 @@ Duration: 2015 until 2019</p>
 
         <div id="footer" class="dark">
             <footer class="container">
-                <a href="//fmt.ewi.utwente.nl" target="_blank"><img src="/images/FMT logo.png" alt=""></a>
+                <a href="//www.utwente.nl/en/eemcs/fmt/" target="_blank"><img src="/images/FMT logo.png" alt="Formal Methods & Tools logo" title="Formal Methods & Tools"></a>
                 <hr>
                 <div class="copyright">
-                    <a href="//fmt.ewi.utwente.nl/research/projects/view/vercors/" target="_blank">Copyright <code>&copy</code> The VerCors Project 2007-2023</a>
-                    | <a href="//fmt.ewi.utwente.nl" target="_blank">FMT - University of Twente</a>
+                    <a href="/about/#credits" target="_blank">Copyright <code>&copy</code> The VerCors Project 2007-2023</a>
+                    | <a href="//www.utwente.nl/en/eemcs/fmt/" target="_blank">FMT - University of Twente</a>
                     | <a href="/about/">About Us</a>
                 </div>
             </footer>

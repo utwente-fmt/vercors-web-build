@@ -12,6 +12,8 @@ University of Twente, Enschede, The Netherlands
         <meta name="description" content="">
         <meta name="keywords" content="">
 
+        <link rel="icon" href="/images/icon.svg">
+
         <link rel="stylesheet" href="/css/external/codemirror.css">
         <link rel="stylesheet" href="/css/external/codemirror-monokai.css">
         <link rel="stylesheet" href="/css/highlight/default.css">
@@ -48,10 +50,10 @@ University of Twente, Enschede, The Netherlands
                     </div>
                     <ul>
                         <li>
-                            <a href="/wiki/#introduction">Getting Started</a>
+                            <a href="/wiki/">Getting Started</a>
                             <ul>
                                 <li><a href="/wiki/#installing-and-running-vercors">Installation Guide</a></li>
-                                <li><a href="/wiki/">Tutorial</a></li>
+                                <li><a href="/wiki/#prototypical-verification-language">Tutorial</a></li>
                                 <li>
                                     <a href="//github.com/utwente-fmt/vercors/issues" target="_blank">
                                         Issue Tracker
@@ -60,32 +62,42 @@ University of Twente, Enschede, The Netherlands
                                 </li>
                             </ul>
                         </li>
+                        <li>
+                            <a href="/">Tools</a>
+                            <ul>
+                                <li><a href="/">Verifier</a></li>
+                                <li><a href="/alpinist/">Alpinist</a></li>
+                                <li><a href="/vesuv/">VeSUV</a></li>
+                                <li><a href="/veymont/">VeyMont</a></li>
+                            </ul>
+                        </li>
                         <li><a href="/try_online/examples/">Showcases</a></li>
-                        <li><a href="/news/">News</a></li>
                         <li><a href="/publications/">Publications</a></li>
                         <li>
                             <a href="/about/">About</a>
                             <ul>
-                                <li><a href="/about/#Team">VerCors Team</a></li>
-                                <li><a href="/about/#Contact">Contact</a></li>
-                                <li><a href="/about/#Credits">Credits</a></li>
+                                <li><a href="/about/#team">VerCors Team</a></li>
+                                <li><a href="/news/">News</a></li>
+                                <li><a href="/about/#contact">Contact</a></li>
+                                <li><a href="/about/#credits">Credits</a></li>
                                 <li><a href="/license/">License</a></li>
                             </ul>
                         </li>
                     </ul>
                 </div>
             </nav>
-            <div id="banner" class="container">
-                <section>
-                    
-                    <p class="button-row">
-                        <a href="//github.com/utwente-fmt/vercors" class="button" target="_blank">
-                            View on Github
-                        </a>
-                        <a href="/try_online/" class="button">Try VerCors Online</a>
-                    </p>
-                </section>
-            </div>
+            
+<div id="banner" class="container">
+    <section>
+        <p class="button-row">
+    <a href="//github.com/utwente-fmt/vercors" class="button" target="_blank">
+        View on Github
+    </a>
+    <a href="/try_online/" class="button">Try VerCors Online</a>
+</p>
+    </section>
+</div>
+
         </div>
 
         
@@ -7460,12 +7472,14 @@ static boolean check_left_priority_sorted(Tree t, int max_priority) {
 <p>Viper requires that all <code>forall</code> with permission expressions (<code>forall*</code> in VerCors) are "injective". That means that different values for the quantified variable(s) must result in different memory locations in the permission expression. For example in <code>(\forall* int k; 0&lt;=k &amp;&amp; k&lt;arr.length; Perm(arr[k].myField, 1))</code>, different <code>k</code> must point to different array elements, i.e. <code>arr[i]</code> must be different from <code>arr[j]</code> if <code>i!=j</code>. You need to add a condition like <code>(\forall int i, int j; 0&lt;=i &amp;&amp; i&lt;j &amp;&amp; j&lt;arr.length; arr[i] != arr[j])</code> before the quantifier that "may not be unique". And if <code>myField</code> is an object, you might need to do the same for <code>arr[i].myField</code> and <code>arr[j].myField</code>. More info is <a href="https://github.com/utwente-fmt/vercors/wiki/Arrays-and-Pointers#injectivity-object-arrays-and-efficient-verification">here</a>.</p>
 <h1 id="pvl-syntax-reference">PVL Syntax Reference</h1>
 <p>On this page you can find a description of the specification language of VerCors. In general, the specification language extends the language that is verified, like Java. That means that all types, (pure) operators, etc. from the source language can also be used in the specifications, together with the specification-only constructs described below.</p>
-<p>Additionally, this page describes PVL, the Prototypal Verification Language. It can be verified like Java or C, so the same specification constructs are available. However, it is developed specifically for VerCors, so we also provide the information that is usually found in the language documentation, like the C standard.</p>
+<p>Additionally, this page describes PVL, the Prototypal Verification Language. It is a language similar to Java or C and can be verified like them, so the same specification constructs are available. However, it is developed specifically for VerCors, so we also provide the information that is usually found in the language documentation, like the C standard.</p>
 <h2 id="general">General</h2>
 <ul>
-<li><strong>Identifiers</strong> can consist of the characters a-z, A-Z, 0-9 and _. However, they must <strong>start</strong> with a letter (a-z, A-Z). Note that the following words are reserved and can therefore <strong>not</strong> be used as identifiers: create, action, destroy, send, recv, use, open, close, atomic, from, merge, split, process, apply, label, \result, write, read, none, empty and current_thread.</li>
-<li>Specification-only elements are usually embedded in JML-like comments: <code>/*@ spec @*/</code> or <code>//@ spec line</code>. <strong>Exception</strong>: In PVL, specifications are <strong>not</strong> embedded in comments, instead they are written into the code directly.</li>
-<li>Most specification constructs are self-contained statements, like preconditions, loop invariants or ghost assignments. Those end with a semicolon <code>;</code>. However, a few elements. like <code>with</code> side conditions, are parts of another statement, and do not have their own semicolon.</li>
+<li><p>In PVL, <strong>identifiers</strong> can consist of the characters a-z, A-Z, 0-9 and _. However, they must <strong>start</strong> with an underscore or letter (a-z, A-Z).</p>
+<p>In specifications, the same rules apply for identifiers as in the language that is specified, e.g. Java identifiers in specifications of Java.</p>
+<p>Note that the following words are reserved and can therefore <strong>not</strong> be used as identifiers: create, action, destroy, send, recv, use, open, close, atomic, from, merge, split, process, apply, label, \result, write, read, none, empty and current_thread. However, keywords can be wrapped in backticks, to turn them into identifiers, e.g. <code>create</code> cannot be used as an identifier, but <code>`create`</code> is an identifier.</p></li>
+<li><p>Specification-only elements are usually embedded in JML-like comments: <code>/*@ spec @*/</code> or <code>//@ spec line</code>. <strong>Exception</strong>: In PVL, specifications are <strong>not</strong> embedded in comments, instead they are written into the code directly.</p></li>
+<li><p>Most specification constructs are self-contained statements, like preconditions, loop invariants or ghost assignments. Those end with a semicolon <code>;</code>. However, a few elements, like <code>with</code> side conditions, are parts of another statement, and do not have their own semicolon.</p></li>
 </ul>
 <h3 id="pvl">PVL</h3>
 <ul>
@@ -7491,6 +7505,7 @@ static boolean check_left_priority_sorted(Tree t, int max_priority) {
 </code></pre>
 <ul>
 <li>Like in C or Java, statements in PVL should end with a semi-colon <code>;</code>.</li>
+<li>For a more detailed description, see <a href="https://github.com/utwente-fmt/vercors/wiki/Prototypal-Verification-Language">https://github.com/utwente-fmt/vercors/wiki/Prototypal-Verification-Language</a></li>
 </ul>
 <h2 id="types-and-data-structures">Types and Data Structures</h2>
 <p>The following table lists the basic and composed data types supported in the specification language.</p>
@@ -7515,8 +7530,32 @@ static boolean check_left_priority_sorted(Tree t, int max_priority) {
 <td>Fraction that can also be zero.</td>
 </tr>
 <tr class="even">
+<td><code>rational</code></td>
+<td>Unbounded rational number</td>
+</tr>
+<tr class="odd">
+<td><code>bool</code></td>
+<td>Boolean value that is either <code>true</code> or <code>false</code></td>
+</tr>
+<tr class="even">
+<td><code>string</code></td>
+<td>Text, i.e. a string of characters</td>
+</tr>
+<tr class="odd">
+<td><code>ref</code></td>
+<td>Reference to an object, similar to Viper's <code>Ref</code> type. Mostly for internal usage, e.g. ADT definitions.</td>
+</tr>
+<tr class="even">
 <td><code>process</code></td>
 <td>Type of actions and defined processes in process algebra models. See <a href="https://github.com/utwente-fmt/vercors/wiki/Process-Algebra-Models">https://github.com/utwente-fmt/vercors/wiki/Process-Algebra-Models</a></td>
+</tr>
+<tr class="odd">
+<td><code>any</code></td>
+<td>Artificial type that is a supertype of any other type. Mostly for internal usage, e.g. rewrite rules.</td>
+</tr>
+<tr class="even">
+<td><code>nothing</code></td>
+<td>Artificial type that is a subtype of any other type. Mostly for internal usage, e.g. rewrite rules.</td>
 </tr>
 <tr class="odd">
 <td><code>seq&lt;T&gt;</code></td>
@@ -7548,7 +7587,7 @@ static boolean check_left_priority_sorted(Tree t, int max_priority) {
 </tr>
 <tr class="even">
 <td><code>type&lt;T&gt;</code></td>
-<td>// unclear. TODO</td>
+<td>Used to define type variables that are subtype of <code>T</code>. Mostly used for rewrite rules, e.g. <code>(\forall type&lt;any&gt; T; (\forall T t; expr))</code> See TODO</td>
 </tr>
 <tr class="odd">
 <td><code>either&lt;T1, T2&gt;</code></td>
@@ -7583,6 +7622,18 @@ static boolean check_left_priority_sorted(Tree t, int max_priority) {
 <td>Used when a method does not return anything</td>
 </tr>
 <tr class="even">
+<td><code>float32</code></td>
+<td>32-bit floating point number (Note: support still limited)</td>
+</tr>
+<tr class="odd">
+<td><code>float64</code></td>
+<td>64-bit floating point number (Note: support still limited)</td>
+</tr>
+<tr class="even">
+<td><code>char</code></td>
+<td>Character</td>
+</tr>
+<tr class="odd">
 <td><code>T[]</code></td>
 <td>Array which contains elements of type <code>T</code>. <code>T</code> should be replaced by a type. Note that when you initialize a new array, you should always define the length of the array, e.g. <code>new int[3]</code> instead of <code>new int[]</code>.</td>
 </tr>
@@ -7743,8 +7794,8 @@ static boolean check_left_priority_sorted(Tree t, int max_priority) {
 <td>Literal of type <code>seq&lt;int&gt;</code> describing the integer range from <code>l</code> (incl) to <code>r</code> (excl).</td>
 </tr>
 <tr class="odd">
-<td>`set<T>{ e</td>
-<td>selectors ; filter }`</td>
+<td><code>set&lt;T&gt;{ e | selectors ; filter }</code></td>
+<td>Set comprehension, creating set that contains expressions of the form <code>e</code> (of type <code>T</code>), based on the variables defined in <code>selectors</code> if they match filter expression <code>filter</code>.</td>
 </tr>
 <tr class="even">
 <td><code>x \in xs</code></td>
@@ -9012,11 +9063,11 @@ static boolean check_left_priority_sorted(Tree t, int max_priority) {
 
         <div id="footer" class="dark">
             <footer class="container">
-                <a href="//fmt.ewi.utwente.nl" target="_blank"><img src="/images/FMT logo.png" alt=""></a>
+                <a href="//www.utwente.nl/en/eemcs/fmt/" target="_blank"><img src="/images/FMT logo.png" alt="Formal Methods & Tools logo" title="Formal Methods & Tools"></a>
                 <hr>
                 <div class="copyright">
-                    <a href="//fmt.ewi.utwente.nl/research/projects/view/vercors/" target="_blank">Copyright <code>&copy</code> The VerCors Project 2007-2023</a>
-                    | <a href="//fmt.ewi.utwente.nl" target="_blank">FMT - University of Twente</a>
+                    <a href="/about/#credits" target="_blank">Copyright <code>&copy</code> The VerCors Project 2007-2023</a>
+                    | <a href="//www.utwente.nl/en/eemcs/fmt/" target="_blank">FMT - University of Twente</a>
                     | <a href="/about/">About Us</a>
                 </div>
             </footer>

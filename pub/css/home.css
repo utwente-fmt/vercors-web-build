@@ -1,3 +1,16 @@
+#title {
+    text-align: center;
+    margin-top: 4rem;
+    margin-bottom: 2rem;
+}
+
+#abstract {
+    width: 800px;
+    max-width: calc(100% - 2rem);
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .blog-posts {
     max-height: 40rem;
     overflow-y: scroll;

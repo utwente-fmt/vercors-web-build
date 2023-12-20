@@ -143,19 +143,6 @@ input[type="button"]:hover,
 // TODO background-color: #32b777;
 }
 
-#title {
-    text-align: center;
-    margin-top: 7rem;
-    margin-bottom: 2rem;
-}
-
-#abstract {
-    width: 800px;
-    max-width: calc(100% - 2rem);
-    margin-left: auto;
-    margin-right: auto;
-}
-
 /* Main */
 .no-sidebar #main .major, .left-sidebar #main .major, .right-sidebar #main .major {
     text-align: left;
