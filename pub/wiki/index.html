@@ -1554,7 +1554,7 @@ class Counter {
     <pre class="verification-log verification-non-plain" style="display: none"></pre>
 </div>
 
-<p>If you wish, you can store this file as, say, <code>counter.java</code>, and try to run VerCors on this file by running <code>vct --silicon counter.java</code> in a console (assuming you have VerCors installed). This program currently does not contain any annotations, but we will eventually annotate the program to verify the following simple property: after calling the <code>incr</code> function, the value of <code>val</code> has been increased by an amount <code>n</code>. This can be expressed as a postcondition for the <code>incr</code> method: <code>ensures this.val == \old(this.val) + n</code>.</p>
+<p>If you wish, you can store this file as, say, <code>counter.java</code>, and try to run VerCors on this file by running <code>vct --silicon counter.java</code> in a console (assuming you have VerCors installed). This program currently does not contain any annotations, but we will eventually annotate the program to verify the following simple property: after calling the <code>incr</code> function, the value of <code>val</code> has been increased by an amount <code>n</code>. This can be expressed as a postcondition for the <code>incr</code> method: <code>ensures this.val == \old(this.val) + n</code>. The <code>\old(_)</code> expression is used to evaluate an expression in an earlier state. By default this is in the state as it was just after the precondition. This is explained further <a href="#old-heap-state">later on</a>.</p>
 <p>However, if you run VerCors on this example, as it is now, you will see that VerCors fails to verify the correctness of the program and reports an 'AssignmentFailed: InsufficientPermission' error, since the caller of the method has insufficient permission to access <code>this.val</code>. First observe that <code>this.val</code> is shared-memory; there may be other threads that also access the <code>val</code> field, since the field is public. In order to prevent other threads from accessing <code>this.val</code> while the calling thread is executing <code>incr</code>, we need to specify that threads may only call <code>c.incr</code> (on any object <code>c</code> that is an instance of <code>Counter</code>) when they have <em>write permission</em> for <code>c.val</code>:</p>
 <!-- test -->
 
@@ -1787,9 +1787,292 @@ void incr(int n) {
 }
 </code></pre>
 <p><code>read</code> is mostly useful for specifying immutable data structures. One can also write <code>Value(o.f)</code> to express read permission to <code>o.f</code>, where the value of the fractional permission does not matter. Consequently, <code>Value</code> ownership predicates can be split indefinitely.</p>
-<p>If you want to express that a thread has no ownership over a certain heap element, then one can use the keyword <code>none</code>, e.g. <code>Perm(o.f, none)</code>.</p>
+<p>If you want to express that a thread has no ownership over a certain heap element, then one can use the keyword <code>none</code>, e.g. <code>Perm(o.f, none)</code>. This is equivalent to writing <code>true</code>. It can be useful in situations where the amount of permission is conditional, e.g. <code>Perm(o.f, cond ? 1\2 : none)</code>.</p>
 <p>If you want to express permissions to multiple locations, one may use <code>\forall* vars; range; expr</code>. For example, <code>(\forall* int j; j &gt;= 0 &amp;&amp; j &lt; array.length; Perm(array[j], write)</code> denotes that the thread has write access to all elements in <code>array</code>. It is equivalent to writing <code>Perm(array[0], write) ** Perm(array[1], write) ** … ** Perm(array[array.length-1], write)</code>. Another way to specify permissions of all array elements is to use <code>Perm(array[*], write)</code> which is equivalent to the previous expression.</p>
 <p>If you want to reason about the value that the variable refers to as well then you can use <code>PointsTo(var, p, val)</code> which denotes that you have permission <code>p</code>for variable <code>var</code> which has value <code>val</code>. It is similar to saying <code>Perm(var, p)</code> and <code>var == val</code>.</p>
+<h3 id="old-heap-state">Old Heap State</h3>
+<p>As mentioned earlier, you can use <code>\old(_)</code> to evaluate an expression in an older state. By state here we mean strictly the heap, and not any local variables. By default, the <code>\old</code> predicate uses the heap just after the precondition as the heap to evaluate the expression in. You can specify a different heap with <code>\old[l](_)</code>, where <code>l</code> is either a ghost label (<code>//@ ghost label l</code>) or a regular label in your input language.</p>
+<p>As an example, consider the following method:</p>
+<!-- test -->
+
+
+<div class="verification-container">
+    
+        <pre style="position: relative; margin-bottom: 0" class="verification-text">class Obj { int f; }
+
+context Perm(x.f, write) ** Perm(y.f, write);
+void test(Obj x, Obj y) {
+    Obj z = x;
+    
+    y.f = 2;
+    label a;
+    
+    z.f = 30;
+    label b;
+    
+    z.f = 400;
+    label c;
+    
+    z = y;
+    z.f = 3000;
+    label d;
+    
+    assert
+        z.f + // (1)
+        \old[a](
+            z.f + // (2) 
+            \old[b](
+                z.f + // (3) 
+                \old[c](
+                    z.f + // (4)
+                    \old[d](
+                        z.f // (5)
+                    )
+                )
+            )
+        ) == 6006;
+}
+<span class="code-buttons"><span style="display: none" class="fa fa-times-circle code-close-button plain-close"></span><span class="fa fa-pencil code-edit-button"></span><span class="fa fa-play code-run-button"></span></span></pre>
+    
+    <div class="verification-widget verification-non-plain" style="display: none">
+        <div style="position: relative">
+            <textarea name="examplecode" rows="20" >//:: cases permissions-some-extra-notation-old-heap-state-1
+//:: verdict Pass
+//:: tools silicon
+class Obj { int f; }
+
+context Perm(x.f, write) ** Perm(y.f, write);
+void test(Obj x, Obj y) {
+    Obj z = x;
+    
+    y.f = 2;
+    label a;
+    
+    z.f = 30;
+    label b;
+    
+    z.f = 400;
+    label c;
+    
+    z = y;
+    z.f = 3000;
+    label d;
+    
+    assert
+        z.f + // (1)
+        \old[a](
+            z.f + // (2) 
+            \old[b](
+                z.f + // (3) 
+                \old[c](
+                    z.f + // (4)
+                    \old[d](
+                        z.f // (5)
+                    )
+                )
+            )
+        ) == 6006;
+}
+</textarea>
+            <span class="code-buttons">
+                <span class="fa fa-times-circle code-close-button"></span>
+                <span class="fa fa-play code-run-button"></span>
+            </span>
+        </div>
+
+        <div style="background-color: #dddddd; padding: 0.4ex 1ex">
+            <label class="control-label" for="example-backendid">Language:</label>
+            <select name="lang" id="example-backendid" class="form-control">
+                
+                    <option value="pvl" selected="">PVL</option>
+                
+                    <option value="java" >Java</option>
+                
+                    <option value="cu" >Cuda</option>
+                
+                    <option value="c" >C / OpenMP / OpenCL</option>
+                
+                    <option value="sil" >Viper</option>
+                
+            </select>
+        </div>
+    </div>
+    <div class="verification-progress verification-non-plain" style="display: none; background-color: #dddddd; padding: 0.4ex 1ex" >
+        <span class="fa"></span>
+        <span class="verification-progress-text"></span>
+    </div>
+    <pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>Any time that an expression uses the heap to evaluate itself, we look where the nearest <code>\old</code> expression is. For us, that is:</p>
+<ul>
+<li>(1) has no <code>\old</code> above it, so it is simply the current heap.</li>
+<li>(2) has <code>\old[a]</code> as its closest parent <code>\old</code>, so it is evaluated in the heap at label <code>a</code></li>
+<li>(3) is evaluated in the heap at label <code>b</code></li>
+<li>(4) is evaluated at label <code>c</code></li>
+<li>(5) is evaluated at label <code>d</code>, which is the same heap that (1) is evaluated with</li>
+</ul>
+<p>Now, why is the answer <code>6006</code>? This is because the expression <code>z.f</code> is evaluated with an old heap, but <em>not</em> with an older value of the variable <code>z</code>. Thus: it only counts that <code>z</code> aliases the same object as <code>y</code> when we enter the assertion. The value for <code>y.f</code> at all our heaps are, repspectively:</p>
+<ul>
+<li>(1) <code>y.f == 2</code>, since we just assigned it</li>
+<li>(2) <code>y.f == 2</code>, since an assignment to <code>x</code> has no effect on <code>y</code></li>
+<li>(3) <code>y.f == 2</code>, idem</li>
+<li>(4) <code>y.f == 3000</code>, since we just assigned it</li>
+<li>(5) <code>y.f == 3000</code> still, since the heap at (1) is the same heap as at label <code>d</code></li>
+</ul>
+<blockquote>
+<p>[!NOTE] This is just an illustrative example, and as a matter of style you should try to keep the expression you evaluate in an <code>\old</code> as small as possible. Certainly it should not be necessary to nest them.</p>
+</blockquote>
+<p>Another important detail is how <code>\old</code> interacts with <code>\unfolding</code>. (In case you are reading this tutorial in order, you can come back to this section after reading about predicates). The intuition is that <code>\unfolding</code> takes the current heap, and temporarily unfolds a predicate while its body is evaluated, whereas <code>\old</code> discards the current heap and replaces it with a different one. The consequence of this is that nesting them can lead to unexpected effects:</p>
+<ul>
+<li>An <code>\unfolding</code> nested in an <code>\old</code>: first the <code>\old</code> has replaced the current heap, after which the <code>\unfolding</code> unfolds a predicate in the old heap</li>
+<li>An <code>\old</code> nested in an <code>\unfolding</code>: first the <code>\unfolding</code> unfolds a predicate in the current heap, but this action is thrown away by <code>\old</code>, since it replaces the entire heap.</li>
+</ul>
+<p>An example of the second situation is a program like this:</p>
+<!-- test -->
+
+
+<div class="verification-container">
+    
+        <pre style="position: relative; margin-bottom: 0" class="verification-text">class Problem {  
+  int x;
+  resource state() = Perm(x, 1);
+
+  requires state();
+  //                                                   [-
+  ensures state() ** (\unfolding state() \in (x == \old(x) + 1));
+  //                                                    -]
+  // ERROR: There may be insufficient permission to access this field here
+  void inc() {
+    unfold state();
+    x++;
+    fold state();
+  }
+}
+<span class="code-buttons"><span style="display: none" class="fa fa-times-circle code-close-button plain-close"></span><span class="fa fa-pencil code-edit-button"></span><span class="fa fa-play code-run-button"></span></span></pre>
+    
+    <div class="verification-widget verification-non-plain" style="display: none">
+        <div style="position: relative">
+            <textarea name="examplecode" rows="20" >//:: cases permissions-some-extra-notation-old-heap-state-2
+//:: verdict Pass
+//:: tools silicon
+class Problem {  
+  int x;
+  resource state() = Perm(x, 1);
+
+  requires state();
+  //                                                   [-
+  ensures state() ** (\unfolding state() \in (x == \old(x) + 1));
+  //                                                    -]
+  // ERROR: There may be insufficient permission to access this field here
+  void inc() {
+    unfold state();
+    x++;
+    fold state();
+  }
+}
+</textarea>
+            <span class="code-buttons">
+                <span class="fa fa-times-circle code-close-button"></span>
+                <span class="fa fa-play code-run-button"></span>
+            </span>
+        </div>
+
+        <div style="background-color: #dddddd; padding: 0.4ex 1ex">
+            <label class="control-label" for="example-backendid">Language:</label>
+            <select name="lang" id="example-backendid" class="form-control">
+                
+                    <option value="pvl" selected="">PVL</option>
+                
+                    <option value="java" >Java</option>
+                
+                    <option value="cu" >Cuda</option>
+                
+                    <option value="c" >C / OpenMP / OpenCL</option>
+                
+                    <option value="sil" >Viper</option>
+                
+            </select>
+        </div>
+    </div>
+    <div class="verification-progress verification-non-plain" style="display: none; background-color: #dddddd; padding: 0.4ex 1ex" >
+        <span class="fa"></span>
+        <span class="verification-progress-text"></span>
+    </div>
+    <pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>It is clear what the intended behaviour is: we simply want to relate the value of <code>x</code> between the pre- and postcondition, so we temporarily unfold it and compare the values. This does not work, because the <code>\old</code> nested under <code>\unfolding</code> replaces the whole heap with a heap as it was just past the precondition. In this heap, we can derive from the precondition that it just contains <code>state()</code>, so we do not have permission to <code>x</code>.</p>
+<p>The solution is to unfold twice: once in the current heap, and once in the old heap. We first have to enter the old heap before we unfold its state.</p>
+<!-- test -->
+
+
+<div class="verification-container">
+    
+        <pre style="position: relative; margin-bottom: 0" class="verification-text">class Solution {  
+  int x;
+  resource state() = Perm(x, 1);
+
+  requires state();
+  ensures state() ** (\unfolding state() \in x) == \old((\unfolding state() \in x)) + 1;
+  // Verified
+  void inc() {
+    unfold state();
+    x++;
+    fold state();
+  }
+}
+<span class="code-buttons"><span style="display: none" class="fa fa-times-circle code-close-button plain-close"></span><span class="fa fa-pencil code-edit-button"></span><span class="fa fa-play code-run-button"></span></span></pre>
+    
+    <div class="verification-widget verification-non-plain" style="display: none">
+        <div style="position: relative">
+            <textarea name="examplecode" rows="20" >//:: cases permissions-some-extra-notation-old-heap-state-3
+//:: verdict Pass
+//:: tools silicon
+class Solution {  
+  int x;
+  resource state() = Perm(x, 1);
+
+  requires state();
+  ensures state() ** (\unfolding state() \in x) == \old((\unfolding state() \in x)) + 1;
+  // Verified
+  void inc() {
+    unfold state();
+    x++;
+    fold state();
+  }
+}
+</textarea>
+            <span class="code-buttons">
+                <span class="fa fa-times-circle code-close-button"></span>
+                <span class="fa fa-play code-run-button"></span>
+            </span>
+        </div>
+
+        <div style="background-color: #dddddd; padding: 0.4ex 1ex">
+            <label class="control-label" for="example-backendid">Language:</label>
+            <select name="lang" id="example-backendid" class="form-control">
+                
+                    <option value="pvl" selected="">PVL</option>
+                
+                    <option value="java" >Java</option>
+                
+                    <option value="cu" >Cuda</option>
+                
+                    <option value="c" >C / OpenMP / OpenCL</option>
+                
+                    <option value="sil" >Viper</option>
+                
+            </select>
+        </div>
+    </div>
+    <div class="verification-progress verification-non-plain" style="display: none; background-color: #dddddd; padding: 0.4ex 1ex" >
+        <span class="fa"></span>
+        <span class="verification-progress-text"></span>
+    </div>
+    <pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
 <h1 id="gpgpu-verification">GPGPU Verification</h1>
 <p>This section explains how to verify GPGPU programs in VerCors. The tool supports both OpenCL and CUDA languages. The synchronization feature (i.e., barrier) in these languages is also supported by VerCors. To demonstrate GPGPU verification, we show two examples in both OpenCl and CUDA, one without barrier and the other one with barrier.</p>
 <h3 id="openclcuda-without-barrier">OpenCL/CUDA without Barrier</h3>
@@ -6693,6 +6976,8 @@ class C {
 <h1 id="magic-wands">Magic Wands</h1>
 <p>The handling of magic wands is non-trivial, so this chapter takes a closer look at that. For further reading, see e.g. <em>"Witnessing the elimination of magic wands". Blom, S.; and Huisman, M. STTT, 17(6): 757–781. 2015</em>.</p>
 <p>Also take a look at the Viper tutorial for wands: <a href="http://viper.ethz.ch/tutorial/?page=1&amp;section=#magic-wands">http://viper.ethz.ch/tutorial/?page=1&amp;section=#magic-wands</a></p>
+<!-- PB: note to editor: if VerCors starts supporting "\applying" in contracts, please edit the section about \old where it is explained how \old interacts with \unfolding -->
+
 <h2 id="what-are-magic-wands">What are Magic Wands?</h2>
 <p>The "Magic Wand" or <em>separating implication</em> is a connective in separation logic using the symbol <code>-*</code>. It represents a part of a resource (see <a href="https://github.com/utwente-fmt/vercors/wiki/Predicates">"Predicates"</a>) or "resource with a hole": <code>A -* B</code> means "if you give me an <code>A</code>, I can give you a <code>B</code> in return". Thus, it is similar to a logical implication <code>A ==&gt; B</code>; however, it consumes the <code>A</code> when it is exchanged for a <code>B</code>.</p>
 <p>A common use case is if you have a predicate defining a recursive data structure like a linked list or a binary tree, and you take a part of that data structure to reason about explicitly, like a sub-tree. You can use the recursive predicate to reason about the sub-tree, but it is more difficult to reason about the <em>remainder</em> of the original tree: Since you took out the sub-tree and have explicit permission for it, the recursive predicate for the whole tree can no longer have the permission for that part, so it would have to stop recursing at a certain point. With a wand, you can resolve this: For a tree <code>T</code> with left sub-tree <code>L</code> and right sub-tree <code>R</code>, and a recursive predicate <code>Tree(x)</code>, you can split <code>Tree(T)</code> into <code>Tree(L) ** (Tree(L)-*Tree(T))</code>. So you have the explicit resource for the left sub-tree, and a wand such that if you join the sub-tree back into it, you get the predicate for the whole tree back. This joining is called <em>applying</em> the wand.</p>
@@ -7475,10 +7760,10 @@ static boolean check_left_priority_sorted(Tree t, int max_priority) {
 <p>Additionally, this page describes PVL, the Prototypal Verification Language. It is a language similar to Java or C and can be verified like them, so the same specification constructs are available. However, it is developed specifically for VerCors, so we also provide the information that is usually found in the language documentation, like the C standard.</p>
 <h2 id="general">General</h2>
 <ul>
+<li><p>Specifications are usually embedded in JML-like comments: <code>/*@ spec @*/</code> or <code>//@ spec line</code>. <strong>Exception</strong>: In PVL, specifications are <strong>not</strong> embedded in comments, instead they are written into the code directly.</p></li>
 <li><p>In PVL, <strong>identifiers</strong> can consist of the characters a-z, A-Z, 0-9 and _. However, they must <strong>start</strong> with an underscore or letter (a-z, A-Z).</p>
 <p>In specifications, the same rules apply for identifiers as in the language that is specified, e.g. Java identifiers in specifications of Java.</p>
 <p>Note that the following words are reserved and can therefore <strong>not</strong> be used as identifiers: create, action, destroy, send, recv, use, open, close, atomic, from, merge, split, process, apply, label, \result, write, read, none, empty and current_thread. However, keywords can be wrapped in backticks, to turn them into identifiers, e.g. <code>create</code> cannot be used as an identifier, but <code>`create`</code> is an identifier.</p></li>
-<li><p>Specification-only elements are usually embedded in JML-like comments: <code>/*@ spec @*/</code> or <code>//@ spec line</code>. <strong>Exception</strong>: In PVL, specifications are <strong>not</strong> embedded in comments, instead they are written into the code directly.</p></li>
 <li><p>Most specification constructs are self-contained statements, like preconditions, loop invariants or ghost assignments. Those end with a semicolon <code>;</code>. However, a few elements, like <code>with</code> side conditions, are parts of another statement, and do not have their own semicolon.</p></li>
 </ul>
 <h3 id="pvl">PVL</h3>
@@ -7563,19 +7848,19 @@ static boolean check_left_priority_sorted(Tree t, int max_priority) {
 </tr>
 <tr class="even">
 <td><code>set&lt;T&gt;</code></td>
-<td>Defines an immutable orderless collection (set) that does not allow duplicates. <code>T</code> should be replaced by a type. See <a href="https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types">https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types</a></td>
+<td>Defines an immutable orderless collection that does not allow duplicates ("set"). <code>T</code> should be replaced by a type. See <a href="https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types">https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types</a></td>
 </tr>
 <tr class="odd">
 <td><code>bag&lt;T&gt;</code></td>
-<td>Defines an immutable orderless collection (bag or multiset) that does allow duplicates. <code>T</code> should be replaced by a type. See <a href="https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types">https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types</a></td>
+<td>Defines an immutable orderless collection that does allow duplicates ("bag" or "multiset"). <code>T</code> should be replaced by a type. See <a href="https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types">https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types</a></td>
 </tr>
 <tr class="even">
 <td><code>map&lt;T1, T2&gt;</code></td>
-<td>Defines an immutable orderless collection of key/value pairs (map, record or dictionary) that does not allow duplicate keys. <code>T1</code> and <code>T2</code> should be replaced by Types. See <a href="https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types">https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types</a></td>
+<td>Defines an immutable orderless collection of key/value pairs that does not allow duplicate keys ("map", "record" or "dictionary"). <code>T1</code> and <code>T2</code> should be replaced by Types. See <a href="https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types">https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types</a></td>
 </tr>
 <tr class="odd">
 <td><code>option&lt;T&gt;</code></td>
-<td>Extends type <code>T</code> with an extra element <code>None</code>. Each element is then either of the type <code>None</code> or of the type <code>Some(e)</code> where <code>e</code> is of type <code>T</code>. <code>T</code> should be replaced by a type. Options cannot be unpacked at the moment. See <a href="https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types">https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types</a></td>
+<td>Extends type <code>T</code> with an extra element <code>None</code>. Each element is then either <code>None</code> or of the style <code>Some(e)</code> where <code>e</code> is of type <code>T</code>. <code>T</code> should be replaced by a type. Options cannot be unpacked at the moment. See <a href="https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types">https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types</a></td>
 </tr>
 <tr class="even">
 <td><code>tuple&lt;T1,T2&gt;</code></td>
@@ -7587,7 +7872,7 @@ static boolean check_left_priority_sorted(Tree t, int max_priority) {
 </tr>
 <tr class="even">
 <td><code>type&lt;T&gt;</code></td>
-<td>Used to define type variables that are subtype of <code>T</code>. Mostly used for rewrite rules, e.g. <code>(\forall type&lt;any&gt; T; (\forall T t; expr))</code> See TODO</td>
+<td>Used to define type variables that are subtype of <code>T</code>. Mostly used for rewrite rules, e.g. <code>(\forall type&lt;any&gt; T; (\forall T t; expr))</code></td>
 </tr>
 <tr class="odd">
 <td><code>either&lt;T1, T2&gt;</code></td>
@@ -7651,19 +7936,19 @@ static boolean check_left_priority_sorted(Tree t, int max_priority) {
 <tbody>
 <tr class="odd">
 <td><code>\</code></td>
-<td>Division that creates a <code>frac</code>, rather than integer rounding.</td>
+<td>Division that creates a <code>frac</code>, rather than integer rounding. Same precedence as multiplication and division.</td>
 </tr>
 <tr class="even">
 <td><code>==&gt;</code></td>
-<td>Logical implication. The left side should be boolean-typed, the right side boolean or resource. Lower precedence than <code>||</code>. See <a href="https://github.com/utwente-fmt/vercors/wiki/Specification-Syntax">https://github.com/utwente-fmt/vercors/wiki/Specification-Syntax</a></td>
+<td>Logical implication. The left side should be boolean-typed, the right side boolean or resource. Lower precedence than disjunction <code>||</code>. See <a href="https://github.com/utwente-fmt/vercors/wiki/Specification-Syntax">https://github.com/utwente-fmt/vercors/wiki/Specification-Syntax</a></td>
 </tr>
 <tr class="odd">
 <td><code>**</code></td>
-<td>Separating conjunction. <code>a ** b</code> denotes that <code>a</code> and <code>b</code> point to different variables on the heap and that both expressions must evaluate to true. This is used to reason about multiple resources. Same precedence as <code>&amp;&amp;</code>. See <a href="https://github.com/utwente-fmt/vercors/wiki/Permissions">https://github.com/utwente-fmt/vercors/wiki/Permissions</a></td>
+<td>Separating conjunction. <code>a ** b</code> denotes that <code>a</code> and <code>b</code> point to different variables on the heap and that both expressions must evaluate to true. This is used to reason about multiple resources. Same precedence as conjunction <code>&amp;&amp;</code>. See <a href="https://github.com/utwente-fmt/vercors/wiki/Permissions">https://github.com/utwente-fmt/vercors/wiki/Permissions</a></td>
 </tr>
 <tr class="even">
 <td><code>-*</code></td>
-<td>Magic wand or separating implication. Same precedence as <code>==&gt;</code>. See <a href="https://github.com/utwente-fmt/vercors/wiki/Magic-Wands">https://github.com/utwente-fmt/vercors/wiki/Magic-Wands</a></td>
+<td>"Magic wand" or "separating implication". Same precedence as implication <code>==&gt;</code>. See <a href="https://github.com/utwente-fmt/vercors/wiki/Magic-Wands">https://github.com/utwente-fmt/vercors/wiki/Magic-Wands</a></td>
 </tr>
 <tr class="odd">
 <td><code>[p]pred(&lt;args&gt;)</code></td>
@@ -7691,11 +7976,11 @@ static boolean check_left_priority_sorted(Tree t, int max_priority) {
 </tr>
 <tr class="odd">
 <td><code>with</code></td>
-<td>// unclear. Legacy syntax? TODO</td>
+<td>augment an expression with a side effect to happen before evaluating it, e.g. <code>/*@ with specInit(); @*/ init()</code>. Previously used for ghost parameters, now obsolete (?) // TODO</td>
 </tr>
 <tr class="even">
 <td><code>then</code></td>
-<td>// unclear. Legacy syntax? TODO</td>
+<td>augment an expression with a side effect to happen after evaluating it, e.g. <code>init() /*@ then specInit(); @*/</code>. Previously used for ghost return values, now obsolete (?) // TODO</td>
 </tr>
 <tr class="odd">
 <td><code>(\let T t = exprA; exprB)</code></td>
@@ -7730,80 +8015,76 @@ static boolean check_left_priority_sorted(Tree t, int max_priority) {
 <td>strict subset, or subset-or-equal, respectively (also for bags)</td>
 </tr>
 <tr class="odd">
-<td><code>+</code></td>
-<td>Sequence concatenation, Set union, Bag union</td>
+<td><code>xs[k]</code></td>
+<td>Sequence indexing: <code>k</code>th element of sequence <code>xs</code>; Map indexing: value associated with key <code>k</code></td>
 </tr>
 <tr class="even">
-<td><code>xs[k]</code></td>
-<td>Sequence indexing: <code>i</code>th element of sequence <code>xs</code>; Map indexing: value associated with key <code>k</code></td>
-</tr>
-<tr class="odd">
 <td><code>::</code></td>
 <td><code>x :: xs</code> prepends element <code>x</code> to the front of sequence <code>xs</code>.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>++</code></td>
 <td><code>xs ++ x</code> appends element <code>x</code> to the end of sequence <code>xs</code>. // Note: Discouraged, support may get removed.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>e[l .. r]</code></td>
 <td>Range indexing of sequence <code>e</code> (slicing). Creates a new sequence with the elements of <code>e</code> between indices <code>l</code> (incl.) and <code>r</code>(excl.). One of <code>l</code> or <code>r</code> may be omitted.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>e[k -&gt; v]</code></td>
 <td>Updating of map <code>e</code> at index <code>k</code> to new value <code>v</code> (<strong>not</strong> in-place).</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>|xs|</code></td>
 <td>Cardinality of collection <code>xs</code>, e.g. length of sequence, size of set.</td>
 </tr>
-<tr class="even">
-<td><code>\values(e1, e2, e3)</code></td>
-<td>// unclear. Probably creating a sequence that stores the values from array <code>e1</code> between indices <code>e2</code> and <code>e3</code>. TODO</td>
-</tr>
 <tr class="odd">
+<td><code>\values(e1, e2, e3)</code></td>
+<td>create a sequence that stores the values from array <code>e1</code> between indices <code>e2</code> and <code>e3</code>.</td>
+</tr>
+<tr class="even">
 <td><code>Some(e)</code></td>
 <td>Turns expression <code>e</code> of type <code>T</code> into an expression of type <code>option&lt;T&gt;</code> containing <code>e</code>.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>seq&lt;T&gt;{vals}</code> or <code>[vals]</code></td>
 <td>sequence literal containing values <code>vals</code> (of type <code>T</code>).</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>set&lt;T&gt;{vals}</code> or <code>{vals}</code></td>
 <td>set literal containing values <code>vals</code> (of type <code>T</code>).</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>bag&lt;T&gt;{vals}</code> or <code>b{vals}</code></td>
 <td>bag literal containing values <code>vals</code> (of type <code>T</code>).</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>map&lt;T1, T2&gt;{k1-&gt;v1, k2-&gt;v2,...}</code></td>
 <td>map literal mapping <code>k1</code> (of type <code>T1</code>) to <code>v1</code> (of type <code>T2</code>), etc.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>tuple&lt;T1, T2&gt;{v1, v2}</code></td>
 <td>tuple literal containing the two values <code>v1</code> (of type <code>T1</code>) and <code>v2</code> (of type <code>T2</code>).</td>
 </tr>
-<tr class="odd">
-<td><code>[t: T]</code>, <code>{t: T}</code>, <code>b{t: T}</code></td>
-<td>literal describing the empty <code>seq&lt;T&gt;</code>, <code>set&lt;T&gt;</code> and <code>bag&lt;T&gt;</code>, respectively.</td>
-</tr>
 <tr class="even">
+<td><code>[t: T]</code>, <code>{t: T}</code>, <code>b{t: T}</code></td>
+<td>literal describing the empty <code>seq&lt;T&gt;</code>, <code>set&lt;T&gt;</code> and <code>bag&lt;T&gt;</code>, respectively. Note that <code>T</code> is a type parameter that should be replaced with the appropriate type, while <code>t:</code> is part of the syntax and should occur literally, e.g. <code>int[] emp = [t: int];</code>.</td>
+</tr>
+<tr class="odd">
 <td><code>{l .. r}</code></td>
 <td>Literal of type <code>seq&lt;int&gt;</code> describing the integer range from <code>l</code> (incl) to <code>r</code> (excl).</td>
 </tr>
-<tr class="odd">
-<td><code>set&lt;T&gt;{ e | selectors ; filter }</code></td>
-<td>Set comprehension, creating set that contains expressions of the form <code>e</code> (of type <code>T</code>), based on the variables defined in <code>selectors</code> if they match filter expression <code>filter</code>.</td>
-</tr>
 <tr class="even">
+<td><code>set&lt;T&gt;{ e | selectors ; filter }</code></td>
+<td>Set comprehension, creating set that contains expressions of the form <code>e</code> (of type <code>T</code>), based on the variables defined in <code>selectors</code> if they match filter expression <code>filter</code>. Note the restrictions described at <a href="https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types">https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types</a>.</td>
+</tr>
+<tr class="odd">
 <td><code>x \in xs</code></td>
 <td>Membership check if element <code>x</code> is contained in collection <code>xs</code>. Note: For bags, it returns the number of occurrences, <strong>not</strong> a boolean.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>(\sum int idx; range; e)</code></td>
-<td>Sequence summation: sum expression <code>e</code> (which depends on the index <code>idx</code>) for all indices within the given range.</td>
+<td>Sequence summation: sum expression <code>e</code> (which depends on the index <code>idx</code>) for all indices within the given range. Note: currently not supported.</td>
 </tr>
 </tbody>
 </table>
@@ -7822,11 +8103,11 @@ static boolean check_left_priority_sorted(Tree t, int max_priority) {
 </tr>
 <tr class="even">
 <td><code>&amp;&amp;</code>, <code>||</code>, <code>!</code></td>
-<td>And, or, and negation respectively for reasoning with boolean variables.</td>
+<td>And, or, and negation respectively for reasoning with boolean expressions</td>
 </tr>
 <tr class="odd">
 <td><code>&lt;</code>, <code>&lt;=</code>, <code>&gt;</code>, <code>&gt;=</code></td>
-<td>Smaller than, smaller than equals, greater than and greater than equals respectively. They are used to compare integers.</td>
+<td>Smaller-than, smaller-or-equal, greater-than and greater-or-equal, respectively, for comparing numerical expressions.</td>
 </tr>
 <tr class="even">
 <td><code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>%</code>, <code>^^</code></td>
@@ -7876,8 +8157,8 @@ static boolean check_left_priority_sorted(Tree t, int max_priority) {
 <td>This is syntactic sugar for a <code>\forall*</code> expression that ranges over all elements in the array <code>array</code>, typically used in a <code>Perm</code> expression. Instead of the example above for <code>\forall*</code>, you can then write <code>Perm(array[*], write)</code>. This <strong>cannot</strong> be used within nested <code>\forall*</code> expressions. See <a href="https://github.com/utwente-fmt/vercors/wiki/Permissions">https://github.com/utwente-fmt/vercors/wiki/Permissions</a></td>
 </tr>
 <tr class="odd">
-<td><code>(\forperm T1 o1, ..., Tn on \in col; expr)</code></td>
-<td>Universal quantifier over accessible locations: <code>expr</code> has to hold for all variables <code>o1</code> of type <code>T1</code>, ..., <code>on</code> of type <code>Tn</code> in collection <code>col</code>(? TODO), for which we currently have at least read permission. Note: the outer parentheses are required. See <a href="https://github.com/utwente-fmt/vercors/wiki/Specification-Syntax">https://github.com/utwente-fmt/vercors/wiki/Specification-Syntax</a></td>
+<td><code>(\forperm T1 o1, ..., Tn on \in loc; expr)</code></td>
+<td>Universal quantifier over accessible locations: Boolean expression <code>expr</code> has to hold for all variables <code>o1</code> of type <code>T1</code>, ..., <code>on</code> of type <code>Tn</code> for which we currently have at least read permission to <code>loc</code>. Example: <code>(\forperm MyClass obj \in obj.f; obj.f==0)</code> Note: the outer parentheses are required.</td>
 </tr>
 </tbody>
 </table>
@@ -7903,12 +8184,20 @@ static boolean check_left_priority_sorted(Tree t, int max_priority) {
 <td>Check whether you are holding a non-reentrant lock. <code>x</code> should refer to the lock invariant. See also: <a href="https://github.com/utwente-fmt/vercors/blob/dev/examples/waitnotify/Queue.pvl">Queue.pvl</a>.</td>
 </tr>
 <tr class="even">
-<td><code>idle(t)</code></td>
-<td>Returns true if thread <code>t</code> is idle (before calling <code>t.fork()</code> or after calling <code>t.join()</code>). Overall a thread starts as idle, if the thread is forked, it goes to a 'runnning' state. If join is called on a running thread, then it goes back to an 'idle' state.</td>
+<td><code>commited(x)</code></td>
+<td>Check whether lock <code>x</code> has been initialised. See <a href="https://github.com/utwente-fmt/vercors/wiki/Atomics-and-Locks">https://github.com/utwente-fmt/vercors/wiki/Atomics-and-Locks</a></td>
 </tr>
 <tr class="odd">
+<td><code>idle(t)</code></td>
+<td>Returns true if thread <code>t</code> is idle (before calling <code>t.fork()</code> or after calling <code>t.join()</code>). Overall a thread starts as idle, if the thread is forked, it goes to a 'running' state. If join is called on a running thread, then it goes back to an 'idle' state. For examples, see <a href="https://github.com/utwente-fmt/vercors/blob/dev/examples/concepts/forkjoin/">https://github.com/utwente-fmt/vercors/blob/dev/examples/concepts/forkjoin/</a></td>
+</tr>
+<tr class="even">
 <td><code>running(t)</code></td>
-<td>Returns true if thread <code>t</code> is running. Overall a thread can go through the following states: idle --[t.fork()]--&gt; running --[t.join()]--&gt; idle</td>
+<td>Returns true if thread <code>t</code> is running. Overall a thread can go through the following states: idle --[t.fork()]--&gt; running --[t.join()]--&gt; idle. For examples, see <a href="https://github.com/utwente-fmt/vercors/blob/dev/examples/concepts/forkjoin/">https://github.com/utwente-fmt/vercors/blob/dev/examples/concepts/forkjoin/</a></td>
+</tr>
+<tr class="odd">
+<td><code>\polarity_dependent(onInhale, onExhale)</code></td>
+<td>Evaluate this expression differently, depending on whether it is inhaled (e.g. precondition when verifying method body) or exhaled (e.g. precondition when verifying calling context). <code>onInhale</code> and <code>onExhale</code> are the two forms of this expression. <strong>Note: Use with care, can easily cause unsoundness!</strong> TODO</td>
 </tr>
 </tbody>
 </table>
@@ -7923,11 +8212,11 @@ static boolean check_left_priority_sorted(Tree t, int max_priority) {
 <tbody>
 <tr class="odd">
 <td><code>Perm(var, p)</code></td>
-<td>Defines permissions for variable <code>var</code>. If <code>p</code> is <code>1</code> or <code>write</code> then it denotes write permission, anything between 0 and 1 or <code>read</code> denotes read permission. Be aware that you cannot use arithmetic when using <code>read</code> such as <code>read/2</code> or dividing <code>read</code> among multiple threads! <code>Perm()</code> is of the type Resource. See <a href="https://github.com/utwente-fmt/vercors/wiki/Permissions">https://github.com/utwente-fmt/vercors/wiki/Permissions</a></td>
+<td>Defines permissions for variable <code>var</code>. If <code>p</code> is <code>1</code> or <code>write</code> then it denotes write permission, anything between 0 and 1 or <code>read</code> denotes read permission. Be aware that you cannot use arithmetic when using <code>read</code> such as <code>read/2</code> or dividing <code>read</code> among multiple threads! <code>Perm(...)</code> is of the type Resource. See <a href="https://github.com/utwente-fmt/vercors/wiki/Permissions">https://github.com/utwente-fmt/vercors/wiki/Permissions</a></td>
 </tr>
 <tr class="even">
 <td><code>perm(var)</code></td>
-<td>The amount of permission currently held for variable <code>var</code>. <strong>Do not confuse with capitalised <code>Perm</code> above!</strong> <code>perm()</code> is of the type frac. See TODO</td>
+<td>The amount of permission currently held for variable <code>var</code>. <strong>Do not confuse with capitalised <code>Perm</code> above!</strong> <code>perm(x)</code> is of the type frac. See TODO</td>
 </tr>
 <tr class="odd">
 <td><code>PointsTo(var, p, val)</code></td>
@@ -7946,8 +8235,8 @@ static boolean check_left_priority_sorted(Tree t, int max_priority) {
 <td>Action permission, related to process algebra models. See <a href="https://github.com/utwente-fmt/vercors/wiki/Process-Algebra-Models">https://github.com/utwente-fmt/vercors/wiki/Process-Algebra-Models</a></td>
 </tr>
 <tr class="odd">
-<td><code>ArrayPerm(langExpr, langExpr, langExpr, langExpr, langExpr)</code></td>
-<td>TODO</td>
+<td><code>ArrayPerm(arr, i, step, count, perm)</code></td>
+<td>Denotes permission <code>p</code> to <code>arr[i]</code>, <code>arr[i+step]</code>, ..., <code>arr[i+(count-1)*step]</code>. Currently not supported. TODO</td>
 </tr>
 <tr class="even">
 <td><code>\array(arr, len)</code></td>
@@ -7966,24 +8255,21 @@ static boolean check_left_priority_sorted(Tree t, int max_priority) {
 <td>Indicates that <code>x</code> is a pointer or array in C, which is not NULL. For <code>x[idx]</code>, we have permission <code>p</code> (no statement about other array elements). See <a href="https://github.com/utwente-fmt/vercors/wiki/Arrays-and-Pointers">https://github.com/utwente-fmt/vercors/wiki/Arrays-and-Pointers</a></td>
 </tr>
 <tr class="even">
-<td><code>\pointer_block_length(langExpr)</code></td>
-<td>TODO</td>
+<td><code>\pointer_block_length(x)</code></td>
+<td>The length of the pointer block (i.e. C array) that <code>x</code> is part of. TODO</td>
 </tr>
 <tr class="odd">
-<td><code>\pointer_block_offset(langExpr)</code></td>
-<td>TODO</td>
+<td><code>\pointer_block_offset(x)</code></td>
+<td>The offset of <code>x</code> within the pointer block (i.e. C array). TODO</td>
 </tr>
 <tr class="even">
-<td><code>\pointer_length(langExpr)</code></td>
-<td>TODO</td>
-</tr>
-<tr class="odd">
-<td><code>\polarity_dependent(langExpr, langExpr)</code></td>
+<td><code>\pointer_length(x)</code></td>
 <td>TODO</td>
 </tr>
 </tbody>
 </table>
-<h2 id="control-flow-constructs">Control flow constructs</h2>
+<h2 id="control-flow-constructs-pvl">Control flow constructs (PVL)</h2>
+<p>PVL provides similar control flow constructs as other languages, e.g. loops and methods. However, there are also some unique additional control flow constructs that are explained here.</p>
 <table>
 <thead>
 <tr class="header">
@@ -7993,80 +8279,103 @@ static boolean check_left_priority_sorted(Tree t, int max_priority) {
 </thead>
 <tbody>
 <tr class="odd">
-<td>Function</td>
-<td><code>contract returnType functionName(paramType paramName, ...) { ... }</code>. <code>contract</code> should describe the specification of the method. <code>returnType</code> should be replaced by a specific type or <code>void</code> depending on what (if anything) the method returns. <code>functionName</code> should be replaced by the name of the function. <code>paramType paramName, ...</code> is a comma-separated list of parameters, for every parameter you should define its type and its name. It is also possible to have no parameters. For example: <code>ensures \result == a + b; int sum(int a, int b) { return a + b; }</code> is a function which returns an integer that is the sum of the parameters given.<br> <strong>Pure and Abstract Functions:</strong> Pure functions are declared by prepending modifiers <code>static</code> and <code>pure</code> in that order. They should be side-effect free and their postconditions must not contain resource assertions such as accessibility predicates. All accessibility constraints for the body of the function and for the postcondition should be ensured by the preconditions. In fact, since pure functions applications are side-effect-free, pre- and post-states of a function application are the same. <em>Example:</em><br><code>requires a != null;</code><br><code>requires 0 &lt;= n &amp;&amp; n &lt;= a.length;</code><br><code>requires (\forall* int j; 0 &lt;= j &amp;&amp; j &lt; a.length; Perm(a[j],1\2));</code><br><code>ensures (n==a.length)? \result == 0 : \result == a[n] + sumAll(a,n+1);</code><br><code>static pure int sumAll(int []a, int n);</code><br>Notice that in the example the function has no body. By doing so we declare an <em>abstract function</em>. When calling this function, its pre-conditions will be checked and its postconditions assumed. No correspondence should be assumed between pure and abstract functions.</td>
+<td><code>contract returnType methodName(paramType paramName, ...) { ... }</code></td>
+<td>Method definition. <code>contract</code> should describe the specification of the method (see "Verification flow constructs" below). <code>returnType</code> should be replaced by a PVL type described as above, depending on what (if anything) the method returns. <code>methodName</code> should be replaced by the name of the function. <code>paramType paramName, ...</code> is a comma-separated list of parameters, for every parameter you should define its type and its name. It is also possible to have no parameters. The body is placed within parentheses. Example: <code>ensures \result == a + b; int sum(int a, int b) { return a + b; }</code></td>
 </tr>
 <tr class="even">
-<td>Return</td>
-<td><code>return</code> can be used to exit the current method. <code>return expr</code> can be used within a method to return a specific object as a result.</td>
+<td><code>contract returnType methodName(paramType paramName, ...);</code></td>
+<td>Abstract method definition. like above, except no implementation is specified in the body, just a semicolon. **Note: Be careful, it is easy to create unsoundness with abstract methods! **</td>
 </tr>
 <tr class="odd">
-<td>If-statement</td>
-<td><ul><li>Single-line option: <code>if (boolExpr) ...;</code></li><li>Multi-line option: <code>if (boolExpr) { ... }</code></li></ul></td>
+<td><code>contract pure returnType methodName(paramType paramName, ...) = expr;</code></td>
+<td>(Pure) function definition. Similar to a method, except no side effects are allowed, and the body is just a single expression. See <a href="https://github.com/utwente-fmt/vercors/wiki/Specification-Syntax">https://github.com/utwente-fmt/vercors/wiki/Specification-Syntax</a></td>
 </tr>
 <tr class="even">
-<td>If-then-else</td>
-<td><code>if (boolExpr) { ... } else { ... }</code></td>
+<td><code>return expr;</code></td>
+<td>Exit current method and return value of expression <code>expr</code>. The expression can be omitted for <code>void</code> methods.</td>
 </tr>
 <tr class="odd">
-<td>For-loop</td>
-<td><code>loop_invariant p; for (...) { ... }</code></td>
+<td><code>if(cond) thenStmt else elseStmt</code></td>
+<td>Branching control flow, depending on value of boolean expression <code>cond</code>. Statements <code>thenStmt</code> and <code>elseStmt</code> can be single statements, or compound statements using <code>{...}</code>. The <code>else</code> branch can be omitted.</td>
 </tr>
 <tr class="even">
-<td>While-loop</td>
-<td><code>loop_invariant p; while (boolExpr) { ... }</code></td>
+<td><code>loopContract for (init; cond; update) stmt</code></td>
+<td>Classic <code>for</code> loop. <code>loopContract</code> defines loop invariants and variants as defined below. The body <code>stmt</code> can be a single statement, or compound using <code>{...}</code>. The initialisation <code>init</code> can be one or more statements separated by comma, or omitted. The same holds for the <code>update</code> statement(s). The boolean expression <code>cond</code> can also be omitted.</td>
 </tr>
 <tr class="odd">
-<td>Parallel block</td>
-<td><code>par contract { ... }</code> OR <code>par identifier(iters) contract { ... }</code>. The <code>identifier</code> is optional and <code>iters</code> can be empty. <code>iters</code> specifies what variables are iterated over. Note that you can also extend a parallel block with another parallel block as follows: <code>par contract { ... } and contract { ... }</code> OR <code>par identifier(iters) contract { ... } and identifier(iters) contract { ... }</code>.</td>
+<td><code>loopContract for(T var = lo .. hi) stmt</code></td>
+<td>Ranged <code>for</code> loop. <code>loopContract</code> and <code>stmt</code> as above. The loop variable <code>var</code>(of type <code>T</code>) ranges from <code>lo</code> (incl.) to <code>hi</code> (excl.).</td>
 </tr>
 <tr class="even">
-<td>Vector block</td>
-<td><code>vec (iters) { ... }</code> is a variant of the parallel block where every step is executed in lock step. You do not need to specify a pre- and postcondition. <code>iters</code> should define what variables are iterated over, e.g., <code>int i = 0..10</code>.</td>
+<td><code>loopContract while (cond) stmt</code></td>
+<td>Classic <code>while</code> loop. <code>loopContract</code> and <code>stmt</code> as above, boolean condition <code>cond</code>.</td>
 </tr>
 <tr class="odd">
-<td>Atomic block</td>
-<td><code>atomic(inv) { ... }</code> performs the actions within the block atomically. As a result, other threads will not be able to see any intermediate results, only the result before or after executing the atomic block. <code>inv</code> refers to an invariant which stores permissions that are necessary when executing the atomic block.</td>
+<td><code>par identifier(iters) contract { ... }</code></td>
+<td>Parallel block. See <a href="https://github.com/utwente-fmt/vercors/wiki/Parallel-Blocks">https://github.com/utwente-fmt/vercors/wiki/Parallel-Blocks</a></td>
 </tr>
 <tr class="even">
-<td>Barrier</td>
-<td><code>barrier(identifier) contract {  }</code> waits for all threads to reach this point in the program, then permissions can be redistributed amongst all threads, as specified in the contract, after which the threads are allowed to continue. The barrier needs to know how many threads should reach it before everyone is allowed to continue, this is done by specifying <code>identifier</code> which refers to a parallel block before the barrier.</td>
+<td><code>parallel { parBlocks }</code></td>
+<td>TODO</td>
 </tr>
 <tr class="odd">
-<td>Fork a thread</td>
-<td><code>fork expr</code> starts a new thread.</td>
+<td><code>sequential { parBlocks }</code></td>
+<td>TODO</td>
 </tr>
 <tr class="even">
-<td>Join a thread</td>
-<td><code>join expr</code> waits for the specified thread to complete.</td>
+<td><code>vec (iters) { ... }</code></td>
+<td>Vector block: A variant of the parallel block where every step is executed in lock step. <code>iters</code> should define what variables are iterated over, e.g., <code>int i = 0..10</code>. Not the absence of a contract, compared to regular <code>par</code> blocks.</td>
 </tr>
 <tr class="odd">
-<td>Wait</td>
-<td><code>wait expr</code> will pause the thread until it is notified to continue.</td>
+<td><code>atomic(inv) { ... }</code></td>
+<td>Atomic block: performs the actions within the block atomically. See <a href="https://github.com/utwente-fmt/vercors/wiki/Atomics-and-Locks">https://github.com/utwente-fmt/vercors/wiki/Atomics-and-Locks</a></td>
 </tr>
 <tr class="even">
-<td>Notify</td>
-<td><code>notify expr</code> will notify another thread that it may continue if it is waiting.</td>
+<td><code>invariant invName(expr) { ... }</code></td>
+<td>Define resource expression <code>expr</code> as a named invariant that can then be referenced inside the given block <code>{...}</code>, e.g. by an <code>atomic</code></td>
 </tr>
 <tr class="odd">
-<td>Acquire a lock</td>
-<td><code> lock expr</code></td>
+<td><code>barrier(identifier) contract { ... }</code></td>
+<td>Barrier: waits for all threads to reach this point in the program, then permissions can be redistributed amongst all threads, after which the threads are allowed to continue. See <a href="https://github.com/utwente-fmt/vercors/wiki/Parallel-Blocks">https://github.com/utwente-fmt/vercors/wiki/Parallel-Blocks</a></td>
 </tr>
 <tr class="even">
-<td>Release a lock</td>
-<td><code>unlock expr</code></td>
+<td><code>fork expr;</code></td>
+<td>starts a new thread.</td>
 </tr>
 <tr class="odd">
-<td>Label</td>
-<td><code>label l</code> indicates a location in the program that can be jumped to with <code>goto l</code>.</td>
+<td><code>join expr;</code></td>
+<td>waits for the specified thread to complete.</td>
 </tr>
 <tr class="even">
-<td>Goto</td>
-<td><code>goto l</code> indicates control flow must be transferred to the location of the label <code>l</code>.</td>
+<td><code>wait expr;</code></td>
+<td>pause the thread until it is notified to continue.</td>
+</tr>
+<tr class="odd">
+<td><code>notify expr;</code></td>
+<td>notify another thread that it may continue if it is waiting.</td>
+</tr>
+<tr class="even">
+<td><code>lock expr;</code></td>
+<td>Acquire a lock. See <a href="https://github.com/utwente-fmt/vercors/wiki/Atomics-and-Locks">https://github.com/utwente-fmt/vercors/wiki/Atomics-and-Locks</a></td>
+</tr>
+<tr class="odd">
+<td><code>unlock expr;</code></td>
+<td>Release a lock. See <a href="https://github.com/utwente-fmt/vercors/wiki/Atomics-and-Locks">https://github.com/utwente-fmt/vercors/wiki/Atomics-and-Locks</a></td>
+</tr>
+<tr class="even">
+<td><code>label l;</code></td>
+<td>Label: indicates a location in the program that can be jumped to with <code>goto l</code>.</td>
+</tr>
+<tr class="odd">
+<td><code>goto l;</code></td>
+<td>jump to the location of the label <code>l</code>.</td>
+</tr>
+<tr class="even">
+<td><code>communicate x.f1 -&gt; y.f2;</code></td>
+<td>VeyMont syntax: send value of field <code>x.f1</code> to field <code>y.f2</code>. Opposite direction also possible via <code>&lt;-</code>.</td>
 </tr>
 </tbody>
 </table>
-<p>Note that <strong>for-loops</strong> and <strong>while-loops</strong> should be <strong>preceded with a contract</strong> consisting of one or more loop invariants. Parallel blocks require a contract in the form of requires/ensures clauses.</p>
 <h2 id="verification-flow-constructs">Verification flow constructs</h2>
 <table>
 <thead>
@@ -8077,76 +8386,81 @@ static boolean check_left_priority_sorted(Tree t, int max_priority) {
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>assert expr</code></td>
-<td>Defines an assert statement <code>expr</code> which describes a condition that should hold at the program point where this statement is defined.</td>
+<td><code>assert expr;</code></td>
+<td>Check that boolean or resource expression <code>expr</code> holds at this program point.</td>
 </tr>
 <tr class="even">
-<td><code>assume expr</code></td>
-<td>Defines a statement that assumes that <code>expr</code> holds. It can be put anywhere within the code.</td>
+<td><code>assume expr;</code></td>
+<td>Assume without checking that boolean expression <code>expr</code> holds at this program point. ** Note: Careful, can easily cause unsoundness! **</td>
 </tr>
 <tr class="odd">
-<td><code>requires expr</code></td>
-<td>Defines the precondition as <code>expr</code>, i.e., <code>expr</code> must hold when calling this method. The precondition should be specified <strong>before</strong> the method declaration.</td>
+<td><code>requires expr;</code></td>
+<td>Method or function precondition: Boolean or resource expression <code>expr</code> is checked to hold when calling this method, and assumed to hold when verifying the method body. Defined as part of a method contract, as well as e.g. contracts for parallel blocks.</td>
 </tr>
 <tr class="even">
-<td><code>ensures expr</code></td>
-<td>Defines the postcondition as <code>expr</code>, i.e., <code>expr</code> must hold when completing this method. The postcondition should be specified <strong>before</strong> the method declaration.</td>
+<td><code>ensures expr;</code></td>
+<td>Method or function postcondition: Boolean or resource expression <code>expr</code> is assumed to hold immediately after calling this method, and checked to hold when verifying the method body. Defined as part of a method contract, as well as e.g. contracts for parallel blocks.</td>
 </tr>
 <tr class="odd">
-<td><code>context expr</code></td>
-<td>This is an abbreviation that combines the statements <code>requires expr</code> and <code>ensures expr</code>. This statement should be specified <strong>before</strong> the method declaration.</td>
+<td><code>context expr;</code></td>
+<td>Shorthand that combines <code>requires expr</code> and <code>ensures expr</code>.</td>
 </tr>
 <tr class="even">
-<td><code>loop_invariant expr</code></td>
-<td>Defines a loop invariant <code>expr</code> which is a condition that must hold when entering the loop and after each loop iteration. A loop invariant should be specified <strong>before</strong> the corresponding loop.</td>
+<td><code>loop_invariant expr;</code></td>
+<td>Loop invariant: Boolean or resource expression <code>expr</code> must hold before entering the loop and after each loop iteration. Part of a loop contract.</td>
 </tr>
 <tr class="odd">
-<td><code>context_everywhere expr</code></td>
-<td>This is an abbreviation that combines the statement <code>requires expr</code> and <code>ensures expr</code>. Moreover, it also adds <code>loop_invariant expr</code> to all loops within the method. This statement should be specified <strong>before</strong> the method declaration.</td>
+<td><code>context_everywhere expr;</code></td>
+<td>Shorthand that combines <code>requires expr</code> and <code>ensures expr</code>. Moreover, it also adds <code>loop_invariant expr;</code> to all loops within the method. Part of a method contract.</td>
 </tr>
 <tr class="even">
-<td><code>given T p</code></td>
-<td>Defines that a ghost input parameter (specification-only parameter) of type <code>T</code> with the name <code>p</code> is passed when this method is called. This statement should be specified <strong>before</strong> the method declaration.</td>
+<td><code>given T p;</code></td>
+<td>Ghost input parameter: Defines a specification-only parameter <code>p</code> of type <code>T</code> that must be passed when this method is called (see <code>given</code> above). Part of a method contract.</td>
 </tr>
 <tr class="odd">
-<td><code>yields x</code></td>
-<td>Returns a ghost output parameter (specification-only parameter) to the callee of this method. This statement should be specified <strong>before</strong> the method declaration.</td>
+<td><code>yields T p;</code></td>
+<td>Ghost output parameter: Defines a specification-only return value <code>p</code> of type <code>T</code>. <code>p</code> can be assigned in the method body like a local variable; the last assigned value is automatically returned to the caller, who can store it in their own local variable (see <code>yields</code> above). Part of a method contract.</td>
 </tr>
 <tr class="even">
-<td><code>with ... then ...</code></td>
-<td><code>with</code> is used to pass a parameter to a method (which has a given statement) and <code>then</code> can be used to store a returned value from a <code>yields</code> statement. This statement is specified after the corresponding method call (on the same line) where you want to pass the parameter. All the <code>...</code> should be replaced by an assignment.</td>
+<td><code>fold pred(...);</code></td>
+<td>Fold a predicate, i.e. wrap permissions inside. See <a href="https://github.com/utwente-fmt/vercors/wiki/Predicates">https://github.com/utwente-fmt/vercors/wiki/Predicates</a></td>
 </tr>
 <tr class="odd">
-<td><code>unfolding ... in expr</code></td>
-<td>Temporarily unfold definitions in (pure) expressions. The <code>...</code> should be replaced by a predicate.</td>
+<td><code>unfold pred(...);</code></td>
+<td>Unfold predicate, i.e. unwrap the contained permissions. See <a href="https://github.com/utwente-fmt/vercors/wiki/Predicates">https://github.com/utwente-fmt/vercors/wiki/Predicates</a></td>
 </tr>
 <tr class="even">
-<td><code>refute expr</code></td>
-<td>Disproves <code>expr</code> at the given program point. This statement can be put anywhere in the code. Internally it is translated to <code>assert !(expr)</code>.</td>
+<td><code>\unfolding pred(...) \in expr</code></td>
+<td>Temporarily unfold predicate in (pure) expression <code>expr</code>. See <a href="https://github.com/utwente-fmt/vercors/wiki/Predicates">https://github.com/utwente-fmt/vercors/wiki/Predicates</a></td>
 </tr>
 <tr class="odd">
-<td><code>inhale p</code></td>
-<td>Take in the specified permissions and properties.</td>
+<td><code>refute expr;</code></td>
+<td>Disproves <code>expr</code> at this program point. Internally it is translated to <code>assert !(expr)</code>.</td>
 </tr>
 <tr class="even">
-<td><code>exhale p</code></td>
-<td>Discard the specified permissions</td>
+<td><code>inhale expr;</code></td>
+<td>Take in the permissions specified in the resource expression <code>expr</code>, i.e. add them to the current set of permissions without checking. Additionally, assume without checking all boolean properties contained in <code>expr</code>. <strong>Note: Be careful, this can easily lead to unsoundness!</strong></td>
 </tr>
 <tr class="odd">
-<td><code>fold x</code></td>
-<td>Wrap permissions inside the definition</td>
+<td><code>exhale expr;</code></td>
+<td>Assert all permissions and boolean properties contained in <code>expr</code>, then discard the specified permissions, i.e. remove them from the current set of permissions.</td>
 </tr>
 <tr class="even">
-<td><code>unfold x</code></td>
-<td>Unwrap a bundle of permissions</td>
+<td><code>witness x;</code></td>
+<td>Obsolete syntax to declare witness names for the old backend Chalice. <em>This feature is deprecated and should no longer be used</em>.</td>
 </tr>
 <tr class="odd">
-<td><code>witness x</code></td>
-<td>Declares witness names. <em>This feature is deprecated and should no longer be used</em>.</td>
+<td><code>send channelName, delta: expr;</code></td>
+<td>Transfer permissions and boolean facts contained in the resource expression <code>expr</code> to another thread, identified via the channel name. Used within parallelised loops, and <code>delta</code> is the amount of loop iterations how far the expression is sent ahead. Example: <code>send S,1: Perm(arr[i+1], 1\2);</code> sends permission for the next array element to the next iteration. That way, the next iteration can write to its <code>arr[i]</code>, even if it did not originally have all the permission. See e.g. <a href="https://github.com/utwente-fmt/vercors/blob/dev/examples/concepts/arrays/JavaArrayExamples.java">https://github.com/utwente-fmt/vercors/blob/dev/examples/concepts/arrays/JavaArrayExamples.java</a>. See also <code>recv</code> below.</td>
+</tr>
+<tr class="even">
+<td><code>recv channelName;</code></td>
+<td>Receive the expression sent by a <code>send</code> as specified above, with the matching channel name. Blocks until it is received.</td>
 </tr>
 </tbody>
 </table>
 <h3 id="histories--futures-">Histories &amp; Futures <a name="historiesAndFutures"></a></h3>
+<p>Histories and futures, jointly referred to as <a href="https://github.com/utwente-fmt/vercors/wiki/Process-Algebra-Models">"Process algebra models"</a> are currently under redesign. Thus, the following parts may not be up to date.</p>
 <h4 id="defining-processes">Defining processes</h4>
 <table>
 <thead>
@@ -8192,38 +8506,42 @@ static boolean check_left_priority_sorted(Tree t, int max_priority) {
 <td>History-specific permissions where <code>var</code> refers to a variable in the history and <code>p</code> is the amount of permissions (a value between 0 and 1)</td>
 </tr>
 <tr class="odd">
+<td><code>APerm(var, p)</code></td>
+<td>History-specific permissions within <code>action</code> blocks where <code>var</code> refers to a variable in the history and <code>p</code> is the amount of permissions (a value between 0 and 1)</td>
+</tr>
+<tr class="even">
 <td><code>Hist(var, p, val)</code></td>
 <td>Similar to <code>PointsTo</code>, it denotes permissions <code>p</code> for variable <code>var</code> (which is in a history). Moreover, variable <code>var</code> points to the value <code>val</code>.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>AbstractState(h, boolExpr)</code></td>
 <td>This can be used to check that the given boolean expression holds in the history (or future) <code>h</code></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>action(h, perm, preState, postState) { ... }</code></td>
 <td>The action describes how the state of the history (or future) is changed by the code within <code>{ ... }</code>. The pre- and post-state describe the state of the history (or future) in terms of processes. <code>perm</code> describes the permissions we have on the history (or future) and <code>h</code> is the name of the history (or future)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>create h</code></td>
 <td>Create a history. Note that the History class should be instantiated beforehand.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>destroy h, val</code></td>
 <td>Destroy a history <code>h</code> which has the value <code>val</code></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>split h, p1, val1, p2, val2</code></td>
 <td>Split a history (or future) into two such that the first part has permissions <code>p1</code> and value <code>val1</code> and the second part has permissions <code>p2</code> and value <code>val2</code></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>merge h, p1, val1, p2, val2</code></td>
 <td>Merge two histories (or futures) such that resulting history <code>h</code> has permissions <code>p1+p2</code> and consists of combination of the actions described in <code>val1</code> and <code>val2</code></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>modifies vars</code></td>
 <td>List of locations that might be modified</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>accessible vars</code></td>
 <td>List of locations that might be accessed</td>
 </tr>
@@ -8260,14 +8578,6 @@ static boolean check_left_priority_sorted(Tree t, int max_priority) {
 </tr>
 </tbody>
 </table>
-<h4 id="other">Other</h4>
-<ul>
-<li>APerm ??</li>
-<li><code>Ls: send p to Lr, d</code> | Release permissions <code>p</code> to the statement labelled <code>Lr</code> with <code>d</code> being the distance of dependence. This statement is labelled <code>Ls</code>.</li>
-<li><code>Lr: recv p from Ls, d</code> | Acquire permission <code>p</code> from the statement labelled <code>Ls</code> with the distance of dependence <code>d</code>. This statement is labelled <code>Lr</code>.</li>
-<li>Iteration contract | An iteration contract specifies the iteration's resources. The precondition of an iteration contract specifies the resources that a particular iteration needs, and the postcondition specifies the resources that become available after the execution of the iteration.</li>
-<li>\pointer(var, length, perm), \pointer_index(...)?</li>
-</ul>
 <h1 id="vercors-usage--debugging-cheat-sheet">VerCors usage &amp; debugging cheat sheet</h1>
 <h2 id="information--questions">Information &amp; questions</h2>
 <p><a href="https://github.com/utwente-fmt/vercors/wiki">https://github.com/utwente-fmt/vercors/wiki</a></p>
@@ -8981,7 +9291,7 @@ static boolean check_left_priority_sorted(Tree t, int max_priority) {
 <li><a href="#general">General</a></li>
 <li><a href="#types-and-data-structures">Types and Data Structures</a></li>
 <li><a href="#expressions-1">Expressions</a></li>
-<li><a href="#control-flow-constructs">Control flow constructs</a></li>
+<li><a href="#control-flow-constructs-pvl">Control flow constructs (PVL)</a></li>
 <li><a href="#verification-flow-constructs">Verification flow constructs</a></li>
 </ul>
 </li>
@@ -9066,7 +9376,7 @@ static boolean check_left_priority_sorted(Tree t, int max_priority) {
                 <a href="//www.utwente.nl/en/eemcs/fmt/" target="_blank"><img src="/images/FMT logo.png" alt="Formal Methods & Tools logo" title="Formal Methods & Tools"></a>
                 <hr>
                 <div class="copyright">
-                    <a href="/about/#credits" target="_blank">Copyright <code>&copy</code> The VerCors Project 2007-2023</a>
+                    <a href="/about/#credits" target="_blank">Copyright <code>&copy</code> The VerCors Project 2007-2024</a>
                     | <a href="//www.utwente.nl/en/eemcs/fmt/" target="_blank">FMT - University of Twente</a>
                     | <a href="/about/">About Us</a>
                 </div>
