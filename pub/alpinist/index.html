@@ -6,7 +6,7 @@ University of Twente, Enschede, The Netherlands
 -->
 <html lang="en">
     <head>
-        <title>Alpinist · VerCors Tool FMT | UTwente </title>
+        <title>Alpinist, an Annotation-Aware GPU Program Optimizer · VerCors Tool FMT | UTwente </title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
         <meta name="description" content="">
@@ -95,12 +95,77 @@ University of Twente, Enschede, The Netherlands
         
 <h1>Alpinist</h1>
 <p>
-    Alpinist is an annotation-aware GPU program optimizer. Alpinist takes an annotated GPU program and applies an
-    optimization to both the GPU program as well as its annotations. The annotations are transformed in a way that
-    preserves the provability of the resulting optimized GPU program. Alpinist has support for six frequently-used
-    GPU program optimizations, namely loop unrolling, tiling, kernel fusion, iteration merging, matrix linearization and
-    data prefetching.
+    A part of the GPU program development cycle is to incrementally optimize a GPU program by applying manual or semi-automatic optimizations to the source code prior to compilation. This process is tedious and error-prone. One way of preventing these errors is by verifying the GPU program using a deductive verifier such as VerCors, where the user adds annotations to the GPU program to capture functional properties.
 </p>
+
+<p>
+    In addition to optimizing the GPU program, one also needs to change the annotations to get an optimized GPU program that is also verifiable. The more complex the source program gets (due to incrementally optimizing it), the more challenging it becomes to annotate it.
+</p>
+
+<p>
+    This is where Alpinist comes in. Alpinist adds deductive verification into the GPU program development cycle and aids the developers in incrementally applying optimizations to a GPU program while preserving the provability of the optimized program.
+</p>
+
+<figure>
+  <img src="/images/alpinisit-approach.png" alt="The approach of Alpinist">
+  <figcaption>The approach of Alpinist</figcaption>
+</figure>
+
+
+
+<p>
+    The figure above shows a visual representation of Alpinist's approach in four steps. First, the developer starts with a naive or semi-optimized version of the GPU program. The developer annotates this GPU program and verifies it with VerCors (the deductive verifier). Second, the developer identifies parts of the code that can be optimized and places special <code>opt</code> annotations indicating which optimization Alpinist (the annotation aware program optimizer) should apply. Third, this the annotated, verfied GPU program along with the special <code>opt</code> annotations is given to Alpinist. The output of Alpinist is an annotated, optimized GPU program where the specified optimizations have been performed on the code and annotations. This avoids having to re-annotate the program every time it is optimized for a specific GPU device. Last, this annotated, optimized GPU program can be reverified with VerCors.
+</p>
+
+<p>This approach has been applied to six frequently used optimizations, namely:</p>
+
+<div>
+    <ol>
+    <li>Loop unrolling: Executing loop iterations before the loop.</li>
+    <li>Iteration merging: Executing multiple loop iterations in one single iteration.</li>
+    <li>Data prefetching: Prefetching data residing in global memory into registers.</li>
+    <li>Matrix linearization: Changing a matrix into an array.</li>
+    <li>Tiling: Increasing the work done by each thread.</li>
+    <li>Kernel fusion: Joining two consecutive kernels.</li>
+    </ol>
+</div>
+
+<p>
+    Internally, Alpinist applies the optmization in four phases: The <em>parsing</em> phase, the <em>applicability checking</em> phase, the <em>transformation</em> phase and the <em>output</em> phase. The strength of Alpinist lies in the applicability checking phase. The transformation phase consists of applying a specific optimization, such as the optimization in the list above. However, this assumes that the optimization is applicable, which is where the applicability checking phase comes in.
+</p>
+
+<p>
+    In the applicability checking phase, various techniques are used to determine whether an optimization is applicable. These techniques can range from static analysis of the code to encoding a problem to solve with VerCors. An example of an applicability check is the unrollability of a loop with the loop unrolling optimization. A loop is safe to unroll <code>k</code> times (without guards) if the loop is executed at least <code>k</code> times. This property of k-unrollability can be encoded in a program that can be checked by VerCors.
+</p>
+
+<figure>
+    <img src="/images/alpinist-implementation.png" alt="The interal design of Alpinist" class="center">
+    <figcaption>The interal design of Alpinist</figcaption>
+</figure>
+
+
+
+
+<!--<h2>Optimizing a particular example with Alpinist</h2>-->
+
+<!--<p>To optimize an example, the following command can be used:</p>-->
+
+<!--<code>/usr/bin/alpinist --silicon --progress --encoded-gpuopt &lt;output file&gt; --gpuopt &lt;optimization&gt; &lt;input file&gt;</code>-->
+
+<!--&lt;input file&gt;:       The file to optimize.-->
+<!--&lt;output file&gt;:      A name for the file containing the optimizated program.-->
+<!--&lt;optimization&gt;:     The optimization to apply. The following optimizations are supported: loop_unroll, matrix_lin, glob_to_reg (for data prefetching), iter_merge, tile and fuse-->
+
+<!--<h2>Example</h2>-->
+<!--Suppose we want to optimize and verify the file located at-->
+<!-- orig_loop_unroll_plus.pvl-->
+
+<!--To optimize the file we would run:-->
+<!--alpinist --silicon --progress --gpuopt loop_unroll --encoded-gpuopt opt_unrolled_program.pvl Alpinist-Examples/loop_unroll/examples/plus/orig_loop_unroll_plus.pvl-->
+
+<!--To verify the optimized program we would run (from /home/tacas22):-->
+<!--vercors --silicon --progress opt_unrolled_program.pvl-->
+<!--</p>-->
 
     </section>
 </div>
