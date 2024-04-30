@@ -1,9 +1,3 @@
-/*
-	Horizons by TEMPLATED
-    templated.co @templatedco
-    Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
-*/
-
 function initCodeMirror(node) {
 	const editor = CodeMirror.fromTextArea(node, {
 		lineNumbers: true,
@@ -14,6 +8,10 @@ function initCodeMirror(node) {
 	});
 	editor.on('change', function(e) { e.save(); });
 	editor.setSize(null, 500);
+}
+
+if(window.location.pathname === "/" && window.location.hash.startsWith("#!")) {
+	window.location.href = '/wiki/#' + window.location.hash.substring(2)
 }
 
 (function($) {
