@@ -10,8 +10,8 @@ function initCodeMirror(node) {
 	editor.setSize(null, 500);
 }
 
-if(window.location.pathname === "/" && window.location.hash.startsWith("#!")) {
-	window.location.href = '/wiki/#' + window.location.hash.substring(2)
+if(window.location.pathname === "/" && window.location.hash.startsWith("#")) {
+	window.location.href = '/wiki/#' + window.location.hash.substring(1);
 }
 
 (function($) {
