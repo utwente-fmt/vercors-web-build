@@ -1,3 +1,75 @@
+@inbook{Haak24,
+title = "HaliVer: Deductive Verification and Scheduling Languages Join Forces",
+abstract = "The HALIVER tool integrates deductive verification into the popular scheduling language HALIDE, used for image processing pipelines and array computations. HALIVER uses VERCORS, a separation logic-based verifier, to verify the correctness of (1) the HALIDE algorithms and (2) the optimised parallel code produced by HALIDE when an optimisation schedule is applied to an algorithm. This allows proving complex, optimised code correct while reducing the effort to provide the required verification annotations. For both approaches, the same specification is used. We evaluated the tool on several optimised programs generated from characteristic HALIDE algorithms, using all but one of the essential scheduling directives available in HALIDE. Without annotation effort, HALIVER proves memory safety in almost all programs. With annotations HALIVER, additionally, proves functional correctness properties. We show that the approach is viable and reduces the manual annotation effort by an order of magnitude.",
+keywords = "2024 OA procedure",
+author = "Haak, {Lars B. van den} and Anton Wijs and Marieke Huisman and Brand, {Mark van den}",
+year = "2024",
+month = apr,
+day = "5",
+doi = "10.1007/978-3-031-57256-2_4",
+language = "English",
+isbn = "978-3-031-57255-5",
+pages = "71--89",
+booktitle = "Tools and Algorithms for the Construction and Analysis of Systems",
+note = "30th International Conference on Tools and Algorithms for the Construction and Analysis of Systems, TACAS 2024, TACAS 2024 ; Conference date: 06-04-2024 Through 11-04-2024",
+
+}
+
+@inbook{Oorschot24,
+title = "First Steps towards Deductive Verification of LLVM IR",
+abstract = "Over the last years, deductive program verifiers have substantially improved, and their applicability on non-trivial applications has been demonstrated. However, a major bottleneck is that for every new programming language, a new deductive verifier has to be built.This paper describes the first steps in a project that aims to address this problem, by language-agnostic support for deductive verification: Rather than building a deductive program verifier for every programming language, we develop deductive program verification technology for a widely-used intermediate representation language (LLVM IR), such that we eventually get verification support for any language that can be compiled into the LLVM IR format.Concretely, this paper describes the design of VCLLVM, a prototype tool that adds LLVM IR as a supported language to the VerCors verifier. We discuss the challenges that have to be addressed to develop verification support for such a low-level language. Moreover, we also sketch how we envisage to build verification support for any specified source program that can be compiled into LLVM IR on top of VCLLVM.",
+keywords = "2024 OA procedure",
+author = "Oorschot, {Dr{\'e} van} and Marieke Huisman and {\"O}mer {\c S}akar",
+year = "2024",
+month = apr,
+day = "6",
+doi = "10.1007/978-3-031-57259-3_15",
+language = "English",
+isbn = "978-3-031-57258-6",
+series = "Lecture Notes in Computer Science",
+pages = "290--303",
+editor = "Dirk Beyer and Ana Cavalcanti",
+booktitle = "Fundamental Approaches to Software Engineering",
+note = "27th International Conference on Fundamental Approaches to Software Engineering, FASE 2024, FASE ; Conference date: 06-04-2024 Through 11-04-2024",
+
+}
+
+@InProceedings{Tasche24,
+author="Tasche, Philip
+and Monti, Ra{\'u}l E.
+and Drerup, Stefanie Eva
+and Blohm, Pauline
+and Herber, Paula
+and Huisman, Marieke",
+editor="Dimitrova, Rayna
+and Lahav, Ori
+and Wolff, Sebastian",
+title="Deductive Verification of Parameterized Embedded Systems Modeled in SystemC",
+booktitle="Verification, Model Checking, and Abstract Interpretation",
+year="2024",
+publisher="Springer Nature Switzerland",
+address="Cham",
+pages="187--209",
+abstract="Major strengths of deductive verification include modular verification and support for functional properties and unbounded parameters. However, in embedded systems, crucial safety properties often depend on concurrent process interactions, events, and time. Such properties are global in nature and thus difficult to verify in a modular fashion. Furthermore, the execution and scheduling semantics of industrially used embedded system design languages such as SystemC are typically only informally defined. In this paper, we propose a deductive verification approach for embedded systems that are modeled with SystemC. Our main contribution is twofold: 1) We provide a formal encoding and an automated transformation of SystemC designs for verification with the VerCors deductive verifier. 2) We present a novel approach for invariant construction to abstractly capture global dependencies. Our encoding enables an automated formalization and deductive verification of parameterized SystemC designs, and the invariant construction enables local reasoning about global properties with comparatively low manual effort. We demonstrate the applicability of our approach on three parameterized case studies, including an automotive control system.",
+isbn="978-3-031-50521-8"
+}
+
+@article{Lathouwers24,
+title = {Survey of annotation generators for deductive verifiers},
+journal = {Journal of Systems and Software},
+volume = {211},
+pages = {111972},
+year = {2024},
+issn = {0164-1212},
+doi = {https://doi.org/10.1016/j.jss.2024.111972},
+url = {https://www.sciencedirect.com/science/article/pii/S0164121224000153},
+author = {Sophie Lathouwers and Marieke Huisman},
+keywords = {Deductive verification, Specifications, Annotations, Specification inference, Specification generation, Survey},
+abstract = {Deductive verifiers require intensive user interaction in the form of writing precise specifications, thereby limiting their use in practice. While many solutions have been proposed to generate specifications, their evaluations and comparisons to other tools are limited. As a result, it is unclear what the best approaches for specification inference are and how these impact the overall specification writing process. In this paper we take steps to address this problem by providing an overview of specification inference tools that can be used for deductive verification of Java programs. For each tool, we discuss its approach to specification inference and identify its advantages and disadvantages. Moreover, we identify the types of specifications that it infers and use this to estimate the impact of the tool on the overall specification writing process. Finally, we identify the ideal features of a specification generator and discuss important challenges for future research.}
+}
+
+
+
 
 @phdthesis{Lathouwers23,
   title = "Exploring annotations for deductive verification",
