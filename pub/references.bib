@@ -1,4 +1,4 @@
-@inbook{Haak24,
+@inproceedings{Haak24,
 title = "HaliVer: Deductive Verification and Scheduling Languages Join Forces",
 abstract = "The HALIVER tool integrates deductive verification into the popular scheduling language HALIDE, used for image processing pipelines and array computations. HALIVER uses VERCORS, a separation logic-based verifier, to verify the correctness of (1) the HALIDE algorithms and (2) the optimised parallel code produced by HALIDE when an optimisation schedule is applied to an algorithm. This allows proving complex, optimised code correct while reducing the effort to provide the required verification annotations. For both approaches, the same specification is used. We evaluated the tool on several optimised programs generated from characteristic HALIDE algorithms, using all but one of the essential scheduling directives available in HALIDE. Without annotation effort, HALIVER proves memory safety in almost all programs. With annotations HALIVER, additionally, proves functional correctness properties. We show that the approach is viable and reduces the manual annotation effort by an order of magnitude.",
 keywords = "2024 OA procedure",
@@ -15,7 +15,7 @@ note = "30th International Conference on Tools and Algorithms for the Constructi
 
 }
 
-@inbook{Oorschot24,
+@inproceedings{Oorschot24,
 title = "First Steps towards Deductive Verification of LLVM IR",
 abstract = "Over the last years, deductive program verifiers have substantially improved, and their applicability on non-trivial applications has been demonstrated. However, a major bottleneck is that for every new programming language, a new deductive verifier has to be built.This paper describes the first steps in a project that aims to address this problem, by language-agnostic support for deductive verification: Rather than building a deductive program verifier for every programming language, we develop deductive program verification technology for a widely-used intermediate representation language (LLVM IR), such that we eventually get verification support for any language that can be compiled into the LLVM IR format.Concretely, this paper describes the design of VCLLVM, a prototype tool that adds LLVM IR as a supported language to the VerCors verifier. We discuss the challenges that have to be addressed to develop verification support for such a low-level language. Moreover, we also sketch how we envisage to build verification support for any specified source program that can be compiled into LLVM IR on top of VCLLVM.",
 keywords = "2024 OA procedure",
