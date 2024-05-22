@@ -11571,6 +11571,118 @@ includes the code inside the HTML comment tags <code>&lt;!--</code> and
 <code>--&gt;</code>. The visible code snippets use
 <code>codeSnip</code>, and the code is outside the comment tags,
 enclosed in triple back-ticks like any displayed code block.</p>
+<h1 id="parser-analysis">Parser Analysis</h1>
+<p>Over time it's been noticed that there are two large issues with the
+parsing stage across multiple input languages:</p>
+<ul>
+<li>Parsing is slow for certain languages</li>
+<li>Memory usage can be extreme due to <code>_sharedContextCache</code>
+being a shared static field in each parser</li>
+</ul>
+<p>We've long suspected that both could be fixed by making the grammar
+more straightforward to parse, but so far we haven't conclusively found
+what we should change. There are now a couple flags that analyze what is
+happening during parsing to help with that. I've tried to add (in an
+overly confident tone) what ANTLR is now reporting to us. I'm pretty
+sure there are holes in my understanding of ANTLR still, so apologies in
+advance.</p>
+<h3 id="flags-to-analyse-antlr">Flags to analyse ANTLR</h3>
+<p>You can pass <code>--dev-parsing-ambiguities</code> and
+<code>--dev-parsing-sensitivities</code>. ANTLR only cares about
+ambiguities in the sense that it has to tell you for each rule which
+alternative it chose. A decision is considered context-sensitive when we
+cannot decide with one token of lookahead what alternative to choose.
+While matching a production like
+<code>(expr expr)* expr expr expr</code> we do need more lookahead than
+one, because it is not clear while reading expressions whether to
+continue in the <code>*</code> or read the last three expressions.
+Nevertheless this is not context-sensitive, because ANTLR dumps all
+terminals/non-terminals flatly into the context that represents the
+current production, so even in the face of a context-sensitive decision
+like this, the resulting data structure is the same anyway.</p>
+<h3 id="format-of-the-output">Format of the output</h3>
+<p>When enabling either flag you will receive outputs like this:</p>
+<pre><code>======================================
+At /tmp/vercors-interpreted-13716491317094529415.ipp
+--------------------------------------
+   20    void parallel_for(sycl::range&lt;1&gt; numWorkItems, VERCORS::LAMBDA lambda_method);
+   21    void parallel_for(sycl::range&lt;2&gt; numWorkItems, VERCORS::LAMBDA lambda_method);
+                                                       [---------
+   22    void parallel_for(sycl::range&lt;3&gt; numWorkItems, VERCORS::LAMBDA lambda_method);
+                                                        ---------]
+   23  
+   24    void parallel_for(sycl::nd_range&lt;1&gt; numWorkItems, VERCORS::LAMBDA lambda_method);
+--------------------------------------
+Prediction of rule theTypeName required full context and took 0.00s:
+[x] simpleTemplateId
+ &gt;  className
+ &gt;  enumName
+ &gt;  typedefName
+======================================</code></pre>
+<ul>
+<li>The start of the indicated region is the position at which a
+context-sensitivity was detected</li>
+<li>The end of the region indicates when we have returned to normalcy,
+and we know which alternative to choose</li>
+<li>The message indicates the name of the rule where an ambiguity
+occurred, and how much time it took to run the analysis (this does not
+seem to be indicative of anything yet)</li>
+<li>The bottom lists the productions for the given rule, potentially
+prefixed by an indicator</li>
+<li>An indicator of <code>&gt;</code> indicates a definitively viable
+alternative</li>
+<li>An indicator of <code>[x]</code> indicates an alternative that was
+discarded only <em>after</em> running a full-context analysis</li>
+<li>No indicator means it was not considered a viable alternative, even
+before considering context. (There are no lines without an indicator in
+this example)</li>
+</ul>
+<p><strong>Note 1</strong>: if there are multiple <code>&gt;</code>
+lines, this means that there is an <strong>ambiguity</strong> in the
+parser: both are valid. If there is only one <code>&gt;</code>, there
+must be a <code>[x]</code>: it means the grammar is <strong>sensitive to
+context</strong>. I think that context-sensitivities can be normal/fine
+if the indicated region is quite small.</p>
+<p><strong>Note 2</strong>: The name of the rule refers to the rule in
+the input grammar. In the case of left-recursive grammars (e.g. most of
+our expressions), the grammar is instead rewritten, so you may see
+alternatives that do not make much sense, like this:</p>
+<pre><code>======================================
+At /home/pieter/vercors/res/universal/res/jdk/java/lang/String.java
+--------------------------------------
+   61      ensures \result.data() == other.data() + data();
+   62      String right+(String other) {
+                                             [-
+   63          return new String(other.data() + data());
+                                              -]
+   64      }
+   65      @*/
+--------------------------------------
+Prediction of rule expr required full context and took 0.00s:
+ &gt;  ({9 &gt;= _p}? (&#39;==&#39;|&#39;!=&#39;) expr | {28 &gt;= _p}? &#39;.&#39; &#39;new&#39; nonWildcardTypeArguments? innerCreator | {3 &gt;= _p}? impOp expr | {27 &gt;= _p}? &#39;.&#39; &#39;super&#39; superSuffix | {19 &gt;= _p}? (&#39;++&#39;|&#39;--&#39;) | {29 &gt;= _p}? &#39;.&#39; &#39;this&#39; | {24 &gt;= _p}? &#39;-&gt;&#39; javaIdentifier arguments | {11 &gt;= _p}? relOp expr | {7 &gt;= _p}? &#39;^&#39; expr | {15 &gt;= _p}? prependOp expr | {6 &gt;= _p}? &#39;|&#39; expr | {4 &gt;= _p}? &#39;||&#39; expr | {22 &gt;= _p}? postfixOp | {5 &gt;= _p}? andOp expr | {13 &gt;= _p}? (&#39;+&#39;|&#39;-&#39;) expr | {1 &gt;= _p}? assignOp expr | {26 &gt;= _p}? &#39;.&#39; explicitGenericInvocation | {12 &gt;= _p}? shiftOp expr | {2 &gt;= _p}? &#39;?&#39; expr &#39;:&#39; expr | {8 &gt;= _p}? &#39;&amp;&#39; expr | {23 &gt;= _p}? &#39;.&#39; javaIdentifier predicateEntryType? arguments valEmbedGiven? valEmbedYields? | {25 &gt;= _p}? &#39;[&#39; expr &#39;]&#39; | {10 &gt;= _p}? &#39;instanceof&#39; type | {14 &gt;= _p}? mulOp expr | {30 &gt;= _p}? &#39;.&#39; javaIdentifier)+
+[x] ()
+======================================</code></pre>
+<p>Note that the first alternative ends in <code>+</code>. This language
+represents the tail part of the left-recursive alternatives of
+<code>expr</code>. The operator precedence is here already encoded by
+antlr automatically through semantic predicates
+<code>{_ &gt;= _p}?</code>, I don't know the exact mechanics.</p>
+<p><strong>Note 3</strong>: Note that the alternatives are recovered
+from the augmented transition network in the parser, and then
+pretty-printed as a production rule. This means that they may not
+exactly correspond to the input, even when not left-recursive.
+Especially note that a rule such as <code>(a | b?)</code> is
+pretty-printed as <code>(a | b)?</code>, which is equivalent (!)</p>
+<h3 id="now-what">Now what</h3>
+<p>I'm not certain what you should actually change when something is
+reported. Nevertheless I offer some thoughts:</p>
+<ul>
+<li>I think ambiguities are universally bad: an input should really have
+at most one derivation. It can be indicative of duplicate rules.</li>
+<li>Maybe we should try doing stuff like
+<code>exp2: exp1 (('*'|'/') exp1)*</code> instead of
+<code>exp2: exp1 | exp2 '*' exp1 | exp2 '/' exp1</code></li>
+</ul>
 <h1 id="meta">Meta</h1>
 <p>This page lists the software, deployments, credentials and
 documentation in the orbit of the VerCors project.</p>
@@ -11847,6 +11959,9 @@ href="https://hub.docker.com/u/utwentefmt">https://hub.docker.com/u/utwentefmt</
 <li><a href="#self-contained-code-blocks">Self-contained code blocks</a></li>
 <li><a href="#snippets">Snippets</a></li>
 </ul>
+</li>
+<li>
+<a href="#parser-analysis">Parser Analysis</a>
 </li>
 <li>
 <a href="#meta">Meta</a>
