@@ -16,6 +16,7 @@
     margin-right: 1rem;
     background: var(--background-light-alt);
     overflow: hidden;
+    vertical-align: top;
 }
 
 .alt .profile, .alt .sponsor-list li {

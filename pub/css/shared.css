@@ -93,6 +93,10 @@ nav > .container > ul > li > ul > li {
     background-color: var(--background-light-alt);
 }
 
+ul.columns {
+    column-count: 3;
+}
+
 #footer {
     position: sticky;
     top: 100vh;
