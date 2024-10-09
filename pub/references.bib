@@ -1,3 +1,40 @@
+@InProceedings{10.1007/978-3-031-68150-9_9,
+author="van den Haak, Lars B.
+and Wijs, Anton
+and Huisman, Marieke
+and van den Brand, Mark",
+editor="Haxthausen, Anne E.
+and Serwe, Wendelin",
+title="Verifying a Radio Telescope Pipeline Using HaliVer: Solving Nonlinear and Quantifier Challenges",
+booktitle="Formal Methods for Industrial Critical Systems",
+year="2024",
+publisher="Springer Nature Switzerland",
+address="Cham",
+pages="152--169",
+abstract="This paper describes a case study to verify memory safety of a radio telescope pipeline, which was targeted with the PADRE project of Astron, SURF and the Netherlands eScienceCenter. As performance is important for this application, the implementation of the radio telescope pipeline should run on a GPU device. Therefore, we encoded the radio telescope pipeline using the Halide scheduling language, which achieved a significant speedup. Next, we used the HaliVer tool to automatically generate formal pre- and postconditions, loop invariants and assertions, which the deductive verifier VerCors can use to prove memory safety. We identified two challenges for the automatic generation of formal annotations for a tool such as VerCors. The first challenge was related to the flattening of multi-dimensional arrays to single arrays and the second challenge concerns the use of many arrays in a program in combination with many quantifiers to specify read and write permissions. For both challenges, we propose solutions, and implemented these. Not every solution proved successful. We discuss the lessons learned and future plans to solve a core scalability issue for large optimised parallel programs.",
+isbn="978-3-031-68150-9"
+}
+
+@InProceedings{10.1007/978-3-031-65630-9_1,
+author="Armborst, Lukas
+and Bos, Pieter
+and van den Haak, Lars B.
+and Huisman, Marieke
+and Rubbens, Robert
+and {\c{S}}akar, {\"O}mer
+and Tasche, Philip",
+editor="Gurfinkel, Arie
+and Ganesh, Vijay",
+title="The VerCors Verifier: A Progress Report",
+booktitle="Computer Aided Verification",
+year="2024",
+publisher="Springer Nature Switzerland",
+address="Cham",
+pages="3--18",
+abstract="This paper gives an overview of the most recent developments on the VerCors verifier. VerCors is a deductive verifier for concurrent software, written in multiple programming languages, where the specifications are written in terms of pre-/postcondition contracts using permission-based separation logic. In essence, VerCors is a program transformation tool: it translates an annotated program into input for the Viper framework, which is then used as verification back-end. The paper discusses the different programming languages and features for which VerCors provides verification support. It also discusses how the tool internally has been reorganised to become easily extendible, and to improve the connection and interaction with Viper. In addition, we also introduce two tools built on top of VerCors, which support correctness-preserving transformations of verified programs. Finally, we discuss how the VerCors verifier has been used on a range of realistic case studies.",
+isbn="978-3-031-65630-9"
+}
+
 @inproceedings{Haak24,
 title = "HaliVer: Deductive Verification and Scheduling Languages Join Forces",
 abstract = "The HALIVER tool integrates deductive verification into the popular scheduling language HALIDE, used for image processing pipelines and array computations. HALIVER uses VERCORS, a separation logic-based verifier, to verify the correctness of (1) the HALIDE algorithms and (2) the optimised parallel code produced by HALIDE when an optimisation schedule is applied to an algorithm. This allows proving complex, optimised code correct while reducing the effort to provide the required verification annotations. For both approaches, the same specification is used. We evaluated the tool on several optimised programs generated from characteristic HALIDE algorithms, using all but one of the essential scheduling directives available in HALIDE. Without annotation effort, HALIVER proves memory safety in almost all programs. With annotations HALIVER, additionally, proves functional correctness properties. We show that the approach is viable and reduces the manual annotation effort by an order of magnitude.",
