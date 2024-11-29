@@ -4061,6 +4061,9 @@ class Test {
 </div>
 
 <h3 id="set-comprehension">Set comprehension</h3>
+<p><em>Please note that set comprehensions are <a
+href="https://github.com/utwente-fmt/vercors/discussions/1068">currently
+not supported</a>.</em></p>
 <p>An advanced way to create a set is using <em>set comprehension</em>.
 The syntax is <code>set&lt;T&gt; { main | variables; selector }</code>
 and consists of three parts: the <code>main</code>, the
@@ -10089,77 +10092,175 @@ href="https://github.com/utwente-fmt/vercors/wiki/Prototypal-Verification-Langua
 </ul>
 <h2 id="types-and-data-structures">Types and Data Structures</h2>
 <p>The following table lists the basic and composed data types supported
-in the specification language. | Type | Description | | --- | --- | |
-<code>resource</code> | Boolean-like type that also allows reasoning
-about permissions. See <a
-href="https://github.com/utwente-fmt/vercors/wiki/Predicates">https://github.com/utwente-fmt/vercors/wiki/Predicates</a>
-| | <code>frac</code> | Fraction, used for permission amounts. See <a
-href="https://github.com/utwente-fmt/vercors/wiki/Permissions">https://github.com/utwente-fmt/vercors/wiki/Permissions</a>
-| | <code>zfrac</code> | Fraction that can also be zero. | |
-<code>rational</code> | Unbounded rational number | | <code>bool</code>
-| Boolean value that is either <code>true</code> or <code>false</code> |
-| <code>string</code> | Text, i.e. a string of characters | |
-<code>ref</code> | Reference to an object, similar to Viper's
-<code>Ref</code> type. Mostly for internal usage, e.g. ADT definitions.
-| | <code>process</code> | Type of actions and defined processes in
-process algebra models. See <a
-href="https://github.com/utwente-fmt/vercors/wiki/Process-Algebra-Models">https://github.com/utwente-fmt/vercors/wiki/Process-Algebra-Models</a>
-| | <code>any</code> | Artificial type that is a supertype of any other
-type. Mostly for internal usage, e.g. rewrite rules. | |
-<code>nothing</code> | Artificial type that is a subtype of any other
-type. Mostly for internal usage, e.g. rewrite rules. | |
-<code>seq&lt;T&gt;</code> | Defines an immutable ordered list
-(sequence). <code>T</code> should be replaced by a type. See <a
-href="https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types">https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types</a>
-| | <code>set&lt;T&gt;</code> | Defines an immutable orderless
-collection that does not allow duplicates ("set"). <code>T</code> should
+in the specification language.</p>
+<table>
+<thead>
+<tr class="header">
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>resource</code></td>
+<td>Boolean-like type that also allows reasoning about permissions. See
+<a
+href="https://github.com/utwente-fmt/vercors/wiki/Predicates">https://github.com/utwente-fmt/vercors/wiki/Predicates</a></td>
+</tr>
+<tr class="even">
+<td><code>frac</code></td>
+<td>Fraction, used for permission amounts. See <a
+href="https://github.com/utwente-fmt/vercors/wiki/Permissions">https://github.com/utwente-fmt/vercors/wiki/Permissions</a></td>
+</tr>
+<tr class="odd">
+<td><code>zfrac</code></td>
+<td>Fraction that can also be zero.</td>
+</tr>
+<tr class="even">
+<td><code>rational</code></td>
+<td>Unbounded rational number</td>
+</tr>
+<tr class="odd">
+<td><code>bool</code></td>
+<td>Boolean value that is either <code>true</code> or
+<code>false</code></td>
+</tr>
+<tr class="even">
+<td><code>string</code></td>
+<td>Text, i.e. a string of characters</td>
+</tr>
+<tr class="odd">
+<td><code>ref</code></td>
+<td>Reference to an object, similar to Viper's <code>Ref</code> type.
+Mostly for internal usage, e.g. ADT definitions.</td>
+</tr>
+<tr class="even">
+<td><code>process</code></td>
+<td>Type of actions and defined processes in process algebra models. See
+<a
+href="https://github.com/utwente-fmt/vercors/wiki/Process-Algebra-Models">https://github.com/utwente-fmt/vercors/wiki/Process-Algebra-Models</a></td>
+</tr>
+<tr class="odd">
+<td><code>any</code></td>
+<td>Artificial type that is a supertype of any other type. Mostly for
+internal usage, e.g. rewrite rules.</td>
+</tr>
+<tr class="even">
+<td><code>nothing</code></td>
+<td>Artificial type that is a subtype of any other type. Mostly for
+internal usage, e.g. rewrite rules.</td>
+</tr>
+<tr class="odd">
+<td><code>seq&lt;T&gt;</code></td>
+<td>Defines an immutable ordered list (sequence). <code>T</code> should
 be replaced by a type. See <a
-href="https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types">https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types</a>
-| | <code>bag&lt;T&gt;</code> | Defines an immutable orderless
-collection that does allow duplicates ("bag" or "multiset").
+href="https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types">https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types</a></td>
+</tr>
+<tr class="even">
+<td><code>set&lt;T&gt;</code></td>
+<td>Defines an immutable orderless collection that does not allow
+duplicates ("set"). <code>T</code> should be replaced by a type. See <a
+href="https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types">https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types</a></td>
+</tr>
+<tr class="odd">
+<td><code>bag&lt;T&gt;</code></td>
+<td>Defines an immutable orderless collection that does allow duplicates
+("bag" or "multiset"). <code>T</code> should be replaced by a type. See
+<a
+href="https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types">https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types</a></td>
+</tr>
+<tr class="even">
+<td><code>map&lt;T1, T2&gt;</code></td>
+<td>Defines an immutable orderless collection of key/value pairs that
+does not allow duplicate keys ("map", "record" or "dictionary").
+<code>T1</code> and <code>T2</code> should be replaced by Types. See <a
+href="https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types">https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types</a></td>
+</tr>
+<tr class="odd">
+<td><code>option&lt;T&gt;</code></td>
+<td>Extends type <code>T</code> with an extra element <code>None</code>.
+Each element is then either <code>None</code> or of the style
+<code>Some(e)</code> where <code>e</code> is of type <code>T</code>.
+<code>T</code> should be replaced by a type. Options cannot be unpacked
+at the moment. See <a
+href="https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types">https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types</a></td>
+</tr>
+<tr class="even">
+<td><code>tuple&lt;T1,T2&gt;</code></td>
+<td>Defines a pair, where the first entry is of type <code>T1</code> and
+the second of type <code>T2</code>. Can be nested to create larger
+tuples. See <a
+href="https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types">https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types</a></td>
+</tr>
+<tr class="odd">
+<td><code>pointer&lt;T&gt;</code></td>
+<td>Defines the type of a pointer to an element of type <code>T</code>.
 <code>T</code> should be replaced by a type. See <a
-href="https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types">https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types</a>
-| | <code>map&lt;T1, T2&gt;</code> | Defines an immutable orderless
-collection of key/value pairs that does not allow duplicate keys ("map",
-"record" or "dictionary"). <code>T1</code> and <code>T2</code> should be
-replaced by Types. See <a
-href="https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types">https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types</a>
-| | <code>option&lt;T&gt;</code> | Extends type <code>T</code> with an
-extra element <code>None</code>. Each element is then either
-<code>None</code> or of the style <code>Some(e)</code> where
-<code>e</code> is of type <code>T</code>. <code>T</code> should be
-replaced by a type. Options cannot be unpacked at the moment. See <a
-href="https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types">https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types</a>
-| | <code>tuple&lt;T1,T2&gt;</code> | Defines a pair, where the first
-entry is of type <code>T1</code> and the second of type <code>T2</code>.
-Can be nested to create larger tuples. See <a
-href="https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types">https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types</a>
-| | <code>pointer&lt;T&gt;</code> | Defines the type of a pointer to an
-element of type <code>T</code>. <code>T</code> should be replaced by a
-type. See <a
-href="https://github.com/utwente-fmt/vercors/wiki/Arrays-and-Pointers">https://github.com/utwente-fmt/vercors/wiki/Arrays-and-Pointers</a>
-| | <code>type&lt;T&gt;</code> | Used to define type variables that are
-subtype of <code>T</code>. Mostly used for rewrite rules, e.g.
-<code>(\forall type&lt;any&gt; T; (\forall T t; expr))</code> | |
-<code>either&lt;T1, T2&gt;</code> | Defines the type of an object
-<code>o</code> that is either of type <code>T1</code> or of type
-<code>T2</code>. See TODO | | language type | A type from the base
-language, e.g. Java, can also be used in the specifications for that
-language. This usually provides basic types like <code>int</code>. |</p>
+href="https://github.com/utwente-fmt/vercors/wiki/Arrays-and-Pointers">https://github.com/utwente-fmt/vercors/wiki/Arrays-and-Pointers</a></td>
+</tr>
+<tr class="even">
+<td><code>type&lt;T&gt;</code></td>
+<td>Used to define type variables that are subtype of <code>T</code>.
+Mostly used for rewrite rules, e.g.
+<code>(\forall type&lt;any&gt; T; (\forall T t; expr))</code></td>
+</tr>
+<tr class="odd">
+<td><code>either&lt;T1, T2&gt;</code></td>
+<td>Defines the type of an object <code>o</code> that is either of type
+<code>T1</code> or of type <code>T2</code>. See TODO</td>
+</tr>
+<tr class="even">
+<td>language type</td>
+<td>A type from the base language, e.g. Java, can also be used in the
+specifications for that language. This usually provides basic types like
+<code>int</code>.</td>
+</tr>
+</tbody>
+</table>
 <h3 id="pvl-1">PVL</h3>
 <p>In PVL, the specification types above can also be used in the regular
-program. Additionally, the following types are available: | Type |
-Description | | --- | --- | | <code>int</code> | Integer | |
-<code>boolean</code> | <code>true</code> or <code>false</code> | |
-<code>void</code> | Used when a method does not return anything | |
-<code>float32</code> | 32-bit floating point number (Note: support still
-limited) | | <code>float64</code> | 64-bit floating point number (Note:
-support still limited) | | <code>char</code> | Character | |
-<code>T[]</code> | Array which contains elements of type <code>T</code>.
-<code>T</code> should be replaced by a type. Note that when you
-initialize a new array, you should always define the length of the
-array, e.g. <code>new int[3]</code> instead of <code>new int[]</code>.
-|</p>
+program. Additionally, the following types are available:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>int</code></td>
+<td>Integer</td>
+</tr>
+<tr class="even">
+<td><code>boolean</code></td>
+<td><code>true</code> or <code>false</code></td>
+</tr>
+<tr class="odd">
+<td><code>void</code></td>
+<td>Used when a method does not return anything</td>
+</tr>
+<tr class="even">
+<td><code>float32</code></td>
+<td>32-bit floating point number (Note: support still limited)</td>
+</tr>
+<tr class="odd">
+<td><code>float64</code></td>
+<td>64-bit floating point number (Note: support still limited)</td>
+</tr>
+<tr class="even">
+<td><code>char</code></td>
+<td>Character</td>
+</tr>
+<tr class="odd">
+<td><code>T[]</code></td>
+<td>Array which contains elements of type <code>T</code>. <code>T</code>
+should be replaced by a type. Note that when you initialize a new array,
+you should always define the length of the array, e.g.
+<code>new int[3]</code> instead of <code>new int[]</code>.</td>
+</tr>
+</tbody>
+</table>
 <h2 id="expressions-1">Expressions</h2>
 <h3 id="operators">Operators</h3>
 <table>
@@ -10256,63 +10357,132 @@ corresponding functions, e.g. <code>s1.subsetOf(s2)</code> for
 <code>s1 &lt;= s2</code>. There are also functions that do not have an
 operator equivalence, e.g. <code>xs.removeAt(i)</code>. See <a
 href="https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types">https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types</a>
-for the full list. | Code | Description | | --- | --- | | <code>+</code>
-| Sequence concatenation, Set union, Bag union | | <code>-</code> | Set
-difference, Bag difference | | <code>*</code> | Set intersection, Bag
-intersection | | <code>&lt;</code>, <code>&lt;=</code> | strict subset,
-or subset-or-equal, respectively (also for bags) | | <code>xs[k]</code>
-| Sequence indexing: <code>k</code>th element of sequence
-<code>xs</code>; Map indexing: value associated with key <code>k</code>
-| | <code>::</code> | <code>x :: xs</code> prepends element
-<code>x</code> to the front of sequence <code>xs</code>. | |
-<code>++</code> | <code>xs ++ x</code> appends element <code>x</code> to
-the end of sequence <code>xs</code>. // Note: Discouraged, support may
-get removed. | | <code>e[l .. r]</code> | Range indexing of sequence
-<code>e</code> (slicing). Creates a new sequence with the elements of
-<code>e</code> between indices <code>l</code> (incl.) and
-<code>r</code>(excl.). One of <code>l</code> or <code>r</code> may be
-omitted. | | <code>e[k -&gt; v]</code> | Updating of map <code>e</code>
-at index <code>k</code> to new value <code>v</code>
-(<strong>not</strong> in-place). | | <code>\|xs\|</code> | Cardinality
-of collection <code>xs</code>, e.g. length of sequence, size of set. | |
-<code>\values(e1, e2, e3)</code> | create a sequence that stores the
-values from array <code>e1</code> between indices <code>e2</code> and
-<code>e3</code>. | | <code>Some(e)</code> | Turns expression
-<code>e</code> of type <code>T</code> into an expression of type
-<code>option&lt;T&gt;</code> containing <code>e</code>. | |
-<code>seq&lt;T&gt;{vals}</code> or <code>[vals]</code> | sequence
-literal containing values <code>vals</code> (of type <code>T</code>). |
-| <code>set&lt;T&gt;{vals}</code> or <code>{vals}</code> | set literal
-containing values <code>vals</code> (of type <code>T</code>). | |
-<code>bag&lt;T&gt;{vals}</code> or <code>b{vals}</code> | bag literal
-containing values <code>vals</code> (of type <code>T</code>). | |
-<code>map&lt;T1, T2&gt;{k1-&gt;v1, k2-&gt;v2,...}</code> | map literal
-mapping <code>k1</code> (of type <code>T1</code>) to <code>v1</code> (of
-type <code>T2</code>), etc. | | <code>tuple&lt;T1, T2&gt;{v1, v2}</code>
-| tuple literal containing the two values <code>v1</code> (of type
-<code>T1</code>) and <code>v2</code> (of type <code>T2</code>). | |
-<code>[t: T]</code>, <code>{t: T}</code>, <code>b{t: T}</code> | literal
-describing the empty <code>seq&lt;T&gt;</code>,
+for the full list.</p>
+<table>
+<thead>
+<tr class="header">
+<th>Code</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>+</code></td>
+<td>Sequence concatenation, Set union, Bag union</td>
+</tr>
+<tr class="even">
+<td><code>-</code></td>
+<td>Set difference, Bag difference</td>
+</tr>
+<tr class="odd">
+<td><code>*</code></td>
+<td>Set intersection, Bag intersection</td>
+</tr>
+<tr class="even">
+<td><code>&lt;</code>, <code>&lt;=</code></td>
+<td>strict subset, or subset-or-equal, respectively (also for bags)</td>
+</tr>
+<tr class="odd">
+<td><code>xs[k]</code></td>
+<td>Sequence indexing: <code>k</code>th element of sequence
+<code>xs</code>; Map indexing: value associated with key
+<code>k</code></td>
+</tr>
+<tr class="even">
+<td><code>::</code></td>
+<td><code>x :: xs</code> prepends element <code>x</code> to the front of
+sequence <code>xs</code>.</td>
+</tr>
+<tr class="odd">
+<td><code>++</code></td>
+<td><code>xs ++ x</code> appends element <code>x</code> to the end of
+sequence <code>xs</code>. // Note: Discouraged, support may get
+removed.</td>
+</tr>
+<tr class="even">
+<td><code>e[l .. r]</code></td>
+<td>Range indexing of sequence <code>e</code> (slicing). Creates a new
+sequence with the elements of <code>e</code> between indices
+<code>l</code> (incl.) and <code>r</code>(excl.). One of <code>l</code>
+or <code>r</code> may be omitted.</td>
+</tr>
+<tr class="odd">
+<td><code>e[k -&gt; v]</code></td>
+<td>Updating of map <code>e</code> at index <code>k</code> to new value
+<code>v</code> (<strong>not</strong> in-place).</td>
+</tr>
+<tr class="even">
+<td>`</td>
+<td>xs</td>
+</tr>
+<tr class="odd">
+<td><code>\values(e1, e2, e3)</code></td>
+<td>create a sequence that stores the values from array <code>e1</code>
+between indices <code>e2</code> and <code>e3</code>.</td>
+</tr>
+<tr class="even">
+<td><code>Some(e)</code></td>
+<td>Turns expression <code>e</code> of type <code>T</code> into an
+expression of type <code>option&lt;T&gt;</code> containing
+<code>e</code>.</td>
+</tr>
+<tr class="odd">
+<td><code>seq&lt;T&gt;{vals}</code> or <code>[vals]</code></td>
+<td>sequence literal containing values <code>vals</code> (of type
+<code>T</code>).</td>
+</tr>
+<tr class="even">
+<td><code>set&lt;T&gt;{vals}</code> or <code>{vals}</code></td>
+<td>set literal containing values <code>vals</code> (of type
+<code>T</code>).</td>
+</tr>
+<tr class="odd">
+<td><code>bag&lt;T&gt;{vals}</code> or <code>b{vals}</code></td>
+<td>bag literal containing values <code>vals</code> (of type
+<code>T</code>).</td>
+</tr>
+<tr class="even">
+<td><code>map&lt;T1, T2&gt;{k1-&gt;v1, k2-&gt;v2,...}</code></td>
+<td>map literal mapping <code>k1</code> (of type <code>T1</code>) to
+<code>v1</code> (of type <code>T2</code>), etc.</td>
+</tr>
+<tr class="odd">
+<td><code>tuple&lt;T1, T2&gt;{v1, v2}</code></td>
+<td>tuple literal containing the two values <code>v1</code> (of type
+<code>T1</code>) and <code>v2</code> (of type <code>T2</code>).</td>
+</tr>
+<tr class="even">
+<td><code>[t: T]</code>, <code>{t: T}</code>, <code>b{t: T}</code></td>
+<td>literal describing the empty <code>seq&lt;T&gt;</code>,
 <code>set&lt;T&gt;</code> and <code>bag&lt;T&gt;</code>, respectively.
 Note that <code>T</code> is a type parameter that should be replaced
 with the appropriate type, while <code>t:</code> is part of the syntax
-and should occur literally, e.g. <code>int[] emp = [t: int];</code>. | |
-<code>{l .. r}</code> | Literal of type <code>seq&lt;int&gt;</code>
-describing the integer range from <code>l</code> (incl) to
-<code>r</code> (excl). | |
-<code>set&lt;T&gt;{ e \| selectors ; filter }</code> | Set
-comprehension, creating set that contains expressions of the form
-<code>e</code> (of type <code>T</code>), based on the variables defined
-in <code>selectors</code> if they match filter expression
-<code>filter</code>. Note the restrictions described at <a
-href="https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types">https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types</a>.
-| | <code>x \in xs</code> | Membership check if element <code>x</code>
-is contained in collection <code>xs</code>. Note: For bags, it returns
-the number of occurrences, <strong>not</strong> a boolean. | |
-<code>(\sum int idx; range; e)</code> | Sequence summation: sum
-expression <code>e</code> (which depends on the index <code>idx</code>)
-for all indices within the given range. Note: currently not supported.
-|</p>
+and should occur literally, e.g.
+<code>int[] emp = [t: int];</code>.</td>
+</tr>
+<tr class="odd">
+<td><code>{l .. r}</code></td>
+<td>Literal of type <code>seq&lt;int&gt;</code> describing the integer
+range from <code>l</code> (incl) to <code>r</code> (excl).</td>
+</tr>
+<tr class="even">
+<td>`set<T>{ e</td>
+<td>selectors ; filter }`</td>
+</tr>
+<tr class="odd">
+<td><code>x \in xs</code></td>
+<td>Membership check if element <code>x</code> is contained in
+collection <code>xs</code>. Note: For bags, it returns the number of
+occurrences, <strong>not</strong> a boolean.</td>
+</tr>
+<tr class="even">
+<td><code>(\sum int idx; range; e)</code></td>
+<td>Sequence summation: sum expression <code>e</code> (which depends on
+the index <code>idx</code>) for all indices within the given range.
+Note: currently not supported.</td>
+</tr>
+</tbody>
+</table>
 <h4 id="pvl-2">PVL</h4>
 <table>
 <thead>
@@ -11266,11 +11436,46 @@ href="https://github.com/NLthijs48/PrefixSumVerification">https://github.com/NLt
 </ul></li>
 </ul>
 <h1 id="developing-for-vercors">Developing for VerCors</h1>
-<p>In Summer 2024, Pieter wrote this developer's guide: <a
-href="https://pieter-bos.github.io/vercors-doc/">https://pieter-bos.github.io/vercors-doc/</a></p>
-<p>It provides some useful background on the setup of the project, and
-how to do certain tasks.</p>
-<h2 id="workflow">Workflow</h2>
+<p>In Summer 2024, Pieter wrote this developer's guide on the internals
+of VerCors: <a
+href="https://pieter-bos.github.io/vercors-doc/">https://pieter-bos.github.io/vercors-doc/</a>.
+It provides some useful background on the setup of the project, and how
+to do certain tasks.</p>
+<h2 id="prbranch-management">PR/Branch management</h2>
+<p>Some general guidelines/notes to take into account when developing
+for VerCors:</p>
+<ul>
+<li><strong>Draft PRs:</strong> while a PR is unfinished, mark it as
+"draft". Once it is ready for merging, unmark it as draft. Please do
+this even for short-lived PRs, so there is a definitive signal that work
+on a PR has finished.</li>
+<li><strong>Branches &amp; PRs:</strong> if you do work on a branch, it
+<strong>must</strong> have a PR. This way we keep track of what everyone
+is working on.</li>
+<li><strong>PR size:</strong> try to keep your PRs small. If it has been
+open for longer than a month, consider bringing the PR in a state where
+it can be merged, even though your work might not be finished yet. This
+ensures we can still try to do bigger refactorings, while keeping churn
+in long-standing branches minimal.</li>
+<li><strong>Branch naming:</strong> we don't really have a guideline for
+this, proposals welcome. For now: if it's for a specific subsystem
+(VeyMont, VeSUV, Pallas), include that. If relevant, feel free to
+include the issue number.</li>
+<li><strong>VerCors repo or fork:</strong> obviously, you may open PRs
+that propose to merge a branch from a VerCors fork. We try to support
+this workflow in our CI, as long as it doesn't take too much effort. If
+you're a UT student, FMT employee, or research collaborator, get in
+touch with us so you can do your development directly in the VerCors
+repo, if you prefer.</li>
+<li><strong>Branch cleanup:</strong> delete your branch after its PR has
+been merged, unless you plan on continuing development on it. Don't
+leave it lying around unused.</li>
+<li><strong>Quality control:</strong> on the dev &amp; master branch,
+all tests (except flaky ones) should pass, and all files should be
+formatted using the auto formatter. On your own branch you can pretty
+much do whatever you want.</li>
+</ul>
+<h2 id="example-workflow">Example workflow</h2>
 <p><em>Below you can find a description of what a typical workflow looks
 like.</em></p>
 <ol type="1">
@@ -11893,6 +12098,74 @@ file integration.Generated1Tests.
 href="https://www.scalatest.org/user_guide/using_scalatest_with_sbt">https://www.scalatest.org/user_guide/using_scalatest_with_sbt</a>
 Note that the run settings like classpath and available memory can be
 different from Intellij and sbt.</p>
+<h1 id="profiling">Profiling</h1>
+<p>VerCors can generate a profile in the <a
+href="https://github.com/google/pprof">pprof</a> format. This only works
+on unix-like systems, and works best on linux. The file
+<code>profile.pprof.gz</code> is generated in the current directory when
+passing the flag <code>--profile</code>:</p>
+<div class="sourceCode" id="cb75"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> vercors <span class="at">--profile</span> some/example.java</span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a><span class="kw">(</span><span class="ex">...</span><span class="kw">)</span></span>
+<span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> ls profile.pprof.gz</span>
+<span id="cb75-4"><a href="#cb75-4" aria-hidden="true" tabindex="-1"></a><span class="ex">profile.pprof.gz</span></span></code></pre></div>
+<p>It's safe to stop vercors with control-C (<code>SIGINT</code>), and
+the profile will contain all samples up to that point, with the
+exception of <code>childSys</code> and <code>childUser</code> (explained
+below).</p>
+<p>It can be viewed with e.g. the <a
+href="https://github.com/google/pprof">pprof tool</a>, e.g.:</p>
+<pre><code>$ pprof -http=:1234 profile.pprof.gz</code></pre>
+<p><img
+src="https://user-images.githubusercontent.com/901022/226386798-464ff7f7-5948-4c3e-b53a-6c395551acec.png"
+alt="image" /></p>
+<h3 id="samples">Samples</h3>
+<p>The profile contains several different samples, listed under
+"Sample":</p>
+<ul>
+<li><strong>wall</strong>: The amount of real time a task took (as
+though you looked at a clock on the wall). Under parallelism this
+measurement does not aggregate nicely</li>
+<li><strong>(...)User</strong>: The amount of time spent on the CPU.
+Under parallelism the time is summed up, i.e. it can go considerably
+faster that wall time.</li>
+<li><strong>(...)Sys</strong>: The amount of time spent in the kernel,
+as requested by the process. Indicative of file i/o etc.</li>
+<li><strong>child(...)</strong>: Measures the time spent in child
+processes. For VerCors this is strictly the SMT backend, usually z3. It
+is only populated once an entire child process has completed, hence in
+practice the entire z3 time is accounted under "Verification" without
+further specifying.</li>
+<li><strong>self(...)</strong>: Measures the time spent in our own
+process, excluding any child processes</li>
+<li><strong>agg(...)</strong>: aggregate of child and self usage.</li>
+<li><strong>agg</strong>: all child and self usage, both system time and
+user time, all summed.</li>
+</ul>
+<h3 id="measuring-for-publication">Measuring for publication</h3>
+<p>Use <code>aggUser</code> as a stable measurement for the amount of
+computation VerCors has done: it represents the total amount of
+computation time VerCors has used.</p>
+<h3 id="diagnosing-slow-proof-goals">Diagnosing slow proof goals</h3>
+<p><code>View &gt; Flame Graph</code> is most useful for this. You can
+use <code>selfUser</code> to diagnose cases where silicon itself
+(without z3) is slow. <code>wall</code> is most useful when including
+<code>z3</code>, since unfortunately <code>childUser</code> cannot track
+the individual usage by verifier or goal.</p>
+<p>The width of bars in the flame graph represent the amount of time
+spent on them. Click on a bar to zoom into it horizontally, click on
+bars above the focused bar to zoom out again.</p>
+<p>In silicon we try to compute a hierarchy, trying to obtain in
+order:</p>
+<ul>
+<li>The entity being verified (method, function, predicate)</li>
+<li>Then the statement being executed</li>
+<li>Then the assertion being in- or exhaled</li>
+<li>Then the branch conditions under which we are dealing with the
+assertion</li>
+</ul>
+<p>We also include some "comment" records, indicated with
+<code>/*</code> and <code>*/</code>.</p>
 <h1 id="wiki-code-snippet-testing-harness">Wiki Code Snippet Testing
 Harness</h1>
 <p>VerCors supports extracting tests from the tutorial and automatically
@@ -11904,11 +12177,11 @@ Data Types</a>. As the annotations will be hidden when viewing the
 rendered markdown, click on "edit page"</p>
 <h2 id="self-contained-code-blocks">Self-contained code blocks</h2>
 <p>Testcases defined by template, e.g.:</p>
-<div class="sourceCode" id="cb75"><pre
-class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- testBlock Fail --&gt;</span></span>
-<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a><span class="in">```java</span></span>
-<span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="kw">false</span><span class="op">;</span></span>
-<span id="cb75-4"><a href="#cb75-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
+<div class="sourceCode" id="cb77"><pre
+class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- testBlock Fail --&gt;</span></span>
+<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a><span class="in">```java</span></span>
+<span id="cb77-3"><a href="#cb77-3" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb77-4"><a href="#cb77-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
 <p>There are three possible code block annotations:</p>
 <ul>
 <li><code>testBlock</code> wraps the code in a method and class</li>
@@ -11923,36 +12196,36 @@ structure.</p>
 <p>To combine multiple code blocks into one test case (potentially with
 hidden glue code), you can use Snippets. The markdown for that might
 look like this:</p>
-<div class="sourceCode" id="cb76"><pre
-class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- standaloneSnip smallCase</span></span>
-<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a><span class="co">//:: cases smallCase</span></span>
-<span id="cb76-3"><a href="#cb76-3" aria-hidden="true" tabindex="-1"></a><span class="co">//:: verdict Fail</span></span>
-<span id="cb76-4"><a href="#cb76-4" aria-hidden="true" tabindex="-1"></a><span class="co">class Test {</span></span>
-<span id="cb76-5"><a href="#cb76-5" aria-hidden="true" tabindex="-1"></a><span class="co">--&gt;</span></span>
-<span id="cb76-6"><a href="#cb76-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb76-7"><a href="#cb76-7" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- codeSnip smallCase --&gt;</span></span>
-<span id="cb76-8"><a href="#cb76-8" aria-hidden="true" tabindex="-1"></a><span class="in">```java</span></span>
-<span id="cb76-9"><a href="#cb76-9" aria-hidden="true" tabindex="-1"></a><span class="dt">boolean</span> <span class="fu">never</span><span class="op">()</span> <span class="op">{</span></span>
-<span id="cb76-10"><a href="#cb76-10" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="kw">false</span><span class="op">;</span></span>
-<span id="cb76-11"><a href="#cb76-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb76-12"><a href="#cb76-12" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb76-13"><a href="#cb76-13" aria-hidden="true" tabindex="-1"></a>*Here could be some more explanation about &quot;never&quot;.*</span>
-<span id="cb76-14"><a href="#cb76-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb76-15"><a href="#cb76-15" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- standaloneSnip smallCase</span></span>
-<span id="cb76-16"><a href="#cb76-16" aria-hidden="true" tabindex="-1"></a><span class="co">void test() {</span></span>
-<span id="cb76-17"><a href="#cb76-17" aria-hidden="true" tabindex="-1"></a><span class="co">--&gt;</span></span>
-<span id="cb76-18"><a href="#cb76-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb76-19"><a href="#cb76-19" aria-hidden="true" tabindex="-1"></a>Then the following example will **fail**:</span>
-<span id="cb76-20"><a href="#cb76-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb76-21"><a href="#cb76-21" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- codeSnip smallCase --&gt;</span></span>
-<span id="cb76-22"><a href="#cb76-22" aria-hidden="true" tabindex="-1"></a><span class="in">```java</span></span>
-<span id="cb76-23"><a href="#cb76-23" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="fu">never</span><span class="op">();</span></span>
-<span id="cb76-24"><a href="#cb76-24" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb76-25"><a href="#cb76-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb76-26"><a href="#cb76-26" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- standaloneSnip smallCase</span></span>
-<span id="cb76-27"><a href="#cb76-27" aria-hidden="true" tabindex="-1"></a><span class="co">}</span></span>
-<span id="cb76-28"><a href="#cb76-28" aria-hidden="true" tabindex="-1"></a><span class="co">}</span></span>
-<span id="cb76-29"><a href="#cb76-29" aria-hidden="true" tabindex="-1"></a><span class="co">--&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb78"><pre
+class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- standaloneSnip smallCase</span></span>
+<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a><span class="co">//:: cases smallCase</span></span>
+<span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a><span class="co">//:: verdict Fail</span></span>
+<span id="cb78-4"><a href="#cb78-4" aria-hidden="true" tabindex="-1"></a><span class="co">class Test {</span></span>
+<span id="cb78-5"><a href="#cb78-5" aria-hidden="true" tabindex="-1"></a><span class="co">--&gt;</span></span>
+<span id="cb78-6"><a href="#cb78-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb78-7"><a href="#cb78-7" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- codeSnip smallCase --&gt;</span></span>
+<span id="cb78-8"><a href="#cb78-8" aria-hidden="true" tabindex="-1"></a><span class="in">```java</span></span>
+<span id="cb78-9"><a href="#cb78-9" aria-hidden="true" tabindex="-1"></a><span class="dt">boolean</span> <span class="fu">never</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb78-10"><a href="#cb78-10" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb78-11"><a href="#cb78-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb78-12"><a href="#cb78-12" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb78-13"><a href="#cb78-13" aria-hidden="true" tabindex="-1"></a>*Here could be some more explanation about &quot;never&quot;.*</span>
+<span id="cb78-14"><a href="#cb78-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb78-15"><a href="#cb78-15" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- standaloneSnip smallCase</span></span>
+<span id="cb78-16"><a href="#cb78-16" aria-hidden="true" tabindex="-1"></a><span class="co">void test() {</span></span>
+<span id="cb78-17"><a href="#cb78-17" aria-hidden="true" tabindex="-1"></a><span class="co">--&gt;</span></span>
+<span id="cb78-18"><a href="#cb78-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb78-19"><a href="#cb78-19" aria-hidden="true" tabindex="-1"></a>Then the following example will **fail**:</span>
+<span id="cb78-20"><a href="#cb78-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb78-21"><a href="#cb78-21" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- codeSnip smallCase --&gt;</span></span>
+<span id="cb78-22"><a href="#cb78-22" aria-hidden="true" tabindex="-1"></a><span class="in">```java</span></span>
+<span id="cb78-23"><a href="#cb78-23" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="fu">never</span><span class="op">();</span></span>
+<span id="cb78-24"><a href="#cb78-24" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb78-25"><a href="#cb78-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb78-26"><a href="#cb78-26" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- standaloneSnip smallCase</span></span>
+<span id="cb78-27"><a href="#cb78-27" aria-hidden="true" tabindex="-1"></a><span class="co">}</span></span>
+<span id="cb78-28"><a href="#cb78-28" aria-hidden="true" tabindex="-1"></a><span class="co">}</span></span>
+<span id="cb78-29"><a href="#cb78-29" aria-hidden="true" tabindex="-1"></a><span class="co">--&gt;</span></span></code></pre></div>
 <p>Note that the hidden glue code uses <code>standaloneSnip</code>, and
 includes the code inside the HTML comment tags <code>&lt;!--</code> and
 <code>--&gt;</code>. The visible code snippets use
@@ -12347,7 +12620,8 @@ href="https://hub.docker.com/u/utwentefmt">https://hub.docker.com/u/utwentefmt</
 <li>
 <a href="#developing-for-vercors">Developing for VerCors</a>
 <ul>
-<li><a href="#workflow">Workflow</a></li>
+<li><a href="#prbranch-management">PR/Branch management</a></li>
+<li><a href="#example-workflow">Example workflow</a></li>
 </ul>
 </li>
 <li>
@@ -12372,6 +12646,9 @@ href="https://hub.docker.com/u/utwentefmt">https://hub.docker.com/u/utwentefmt</
 <ul>
 <li><a href="#running-scalatest">Running ScalaTest</a></li>
 </ul>
+</li>
+<li>
+<a href="#profiling">Profiling</a>
 </li>
 <li>
 <a href="#wiki-code-snippet-testing-harness">Wiki Code Snippet Testing Harness</a>
