@@ -44,7 +44,7 @@ $(function() { $('.code-run-button').click(function() {
                                                 if(PROGRESS_RE.test(line)) {
 							setProgress(progress, line.replaceAll("?", "›"), 'spinner');
 						} else {
-							log.text(log.text() + line + '\n');
+							log.text(log.text() + parts[i] + '\n');
 						}
 					}
 					break;
