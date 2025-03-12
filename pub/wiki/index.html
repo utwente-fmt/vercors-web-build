@@ -1218,7 +1218,7 @@ entire ghost methods:</p>
 ghost
 requires x &gt; 0;
 ensures \result == (cond ? x+y : x);
-static int cond_add(bool cond, int x, int y) {
+static int cond_add(boolean cond, int x, int y) {
   if (cond) {
     return x+y;
   } else {
@@ -1243,7 +1243,7 @@ final class Test {
     ghost
     requires x &gt; 0;
     ensures \result == (cond ? x+y : x);
-    static int cond_add(bool cond, int x, int y) {
+    static int cond_add(boolean cond, int x, int y) {
       if (cond) {
         return x+y;
       } else {
@@ -1308,7 +1308,7 @@ following an <code>=</code>, rather than a block of statements:</p>
     
         <pre style="position: relative; margin-bottom: 0" class="verification-text">/*@
 requires x &gt; 0;
-static pure int cond_add(bool cond, int x, int y) 
+pure int cond_add(boolean cond, int x, int y) 
   = cond ? x+y : x;
 @*/<span class="code-buttons"><span style="display: none" class="fa fa-times-circle code-close-button plain-close"></span><span class="fa fa-pencil code-edit-button"></span><span class="fa fa-play code-run-button"></span></span></pre>
     
@@ -1320,7 +1320,7 @@ static pure int cond_add(bool cond, int x, int y)
 final class Test {
     /*@
     requires x &gt; 0;
-    static pure int cond_add(bool cond, int x, int y) 
+    pure int cond_add(boolean cond, int x, int y) 
       = cond ? x+y : x;
     @*/
 }</textarea>
@@ -1494,8 +1494,9 @@ public int mult(int a, int b);
 //}
 
 /*@
-requires a&gt;0 &amp;&amp; b&gt;0;
-ensures \result == a+b;
+  ghost
+  requires a&gt;0 &amp;&amp; b&gt;0;
+  ensures \result == a+b;
 public pure int add(int a, int b);
 @*/<span class="code-buttons"><span style="display: none" class="fa fa-times-circle code-close-button plain-close"></span><span class="fa fa-pencil code-edit-button"></span><span class="fa fa-play code-run-button"></span></span></pre>
     
@@ -1520,8 +1521,9 @@ final class Test {
     //}
     
     /*@
-    requires a&gt;0 &amp;&amp; b&gt;0;
-    ensures \result == a+b;
+      ghost
+      requires a&gt;0 &amp;&amp; b&gt;0;
+      ensures \result == a+b;
     public pure int add(int a, int b);
     @*/
 }</textarea>
@@ -1576,7 +1578,7 @@ functions are declared using the <code>inline</code> keyword.</p>
 
 <div class="verification-container">
     
-        <pre style="position: relative; margin-bottom: 0" class="verification-text">//@ pure inline int min(int x, int y) = (x&lt;y ? x : y);<span class="code-buttons"><span style="display: none" class="fa fa-times-circle code-close-button plain-close"></span><span class="fa fa-pencil code-edit-button"></span><span class="fa fa-play code-run-button"></span></span></pre>
+        <pre style="position: relative; margin-bottom: 0" class="verification-text">//@ inline pure int min(int x, int y) = (x&lt;y ? x : y);<span class="code-buttons"><span style="display: none" class="fa fa-times-circle code-close-button plain-close"></span><span class="fa fa-pencil code-edit-button"></span><span class="fa fa-play code-run-button"></span></span></pre>
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
@@ -1584,7 +1586,7 @@ functions are declared using the <code>inline</code> keyword.</p>
 //:: verdict Pass
 //:: tools silicon
 final class Test {
-    //@ pure inline int min(int x, int y) = (x&lt;y ? x : y);
+    //@ inline pure int min(int x, int y) = (x&lt;y ? x : y);
 }</textarea>
             <span class="code-buttons">
                 <span class="fa fa-times-circle code-close-button"></span>
@@ -3326,7 +3328,7 @@ showing all the operations defined on the ADTs.</p>
 found <a
 href="https://github.com/viperproject/silicon/tree/master/src/main/resources/dafny_axioms">here</a>
 (for sequences sets and bags) and <a
-href="https://github.com/utwente-fmt/vercors/tree/dev/src/main/universal/res/adt">here</a>
+href="https://github.com/utwente-fmt/vercors/tree/dev/res/universal/res/adt">here</a>
 (for the other ADTs).</p>
 <p>Finally, it is also possible to create custom ADTs, though with
 limited syntax support. This is discussed at the end of this
@@ -3749,7 +3751,7 @@ function could be defined for a sequence of integers as follows:</p>
     
         <pre style="position: relative; margin-bottom: 0" class="verification-text">requires |xs| &gt; 0;
 ensures (\forall int i; 0 &lt;= i &amp;&amp; i &lt; |xs|; xs[i] &lt;= \result);
-pure static int max(seq&lt;int&gt; xs) =
+pure int max(seq&lt;int&gt; xs) =
     1 == |xs| ?
         xs[0]:
         (xs[0] &gt; max(xs[1..]) ?
@@ -3766,7 +3768,7 @@ pure static int max(seq&lt;int&gt; xs) =
 class Test {
     requires |xs| &gt; 0;
     ensures (\forall int i; 0 &lt;= i &amp;&amp; i &lt; |xs|; xs[i] &lt;= \result);
-    pure static int max(seq&lt;int&gt; xs) =
+    pure int max(seq&lt;int&gt; xs) =
         1 == |xs| ?
             xs[0]:
             (xs[0] &gt; max(xs[1..]) ?
@@ -4097,7 +4099,7 @@ use set comprehension as follows:</p>
        assert plus(j, j) in a; 
     }
 
-    pure static int plus(int a, int b) = a+b;
+    pure int plus(int a, int b) = a+b;
 }<span class="code-buttons"><span style="display: none" class="fa fa-times-circle code-close-button plain-close"></span><span class="fa fa-pencil code-edit-button"></span><span class="fa fa-play code-run-button"></span></span></pre>
     
     <div class="verification-widget verification-non-plain" style="display: none">
@@ -4113,7 +4115,7 @@ class SetComp {
        assert plus(j, j) in a; 
     }
 
-    pure static int plus(int a, int b) = a+b;
+    pure int plus(int a, int b) = a+b;
 }</textarea>
             <span class="code-buttons">
                 <span class="fa fa-times-circle code-close-button"></span>
@@ -6374,7 +6376,7 @@ field, and also the fact that that field must have a value greater than
 class C {
     int f;
 
-    C() {
+    constructor() {
         f = 11;
         // Lock invariant must hold here!
     }
@@ -6389,7 +6391,7 @@ lock_invariant Perm(f, write) ** f &gt; 10;
 class C {
     int f;
 
-    C() {
+    constructor() {
         f = 11;
         // Lock invariant must hold here!
     }
@@ -6509,6 +6511,7 @@ increment method:</p>
 class C {
     int f;
 
+    requires committed(this);
     void increment() {
         lock this;
         assert Perm(f, write);
@@ -6525,6 +6528,7 @@ lock_invariant Perm(f, write);
 class C {
     int f;
 
+    requires committed(this);
     void increment() {
         lock this;
         assert Perm(f, write);
@@ -6567,7 +6571,8 @@ ensures the thread that is executing <code>increment</code> has
 <code>write</code> permission for <code>f</code>, which in turn allows
 reading and writing to <code>f</code>. Additionally, this excludes any
 data races on <code>f</code>, as the thread that has the lock will be
-the only thread currently incrementing <code>f</code>.</p>
+the only thread currently incrementing <code>f</code>. We will explain
+the <code>committed</code> annotation shortly.</p>
 <p>The above example is still incomplete: when <code>f</code> has been
 incremented, the lock should be unlocked again. This is done with the
 <code>unlock</code> statement, which we describe next.</p>
@@ -6594,6 +6599,7 @@ missing <code>unlock</code> statement:</p>
 class C {
     int f;
 
+    requires committed(this);
     void increment() {
         lock this;
         assert Perm(f, write);
@@ -6611,6 +6617,7 @@ lock_invariant Perm(f, write);
 class C {
     int f;
 
+    requires committed(this);
     void increment() {
         lock this;
         assert Perm(f, write);
@@ -6668,7 +6675,7 @@ and then commits the invariant. This ensures that the
 would occur. In addition, the postcondition contains
 <code>committed(this)</code>, to indicate that after the constructor the
 new object is lockable.</p>
-<!-- testBlock Pass -->
+<!-- test Pass -->
 
 
 <div class="verification-container">
@@ -6696,26 +6703,22 @@ void tryLock() {
             <textarea name="examplecode" rows="20" >//:: cases atomics-and-locks-pvl-built-in-locks-commit-statement-1
 //:: verdict Pass
 //:: tools silicon
-class Test {
-    void test() {
-        lock_invariant Perm(f, 1) ** f == 3;
-        class C {
-          int f;
-        
-          ensures committed(this);
-          constructor() {
-            f = 3;
-            commit this;
-            assert committed(this);
-          }
-        }
-        
-        void tryLock() {
-          C c = new C();
-          lock c;
-          assert Perm(c.f, 1) ** c.f == 3;
-        }
-    }
+lock_invariant Perm(f, 1) ** f == 3;
+class C {
+  int f;
+
+  ensures committed(this);
+  constructor() {
+    f = 3;
+    commit this;
+    assert committed(this);
+  }
+}
+
+void tryLock() {
+  C c = new C();
+  lock c;
+  assert Perm(c.f, 1) ** c.f == 3;
 }</textarea>
             <span class="code-buttons">
                 <span class="fa fa-times-circle code-close-button"></span>
@@ -7006,7 +7009,7 @@ class C {
 
 <div class="verification-container">
     
-        <pre style="position: relative; margin-bottom: 0" class="verification-text">synchronized(expr) {
+        <pre style="position: relative; margin-bottom: 0" class="verification-text">synchronized (expr) {
     // ...
 }<span class="code-buttons"><span style="display: none" class="fa fa-times-circle code-close-button plain-close"></span><span class="fa fa-pencil code-edit-button"></span><span class="fa fa-play code-run-button"></span></span></pre>
     
@@ -7016,9 +7019,9 @@ class C {
 class C {
 void m() {
 Object expr = this;
-synchronized(expr) {
+synchronized (expr) {
     // ...
-}} } }
+}} }
 </textarea>
             <span class="code-buttons">
                 <span class="fa fa-times-circle code-close-button"></span>
@@ -7030,9 +7033,9 @@ synchronized(expr) {
             <label class="control-label" for="example-backendid">Language:</label>
             <select name="lang" id="example-backendid" class="form-control">
                 
-                    <option value="pvl" selected="">PVL</option>
+                    <option value="pvl" >PVL</option>
                 
-                    <option value="java" >Java</option>
+                    <option value="java" selected="">Java</option>
                 
                     <option value="cu" >Cuda</option>
                 
@@ -7051,7 +7054,7 @@ synchronized(expr) {
 </div>
 
 <!-- standaloneSnip onlySynchronizedBlock
-} } }
+} }
 -->
 
 <p>Note the similarity to the <code>atomic</code> block statement. The
@@ -10753,16 +10756,29 @@ href="https://github.com/utwente-fmt/vercors/wiki/Arrays-and-Pointers">https://g
 <tr class="even">
 <td><code>\pointer_block_length(x)</code></td>
 <td>The length of the pointer block (i.e. C array) that <code>x</code>
-is part of. TODO</td>
+is part of. This is the size (in the amount of elements) of the
+allocation that <code>x</code> is a part of.</td>
 </tr>
 <tr class="odd">
 <td><code>\pointer_block_offset(x)</code></td>
 <td>The offset of <code>x</code> within the pointer block (i.e. C
-array). TODO</td>
+array). This is the offset (in the amount of elements) of the pointer
+<code>x</code> compared to the start of the allocation that
+<code>x</code> is a part of.</td>
 </tr>
 <tr class="even">
+<td><code>\pointer_block(x)</code></td>
+<td>The block which contains the location <code>x</code>. You may need
+to assume that a pointer originates from the same block as another
+pointer if VerCors cannot figure out that the two pointers have the same
+provenance. (i.e. they originate from the same allocation)</td>
+</tr>
+<tr class="odd">
 <td><code>\pointer_length(x)</code></td>
-<td>TODO</td>
+<td>The remaining length of the pointer block (i.e. C array) that
+<code>x</code> is a part of starting at <code>x</code>. This is the
+amount of locations for elements (including this one) between
+<code>x</code> and the end of the allocation.</td>
 </tr>
 </tbody>
 </table>
@@ -12457,6 +12473,48 @@ href="https://vercors.ewi.utwente.nl/wiki">https://vercors.ewi.utwente.nl/wiki</
 href="https://hub.docker.com/u/utwentefmt">https://hub.docker.com/u/utwentefmt</a></li>
 <li>Contact Tom van Dijk for credentials</li>
 </ul>
+<h1 id="making-a-new-vercors-release">Making a new VerCors release</h1>
+<p>Follow these steps:</p>
+<ol type="1">
+<li><p><strong>Add an auto-generated release to the github
+repo</strong></p>
+<p>This is managed by the <a
+href="https://github.com/utwente-fmt/vercors/blob/dev/.github/workflows/release.yml"><code>release</code></a>
+workflow. It is executed for any commit tagged with a version. So pick
+the commit you want to make a release for, tag it, and let the workflow
+run.</p></li>
+<li><p><strong>Add a changelog to the release</strong></p>
+<p>Open the release, click the "edit" button of the release, and click
+the "Generate release notes" button at the top. Take case that the
+proper "Previous tag" is set, to make sure only commits are included in
+the release notes that are actually in the release. Do a brief
+readthrough and expand or delete text where necessary.</p></li>
+<li><p><strong>Upload a docker image</strong></p>
+<p>Build a docker image locally of the commit that you just tagged with
+the new version. This is done using the <code>docker</code> target the
+build system. Push that to one of the following docker registries. Also
+update the <code>latest</code> tag in the respective registry.</p>
+<ol type="1">
+<li>The container registry in a VerCors repo located on the University
+of Twente gitlab. (At the time of writing, this repo does not yet exist.
+E.g. <a
+href="https://gitlab.utwente.nl/fmt/vercors/vercors-back-up/container_registry">https://gitlab.utwente.nl/fmt/vercors/vercors-back-up/container_registry</a>)</li>
+<li><a
+href="https://hub.docker.com/r/utwentefmt/vercors/tags">https://hub.docker.com/r/utwentefmt/vercors/tags</a></li>
+</ol>
+<p>We don't have a policy for which registry to use. Historically
+speaking, we've been using dockerhub because it's standard and there's a
+utwente-fmt organization. Probably in the long term we should move to
+the UT gitlab.</p>
+<p>We should also consider using the UT harbor (<a
+href="http://harbor.utsp.utwente.nl">http://harbor.utsp.utwente.nl</a>)
+for compliance/vulnerability checking.</p></li>
+<li><p><strong>Add an announcement</strong></p>
+<p>If it is a major version release or a big point release you can
+consider adding an announcement on the VerCors website or FMT
+website.</p></li>
+</ol>
+<p>Done!</p>
     </span>
     <span class="wiki-side-menu">
         <ul>
@@ -12679,6 +12737,9 @@ href="https://hub.docker.com/u/utwentefmt">https://hub.docker.com/u/utwentefmt</
 <li><a href="#the-wiki">The Wiki</a></li>
 <li><a href="#docker-hub">Docker Hub</a></li>
 </ul>
+</li>
+<li>
+<a href="#making-a-new-vercors-release">Making a new VerCors release</a>
 </li>
 </ul>
     </span>

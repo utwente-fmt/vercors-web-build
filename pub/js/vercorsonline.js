@@ -1,5 +1,6 @@
 const VERIFICATION_SERVER = 'wss://vercors-server.apps.utwente.nl/';
 const PROGRESS_BADGE = '[progress] ';
+const PROGRESS_RE = /^\[[0-9.%]+\]/;
 
 function setProgress(progress, text, icon) {
 	progress.find('.fa').removeClass().addClass('fa').addClass('fa-' + icon);
@@ -35,14 +36,15 @@ $(function() { $('.code-run-button').click(function() {
 				case 'stderr':
 					var parts = message.data.split("\n");
 					for(var i = 0; i < parts.length; i++) {
-						if(parts[i] === '') {
+                                                const line = parts[i].trim();
+						if(line === '') {
 							continue;
 						}
 
-						if(parts[i].startsWith(PROGRESS_BADGE)) {
-							setProgress(progress, parts[i].substring(PROGRESS_BADGE.length), 'spinner');
+                                                if(PROGRESS_RE.test(line)) {
+							setProgress(progress, line.replaceAll("?", "›"), 'spinner');
 						} else {
-							log.text(log.text() + parts[i] + '\n');
+							log.text(log.text() + line + '\n');
 						}
 					}
 					break;
