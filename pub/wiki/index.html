@@ -1082,6 +1082,10 @@ know nothing about the value of a variable <code>a</code>, then both
 <code>assert a&gt;0;</code> and <code>refute a&gt;0;</code> will fail,
 as <code>a</code> <em>could</em> be greater than zero, but it also could
 be less.</p>
+<p>For assert, VerCors supports the following alternative syntax:</p>
+<ul>
+<li><code>⊢ expr;</code></li>
+</ul>
 <h3 id="ghost-code">Ghost Code</h3>
 <p>Recall that annotations must never have side-effects on the program
 state, otherwise the results of methods would be different between
@@ -1999,8 +2003,13 @@ appropriate unicode symbols instead of <code>\forall</code> and
 <code>\exists</code>:</p>
 <ul>
 <li><code>(∀varDecl+; (cond ;)? expr)</code></li>
-<li><code>(∀*varDecl+; (cond ;)? expr)</code></li>
 <li><code>(∃varDecl+; (cond ;)? expr)</code></li>
+</ul>
+<p>For <code>\forall*</code> the following alternative notations are
+available:</p>
+<ul>
+<li><code>(∀*varDecl+; (cond ;)? expr)</code></li>
+<li><code>(✻varDecl+; (cond;)? expr)</code></li>
 </ul>
 <p>The IntelliJ plugin <a
 href="https://plugins.jetbrains.com/plugin/14267-spec--math-symbols">Spec
@@ -2217,6 +2226,15 @@ quantifier that many levels up. For example:</p>
 <p>We recommend the following sources for more examples and explanations
 of how triggers work.</p>
 <ul>
+<li>The paper "Trigger Selection Strategies to Stabilize Program
+Verifiers" gives an accesible and thorough introduction of triggers.
+They also describes problems of triggers, and automated solutions. These
+automated solutions can also be applied manually to PVL programs.
+<ul>
+<li><a
+href="https://pit-claudel.fr/clement/papers/dafny-trigger-selection-CAV16.pdf">pdf</a>,
+<a href="http://doi.org/10.1007/978-3-319-41528-4_20">doi</a></li>
+</ul></li>
 <li><a
 href="https://github.com/dafny-lang/dafny/wiki/FAQ#how-does-dafny-handle-quantifiers-ive-heard-about-triggers-what-are-those">Dafny
 FAQ: How does Dafny handle quantifiers? I've heard about "triggers",
