@@ -5004,69 +5004,74 @@ initiliazed.</td>
 </tr>
 <tr class="odd">
 <td>Constructor</td>
+<td><code>set&lt;int&gt;</code></td>
+<td><code>{ e1 .. e2 }</code><br>Constructs a set with all elements
+between e1 (inclusive) and e2 (exclusive).</td>
+</tr>
+<tr class="even">
+<td>Constructor</td>
 <td><code>set&lt;T&gt;</code></td>
 <td><code>{t: T }</code><br>Constructs an empty set with element of type
 <code>T</code></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Length</td>
 <td><code>int</code></td>
 <td>`</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Empty</td>
 <td><code>boolean</code></td>
 <td><code>s1.isEmpty</code><br>Returns whether `</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Comparison</td>
 <td><code>boolean</code></td>
 <td><code>s1 == s2</code><br>Returns <code>true</code> if
 <code>s1</code> and <code>s2</code> are equivalent</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Membership</td>
 <td><code>boolean</code></td>
 <td><code>e \in s1</code> or <code>s1.contains(e)</code><br>Returns
 <code>true</code> if the value <code>e</code> is in the set
 <code>s1</code></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Set Union</td>
 <td><code>set&lt;T&gt;</code></td>
 <td><code>s1 + s2</code> or <code>s1.union(s2)</code><br>Denotes the set
 of all elements from sets <code>s1</code> and <code>s2</code> of the
 same type <code>T</code></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Set Difference</td>
 <td><code>set&lt;T&gt;</code></td>
 <td><code>s1 - s2</code> or <code>s1.difference(s2)</code><br>Denotes
 the set of all elements from set <code>s1</code> that are not in set
 <code>s2</code></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Subset</td>
 <td><code>boolean</code></td>
 <td><code>s1 &lt;= s2</code> or <code>s1.subsetOf(s2)</code><br>Returns
 <code>true</code> if set <code>s1</code> is a subset of set
 <code>s2</code></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Strict Subset</td>
 <td><code>boolean</code></td>
 <td><code>s1 &lt; s2</code> or
 <code>s1.strictSubsetOf(s2)</code><br>Returns <code>true</code> if set
 <code>s1</code> is a strict subset of set <code>s2</code></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Intersection</td>
 <td><code>set&lt;T&gt;</code></td>
-<td><code>s1 * s2</code> or <code>s1.intersect(s2)</code><br>Denotes the
-set of all elements that are both in sets <code>s1</code> and
-<code>s2</code></td>
+<td><code>s1.intersect(s2)</code><br>Denotes the set of all elements
+that are both in sets <code>s1</code> and <code>s2</code></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Set Comprehension</td>
 <td><code>set&lt;T&gt;</code></td>
 <td>`set<T> { main</td>
@@ -10483,7 +10488,7 @@ and should occur literally, e.g.
 </tr>
 <tr class="odd">
 <td><code>{l .. r}</code></td>
-<td>Literal of type <code>seq&lt;int&gt;</code> describing the integer
+<td>Literal of type <code>set&lt;int&gt;</code> describing the integer
 range from <code>l</code> (incl) to <code>r</code> (excl).</td>
 </tr>
 <tr class="even">
