@@ -923,6 +923,8 @@ insert an element into a sorted array may add the new value at the end,
 and then step by step restore the ordering of the array; in that case,
 adding a sortedness property as <code>context_everywhere</code> would
 not verify.</p>
+<p>In PVL and C a loop invariant may also be attached to a label such
+that loops formed using <code>goto</code>s can be verified.</p>
 <h3 id="assumptions-and-assertions">Assumptions and Assertions</h3>
 <p>Sometimes, VerCors has trouble deriving a post-condition from the
 given code and established facts (like pre-conditions), and it requires
@@ -5354,10 +5356,10 @@ but these are usually suboptimal.</p>
 <p>Custom ADTs are supported in all frontends.</p>
 <h1 id="arrays-and-pointers">Arrays and Pointers</h1>
 <p><em>This tutorial explains how to specify arrays and pointers in
-vercors. Java and PVL support arrays, whereas C and the GPGPU frontends
-only support pointers. The tutorial assumes you are familiar with arrays
-and pointers already.</em></p>
-<h2 id="array-permissions">Array permissions</h2>
+VerCors. The tutorial assumes you are familiar with arrays and pointers
+already.</em></p>
+<h2 id="array-permissions-in-java-and-pvl">Array permissions in Java and
+PVL</h2>
 <p>We have learned already how to specify ownership of variables on the
 heap. Arrays generalize this concept by treating each element of the
 array as a separate location on the heap. For example, you might
@@ -5457,18 +5459,23 @@ nothing preventing you from putting the same row array instance in
 multiple rows. The last statement says that if we have valid row indices
 i, j, we know that <code>i != j ==&gt; mat[i] != mat[j]</code> (and the
 contrapositive).</p>
-<h2 id="pointers">Pointers</h2>
-<p>Pointers themselves are quite well-supported, but we don't support
-casting and structs in C, making the end result quite limited. For the
-support that we do have, pointers can be specified with two constructs:
+<h2 id="pointers-and-arrays-in-c-and-gpgpu-languages">Pointers and
+Arrays in C and GPGPU languages</h2>
+<p>We offer three syntactic sugar constructs for pointers:
 <code>\pointer</code> and <code>\pointer_index</code>.</p>
 <p>We write <code>\pointer(p, size, perm)</code> to express that
 <code>p != NULL</code>, the pointer <code>p</code> is valid from (at
 least) <code>0</code> to <code>size-1</code>, and we assert
-<code>perm</code> permission over those locations.</p>
+<code>perm</code> permission over those locations. This desugars to
+<code>(p != NULL &amp;&amp; \pointer_block_offset(p) + size &lt; \pointer_block_length(p)) ** (\forall int i = 0 .. size; Perm(p[i], perm)</code></p>
 <p>We write <code>\pointer_index(p, index, perm)</code> to express that
 <code>p != NULL</code>, <code>(p+i)</code> is a valid location, and we
-have permission <code>perm</code> at that location.</p>
+have permission <code>perm</code> at that location. This desugars to
+<code>(p != NULL &amp;&amp; 0 &lt;= \pointer_block_offset(p) + index &amp;&amp; \pointer_block_offset(p) + index &lt; \pointer_block_length(p)) ** Perm(p[index], perm)</code></p>
+<p>We write <code>\pointer_length(p)</code> to get the amount of
+elements between <code>p</code> and the end of the allocation. This
+desugars to
+<code>\pointer_block_length(p) - \pointer_block_offset(p)</code>.</p>
 <div class="sourceCode" id="cb26"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co">/*@</span></span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="co">requires \pointer(a, 10, write);</span></span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="co">*/</span></span>
@@ -5480,6 +5487,23 @@ have permission <code>perm</code> at that location.</p>
 <span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">//@ assert a[5] == b[0];</span></span>
 <span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>    <span class="co">//@ assert \pointer(b, 5, write);</span></span>
 <span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>The following low-level constructs are available for reasoning about
+pointers:</p>
+<ul>
+<li><code>\pointer_block_offset(p)</code>: this returns an integer
+representing the amount of elements between the start of the allocation
+and the pointer <code>p</code></li>
+<li><code>\pointer_block_length(p)</code>: this returns an integer
+representing the amount of elements in the allocation</li>
+<li><code>\pointer_block(p)</code>: this returns an object representing
+the allocation upon which the pointer is based (i.e. its provenance) it
+is only useful for comparing the provenance of two pointers</li>
+</ul>
+<p>All pointer operations may also be applied to arrays. However, since
+array types include their size it is (usually) not necessary to specify
+their length in specifications. VerCors will automatically add
+preconditions and loop invariants to ensure that the size of the
+underlying pointer matches the size specified by the array type.</p>
 <h2
 id="injectivity-object-arrays-and-efficient-verification">Injectivity,
 object arrays and efficient verification</h2>
@@ -12596,9 +12620,9 @@ website.</p></li>
 <li>
 <a href="#arrays-and-pointers">Arrays and Pointers</a>
 <ul>
-<li><a href="#array-permissions">Array permissions</a></li>
+<li><a href="#array-permissions-in-java-and-pvl">Array permissions in Java and PVL</a></li>
 <li><a href="#syntactic-sugar">Syntactic sugar</a></li>
-<li><a href="#pointers">Pointers</a></li>
+<li><a href="#pointers-and-arrays-in-c-and-gpgpu-languages">Pointers and Arrays in C and GPGPU languages</a></li>
 <li><a href="#injectivity-object-arrays-and-efficient-verification">Injectivity, object arrays and efficient verification</a></li>
 </ul>
 </li>
