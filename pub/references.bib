@@ -1,3 +1,52 @@
+@article{10.1145/3759251,
+author = {Tasche, Philip and Herber, Paula and Huisman, Marieke},
+title = {Deductive Verification of Cooperative RTOS Applications},
+year = {2025},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+issn = {1539-9087},
+url = {https://doi.org/10.1145/3759251},
+doi = {10.1145/3759251},
+abstract = {Embedded systems are used in many safety-critical domains, including in medicine, traffic and critical infrastructure. Due to the strict timing requirements such systems usually have to fulfill, they often run on real-time operating systems (RTOS). As the RTOS influences the function and the timing behavior of the system, it becomes important to rigorously ensure the correctness and safety of applications running on them while taking into account the semantics of the operating system. Existing verification approaches are either limited to specific RTOS components or based on explicit state space exploration techniques such as model checking, which do not scale well for concurrent or timed applications. In this paper, we propose a deductive approach to verify crucial safety properties about applications written for the widely-used RTOS FreeRTOS using the VerCors verifier. Our key ideas are threefold: 1) We provide a formalization of a wide variety of FreeRTOS features and an automatic encoding of FreeRTOS applications for verification with VerCors. 2) We adapt and enhance an existing approach for automatic invariant generation to largely automate the typically high-effort verification process. 3) We present a systematic technique to verify both functional and timing-related properties of cooperative RTOS applications. We demonstrate the applicability of our approach on a FreeRTOS demo application as well as an adaptive cruise control system.},
+note = {Just Accepted},
+journal = {ACM Trans. Embed. Comput. Syst.},
+month = aug,
+keywords = {deductive verification, embedded systems, real time, RTOS}
+}
+
+@InProceedings{10.1007/978-3-032-00942-5_4,
+author="Armborst, Lukas
+and Beyer, Dirk
+and Huisman, Marieke
+and Lingsch-Rosenfeld, Marian",
+editor="Remke, Anne
+and Steffen, Bernhard",
+title="AutoSV-Annotator: Integrating Deductive and Automatic Software Verification",
+booktitle="Formal Methods for Industrial Critical Systems",
+year="2026",
+publisher="Springer Nature Switzerland",
+address="Cham",
+pages="59--77",
+abstract="Software model checking and deductive software verification have complementary strengths and weaknesses: software model checkers are more straight-forward to use, as they analyze the program without user input; but they do not yet support complicated data structures and expressive specifications. In contrast, deductive verifiers can verify expressive specifications and complex data structures modularly, but they require the user to specify the program behavior in detail, which is a time-consuming process. Due to their differing nature, the two approaches usually remain separate. However, for industrial usage, one requires both: ease of use as well as expressiveness. Therefore, we present AutoSV-Annotator, a toolchain that integrates the two approaches for C programs. The toolchain allows a user to iteratively refine the deductive annotations in a C program, calling a model checker to supplement the annotations at each iteration, guided by the already existing annotations. We show that our tool is able to annotate and prove many tasks from the SV-Benchmarks set. Our results show that the two strategies can indeed benefit from each other.",
+isbn="978-3-032-00942-5"
+}
+
+@InProceedings{10.1007/978-3-031-95589-1_3,
+author="Rubbens, Robert
+and van den Bos, Petra
+and Huisman, Marieke",
+editor="Di Giusto, Cinzia
+and Ravara, Ant{\'o}nio",
+title="Verified Parameterized Choreographies",
+booktitle="Coordination Models and Languages",
+year="2025",
+publisher="Springer Nature Switzerland",
+address="Cham",
+pages="50--69",
+abstract="Choreographies are useful for modelling systems with multiple simultaneously executing and communicating participants, e.g. distributed systems. VeyMont can verify correctness of choreographies and generate verifiably correct code that implements the choreography. Initially, it supported only fixed sets of participants. However, realistic systems are often parameterized: they scale according to some parameter N. This paper extends VeyMont with parameterized choreographies, making VeyMont more usable for realistic case studies. Specifically, we add parameterized primitives such as participant families and parameterized communication. We encode these primitives using a structured parallelism primitive from the underlying verifier VerCors , and by using conditionals in the endpoint projection, partially delaying projection until run time. We illustrate the encoding with a distributed summation choreography, and prove it correct with VerCors .",
+isbn="978-3-031-95589-1"
+}
+
 @InProceedings{10.1007/978-3-031-77382-2_1,
 author="Herber, Paula
 and Adelt, Julius
@@ -6,7 +55,7 @@ editor="Madeira, Alexandre
 and Knapp, Alexander",
 title="Formal Verification of Cyber-Physical Systems Using Domain-Specific Abstractions",
 booktitle="Software Engineering and Formal Methods",
-year="2025",
+year="2024",
 publisher="Springer Nature Switzerland",
 address="Cham",
 pages="3--21",
