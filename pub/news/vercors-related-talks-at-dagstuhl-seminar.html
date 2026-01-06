@@ -6,7 +6,7 @@ University of Twente, Enschede, The Netherlands
 -->
 <html lang="en">
     <head>
-        <title>PVL kernel (version 3) · VerCors Tool FMT | UTwente </title>
+        <title>VerCors-related talks at Dagstuhl Seminar · VerCors Tool FMT | UTwente </title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
 
@@ -100,97 +100,18 @@ University of Twente, Enschede, The Netherlands
 <div class="alt">
     <section class="container">
         
-    <div class="example-view">
-        <h1>PVL kernel (version 3)</h1>
-        <p>A kernel program (written in PVL) with forward dependencies. Barrier synchronisation is used to redistribute permissions for this. This program currently does not verify due to refactoring of the Chalice back-end (we will use Silicon from now).</p>
+<header class="major">
+    <h2><strong>VerCors-related talks at Dagstuhl Seminar</strong></h2>
+    <p class="summary">
+        <span class="date">2026-01-06</span>
+    </p>
+</header>
 
-        <h3>General Information</h3>
-        <ul>
-            <li><strong>Backend</strong>: Silicon</li>
-            <li><strong>Language</strong>: PVL</li>
-            <li><strong>Features</strong>: GPU Kernels, Arrays, Barriers</li>
-            <li><strong>Path to Example File</strong>: arrays/kernel-example-v3.pvl</li>
-            <li><strong>Should Verify</strong>: No</li>
-            <li><strong>Date</strong>: 2017-06-15</li>
-            <li><strong>Lines of Code</strong>: 28 (comments not included)</li>
-            <li><strong>Lines of Specification</strong>: 10 (35.7% of total)</li>
-            
-        </ul>
-
-        
-<div class="verification-container">
+<div class="blog-post spacing">
     
-    <div class="verification-widget verification-non-plain" >
-        <div style="position: relative">
-            <textarea name="examplecode" rows="20" data-code-mirror="true">// -*- tab-width:2 ; indent-tabs-mode:nil -*-
-//:: cases kernel-example-v3
-//:: tools silicon
-//:: verdict Pass
-
-class Ref {
-  context_everywhere a != null &amp;&amp; b != null &amp;&amp; c != null;
-	context_everywhere tcount &gt;= 0;
-	context_everywhere a.length == tcount &amp;&amp; b.length == tcount &amp;&amp; c.length == tcount;
-  context  (\forall* int i; 0 &lt;= i &amp;&amp; i &lt; tcount; Perm(c[i], 1\4) ** c[i] &gt; 0); // Perm(c[i], read) also possible (1)
-  requires (\forall* int i; 0 &lt;= i &amp;&amp; i &lt; tcount; Perm(a[i], write));
-  requires (\forall* int i; 0 &lt;= i &amp;&amp; i &lt; tcount; Perm(b[i], write));
-  ensures  (\forall* int i; 0 &lt;= i &amp;&amp; i &lt; tcount; Perm(a[i], 1\4) ** a[i] &gt; 0); // Perm(a[i], read) also possible (1)
-  ensures  (\forall* int i; 0 &lt;= i &amp;&amp; i &lt; tcount; Perm(b[i], 1\4) ** b[i] &gt; 0); // Perm(b[i], read) also possible (1)
-  void main(int tcount, int[] a, int[] b, int[] c) {
-    par fwd (int tid=0..tcount)
-      context  Perm(c[tid], 1\4) ** c[tid] &gt; 0; // Perm(c[tid], read) also possible (2)
-      requires Perm(a[tid], write);
-      requires Perm(b[tid], write);
-      ensures  Perm(a[tid], 1\4) ** a[tid] &gt; 0; // Perm(a[tid], read) also possible (2)
-      ensures  Perm(b[tid], 1\4) ** b[tid] &gt; 0; // Perm(b[tid], read) also possible (2)
-    {
-      b[tid]=c[tid]; 
-      barrier(fwd) {
-				context 0 &lt;= tid &amp;&amp; tid &lt; tcount;
-        requires Perm(b[tid], 1\4); // Perm(b[tid], read) also possible (3)
-        ensures  tid&gt;0 ==&gt; Perm(b[tid-1], 1\4); // Perm(b[tid-1], read) also possible (4)
-        requires b[tid] &gt; 0;
-        ensures  tid&gt;0 ==&gt; b[tid-1] &gt; 0;        
-      }
-      if(tid&gt;0) {
-        a[tid]=b[tid-1]+b[tid];
-      } else {
-        a[tid]=b[tid];
-      }
-    }
-  }
-}</textarea>
-            <span class="code-buttons">
-                <span class="fa fa-times-circle code-close-button"></span>
-                <span class="fa fa-play code-run-button"></span>
-            </span>
-        </div>
-
-        <div style="background-color: #dddddd; padding: 0.4ex 1ex">
-            <label class="control-label" for="example-backendid">Language:</label>
-            <select name="lang" id="example-backendid" class="form-control">
-                
-                    <option value="pvl" selected="">PVL</option>
-                
-                    <option value="java" >Java</option>
-                
-                    <option value="cu" >Cuda</option>
-                
-                    <option value="c" >C / OpenMP / OpenCL</option>
-                
-                    <option value="sil" >Viper</option>
-                
-            </select>
-        </div>
-    </div>
-    <div class="verification-progress verification-non-plain" style="display: none; background-color: #dddddd; padding: 0.4ex 1ex" >
-        <span class="fa"></span>
-        <span class="verification-progress-text"></span>
-    </div>
-    <pre class="verification-log verification-non-plain" style="display: none"></pre>
+        <p>The VerCors team will be represented at the Dagstuhl Seminar "Software Contracts meet System Contracts". Marieke Huisman will give a presentation titled "Software Contracts" on Tuesday, January 13th 2026, and Philip Tasche will give a short talk titled "Local Proofs of Global Properties" on Thursday, January 15th 2026.</p>
+    
 </div>
-
-    </div>
 
     </section>
 </div>
