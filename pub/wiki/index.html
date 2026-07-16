@@ -139,7 +139,7 @@ href="https://github.com/utwente-fmt/vercors/wiki/Resources-and-Predicates">reso
 or of the input languages (e.g. <a
 href="https://github.com/utwente-fmt/vercors/wiki/Inheritance">inheritance</a>).
 You can find an overview of the chapters on the right.</p>
-<h2 id="vercors">VerCors</h2>
+<h3 id="vercors">VerCors</h3>
 <p>VerCors is a verification tool that uses <em>static analysis</em> to
 prove <em>partial correctness</em> of a given piece of code. It requires
 users (e.g. software developers) to add <em>annotations in the
@@ -209,7 +209,7 @@ example <em>static analysis</em>. If you are already an experienced user
 of software verification tools, feel free to skip it. If you are new to
 the topic, we recommend reading this chapter to better understand the
 other chapters.</p>
-<h2 id="software-verification">Software Verification</h2>
+<h3 id="software-verification">Software Verification</h3>
 <p>Nowadays, we as a society rely heavily on software, and software
 errors can have a major impact, even causing deaths. Thus, software
 developers strive to reduce the number of software errors as much as
@@ -276,7 +276,7 @@ contradictory conditions, or a simple <code>false</code>), then we can
 derive any boolean statement, because the implication "if assumption
 then statement" is trivially true. Thus, users must be careful in their
 choice of assumptions.</p>
-<h2 id="separation-logic">Separation Logic</h2>
+<h3 id="separation-logic">Separation Logic</h3>
 <p>VerCors particularly targets parallel and concurrent programs, as
 they are more difficult to understand intuitively and thus are more
 error-prone than sequential programs. One typical example is two parts
@@ -313,7 +313,7 @@ VerCors</h1>
 <p>The installation and running instructions can be found on the <a
 href="https://github.com/utwente-fmt/vercors">Github homepage</a> of
 this project.</p>
-<h2 id="syntax-highlighting">Syntax highlighting</h2>
+<h3 id="syntax-highlighting">Syntax highlighting</h3>
 <p>When writing a program in PVL, the Prototypal Verification Language
 of VerCors, syntax highlighting can be obtained in the following
 way:</p>
@@ -353,7 +353,7 @@ features of PVL. The more advanced features are described in later
 sections. A complete reference overview of the PVL language and
 specification syntax can be found <a
 href="https://github.com/utwente-fmt/vercors/wiki/PVL-Syntax-Reference">here</a>.</p>
-<h3 id="basic-types-and-expressions">Basic types and expressions</h3>
+<h4 id="basic-types-and-expressions">Basic types and expressions</h4>
 <p>Currently, VerCors supports the types <code>int</code>,
 <code>boolean</code>, and <code>void</code> (for return types of
 methods). Identifiers, e.g. variables and method names, can consist of
@@ -421,7 +421,7 @@ is defined by the constructor of class <code>T</code></li>
 type (so <code>int</code>, <code>boolean</code>, or a class
 <code>T</code>) and <code>i</code> a non-negative integer.</li>
 </ul>
-<h3 id="classes-fields-methods">Classes, fields, methods</h3>
+<h4 id="classes-fields-methods">Classes, fields, methods</h4>
 <p>A program consists of one of more classes. Classes have a name, zero
 or more fields, zero or more constructors, and zero or more methods.
 Below we show a small example class:</p>
@@ -439,8 +439,8 @@ Below we show a small example class:</p>
 <p>The keyword <code>this</code> can be used to refer to the current
 object. Methods and functions may also be declared outside any class,
 mimicking the behavior of static methods in Java.</p>
-<h3 id="control-flow-return-if-while-for">Control flow: return, if,
-while, for</h3>
+<h4 id="control-flow-return-if-while-for">Control flow: return, if,
+while, for</h4>
 <p>A method body consists of statements. The basic statements of PVL
 are:</p>
 <ul>
@@ -477,7 +477,7 @@ or multiline comments <code>/*  put a comment here */</code>.</li>
     }
     return nr + 5;
 }</code></pre>
-<h3 id="proof-helpers-frame-if">Proof helpers: frame, if(*)</h3>
+<h4 id="proof-helpers-frame-if">Proof helpers: frame, if(*)</h4>
 <p>Proof helpers do not have an equivalent in regular programming
 languages, but can be used to instruct the solver to take a certain
 path.</p>
@@ -658,7 +658,7 @@ description of the kind of expressions that VerCors supports (e.g.
 boolean connectives). For the earlier parts, it suffices to know that
 expressions in VerCors specifications are an extension of whatever
 expressions the target language supports.</p>
-<h2 id="method-contracts">Method Contracts</h2>
+<h3 id="method-contracts">Method Contracts</h3>
 <p>Method contracts specify the behaviour of the method that is visible
 to the calling environment, by means of pre-conditions and
 post-conditions. <em>Pre-conditions</em> use the keyword
@@ -705,7 +705,7 @@ execution.</p>
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases specification-syntax-method-contracts-1
+            <textarea name="examplecode" rows="20" >//:: cases specification-syntax-?-method-contracts-1
 //:: verdict Pass
 //:: tools silicon
 class Test {
@@ -801,7 +801,7 @@ further reaching short-hand is <code>context_everywhere expr;</code>,
 which adds <code>expr</code> as a pre- and as a post-condition, as well
 as a loop invariant for all loops inside the method body (see
 below).</p>
-<h4 id="contracts-for-c-declarations">Contracts for C declarations:</h4>
+<h5 id="contracts-for-c-declarations">Contracts for C declarations:</h5>
 <p>When verifying C programs, function contracts can also be placed on
 function declarations:</p>
 <!-- c-example.h -->
@@ -857,7 +857,7 @@ assumed to be true and not checked because no implementation of
 implementation, one has to be careful to make sure that the contract
 does not contain inconsistencies. Otherwise, its use can lead to
 unsoundness.</p>
-<h2 id="auxiliary-annotations">Auxiliary Annotations</h2>
+<h3 id="auxiliary-annotations">Auxiliary Annotations</h3>
 <p>When method bodies become more complicated than the toy examples
 above, it becomes more difficult for VerCors to prove by itself that the
 post-conditions hold after executing the method, and additional
@@ -865,7 +865,7 @@ annotations are needed inside the method body to guide the verification.
 These can take the form of loop invariants, assumptions and assertions,
 or ghost code. Ghost code can also occur outside of methods, for
 instance to define helper functions.</p>
-<h3 id="loop-invariants">Loop Invariants</h3>
+<h4 id="loop-invariants">Loop Invariants</h4>
 <p>Loop invariants are similar to the <code>context</code> in a method
 contracts, but for loops: They specify expressions that must hold before
 entering the loop (like a pre-condition), as well as after each loop
@@ -891,7 +891,7 @@ public int mult(int a, int b) {
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases specification-syntax-auxiliary-annotations-loop-invariants-1
+            <textarea name="examplecode" rows="20" >//:: cases specification-syntax-?-auxiliary-annotations-loop-invariants-1
 //:: verdict Pass
 //:: tools silicon
 final class Test {
@@ -983,7 +983,7 @@ adding a sortedness property as <code>context_everywhere</code> would
 not verify.</p>
 <p>In PVL and C a loop invariant may also be attached to a label such
 that loops formed using <code>goto</code>s can be verified.</p>
-<h3 id="assumptions-and-assertions">Assumptions and Assertions</h3>
+<h4 id="assumptions-and-assertions">Assumptions and Assertions</h4>
 <p>Sometimes, VerCors has trouble deriving a post-condition from the
 given code and established facts (like pre-conditions), and it requires
 explicitly specifying an intermediate step to guide the verification.
@@ -1007,7 +1007,7 @@ public int mult10(int a) {
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases specification-syntax-auxiliary-annotations-assumptions-and-assertions-1
+            <textarea name="examplecode" rows="20" >//:: cases specification-syntax-?-auxiliary-annotations-assumptions-and-assertions-1
 //:: verdict Pass
 //:: tools silicon
 final class Test {
@@ -1083,7 +1083,7 @@ int y = x + 3;
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases specification-syntax-auxiliary-annotations-assumptions-and-assertions-2
+            <textarea name="examplecode" rows="20" >//:: cases specification-syntax-?-auxiliary-annotations-assumptions-and-assertions-2
 //:: verdict Pass
 //:: tools silicon
 final class Test {
@@ -1145,7 +1145,7 @@ be less.</p>
 <ul>
 <li><code>⊢ expr;</code></li>
 </ul>
-<h3 id="ghost-code">Ghost Code</h3>
+<h4 id="ghost-code">Ghost Code</h4>
 <p>Recall that annotations must never have side-effects on the program
 state, otherwise the results of methods would be different between
 VerCors (which takes the annotations into account) and the compiler
@@ -1205,7 +1205,7 @@ public int minTimes5(int x, int y) {
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases specification-syntax-auxiliary-annotations-ghost-code-1
+            <textarea name="examplecode" rows="20" >//:: cases specification-syntax-?-auxiliary-annotations-ghost-code-1
 //:: verdict Pass
 //:: tools silicon
 final class Test {
@@ -1269,7 +1269,7 @@ final class Test {
 <p>Note the definition of a ghost variable <code>min</code> at the
 beginning of the method, and the ghost <code>if</code> statement at its
 end.</p>
-<h4 id="ghost-methods-and-functions">Ghost Methods and Functions</h4>
+<h5 id="ghost-methods-and-functions">Ghost Methods and Functions</h5>
 <p>You can use ghost code not only within methods but also to declare
 entire ghost methods:</p>
 <!-- testMethod -->
@@ -1298,7 +1298,7 @@ void some_method(int val1, int val2, int z) {
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases specification-syntax-auxiliary-annotations-ghost-code-ghost-methods-and-functions-1
+            <textarea name="examplecode" rows="20" >//:: cases specification-syntax-?-auxiliary-annotations-ghost-code-ghost-methods-and-functions-1
 //:: verdict Pass
 //:: tools silicon
 final class Test {
@@ -1359,7 +1359,7 @@ like the precondition of <code>some_method</code> is, because the entire
 ghost method already is inside a special comment <code>/*@</code>. We
 then use this ghost method in the body of <code>some_method</code> (but
 only inside annotations!).</p>
-<h5 id="functions-and-pure-methods">Functions and Pure Methods</h5>
+<h6 id="functions-and-pure-methods">Functions and Pure Methods</h6>
 <p><em>Functions</em> are, in a way, a special kind of ghost methods.
 They look like any method, but they are pure by design (as signified by
 the keyword <code>pure</code>) and their body is a single expression
@@ -1377,7 +1377,7 @@ pure int cond_add(boolean cond, int x, int y)
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases specification-syntax-auxiliary-annotations-ghost-code-ghost-methods-and-functions-functions-and-pure-methods-1
+            <textarea name="examplecode" rows="20" >//:: cases specification-syntax-?-auxiliary-annotations-ghost-code-ghost-methods-and-functions-functions-and-pure-methods-1
 //:: verdict Pass
 //:: tools silicon
 final class Test {
@@ -1465,7 +1465,7 @@ static /*@ pure @*/ int cond_add(boolean cond, int x, int y) {
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases specification-syntax-auxiliary-annotations-ghost-code-ghost-methods-and-functions-functions-and-pure-methods-2
+            <textarea name="examplecode" rows="20" >//:: cases specification-syntax-?-auxiliary-annotations-ghost-code-ghost-methods-and-functions-functions-and-pure-methods-2
 //:: verdict Pass
 //:: tools silicon
 final class Test {
@@ -1510,8 +1510,8 @@ final class Test {
     <pre class="verification-log verification-non-plain" style="display: none"></pre>
 </div>
 
-<h5 id="abstract-methods-and-functions">Abstract Methods and
-Functions</h5>
+<h6 id="abstract-methods-and-functions">Abstract Methods and
+Functions</h6>
 <p>Ghost functions and methods do not require a body. Sometimes, you are
 only interested in the assertions that a function or method gives in its
 post-condition, and do not care about the actual implementation. In such
@@ -1565,7 +1565,7 @@ public pure int add(int a, int b);
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases specification-syntax-auxiliary-annotations-ghost-code-ghost-methods-and-functions-abstract-methods-and-functions-1
+            <textarea name="examplecode" rows="20" >//:: cases specification-syntax-?-auxiliary-annotations-ghost-code-ghost-methods-and-functions-abstract-methods-and-functions-1
 //:: verdict Pass
 //:: tools silicon
 final class Test {
@@ -1623,7 +1623,7 @@ final class Test {
 <p>Note that VerCors can also work with abstract methods that are not
 ghost methods (like <code>mult</code> in the example above), but your
 compiler may complain about missing method definitions.</p>
-<h5 id="inline-functions">Inline Functions</h5>
+<h6 id="inline-functions">Inline Functions</h6>
 <p>Inline functions are like macros in C: You can write an expression
 that occurs frequently in your code as a macro and then use it as if it
 were a function; but before verifying the program, VerCors replaces
@@ -1645,7 +1645,7 @@ functions are declared using the <code>inline</code> keyword.</p>
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases specification-syntax-auxiliary-annotations-ghost-code-ghost-methods-and-functions-inline-functions-1
+            <textarea name="examplecode" rows="20" >//:: cases specification-syntax-?-auxiliary-annotations-ghost-code-ghost-methods-and-functions-inline-functions-1
 //:: verdict Pass
 //:: tools silicon
 final class Test {
@@ -1685,7 +1685,7 @@ final class Test {
 predicates (see chapter <a
 href="https://github.com/utwente-fmt/vercors/wiki/Predicates">"Predicates"</a>),
 which are a similar concept.</p>
-<h4 id="ghost-parameters-and-results">Ghost Parameters and Results</h4>
+<h5 id="ghost-parameters-and-results">Ghost Parameters and Results</h5>
 <p>You can extend the header of an existing method, by adding additional
 parameters and return values to a method. This is done by using the
 <code>given</code> and <code>yields</code> keywords in the method
@@ -1719,7 +1719,7 @@ void other_method() {
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases specification-syntax-auxiliary-annotations-ghost-code-ghost-parameters-and-results-1
+            <textarea name="examplecode" rows="20" >//:: cases specification-syntax-?-auxiliary-annotations-ghost-code-ghost-parameters-and-results-1
 //:: verdict Pass
 //:: tools silicon
 final class Test {
@@ -1800,7 +1800,7 @@ is not required to have an output for every yielded value. Both the
 <code>given</code> and the <code>yields</code> are placed in a
 specification comment between the method call and the respective
 semicolon.</p>
-<h3 id="expressions">Expressions</h3>
+<h4 id="expressions">Expressions</h4>
 <p>As mentioned above, expressions in specifications are an extension of
 the expressions available in the target language. So if you analyse a
 Java program, you can use expressions like <code>a&amp;&amp;b</code> or
@@ -1864,7 +1864,7 @@ complicated expression that you can now simplify by using the helper
 variable. Example:</p>
 <div class="sourceCode" id="cb8"><pre
 class="sourceCode java"><code class="sourceCode java"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">//@ assert (\let int abs_x = (x&lt;0 ? -x : x); y==(z==null ? abs_x : 5*abs_x));</span></span></code></pre></div>
-<h4 id="quantifiers">Quantifiers</h4>
+<h5 id="quantifiers">Quantifiers</h5>
 <p>Note that most target languages, such as Java and C, support array
 types, such as <code>int[]</code>. Sometimes, you might want to reason
 about all elements of the array. To do that, VerCors supports using
@@ -2055,8 +2055,8 @@ cause problems with VerCors (e.g. non-termination of the analysis), and
 they should be <strong>used with care</strong>!</p>
 <p><em>Note: Further sections explain advanced concepts: new users may
 want to skip those.</em></p>
-<h5 id="alternative-quantifier-syntax">Alternative quantifier
-syntax</h5>
+<h6 id="alternative-quantifier-syntax">Alternative quantifier
+syntax</h6>
 <p>In case brevity is needed for readability, you can use the
 appropriate unicode symbols instead of <code>\forall</code> and
 <code>\exists</code>:</p>
@@ -2073,7 +2073,7 @@ available:</p>
 <p>The IntelliJ plugin <a
 href="https://plugins.jetbrains.com/plugin/14267-spec--math-symbols">Spec
 &amp; Math Symbols</a> may be useful to type these symbols.</p>
-<h5 id="triggers">Triggers</h5>
+<h6 id="triggers">Triggers</h6>
 <p>A quantifier
 <code>(\forall int i = 0 .. arr.length ; arr[i]&gt;0)</code> is a rather
 generic piece of knowledge; to apply it to a concrete case, for example
@@ -2197,7 +2197,7 @@ void bar(int x, int y, int z) {
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases specification-syntax-auxiliary-annotations-expressions-quantifiers-triggers-1
+            <textarea name="examplecode" rows="20" >//:: cases specification-syntax-?-auxiliary-annotations-expressions-quantifiers-triggers-1
 //:: verdict Fail
 //:: tools silicon
 final class Test {
@@ -2250,7 +2250,7 @@ hidden. Removing the trigger around <code>f(k,y)</code> in the second
 quantifier leads to a successful verification, because without explicit
 triggers, VerCors' heuristics finds the correct trigger
 <code>f(k,z)</code> automatically.</p>
-<h6 id="advanced-trigger-syntax">Advanced trigger syntax</h6>
+<p>####### Advanced trigger syntax</p>
 <p>It is possible to specify multiple triggers for a single quantifier.
 In this case, the solver requires all triggers to be present before
 instantiating the quantifier. This also relaxes the requirement that all
@@ -2281,7 +2281,7 @@ meant for the innermost quantifier, you can use some number of
 <code>&lt;</code> symbols to indicate the trigger belongs to the
 quantifier that many levels up. For example:</p>
 <pre><code>(∀int i; (∀int j; {:&lt;:xs[i]:} == {:xs[j]:}))</code></pre>
-<h6 id="other-trigger-sources">Other trigger sources</h6>
+<p>####### Other trigger sources</p>
 <p>We recommend the following sources for more examples and explanations
 of how triggers work.</p>
 <ul>
@@ -2622,7 +2622,7 @@ help the user identify these cases by showing a
 'MethodPreConditionUnsound' if it can derive that the precondition is
 unsatisfiable. But one has to be a bit careful about the assumptions
 made on the program as preconditions.</p>
-<h2 id="self-framing">Self-framing</h2>
+<h3 id="self-framing">Self-framing</h3>
 <p>Consider the following variant on our program. Would this verify?</p>
 <div class="sourceCode" id="cb13"><pre
 class="sourceCode java"><code class="sourceCode java"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">/*@</span></span>
@@ -2663,7 +2663,7 @@ ownership resources. Before accessing <code>this.val</code> in the first
 must already be known! In the program given above, the access to
 <code>this.val</code> in the postcondition is <em>not</em> framed by the
 ownership predicate: it comes too late.</p>
-<h2 id="permission-leaks">Permission leaks</h2>
+<h3 id="permission-leaks">Permission leaks</h3>
 <p>So what about the following change? Can VerCors successfully verify
 the following program?</p>
 <div class="sourceCode" id="cb15"><pre
@@ -2710,7 +2710,7 @@ will consume write permission for <code>this.val</code>, but only
 produce read permission in return. Therefore, the requirements of the
 second call <code>incr(n)</code> cannot be satisfied, which causes the
 verification to be unsuccessful.</p>
-<h2 id="some-extra-notation">Some extra notation</h2>
+<h3 id="some-extra-notation">Some extra notation</h3>
 <p>We end the section by mentioning some notational enhancements for
 handling permissions. Instead of writing <code>Perm(o.f, 1)</code>, one
 may also write <code>Perm(o.f, write)</code>, which is perhaps a more
@@ -2820,7 +2820,7 @@ well then you can use <code>PointsTo(var, p, val)</code> which denotes
 that you have permission <code>p</code>for variable <code>var</code>
 which has value <code>val</code>. It is similar to saying
 <code>Perm(var, p)</code> and <code>var == val</code>.</p>
-<h3 id="old-heap-state">Old Heap State</h3>
+<h4 id="old-heap-state">Old Heap State</h4>
 <p>As mentioned earlier, you can use <code>\old(_)</code> to evaluate an
 expression in an older state. By state here we mean strictly the heap,
 and not any local variables. By default, the <code>\old</code> predicate
@@ -2872,7 +2872,7 @@ void test(Obj x, Obj y) {
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases permissions-some-extra-notation-old-heap-state-1
+            <textarea name="examplecode" rows="20" >//:: cases permissions-?-some-extra-notation-old-heap-state-1
 //:: verdict Pass
 //:: tools silicon
 class Obj { int f; }
@@ -3014,7 +3014,7 @@ entire heap.</li>
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases permissions-some-extra-notation-old-heap-state-2
+            <textarea name="examplecode" rows="20" >//:: cases permissions-?-some-extra-notation-old-heap-state-2
 //:: verdict Pass
 //:: tools silicon
 class Problem {  
@@ -3094,7 +3094,7 @@ its state.</p>
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases permissions-some-extra-notation-old-heap-state-3
+            <textarea name="examplecode" rows="20" >//:: cases permissions-?-some-extra-notation-old-heap-state-3
 //:: verdict Pass
 //:: tools silicon
 class Solution {  
@@ -3146,7 +3146,7 @@ tool supports both OpenCL and CUDA languages. The synchronization
 feature (i.e., barrier) in these languages is also supported by VerCors.
 To demonstrate GPGPU verification, we show two examples in both OpenCl
 and CUDA, one without barrier and the other one with barrier.</p>
-<h3 id="openclcuda-without-barrier">OpenCL/CUDA without Barrier</h3>
+<h4 id="openclcuda-without-barrier">OpenCL/CUDA without Barrier</h4>
 <p>This simple method shows an OpenCL program that adds two arrays and
 stores the result in another array:</p>
 <!-- test -->
@@ -3168,7 +3168,7 @@ stores the result in another array:</p>
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases gpgpu-verification-?-openclcuda-without-barrier-1
+            <textarea name="examplecode" rows="20" >//:: cases gpgpu-verification-?-?-openclcuda-without-barrier-1
 //:: verdict Pass
 //:: tools silicon
 #include &lt;opencl.h&gt;
@@ -3232,7 +3232,7 @@ stores the result in another array:</p>
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases gpgpu-verification-?-openclcuda-without-barrier-2
+            <textarea name="examplecode" rows="20" >//:: cases gpgpu-verification-?-?-openclcuda-without-barrier-2
 //:: verdict Pass
 //:: tools silicon
 #include &lt;cuda.h&gt;
@@ -3296,7 +3296,7 @@ keyword "\<em>gid</em>" instead of "<em>get_global_id(0)</em>" and
 <code>threadIdx</code> is combined with <code>blockDim</code>.
 Unfortunately, <code>blockDim</code> is not yet supported in VerCors, so
 the examples in this chapter only use <code>threadIdx</code>.</p>
-<h3 id="openclcuda-with-barrier">OpenCL/CUDA with Barrier</h3>
+<h4 id="openclcuda-with-barrier">OpenCL/CUDA with Barrier</h4>
 <p>In GPU programming, when there is only one thread block, there is a
 mechanism to sunchronize threads. This example shows an OpenCL program
 that uses barrier to synchronize threads:</p>
@@ -3410,7 +3410,7 @@ href="https://github.com/utwente-fmt/vercors/tree/dev/res/universal/res/adt">her
 <p>Finally, it is also possible to create custom ADTs, though with
 limited syntax support. This is discussed at the end of this
 section.</p>
-<h2 id="sequence">Sequence</h2>
+<h3 id="sequence">Sequence</h3>
 <p>Sequences are an ordered/enumerated collection also commonly referred
 to as lists. Sequences are finite and immutable (i.e. once created they
 cannot be altered).</p>
@@ -3429,7 +3429,7 @@ seq&lt;int&gt; s2 = seq&lt;int&gt; { };<span class="code-buttons"><span style="d
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases axiomatic-data-types-sequence-1
+            <textarea name="examplecode" rows="20" >//:: cases axiomatic-data-types-?-sequence-1
 //:: verdict Pass
 //:: tools silicon
 class Test {
@@ -3485,7 +3485,7 @@ seq&lt;int&gt; s4 = [t: int ];<span class="code-buttons"><span style="display: n
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases axiomatic-data-types-sequence-2
+            <textarea name="examplecode" rows="20" >//:: cases axiomatic-data-types-?-sequence-2
 //:: verdict Pass
 //:: tools silicon
 class Test {
@@ -3546,7 +3546,7 @@ assert s5 == seq&lt;int&gt; { 1, 2, 4, 8, 16 };<span class="code-buttons"><span 
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases axiomatic-data-types-sequence-3
+            <textarea name="examplecode" rows="20" >//:: cases axiomatic-data-types-?-sequence-3
 //:: verdict Pass
 //:: tools silicon
 class Test {
@@ -3589,8 +3589,8 @@ class Test {
 
 <br>
 
-<h3 id="constructing-sequences-from-existing-sequences">Constructing
-sequences from existing sequences</h3>
+<h4 id="constructing-sequences-from-existing-sequences">Constructing
+sequences from existing sequences</h4>
 <p>As mentioned above sequences are immutable, however it is possible to
 construct a new sequence from an existing sequence.</p>
 <p>Elements can be added to a sequence in two ways. The first way is by
@@ -3612,7 +3612,7 @@ assert s6 + s7 == [ 1, 2, 4, 8, 16, 32, 64, 128 ];<span class="code-buttons"><sp
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases axiomatic-data-types-sequence-constructing-sequences-from-existing-sequences-1
+            <textarea name="examplecode" rows="20" >//:: cases axiomatic-data-types-?-sequence-constructing-sequences-from-existing-sequences-1
 //:: verdict Pass
 //:: tools silicon
 class Test {
@@ -3672,7 +3672,7 @@ assert s8.tail == s8[1..]; <span class="code-buttons"><span style="display: none
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases axiomatic-data-types-sequence-constructing-sequences-from-existing-sequences-2
+            <textarea name="examplecode" rows="20" >//:: cases axiomatic-data-types-?-sequence-constructing-sequences-from-existing-sequences-2
 //:: verdict Pass
 //:: tools silicon
 class Test {
@@ -3713,8 +3713,8 @@ class Test {
     <pre class="verification-log verification-non-plain" style="display: none"></pre>
 </div>
 
-<h3 id="examples">Examples</h3>
-<h4 id="sortedness">Sortedness</h4>
+<h4 id="examples">Examples</h4>
+<h5 id="sortedness">Sortedness</h5>
 <p>Sortedness is a property that is often used in the verification of
 sorting algorithms. The sortedness property for a sequence of integers
 could be defined as follows:</p>
@@ -3727,7 +3727,7 @@ could be defined as follows:</p>
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases axiomatic-data-types-sequence-examples-sortedness-1
+            <textarea name="examplecode" rows="20" >//:: cases axiomatic-data-types-?-sequence-examples-sortedness-1
 //:: verdict Pass
 //:: tools silicon
 class Test {
@@ -3763,7 +3763,7 @@ class Test {
     <pre class="verification-log verification-non-plain" style="display: none"></pre>
 </div>
 
-<h4 id="distinct-element">Distinct Element</h4>
+<h5 id="distinct-element">Distinct Element</h5>
 <p>Another property on sequences is the uniqueness of the elements. This
 property could be expressed for a sequence of integers as follows:</p>
 <!-- testMethod Pass -->
@@ -3778,7 +3778,7 @@ property could be expressed for a sequence of integers as follows:</p>
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases axiomatic-data-types-sequence-examples-distinct-element-1
+            <textarea name="examplecode" rows="20" >//:: cases axiomatic-data-types-?-sequence-examples-distinct-element-1
 //:: verdict Pass
 //:: tools silicon
 class Test {
@@ -3817,7 +3817,7 @@ class Test {
     <pre class="verification-log verification-non-plain" style="display: none"></pre>
 </div>
 
-<h4 id="maximum-element">Maximum element</h4>
+<h5 id="maximum-element">Maximum element</h5>
 <p>Recursive functions are often used to transform or reduce a sequence.
 The example below goes over a sequence to get its maximum value. This
 function could be defined for a sequence of integers as follows:</p>
@@ -3839,7 +3839,7 @@ pure int max(seq&lt;int&gt; xs) =
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases axiomatic-data-types-sequence-examples-maximum-element-1
+            <textarea name="examplecode" rows="20" >//:: cases axiomatic-data-types-?-sequence-examples-maximum-element-1
 //:: verdict Pass
 //:: tools silicon
 class Test {
@@ -3884,7 +3884,7 @@ class Test {
     <pre class="verification-log verification-non-plain" style="display: none"></pre>
 </div>
 
-<h2 id="set">Set</h2>
+<h3 id="set">Set</h3>
 <p>Sets are an unordered collection with unique values. Sets are finite
 and immutable (i.e. once created they cannot be altered).</p>
 <p>Similar to sequences, there are two ways to construct a set: the
@@ -3902,7 +3902,7 @@ set&lt;int&gt; s2 = set&lt;int&gt; { };<span class="code-buttons"><span style="d
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases axiomatic-data-types-set-1
+            <textarea name="examplecode" rows="20" >//:: cases axiomatic-data-types-?-set-1
 //:: verdict Pass
 //:: tools silicon
 class Test {
@@ -3958,7 +3958,7 @@ set&lt;int&gt; s4 = {t: int };<span class="code-buttons"><span style="display: n
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases axiomatic-data-types-set-2
+            <textarea name="examplecode" rows="20" >//:: cases axiomatic-data-types-?-set-2
 //:: verdict Pass
 //:: tools silicon
 class Test {
@@ -4025,7 +4025,7 @@ assert s8 &lt; s5;<span class="code-buttons"><span style="display: none" class="
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases axiomatic-data-types-set-3
+            <textarea name="examplecode" rows="20" >//:: cases axiomatic-data-types-?-set-3
 //:: verdict Pass
 //:: tools silicon
 class Test {
@@ -4072,8 +4072,8 @@ class Test {
     <pre class="verification-log verification-non-plain" style="display: none"></pre>
 </div>
 
-<h3 id="constructing-sets-from-existing-sets">Constructing sets from
-existing sets</h3>
+<h4 id="constructing-sets-from-existing-sets">Constructing sets from
+existing sets</h4>
 <p>As mentioned above sets are immutable, however it is possible to
 construct a new set from an existing set.</p>
 <p>There are several operations defined on sets that are part of set
@@ -4095,7 +4095,7 @@ assert s5 * s6 == { 3 };<span class="code-buttons"><span style="display: none" c
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases axiomatic-data-types-set-constructing-sets-from-existing-sets-1
+            <textarea name="examplecode" rows="20" >//:: cases axiomatic-data-types-?-set-constructing-sets-from-existing-sets-1
 //:: verdict Pass
 //:: tools silicon
 class Test {
@@ -4139,7 +4139,7 @@ class Test {
     <pre class="verification-log verification-non-plain" style="display: none"></pre>
 </div>
 
-<h3 id="set-comprehension">Set comprehension</h3>
+<h4 id="set-comprehension">Set comprehension</h4>
 <p><em>Please note that set comprehensions are <a
 href="https://github.com/utwente-fmt/vercors/discussions/1068">currently
 not supported</a>.</em></p>
@@ -4181,7 +4181,7 @@ use set comprehension as follows:</p>
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases axiomatic-data-types-set-set-comprehension-1
+            <textarea name="examplecode" rows="20" >//:: cases axiomatic-data-types-?-set-set-comprehension-1
 //:: verdict Pass
 //:: tools silicon
 class SetComp {
@@ -4227,7 +4227,7 @@ class SetComp {
 <p>Here we define a function <code>plus</code> to wrap the expression
 <code>a+b</code> and use an invokation of the <code>plus</code> function
 as the <code>main</code> of our set comprehension.</p>
-<h2 id="bag">Bag</h2>
+<h3 id="bag">Bag</h3>
 <p>A bag (also called a multiset) is an unordered collection. They are
 equivalent to sequences without order, or sets with duplicates. Bags are
 finite and immutable (i.e. once created they cannot be altered).</p>
@@ -4246,7 +4246,7 @@ bag&lt;int&gt; b2 = bag&lt;int&gt; { };<span class="code-buttons"><span style="d
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases axiomatic-data-types-bag-1
+            <textarea name="examplecode" rows="20" >//:: cases axiomatic-data-types-?-bag-1
 //:: verdict Pass
 //:: tools silicon
 class Test {
@@ -4302,7 +4302,7 @@ bag&lt;int&gt; b4 = b{t: int };<span class="code-buttons"><span style="display: 
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases axiomatic-data-types-bag-2
+            <textarea name="examplecode" rows="20" >//:: cases axiomatic-data-types-?-bag-2
 //:: verdict Pass
 //:: tools silicon
 class Test {
@@ -4370,7 +4370,7 @@ assert b7 == b8;<span class="code-buttons"><span style="display: none" class="fa
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases axiomatic-data-types-bag-3
+            <textarea name="examplecode" rows="20" >//:: cases axiomatic-data-types-?-bag-3
 //:: verdict Pass
 //:: tools silicon
 class Test {
@@ -4418,8 +4418,8 @@ class Test {
     <pre class="verification-log verification-non-plain" style="display: none"></pre>
 </div>
 
-<h3 id="constructing-bags-from-existing-bags">Constructing bags from
-existing bags</h3>
+<h4 id="constructing-bags-from-existing-bags">Constructing bags from
+existing bags</h4>
 <p>As mentioned above bags are immutable, however it is possible to
 construct a new bag from an existing bag.</p>
 <p>The union of two bags is denoted by <code>b9 + b10</code>, the
@@ -4444,7 +4444,7 @@ assert b13 * b14 == bag&lt;int&gt; { 2, 3 };<span class="code-buttons"><span sty
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases axiomatic-data-types-bag-constructing-bags-from-existing-bags-1
+            <textarea name="examplecode" rows="20" >//:: cases axiomatic-data-types-?-bag-constructing-bags-from-existing-bags-1
 //:: verdict Pass
 //:: tools silicon
 class Test {
@@ -4492,9 +4492,9 @@ class Test {
     <pre class="verification-log verification-non-plain" style="display: none"></pre>
 </div>
 
-<h3 id="examples-1">Examples</h3>
+<h4 id="examples-1">Examples</h4>
 <p><code>TODO</code></p>
-<h2 id="map">Map</h2>
+<h3 id="map">Map</h3>
 <p>Maps are an unordered, collection of key/value pairs with unique
 keys. Maps are finite and immutable (i.e. once created they cannot be
 altered).</p>
@@ -4515,7 +4515,7 @@ assert m1 == m2;<span class="code-buttons"><span style="display: none" class="fa
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases axiomatic-data-types-map-1
+            <textarea name="examplecode" rows="20" >//:: cases axiomatic-data-types-?-map-1
 //:: verdict Pass
 //:: tools silicon
 class Test {
@@ -4584,7 +4584,7 @@ assert tuple&lt;int, boolean&gt; { 2, true } \in m1.items;<span class="code-butt
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases axiomatic-data-types-map-2
+            <textarea name="examplecode" rows="20" >//:: cases axiomatic-data-types-?-map-2
 //:: verdict Pass
 //:: tools silicon
 class Test {
@@ -4661,7 +4661,7 @@ assert |m4| == 0;<span class="code-buttons"><span style="display: none" class="f
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases axiomatic-data-types-map-3
+            <textarea name="examplecode" rows="20" >//:: cases axiomatic-data-types-?-map-3
 //:: verdict Pass
 //:: tools silicon
 class Test {
@@ -4713,9 +4713,9 @@ class Test {
     <pre class="verification-log verification-non-plain" style="display: none"></pre>
 </div>
 
-<h3 id="examples-2">Examples</h3>
+<h4 id="examples-2">Examples</h4>
 <p><code>TODO</code></p>
-<h2 id="tuple">Tuple</h2>
+<h3 id="tuple">Tuple</h3>
 <p>A tuple is an ordered, immutable collection containing exactly two
 elements.</p>
 <p>A tuple can be constructed using the syntax
@@ -4737,7 +4737,7 @@ assert t1.snd == false;<span class="code-buttons"><span style="display: none" cl
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases axiomatic-data-types-tuple-1
+            <textarea name="examplecode" rows="20" >//:: cases axiomatic-data-types-?-tuple-1
 //:: verdict Pass
 //:: tools silicon
 class Test {
@@ -4777,9 +4777,9 @@ class Test {
     <pre class="verification-log verification-non-plain" style="display: none"></pre>
 </div>
 
-<h3 id="examples-3">Examples</h3>
+<h4 id="examples-3">Examples</h4>
 <p><code>TODO</code></p>
-<h2 id="option">Option</h2>
+<h3 id="option">Option</h3>
 <p>The option data type is a container that either represents the
 presence of an element in the container or the absence of it.</p>
 <p>An option type can be constructed with the constructors
@@ -4797,7 +4797,7 @@ option&lt;int&gt; o2 = Some(3);<span class="code-buttons"><span style="display: 
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases axiomatic-data-types-option-1
+            <textarea name="examplecode" rows="20" >//:: cases axiomatic-data-types-?-option-1
 //:: verdict Pass
 //:: tools silicon
 class Test {
@@ -4856,7 +4856,7 @@ assert o5 != o6;<span class="code-buttons"><span style="display: none" class="fa
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases axiomatic-data-types-option-2
+            <textarea name="examplecode" rows="20" >//:: cases axiomatic-data-types-?-option-2
 //:: verdict Pass
 //:: tools silicon
 class Test {
@@ -4901,12 +4901,12 @@ class Test {
     <pre class="verification-log verification-non-plain" style="display: none"></pre>
 </div>
 
-<h3 id="examples-4">Examples</h3>
+<h4 id="examples-4">Examples</h4>
 <p><code>TODO</code></p>
-<h2 id="adt-reference">ADT Reference</h2>
+<h3 id="adt-reference">ADT Reference</h3>
 <p>The tables below are a reference for all the functions/operations
 that are defined on the different ADTs.</p>
-<h3 id="sequence-1">Sequence</h3>
+<h4 id="sequence-1">Sequence</h4>
 <table>
 <thead>
 <tr class="header">
@@ -5035,7 +5035,7 @@ indices <code>low</code> and <code>up</code> (exclusive)</td>
 </tr>
 </tbody>
 </table>
-<h3 id="set-1">Set</h3>
+<h4 id="set-1">Set</h4>
 <table>
 <thead>
 <tr class="header">
@@ -5137,7 +5137,7 @@ that are both in sets <code>s1</code> and <code>s2</code></td>
 </tr>
 </tbody>
 </table>
-<h3 id="bag-1">Bag</h3>
+<h4 id="bag-1">Bag</h4>
 <table>
 <thead>
 <tr class="header">
@@ -5229,7 +5229,7 @@ bag of all elements that are both in bags <code>b1</code> and
 </tr>
 </tbody>
 </table>
-<h3 id="map-1">Map</h3>
+<h4 id="map-1">Map</h4>
 <table>
 <thead>
 <tr class="header">
@@ -5310,7 +5310,7 @@ is in both the key set of <code>m1</code> and the key set of
 </tr>
 </tbody>
 </table>
-<h3 id="tuple-1">Tuple</h3>
+<h4 id="tuple-1">Tuple</h4>
 <table>
 <thead>
 <tr class="header">
@@ -5341,7 +5341,7 @@ element <code>snd</code> (of type <code>S</code>)</td>
 </tr>
 </tbody>
 </table>
-<h3 id="option-1">Option</h3>
+<h4 id="option-1">Option</h4>
 <table>
 <thead>
 <tr class="header">
@@ -5383,7 +5383,7 @@ wrapped in the option <code>o2</code>, or both are empty</td>
 </tr>
 </tbody>
 </table>
-<h2 id="custom-adts">Custom ADTs</h2>
+<h3 id="custom-adts">Custom ADTs</h3>
 <p>ADTs can be useful to provide VerCors with domain-specific
 assumptions. For example, a custom int-tuple ADT can be defined in PVL
 as follows:</p>
@@ -5416,8 +5416,8 @@ but these are usually suboptimal.</p>
 <p><em>This tutorial explains how to specify arrays and pointers in
 VerCors. The tutorial assumes you are familiar with arrays and pointers
 already.</em></p>
-<h2 id="array-permissions-in-java-and-pvl">Array permissions in Java and
-PVL</h2>
+<h3 id="array-permissions-in-java-and-pvl">Array permissions in Java and
+PVL</h3>
 <p>We have learned already how to specify ownership of variables on the
 heap. Arrays generalize this concept by treating each element of the
 array as a separate location on the heap. For example, you might
@@ -5466,7 +5466,7 @@ class="sourceCode java"><code class="sourceCode java"><span id="cb25-1"><a href=
 <span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>        ar<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> i<span class="op">;</span></span>
 <span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
 <span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
-<h2 id="syntactic-sugar">Syntactic sugar</h2>
+<h3 id="syntactic-sugar">Syntactic sugar</h3>
 <p>Specifying arrays quickly leads to prefix a lot of statements with
 <code>\forall* int i; 0 &lt;= i &amp;&amp; i &lt; ar.length;</code>, so
 there is some syntactic sugar. First, you might want to use
@@ -5517,8 +5517,8 @@ nothing preventing you from putting the same row array instance in
 multiple rows. The last statement says that if we have valid row indices
 i, j, we know that <code>i != j ==&gt; mat[i] != mat[j]</code> (and the
 contrapositive).</p>
-<h2 id="pointers-and-arrays-in-c-and-gpgpu-languages">Pointers and
-Arrays in C and GPGPU languages</h2>
+<h3 id="pointers-and-arrays-in-c-and-gpgpu-languages">Pointers and
+Arrays in C and GPGPU languages</h3>
 <p>We offer three syntactic sugar constructs for pointers:
 <code>\pointer</code> and <code>\pointer_index</code>.</p>
 <p>We write <code>\pointer(p, size, perm)</code> to express that
@@ -5562,9 +5562,9 @@ array types include their size it is (usually) not necessary to specify
 their length in specifications. VerCors will automatically add
 preconditions and loop invariants to ensure that the size of the
 underlying pointer matches the size specified by the array type.</p>
-<h2
+<h3
 id="injectivity-object-arrays-and-efficient-verification">Injectivity,
-object arrays and efficient verification</h2>
+object arrays and efficient verification</h3>
 <p><em>This section contains advanced information, and can be skipped on
 a first read.</em></p>
 <p>Due to a technical limitation in the backend of VerCors, the location
@@ -5587,7 +5587,7 @@ unique for each binding of the quantifier. For example, if we write:</p>
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases arrays-and-pointers-injectivity-object-arrays-and-efficient-verification-1
+            <textarea name="examplecode" rows="20" >//:: cases arrays-and-pointers-?-injectivity-object-arrays-and-efficient-verification-1
 //:: verdict Fail
 //:: tools silicon
 class Box {
@@ -5678,7 +5678,7 @@ objects:</p>
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases arrays-and-pointers-injectivity-object-arrays-and-efficient-verification-2
+            <textarea name="examplecode" rows="20" >//:: cases arrays-and-pointers-?-injectivity-object-arrays-and-efficient-verification-2
 //:: verdict Fail
 //:: tools silicon
 class Box {
@@ -5740,9 +5740,9 @@ creating parallel blocks in PVL. First, we give an example of a simple
 method using parallel block. Then, we discuss a more complex example
 with a barrier inside the parallel block. A barrier is used to
 synchronize threads inside a parallel block.</p>
-<h3 id="simple-parallel-blocks">Simple Parallel Blocks</h3>
-<h4 id="parallel-block-without-barrier">Parallel Block without
-Barrier</h4>
+<h4 id="simple-parallel-blocks">Simple Parallel Blocks</h4>
+<h5 id="parallel-block-without-barrier">Parallel Block without
+Barrier</h5>
 <p>This example shows a simple method that adds two arrays in parallel
 and stores the result in another array:</p>
 <!-- testMethod -->
@@ -5768,7 +5768,7 @@ and stores the result in another array:</p>
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases parallel-blocks-?-simple-parallel-blocks-parallel-block-without-barrier-1
+            <textarea name="examplecode" rows="20" >//:: cases parallel-blocks-?-?-simple-parallel-blocks-parallel-block-without-barrier-1
 //:: verdict Pass
 //:: tools silicon
 class Test {
@@ -5840,7 +5840,7 @@ the sum of the two corresponding locations in arrays "<em>a</em>" and
 "<em>b</em>" (line 11). From the postcondition of the parallel block, we
 can derive the postcondition of the method using universal quantifier
 for all locations in the arrays (line 3-6).</p>
-<h4 id="parallel-block-with-barrier">Parallel Block with Barrier</h4>
+<h5 id="parallel-block-with-barrier">Parallel Block with Barrier</h5>
 <p>Next we show an example of a parallel block which uses a barrier to
 synchronize threads:</p>
 <!-- testMethod -->
@@ -5881,7 +5881,7 @@ synchronize threads:</p>
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases parallel-blocks-?-simple-parallel-blocks-parallel-block-with-barrier-1
+            <textarea name="examplecode" rows="20" >//:: cases parallel-blocks-?-?-simple-parallel-blocks-parallel-block-with-barrier-1
 //:: verdict Pass
 //:: tools silicon
 class Test {
@@ -5977,7 +5977,7 @@ write permission to its own location (this comes from the postcondition
 of the barrier) in line 11 and (2) the elements are truly shifted to the
 left (lines 12-13). From the postcondition of the parallel block, we can
 establish the same postcondition for the method (lines 3-5).</p>
-<h4 id="caution-barrier-syntax">Caution: barrier syntax</h4>
+<h5 id="caution-barrier-syntax">Caution: barrier syntax</h5>
 <p>In this chapter syntax is introduced for barriers. There is a caveat
 to using barriers, which we want to explain first so it is not missed.
 Barrier syntax in VerCors has two forms. Form 1:</p>
@@ -6001,8 +6001,8 @@ is a problematic contract. For form 2, however, the contract <em>is
 actually checked</em>. Therefore, when using barriers, form 2 should be
 preferred. Form 1 should only be used if there is a proof external to
 VerCors.</p>
-<h3 id="complicated-parallel-blocks">Complicated Parallel Blocks</h3>
-<h4 id="nested-parallel-blocks">Nested Parallel Blocks</h4>
+<h4 id="complicated-parallel-blocks">Complicated Parallel Blocks</h4>
+<h5 id="nested-parallel-blocks">Nested Parallel Blocks</h5>
 <p>In the previous examples, we defined a parallel block of threads to
 work on one-dimensional arrays. It is also possible to define
 two-dimensional thread layouts to work on two-dimensional arrays. As an
@@ -6041,7 +6041,7 @@ void transpose(int[][] inp, int[][] out, int size){
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases parallel-blocks-?-complicated-parallel-blocks-nested-parallel-blocks-1
+            <textarea name="examplecode" rows="20" >//:: cases parallel-blocks-?-?-complicated-parallel-blocks-nested-parallel-blocks-1
 //:: verdict Pass
 //:: tools silicon
 class Test {
@@ -6131,7 +6131,7 @@ void transpose(int[][] inp, int[][] out, int size){
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases parallel-blocks-?-complicated-parallel-blocks-nested-parallel-blocks-2
+            <textarea name="examplecode" rows="20" >//:: cases parallel-blocks-?-?-complicated-parallel-blocks-nested-parallel-blocks-2
 //:: verdict Pass
 //:: tools silicon
 class Test {
@@ -6185,7 +6185,7 @@ class Test {
     <pre class="verification-log verification-non-plain" style="display: none"></pre>
 </div>
 
-<h4 id="simultaneous-parallel-blocks">Simultaneous Parallel Blocks</h4>
+<h5 id="simultaneous-parallel-blocks">Simultaneous Parallel Blocks</h5>
 <p>There might be some scenarios that we have multiple parallel blocks
 and all threads in each parallel block are working in disjoint memory
 locations. In this case we can define multiple parallel blocks to run
@@ -6228,7 +6228,7 @@ example of such a scenario:</p>
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases parallel-blocks-?-complicated-parallel-blocks-simultaneous-parallel-blocks-1
+            <textarea name="examplecode" rows="20" >//:: cases parallel-blocks-?-?-complicated-parallel-blocks-simultaneous-parallel-blocks-1
 //:: verdict Pass
 //:: tools silicon
 class Test {
@@ -6332,7 +6332,7 @@ class Main {
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases parallel-blocks-?-complicated-parallel-blocks-simultaneous-parallel-blocks-2
+            <textarea name="examplecode" rows="20" >//:: cases parallel-blocks-?-?-complicated-parallel-blocks-simultaneous-parallel-blocks-2
 //:: verdict Pass
 //:: tools silicon
 class HasVal {
@@ -6403,7 +6403,7 @@ discussed individually in the next sections.</p>
 locks. This means locking twice in a row is unsound, which could have
 implications for code that uses Java's <code>synchronized</code>. See
 the caveats section at the end of this document for more info.</p>
-<h2 id="pvl-built-in-locks">PVL: Built-in locks</h2>
+<h3 id="pvl-built-in-locks">PVL: Built-in locks</h3>
 <p>Using built-in locks in PVL consists of the following parts:</p>
 <ul>
 <li>Lock invariant, which describes the resources that the lock
@@ -6413,7 +6413,7 @@ guards</li>
 <li>The <code>commit</code> statement and <code>committed(l)</code>
 expression, which indicate whether or not a lock is initialized.</li>
 </ul>
-<h3 id="lock-invariant">Lock invariant</h3>
+<h4 id="lock-invariant">Lock invariant</h4>
 <p>A lock invariant can be defined for a class with the following
 syntax:</p>
 <!-- test Pass -->
@@ -6428,7 +6428,7 @@ class C {
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases atomics-and-locks-pvl-built-in-locks-lock-invariant-1
+            <textarea name="examplecode" rows="20" >//:: cases atomics-and-locks-?-pvl-built-in-locks-lock-invariant-1
 //:: verdict Pass
 //:: tools silicon
 lock_invariant true /* or: resource expression involving permissions and boolean assertions */;
@@ -6488,7 +6488,7 @@ class C {
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases atomics-and-locks-pvl-built-in-locks-lock-invariant-2
+            <textarea name="examplecode" rows="20" >//:: cases atomics-and-locks-?-pvl-built-in-locks-lock-invariant-2
 //:: verdict Pass
 //:: tools silicon
 lock_invariant Perm(f, write) ** f &gt; 10;
@@ -6538,7 +6538,7 @@ is "guarded" by the built-in lock of the object that has the field
 and hence access to <code>this.f</code>, first the lock on
 <code>this</code> needs to be acquired. This is done using the
 <code>lock</code> statement, which is described in the next section.</p>
-<h3 id="lock-statement"><code>lock</code> statement</h3>
+<h4 id="lock-statement"><code>lock</code> statement</h4>
 <p>The lock statement has the following syntax:</p>
 <!-- standaloneSnip onlyLockStatement
 lock_invariant true;
@@ -6625,7 +6625,7 @@ class C {
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases atomics-and-locks-pvl-built-in-locks-lock-statement-1
+            <textarea name="examplecode" rows="20" >//:: cases atomics-and-locks-?-pvl-built-in-locks-lock-statement-1
 //:: verdict Pass
 //:: tools silicon
 lock_invariant Perm(f, write);
@@ -6680,7 +6680,7 @@ the <code>committed</code> annotation shortly.</p>
 <p>The above example is still incomplete: when <code>f</code> has been
 incremented, the lock should be unlocked again. This is done with the
 <code>unlock</code> statement, which we describe next.</p>
-<h3 id="unlock-statement"><code>unlock</code> statement</h3>
+<h4 id="unlock-statement"><code>unlock</code> statement</h4>
 <p>The unlock statement has the following syntax:</p>
 <pre class="pvl"><code>unlock o;</code></pre>
 <p>Similar to the <code>lock</code> statement, <code>o</code> must be
@@ -6714,7 +6714,7 @@ class C {
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases atomics-and-locks-pvl-built-in-locks-unlock-statement-1
+            <textarea name="examplecode" rows="20" >//:: cases atomics-and-locks-?-pvl-built-in-locks-unlock-statement-1
 //:: verdict Pass
 //:: tools silicon
 lock_invariant Perm(f, write);
@@ -6764,7 +6764,7 @@ class C {
 for <code>f</code> is still available, and hence VerCors can trivially
 prove that the lock invariant can be re-established. Hence, this example
 verifies.</p>
-<h3 id="commit-statement"><code>commit</code> statement</h3>
+<h4 id="commit-statement"><code>commit</code> statement</h4>
 <p>Before a lock can be locked, it must be initialized. In VerCors, a
 lock is initialized when it is "committed". This is done using the
 <code>commit e;</code> statement. The lock must be committed before the
@@ -6804,7 +6804,7 @@ void tryLock() {
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases atomics-and-locks-pvl-built-in-locks-commit-statement-1
+            <textarea name="examplecode" rows="20" >//:: cases atomics-and-locks-?-pvl-built-in-locks-commit-statement-1
 //:: verdict Pass
 //:: tools silicon
 lock_invariant Perm(f, 1) ** f == 3;
@@ -6854,16 +6854,16 @@ void tryLock() {
     <pre class="verification-log verification-non-plain" style="display: none"></pre>
 </div>
 
-<h3 id="built-in-lock-caveats">Built-in lock: caveats</h3>
+<h4 id="built-in-lock-caveats">Built-in lock: caveats</h4>
 <p>There are several caveats to look out for when using built-in locks
 in PVL.</p>
-<h4 id="avoid-locking-a-lock-twice">Avoid: locking a lock twice</h4>
+<h5 id="avoid-locking-a-lock-twice">Avoid: locking a lock twice</h5>
 <p>PVL locks are non-reentrant: locking a lock twice, without unlocking
 the lock inbetween, will result in a deadlock. VerCors does not warn
 about this situation if it occurs. Hence, it needs to be checked
 manually that this situation does not occur.</p>
-<h4 id="avoid-deadlocking-interleavings">Avoid: deadlocking
-interleavings</h4>
+<h5 id="avoid-deadlocking-interleavings">Avoid: deadlocking
+interleavings</h5>
 <p>Deadlocks can occur when using multiple locks. For example, consider
 a situation with two locks, <code>l1</code> and <code>l2</code>. Process
 A first locks <code>l1</code>, and then tries to acquire
@@ -6872,13 +6872,13 @@ acquire <code>l1</code>. Since built-in locks in PVL are blocking, this
 interleaving will deadlock. VerCors does not warn about this situation
 if it occurs. Hence, it needs to be checked manually that this situation
 does not occur, because it can otherwise allow unsoundness to occur.</p>
-<h2 id="pvl-atomics">PVL: Atomics</h2>
+<h3 id="pvl-atomics">PVL: Atomics</h3>
 <p>For this section, we assume you are familiar with the concept of
 "lock invariant", as introduced int the previous section.</p>
 <p>Atomics in PVL are used through two statements: the
 <code>invariant</code> statement and the <code>atomic</code> statement.
 We will discuss them separately.</p>
-<h4 id="invariant-block"><code>invariant</code> block</h4>
+<h5 id="invariant-block"><code>invariant</code> block</h5>
 <p>The syntax of the <code>invariant</code> block is as follows:</p>
 <!-- testBlock Pass -->
 
@@ -6891,7 +6891,7 @@ We will discuss them separately.</p>
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases atomics-and-locks-pvl-atomics-?-invariant-block-1
+            <textarea name="examplecode" rows="20" >//:: cases atomics-and-locks-?-pvl-atomics-?-invariant-block-1
 //:: verdict Pass
 //:: tools silicon
 class Test {
@@ -6943,7 +6943,7 @@ the beginning of the invariant block. You can get access to the atomic
 invariant using the <code>atomic</code> block, which is explained in the
 next section. After the invariant block, the atomic invariant may be
 assumed again.</p>
-<h4 id="atomic-block"><code>atomic</code> block</h4>
+<h5 id="atomic-block"><code>atomic</code> block</h5>
 <p>The syntax of the <code>atomic</code> block is as follows:</p>
 <!-- standaloneSnip onlyAtomicBlock
 class C {
@@ -7024,14 +7024,14 @@ is done automatically.</li>
 <li>Declaration of the invariant is done at the method level, instead of
 at the class level.</li>
 </ol>
-<h2 id="java-synchronized">Java: synchronized</h2>
+<h3 id="java-synchronized">Java: synchronized</h3>
 <p>The <code>synchronized</code> statement allows you to work with lock
 invariants in Java. It is a combination of built-in locks from PVL, and
 atomics from PVL, which are both explained in previous sections.
 Specifically, VerCors supports the lock invariant syntax for Java
 classes, and <code>synchronized</code> blocks work almost identically to
 atomic blocks. Both concepts will be discussed in the next sections.</p>
-<h3 id="java-lock-invariants">Java: lock invariants</h3>
+<h4 id="java-lock-invariants">Java: lock invariants</h4>
 <p>VerCors supports the lock invariant syntax for Java classes. The
 syntax is as follows:</p>
 <!-- test Pass -->
@@ -7048,7 +7048,7 @@ class C  {
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases atomics-and-locks-java-synchronized-java-lock-invariants-1
+            <textarea name="examplecode" rows="20" >//:: cases atomics-and-locks-?-java-synchronized-java-lock-invariants-1
 //:: verdict Pass
 //:: tools silicon
 //@ lock_invariant true;
@@ -7098,7 +7098,7 @@ verification will fail. The lock invariant is assumed at the beginning
 of <code>synchronized</code> blocks, and has to be re-established at the
 end of synchronized blocks. If it cannot be re-established, VerCors will
 reject the program and verification will fail.</p>
-<h3 id="java-synchronized-block">Java: synchronized block</h3>
+<h4 id="java-synchronized-block">Java: synchronized block</h4>
 <p>VerCors supports Java's syntax for synchronized blocks. The syntax is
 as follows:</p>
 <!-- standaloneSnip onlySynchronizedBlock
@@ -7169,22 +7169,22 @@ invariant <code>true</code> will be used.</p>
 is that it accounts for exceptions. That is, when an exception is thrown
 before the end of the synchronized block, the lock is still closed, and
 hence the lock invariant still needs to be re-established.</p>
-<h3 id="caveats">Caveats</h3>
+<h4 id="caveats">Caveats</h4>
 <p>There are some caveats to verifying Java locks in VerCors.</p>
-<h4 id="avoid-locking-in-the-constructor">Avoid: locking in the
-constructor</h4>
+<h5 id="avoid-locking-in-the-constructor">Avoid: locking in the
+constructor</h5>
 <p>Similar to PVL, VerCors does not allow locking on an object before
 the lock invariant is established. However, VerCors does not check for
 this, so the user must manually ensure that this does not occur.</p>
-<h4 id="avoid-locking-on-an-object-twice">Avoid: locking on an object
-twice</h4>
+<h5 id="avoid-locking-on-an-object-twice">Avoid: locking on an object
+twice</h5>
 <p>Similar to PVL, VerCors models Java's locks as single-entrant locks.
 This is inaccurate, as Java's locks are actually re-entrant. We are
 working on improving this, but this is currently not yet implemented.
 Therefore, users have to take care that locking twice on a single object
 does not occur. If it does occur, it might cause unsoundness.</p>
-<h4 id="avoid-deadlocking-interleavings-1">Avoid: deadlocking
-interleavings</h4>
+<h5 id="avoid-deadlocking-interleavings-1">Avoid: deadlocking
+interleavings</h5>
 <p>Some interleaving of <code>synchronized</code> locking sequences
 might deadlock. VerCors does not warn, nor check for this. Therefore, it
 is the user's responsibility to ensure that this does not occur.</p>
@@ -7270,7 +7270,7 @@ with a brief overview of advanced usages of predicates and known
 problems.</p>
 <p>In this section, the language used for the code examples is Java.
 However, the concepts presented apply to PVL as well.</p>
-<h2 id="why-predicates">Why predicates?</h2>
+<h3 id="why-predicates">Why predicates?</h3>
 <p>Permissions are useful for indicating access rights and modifications
 to data. But, adding permissions to private members in the contract
 leaks implementation details. Consider the following example:</p>
@@ -7300,7 +7300,7 @@ class MyProgram {
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases predicates-why-predicates-1
+            <textarea name="examplecode" rows="20" >//:: cases predicates-?-why-predicates-1
 //:: verdict Pass
 //:: tools silicon
 class Counter {
@@ -7385,7 +7385,7 @@ class MyProgram {
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases predicates-why-predicates-2
+            <textarea name="examplecode" rows="20" >//:: cases predicates-?-why-predicates-2
 //:: verdict Pass
 //:: tools silicon
 class CounterExtended {
@@ -7441,7 +7441,7 @@ class MyProgram {
 <p>It is desirable that permissions are managed such that client code
 does not depend on irrelevant details, to avoid this rippling effect of
 modifications. Predicates help with this.</p>
-<h2 id="predicate-syntax-and-usage">Predicate syntax and usage</h2>
+<h3 id="predicate-syntax-and-usage">Predicate syntax and usage</h3>
 <p>A predicate is declared as follows:</p>
 <div class="sourceCode" id="cb33"><pre
 class="sourceCode java"><code class="sourceCode java"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co">//@ resource myPredicate(int a, bool b, ...) = body;</span></span></code></pre></div>
@@ -7484,7 +7484,7 @@ void foo(int n) {
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases predicates-predicate-syntax-and-usage-1
+            <textarea name="examplecode" rows="20" >//:: cases predicates-?-predicate-syntax-and-usage-1
 //:: verdict Pass
 //:: tools silicon
 final class Test {
@@ -7551,7 +7551,7 @@ void foo(int n) {
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases predicates-predicate-syntax-and-usage-2
+            <textarea name="examplecode" rows="20" >//:: cases predicates-?-predicate-syntax-and-usage-2
 //:: verdict Pass
 //:: tools silicon
 final class Test {
@@ -7637,7 +7637,7 @@ objects other than <code>this</code>.</p>
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases predicates-predicate-syntax-and-usage-3
+            <textarea name="examplecode" rows="20" >//:: cases predicates-?-predicate-syntax-and-usage-3
 //:: verdict Pass
 //:: tools silicon
 final class Cell {
@@ -7699,8 +7699,8 @@ final class Cell {
 <p>Predicates can be used anywhere <code>Perm</code> can be used, and
 hence must also be composed using the separating conjunction
 (<code>**</code>) operator.</p>
-<h2 id="the-counter-example-now-with-predicates">The
-<code>Counter</code> example, now with predicates</h2>
+<h3 id="the-counter-example-now-with-predicates">The
+<code>Counter</code> example, now with predicates</h3>
 <p>In the next snippet we redefine the <code>Counter</code> class to use
 predicates, instead of plain permissions:</p>
 <!-- test Pass -->
@@ -7731,7 +7731,7 @@ class MyProgram {
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases predicates-the-counter-example-now-with-predicates-1
+            <textarea name="examplecode" rows="20" >//:: cases predicates-?-the-counter-example-now-with-predicates-1
 //:: verdict Pass
 //:: tools silicon
 class Counter {
@@ -7828,7 +7828,7 @@ class MyProgram {
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases predicates-the-counter-example-now-with-predicates-2
+            <textarea name="examplecode" rows="20" >//:: cases predicates-?-the-counter-example-now-with-predicates-2
 //:: verdict Pass
 //:: tools silicon
 class CounterExtended {
@@ -7890,10 +7890,10 @@ class MyProgram {
 details. They allow encapsulation. However, predicates do not protect
 the client from breaking changes. If the interface changes, any clients
 will have to change too.</p>
-<h2 id="reservedinternal-predicates">Reserved/internal predicates</h2>
+<h3 id="reservedinternal-predicates">Reserved/internal predicates</h3>
 <p>There are a few situations where VerCors attaches special meanings to
 certain predicate names.</p>
-<h3 id="for-atomicslocks">For atomics/locks</h3>
+<h4 id="for-atomicslocks">For atomics/locks</h4>
 <p>For atomics and locks a predicate <code>lock_invariant</code> is
 defined. This predicate cannot be folded/unfolded, and has to be
 manipulated through locking and unlocking.</p>
@@ -7906,7 +7906,7 @@ splitting and scaling, except for folding and unfolding.</p>
 <p>For more information, see the <a
 href="https://github.com/utwente-fmt/vercors/wiki/Atomics-and-Locks">Atomics
 and Locks</a> section.</p>
-<h3 id="threads">Threads</h3>
+<h4 id="threads">Threads</h4>
 <p>A thread can be in several states, such as idle and running. The
 syntax for this is <code>idle(thread)</code> and
 <code>running(thread)</code>. <code>idle</code> and <code>running</code>
@@ -7917,10 +7917,10 @@ splitting and scaling).</p>
 <p>See the <a
 href="https://github.com/utwente-fmt/vercors/wiki/PVL-Syntax-Reference">PVL
 Syntax Reference</a> section for more details.</p>
-<h2 id="advanced-usage-of-predicates">Advanced usage of predicates</h2>
-<h3
+<h3 id="advanced-usage-of-predicates">Advanced usage of predicates</h3>
+<h4
 id="unfolding-predicates-within-expressions-using-unfolding">Unfolding
-predicates within expressions using <code>\unfolding</code></h3>
+predicates within expressions using <code>\unfolding</code></h4>
 <p>Sometimes it is necessary to briefly open a predicate within an
 expression, for example, to temporarily gain access to a field. This can
 be achieved using the <code>\unfolding</code> operator. It has the
@@ -7952,7 +7952,7 @@ class="sourceCode java"><code class="sourceCode java"><span id="cb35-1"><a href=
 <span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a>  Cell c <span class="op">=</span> <span class="kw">new</span> <span class="fu">Cell</span><span class="op">();</span></span>
 <span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a>  <span class="co">//@ assert \unfolding c.state() \in c.x == 0;</span></span>
 <span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
-<h3 id="recursive-predicates">Recursive predicates</h3>
+<h4 id="recursive-predicates">Recursive predicates</h4>
 <p>Predicates can directly and indirectly recurse without problems,
 provided they are not <code>inline</code>. This can be used to for
 example model permissions over data structures with a size that cannot
@@ -7969,7 +7969,7 @@ class="sourceCode java"><code class="sourceCode java"><span id="cb36-1"><a href=
 <span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">int</span> v<span class="op">;</span></span>
 <span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>  LinkedListNode next<span class="op">;</span></span>
 <span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
-<h3 id="scaling--splitting">Scaling &amp; splitting</h3>
+<h4 id="scaling--splitting">Scaling &amp; splitting</h4>
 <p>VerCors offers syntax to specify fractions of predicates, similar to
 how permissions can be specified in fractions. This can be useful to,
 for example, allow one half of a state predicate to be passed to one
@@ -8004,7 +8004,7 @@ class="sourceCode java"><code class="sourceCode java"><span id="cb37-1"><a href=
 <span id="cb37-24"><a href="#cb37-24" aria-hidden="true" tabindex="-1"></a>  <span class="co">// The other half can be used for something else</span></span>
 <span id="cb37-25"><a href="#cb37-25" aria-hidden="true" tabindex="-1"></a>  <span class="co">//@ assert [1\2]c.state(0);</span></span>
 <span id="cb37-26"><a href="#cb37-26" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
-<h3 id="inline-predicates">Inline predicates</h3>
+<h4 id="inline-predicates">Inline predicates</h4>
 <p>Predicates can be given the <code>inline</code> attribute:</p>
 <div class="sourceCode" id="cb38"><pre
 class="sourceCode java"><code class="sourceCode java"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> C <span class="op">{</span></span>
@@ -8032,9 +8032,9 @@ regular predicates, and hence support arguments and scaling.</p>
 unfolding inline predicates do not change the program state. However,
 for the ease of flexibility, VerCors allows them, interpreting them as a
 check for whether or not the contents of a predicate is present.</p>
-<h3 id="inheritance">Inheritance</h3>
+<h4 id="inheritance">Inheritance</h4>
 <p>Inheritance is not yet supported for predicates.</p>
-<h3 id="thread-local-predicates">Thread-local predicates</h3>
+<h4 id="thread-local-predicates">Thread-local predicates</h4>
 <p>There is informal &amp; incomplete support for predicates with
 thread-dependent resources. For this, the predicate must be defined with
 the <code>thread_local</code> modifier. The <code>\current_thread</code>
@@ -8046,9 +8046,9 @@ assign e.g. array indices to individual threads in a global manner.</p>
 either in preconditions, or in predicate bodies. For example, for some
 <code>N</code>:</p>
 <pre class="silver"><code>requires 0 &lt;= \current_thread &amp;&amp; \current_thread &lt; N;</code></pre>
-<h2 id="known-problems">Known problems</h2>
-<h3 id="vercors-crashes-when-predicates-are-unfolded">VerCors crashes
-when predicates are unfolded</h3>
+<h3 id="known-problems">Known problems</h3>
+<h4 id="vercors-crashes-when-predicates-are-unfolded">VerCors crashes
+when predicates are unfolded</h4>
 <p>When using predicates, VerCors might yield the following error:</p>
 <pre><code>Verification aborted exceptionally: java.util.concurrent.ExecutionException: java.util.concurrent.ExecutionException: java.util.NoSuchElementException: None.get
   Cause: java.util.concurrent.ExecutionException: java.util.NoSuchElementException: None.get</code></pre>
@@ -8076,7 +8076,7 @@ void foo(int n) {
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases predicates-known-problems-vercors-crashes-when-predicates-are-unfolded-1
+            <textarea name="examplecode" rows="20" >//:: cases predicates-?-known-problems-vercors-crashes-when-predicates-are-unfolded-1
 //:: verdict Pass
 //:: tools silicon
 final class Test {
@@ -8128,8 +8128,8 @@ the class at all.</p>
 not use inheritance.</p>
 <p>Finally, if neither of the workarounds work, please file an
 issue.</p>
-<h3 id="interaction-between-loop-conditions-and-predicates">Interaction
-between loop conditions and predicates</h3>
+<h4 id="interaction-between-loop-conditions-and-predicates">Interaction
+between loop conditions and predicates</h4>
 <p>Consider the following example:</p>
 <!-- testMethod Fail -->
 
@@ -8155,7 +8155,7 @@ void m() {
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases predicates-known-problems-interaction-between-loop-conditions-and-predicates-1
+            <textarea name="examplecode" rows="20" >//:: cases predicates-?-known-problems-interaction-between-loop-conditions-and-predicates-1
 //:: verdict Fail
 //:: tools silicon
 final class Test {
@@ -8236,7 +8236,7 @@ void m() {
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases predicates-known-problems-interaction-between-loop-conditions-and-predicates-2
+            <textarea name="examplecode" rows="20" >//:: cases predicates-?-known-problems-interaction-between-loop-conditions-and-predicates-2
 //:: verdict Error
 //:: tools silicon
 final class Test {
@@ -8313,7 +8313,7 @@ void m() {
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases predicates-known-problems-interaction-between-loop-conditions-and-predicates-3
+            <textarea name="examplecode" rows="20" >//:: cases predicates-?-known-problems-interaction-between-loop-conditions-and-predicates-3
 //:: verdict Pass
 //:: tools silicon
 final class Test {
@@ -8404,7 +8404,7 @@ void m() {
     
     <div class="verification-widget verification-non-plain" style="display: none">
         <div style="position: relative">
-            <textarea name="examplecode" rows="20" >//:: cases predicates-known-problems-interaction-between-loop-conditions-and-predicates-4
+            <textarea name="examplecode" rows="20" >//:: cases predicates-?-known-problems-interaction-between-loop-conditions-and-predicates-4
 //:: verdict Pass
 //:: tools silicon
 final class Test {
@@ -8492,8 +8492,8 @@ which models exceptions in VerCors.</li>
 <li>Finally, support for goto is discussed <a
 href="https://github.com/utwente-fmt/vercors/wiki/Exceptions-&amp;-Goto#goto-and-labels">here</a>.</li>
 </ul>
-<h2 id="exceptions">Exceptions</h2>
-<h3 id="support">Support</h3>
+<h3 id="exceptions">Exceptions</h3>
+<h4 id="support">Support</h4>
 <p>VerCors currently only supports Java exceptions. They are not
 supported in PVL. We also do not support signal handlers in C. The table
 below lists which facets of exceptions in Java are currently supported
@@ -8552,7 +8552,7 @@ RuntimeException, Throwable, Error. This limitation is temporary.</td>
 <p>Support for exceptions is still being worked on currently. Progress
 on the implementation can be followed <a
 href="https://github.com/utwente-fmt/vercors/pull/464">here</a>.</p>
-<h3 id="java-exceptions-example">Java Exceptions Example</h3>
+<h4 id="java-exceptions-example">Java Exceptions Example</h4>
 <p>We will now discuss a basic artificial example of exception usage in
 Java. For a more thorough overview, we refer the reader to the Java
 tutorial on exceptions: <a
@@ -8604,7 +8604,7 @@ passed further up the call stack, possibly terminating the program if it
 is not caught and handled.</p>
 <!-- this should not be visible -->
 
-<h3 id="the-signals-clause">The signals clause</h3>
+<h4 id="the-signals-clause">The signals clause</h4>
 <p>The signals clause supported in VerCors is very similar to the
 signals clauses supported in JML (documented <a
 href="http://www.eecs.ucf.edu/~leavens/JML/jmlrefman/jmlrefman_9.html#SEC109">here</a>).
@@ -8645,8 +8645,8 @@ class="sourceCode java"><code class="sourceCode java"><span id="cb44-1"><a href=
 <code>signals</code> clause can name both checked and unchecked
 exceptions. The only limitation is that the type must extend
 <code>Throwable</code>.</p>
-<h5 id="signals-does-not-guarantee-an-exception">Signals does not
-guarantee an exception</h5>
+<h6 id="signals-does-not-guarantee-an-exception">Signals does not
+guarantee an exception</h6>
 <p>A frequently occurring use-case is to guarantee that an exception is
 thrown, if a certain condition occurs. Furthermore, this is also how the
 semantics of the <code>signals</code> clause is sometimes
@@ -8718,7 +8718,7 @@ class="sourceCode java"><code class="sourceCode java"><span id="cb46-1"><a href=
 arguments equals 5, it is guaranteed that an exception is thrown when
 one of the arguments equals 5. This encodes the causal semantics using
 the reactive semantics supported by VerCors.</p>
-<h5 id="exception-guarantees">Exception guarantees</h5>
+<h6 id="exception-guarantees">Exception guarantees</h6>
 <p>Java guarantees that methods only throw checked exceptions if they
 are explicitly mentioned in the <code>throws</code> attribute. Unchecked
 exceptions can always be thrown.</p>
@@ -8777,7 +8777,7 @@ in a <code>try-catch</code> block. However, since catching a
 indicate in the contract of <code>useSum</code> that <code>useSum</code>
 might also throw a <code>RuntimeException</code>. This propagates the
 responsibility for handling the unchecked exception to the caller.</p>
-<h3 id="the-signals_only-clause">The signals_only clause</h3>
+<h4 id="the-signals_only-clause">The signals_only clause</h4>
 <p>The <code>signals_only</code> clause from JML (documented <a
 href="http://www.eecs.ucf.edu/~leavens/JML/jmlrefman/jmlrefman_9.html#SEC110">here</a>)
 is not supported by VerCors. It guarantees that the only types that will
@@ -8800,7 +8800,7 @@ documented in <a
 href="http://www.eecs.ucf.edu/~leavens/JML/jmlrefman/jmlrefman_9.html#SEC110">Section
 9.9.5 of the JML reference manual</a> can also be used to approximate
 the semantics of <code>signals_only</code> in VerCors.</p>
-<h2 id="goto-and-labels">Goto and labels</h2>
+<h3 id="goto-and-labels">Goto and labels</h3>
 <p>PVL has support for <code>goto</code> and <code>label</code>. They
 are useful for modeling control flow primitives not yet supported in
 VerCors. The semantics are standard: when the <code>goto l</code>
@@ -8852,8 +8852,8 @@ GitHub transforms the anchor in a particular way: this does not matter to us, be
 -->
 
 <p><a id='assertFailed:false'></a></p>
-<h3 id="assertion-failed-expression-may-be-false">Assertion failed:
-expression may be false</h3>
+<h4 id="assertion-failed-expression-may-be-false">Assertion failed:
+expression may be false</h4>
 <h1 id="veymont">VeyMont</h1>
 <p>VeyMont is a tool for verification of concurrent message passing
 programs, also called choreographies. It is implemented as an extension
@@ -8877,7 +8877,7 @@ will assume the reader is familiar with PVL concepts such as
 permissions, the separating conjunction, contracts and classes. At the
 end of this section we will give some further directions for reading, as
 well as an overview of all syntax that VeyMont supports.</p>
-<h2 id="choreography-syntax">Choreography syntax</h2>
+<h3 id="choreography-syntax">Choreography syntax</h3>
 <p>Choreographies are defined using the <code>choreography</code>
 keyword. They have a name, arguments, and a body. For example, the next
 code snippet defines a choreography named <code>Example</code>, and has
@@ -8934,9 +8934,9 @@ write to memory that is owned by the endpoint being assigned to.</p>
     bobby.v := bobby.temp;
   }
 }</code></pre>
-<h2
+<h3
 id="using-veymont-choreographic-verification--permission-generation">Using
-VeyMont: choreographic verification &amp; permission generation</h2>
+VeyMont: choreographic verification &amp; permission generation</h3>
 <p>This example lacks contracts and permissions. However, it can still
 be verified, and an implementation can also be generated. This can be
 done using the following command:</p>
@@ -8968,7 +8968,7 @@ section.</li>
 <code>--choreography</code>, <code>--generate</code>, and
 <code>--implementation</code> flags, respectively, to make veymont skip
 the other steps.</p>
-<h2 id="choreographic-contracts">Choreographic contracts</h2>
+<h3 id="choreographic-contracts">Choreographic contracts</h3>
 <p>Channel invariants &amp; choreographic contracts can be used to
 specify &amp; verify functional correctness and memory safety. Using
 choreographic contracts, we can manually specify the permissions that
@@ -9026,8 +9026,8 @@ the contract to the following:</p>
   }
 }</code></pre>
 <p>VeyMont verifies the above two examples successfully.</p>
-<h2 id="channel-invariants--functional-correctness">Channel invariants
-&amp; functional correctness</h2>
+<h3 id="channel-invariants--functional-correctness">Channel invariants
+&amp; functional correctness</h3>
 <p>We will now go one step further and specify functional correctness of
 the above example. Specifically, we will verify that, if <code>x</code>
 and <code>y</code> are positive and negative respectively, the fields
@@ -9105,10 +9105,10 @@ choreography Example(int x, int y) {
 }</code></pre>
 <p>The generated implementation of this final version of the
 choreography verifies.</p>
-<h2 id="what-next">What next?</h2>
+<h3 id="what-next">What next?</h3>
 <p>More choreographies can be found in the test suite of VeyMont, as
 well as in the tool papers.</p>
-<h2 id="publications">Publications</h2>
+<h3 id="publications">Publications</h3>
 <ul>
 <li>The base theory of VeyMont: <a
 href="https://doi.org/10.1007/978-3-030-99336-8_19">https://doi.org/10.1007/978-3-030-99336-8_19</a></li>
@@ -9127,8 +9127,8 @@ DOI pending)</em>
 href="https://doi.org/10.4121/93f68b2c-5f85-4afd-9679-5e92c634a1b0">https://doi.org/10.4121/93f68b2c-5f85-4afd-9679-5e92c634a1b0</a></li>
 </ul></li>
 </ul>
-<h2 id="veymont-syntax-overview">VeyMont syntax overview</h2>
-<h5 id="choreography-declarations">Choreography declarations</h5>
+<h3 id="veymont-syntax-overview">VeyMont syntax overview</h3>
+<h6 id="choreography-declarations">Choreography declarations</h6>
 <ul>
 <li><p><code>[contract] choreography Name(parameters...) { choreographic declarations... }</code></p>
 <p>Defines a choreography named "Name", with zero or more parameters and
@@ -9144,8 +9144,8 @@ constructor of <code>ClassType</code> will be called with arguments
 <p>The <code>run</code> declaration defines the interactions between
 endpoints. It contains zero or more choreographic statements.</p></li>
 </ul>
-<h5 id="choreographic-contract-expressions">Choreographic contract
-expressions</h5>
+<h6 id="choreographic-contract-expressions">Choreographic contract
+expressions</h6>
 <ul>
 <li><p><code>(\endpoint a; expr)</code></p>
 <p>Specifies that expression <code>expr</code> belongs to endpoint
@@ -9166,7 +9166,7 @@ verified at the generated implementation level yet.</p></li>
 <p>This is shorthand syntax for
 <code>(\endpoint a; Perm(obj.f, p))</code>.</p></li>
 </ul>
-<h5 id="choreographic-statements">Choreographic statements</h5>
+<h6 id="choreographic-statements">Choreographic statements</h6>
 <ul>
 <li><p><code>channel_invariant expr;</code></p>
 <p>Specifies a property over a message being sent. Must directly precede
@@ -9192,8 +9192,8 @@ own.</p></li>
 endpoint <code>a</code>. Used as a fallback when VeyMont cannot infer
 the endpoint context directly from <code>target</code>.</p></li>
 </ul>
-<h5 id="channel-invariant-expressions">Channel invariant
-expressions</h5>
+<h6 id="channel-invariant-expressions">Channel invariant
+expressions</h6>
 <ul>
 <li><p><code>\msg</code></p>
 <p>Refers to the message being sent.</p></li>
@@ -9201,6 +9201,141 @@ expressions</h5>
 <p>Refer to the sender and receiver of the communicate
 statement.</p></li>
 </ul>
+<h1 id="platform-dependent-verification">Platform-Dependent
+Verification</h1>
+<p>When verifying a program, particularly one written in C or C++, the
+correctness of the program may depend on specifics of the target
+platform. For example, there may be pointer arithmetic that assumes an
+integer takes up 4 bytes, operations on integers may over/underflow, and
+for bitwise arithmetic we also need to know how big to make the bit
+vectors. By default, VerCors will make no assumptions which are not
+guaranteed by the C standard.[^1] The C standard guarantees the
+following for the sizes of integer types <a
+href="https://en.cppreference.com/w/c/language/arithmetic_types">[source]</a>:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Type</th>
+<th>Width in bits</th>
+<th>Relation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>char</td>
+<td>exactly 8*</td>
+<td>≤ sizeof(short int)</td>
+</tr>
+<tr class="even">
+<td>short int</td>
+<td>at least 16</td>
+<td>≤ sizeof(int)</td>
+</tr>
+<tr class="odd">
+<td>int</td>
+<td>at least 16</td>
+<td>≤ sizeof(long int)</td>
+</tr>
+<tr class="even">
+<td>long int</td>
+<td>at least 32</td>
+<td>≤ sizeof(long long int)</td>
+</tr>
+<tr class="odd">
+<td>long long int</td>
+<td>at least 64</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>* In VerCors we make the assumption that bytes are 8 bits, since the
+C standard guarantees that sizeof(char) is equal to 1 this implies that
+chars are 8 bits</p>
+<p>If your code requires stronger guarantees than the C standard
+provides you will need to set a target using VerCors'
+<code>--target</code> flag. The target is specified as a target triple
+in the same syntax used by Clang. (we use Clang to determine the sizes)
+A reference for this format can be found <a
+href="https://clang.llvm.org/docs/CrossCompilation.html#target-triple">here</a>.
+Currently we support four data models:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Type</th>
+<th style="text-align: center;">LP32</th>
+<th style="text-align: center;">ILP32</th>
+<th style="text-align: center;">LLP64</th>
+<th style="text-align: center;">LP64</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>char</td>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">8</td>
+</tr>
+<tr class="even">
+<td>short int</td>
+<td style="text-align: center;">16</td>
+<td style="text-align: center;">16</td>
+<td style="text-align: center;">16</td>
+<td style="text-align: center;">16</td>
+</tr>
+<tr class="odd">
+<td>int</td>
+<td style="text-align: center;">16</td>
+<td style="text-align: center;">32</td>
+<td style="text-align: center;">32</td>
+<td style="text-align: center;">32</td>
+</tr>
+<tr class="even">
+<td>long int</td>
+<td style="text-align: center;">32</td>
+<td style="text-align: center;">32</td>
+<td style="text-align: center;">32</td>
+<td style="text-align: center;">64</td>
+</tr>
+<tr class="odd">
+<td>long long int</td>
+<td style="text-align: center;">64</td>
+<td style="text-align: center;">64</td>
+<td style="text-align: center;">64</td>
+<td style="text-align: center;">64</td>
+</tr>
+<tr class="even">
+<td>pointer</td>
+<td style="text-align: center;">32</td>
+<td style="text-align: center;">32</td>
+<td style="text-align: center;">64</td>
+<td style="text-align: center;">64</td>
+</tr>
+<tr class="odd">
+<td>Example Target Triple</td>
+<td style="text-align: center;"><code>ppc-lv2-unknown</code></td>
+<td style="text-align: center;"><code>i686-linux-unknown</code></td>
+<td style="text-align: center;"><code>x86_64-windows-unknown</code></td>
+<td style="text-align: center;"><code>x86_64-linux-unknown</code></td>
+</tr>
+</tbody>
+</table>
+<p>Setting the target will cause unsigned integer operations to be
+guarded with a modulo operation to deal with over- and underflows. To
+check that signed integers do not over- or underflow (as this is
+implementation-defined behavior in C) you can use the
+<code>--check-integer-bounds</code> flag. Without setting this flag such
+erroneous over- and underflows will be ignored even if a target is set.
+Using <code>--check-integer-bounds</code> will also add additional
+assumptions to function contracts and loop invariants; it cannot be used
+without setting the target with <code>--target</code>.</p>
+<p>Additionally, setting the target may also influence the macros
+defined by the preprocessor. Note that if you do not specify a target
+(or set <code>--target unset</code>) then Clang will use the current
+platform's target to determine which macros to set. In this case VerCors
+will make no assumptions about the integer size but if your code uses
+the macros defined by the preprocessor your verification may not be
+completely portable.</p>
 <h1 id="term-rewriting-rules">Term Rewriting Rules</h1>
 <p>VerCors allows you to define your own term rewriting rules via
 <code>pvl</code> files. This chapter shows you how.</p>
@@ -9213,7 +9348,7 @@ elimination of magic wands". Blom, S.; and Huisman, M. STTT, 17(6):
 href="http://viper.ethz.ch/tutorial/?page=1&amp;section=#magic-wands">http://viper.ethz.ch/tutorial/?page=1&amp;section=#magic-wands</a></p>
 <!-- PB: note to editor: if VerCors starts supporting "\applying" in contracts, please edit the section about \old where it is explained how \old interacts with \unfolding -->
 
-<h2 id="what-are-magic-wands">What are Magic Wands?</h2>
+<h3 id="what-are-magic-wands">What are Magic Wands?</h3>
 <p>The "Magic Wand" or <em>separating implication</em> is a connective
 in separation logic using the symbol <code>-*</code>. It represents a
 part of a resource (see <a
@@ -9239,7 +9374,7 @@ split <code>Tree(T)</code> into
 resource for the left sub-tree, and a wand such that if you join the
 sub-tree back into it, you get the predicate for the whole tree back.
 This joining is called <em>applying</em> the wand.</p>
-<h2 id="syntax-in-vercors">Syntax in VerCors</h2>
+<h3 id="syntax-in-vercors">Syntax in VerCors</h3>
 <p>We will use the following binary tree as example:</p>
 <!-- standaloneSnip magicWandAndTree
 //:: cases magicWandAndTree
@@ -9417,7 +9552,7 @@ resource contains write permissions for all those fields, as well as
 recursive permissions for the sub-trees; and the <code>sorted</code>
 function ensures that the priority in the root node is the largest in
 the <code>Tree</code> (like in a priority queue).</p>
-<h3 id="creating-a-wand">Creating a Wand</h3>
+<h4 id="creating-a-wand">Creating a Wand</h4>
 <p>To create a wand, use the keyword <code>create {...}</code>. Inside
 the curly braces, you have to provide the necessary information to
 create the wand:</p>
@@ -9621,7 +9756,7 @@ wand, and no longer directly available). Additionally, we had to provide
 the fact that <code>res</code> is the left sub-tree of <code>t</code>,
 so that <code>fold tree(t)</code> knows that the premise of the wand
 fits into the missing part of the predicate.</p>
-<h3 id="applying-a-wand">Applying a Wand</h3>
+<h4 id="applying-a-wand">Applying a Wand</h4>
 <p>To combine the "missing piece" with the wand and obtain the full
 resource, use the keyword <code>apply</code>. Since we already specified
 how the merging works when we created the wand, no further logic is
@@ -9789,7 +9924,7 @@ static boolean check_left_priority_sorted(Tree t, int max_priority) {
     <pre class="verification-log verification-non-plain" style="display: none"></pre>
 </div>
 
-<h3 id="more-complex-expressions">More Complex Expressions</h3>
+<h4 id="more-complex-expressions">More Complex Expressions</h4>
 <p>Sometimes, we may want to reason about the things contained in a
 wand; for example we decompose a sorted tree, and want to say it will be
 sorted again after the merger. However, as long as <code>tree(t)</code>
@@ -10043,35 +10178,35 @@ the alphabet). If you have a question about error messages, please add a
 question to this wiki page. If you know the answer to a question asked
 here, please replace the question with the answer (or with a link to the
 answer elsewhere on the wiki).</p>
-<h4 id="assignmentfailed-insufficient-permission">AssignmentFailed:
-insufficient permission</h4>
+<h5 id="assignmentfailed-insufficient-permission">AssignmentFailed:
+insufficient permission</h5>
 <p>This means you are trying to write to a variable (at the left hand
 side of an assignment) to which VerCors cannot establish a
 write-permission. The statement <code>assert(Perm(lhs,1));</code> in
 which <code>lhs</code> is the left hand side of this assignment will
 fail at this point in your code, but should be provable.</p>
-<h4 id="illegal-argument-count">Illegal argument count</h4>
+<h5 id="illegal-argument-count">Illegal argument count</h5>
 <p>This is a internal VerCors error, that might be due to a parse-error
 in your script. We have opened a issue for this <a
 href="https://github.com/utwente-fmt/vercors/issues/125">here</a>.</p>
-<h4 id="illegal-iteration-invariant">Illegal iteration invariant</h4>
+<h5 id="illegal-iteration-invariant">Illegal iteration invariant</h5>
 <p>This seems to happen when you try to specify a
 <code>loop_invariant</code> in a <code>for</code>-loop, where you're
 using a resource as invariant. Try using <code>context</code> (short for
 <code>ensures</code> and <code>requires</code> combined) instead. Are
 you getting this message in a different situation? Do let us know!</p>
-<h4 id="javalang">java.lang.*</h4>
+<h5 id="javalang">java.lang.*</h5>
 <p>This is never supposed to happen, but unfortunately, it did. Thank
 you for finding this bug in VerCors. Try searching our issue tracker to
 see if you believe this bug is already being addressed. If not, please
 let us know about it by adding it!</p>
-<h4 id="no-viable-alternative-at-">No viable alternative at ...</h4>
+<h5 id="no-viable-alternative-at-">No viable alternative at ...</h5>
 <p>This is a parsing error, you may have made a typo, or inadvertently
 used a reserved keyword as a variable. Check your code at the position
 indicated. If this is the start of a line, make sure there is a
 semicolon <code>;</code> at the previous line.</p>
-<h4
-id="notwellformedinsufficientpermission">NotWellFormed:InsufficientPermission</h4>
+<h5
+id="notwellformedinsufficientpermission">NotWellFormed:InsufficientPermission</h5>
 <p>This error is shown at a specification. We require rules to be 'self
 framing', this means that you need read-permission in order to access
 variables, even inside specifications. Furthermore, checks like array
@@ -10087,32 +10222,32 @@ function. For constructors (e.g. <code>foo</code> method of class
 <code>foo</code>), there is no <code>\old(this.x)</code>, as the
 variable <code>this.x</code> is only created when the constructor is
 called.</p>
-<h4
+<h5
 id="pre-condition-of-constructor-may-not-refer-to-this">Pre-condition of
-constructor may not refer to this</h4>
+constructor may not refer to this</h5>
 <p>When calling the constructor method of a class, the class variables
 are not yet initialised. Therefore, you should not refer to them. Do you
 need write-permission? Don't worry, the class constructor already has it
 by definition (as it implicitly creates the variables)! In particular,
 use <code>ensures</code> instead of <code>context</code>.</p>
-<h4 id="type-of-leftright-argument-is-resource-rather-than-boolean">Type
-of left/right argument is Resource rather than Boolean:</h4>
+<h5 id="type-of-leftright-argument-is-resource-rather-than-boolean">Type
+of left/right argument is Resource rather than Boolean:</h5>
 <p>This is a type error. You are using a symbol like
 <code>&amp;&amp;</code> that requires boolean values on both sides.
 Changing <code>&amp;&amp;</code> to <code>**</code>, or breaking up your
 specification into multiple lines might solve the problem for you.</p>
-<h4
+<h5
 id="verification-aborted-exceptionally-javautilconcurrentexecutionexception-javautilconcurrentexecutionexception-javautilnosuchelementexception-noneget">Verification
 aborted exceptionally: java.util.concurrent.ExecutionException:
 java.util.concurrent.ExecutionException:
-java.util.NoSuchElementException: None.get</h4>
+java.util.NoSuchElementException: None.get</h5>
 <p>See <a
 href="https://github.com/utwente-fmt/vercors/wiki/Predicates#vercors-crashes-when-predicates-are-unfolded">VerCors
 crashes when predicates are unfolded</a>.</p>
-<h4
+<h5
 id="not-injective-or-resource-may-not-be-unique-with-regards-to-the-quantified-variables-or-similar">"Not
 injective", or "resource may not be unique with regards to the
-quantified variables", or similar</h4>
+quantified variables", or similar</h5>
 <p>Viper requires that all <code>forall</code> with permission
 expressions (<code>forall*</code> in VerCors) are "injective". That
 means that different values for the quantified variable(s) must result
@@ -10141,7 +10276,7 @@ them, so the same specification constructs are available. However, it is
 developed specifically for VerCors, so we also provide the information
 that is usually found in the language documentation, like the C
 standard.</p>
-<h2 id="general">General</h2>
+<h3 id="general">General</h3>
 <ul>
 <li><p>Specifications are usually embedded in JML-like comments:
 <code>/*@ spec @*/</code> or <code>//@ spec line</code>.
@@ -10167,7 +10302,7 @@ semicolon <code>;</code>. However, a few elements, like
 <code>with</code> side conditions, are parts of another statement, and
 do not have their own semicolon.</p></li>
 </ul>
-<h3 id="pvl">PVL</h3>
+<h4 id="pvl">PVL</h4>
 <ul>
 <li>At the top level of a program, there can be methods directly (like
 in C). But more commonly, those are defined within a
@@ -10197,7 +10332,7 @@ nothing").</li>
 <li>For a more detailed description, see <a
 href="https://github.com/utwente-fmt/vercors/wiki/Prototypal-Verification-Language">https://github.com/utwente-fmt/vercors/wiki/Prototypal-Verification-Language</a></li>
 </ul>
-<h2 id="types-and-data-structures">Types and Data Structures</h2>
+<h3 id="types-and-data-structures">Types and Data Structures</h3>
 <p>The following table lists the basic and composed data types supported
 in the specification language.</p>
 <table>
@@ -10324,7 +10459,7 @@ specifications for that language. This usually provides basic types like
 </tr>
 </tbody>
 </table>
-<h3 id="pvl-1">PVL</h3>
+<h4 id="pvl-1">PVL</h4>
 <p>In PVL, the specification types above can also be used in the regular
 program. Additionally, the following types are available:</p>
 <table>
@@ -10368,8 +10503,8 @@ you should always define the length of the array, e.g.
 </tr>
 </tbody>
 </table>
-<h2 id="expressions-1">Expressions</h2>
-<h3 id="operators">Operators</h3>
+<h3 id="expressions-1">Expressions</h3>
+<h4 id="operators">Operators</h4>
 <table>
 <thead>
 <tr class="header">
@@ -10462,7 +10597,7 @@ surrounding parentheses <code>(</code> <code>)</code> are required.</td>
 </tr>
 </tbody>
 </table>
-<h4 id="adts">ADTs</h4>
+<h5 id="adts">ADTs</h5>
 <p>Axiomatic Data types have several dedicated operators. Some also have
 corresponding functions, e.g. <code>s1.subsetOf(s2)</code> for
 <code>s1 &lt;= s2</code>. There are also functions that do not have an
@@ -10594,7 +10729,7 @@ Note: currently not supported.</td>
 </tr>
 </tbody>
 </table>
-<h4 id="pvl-2">PVL</h4>
+<h5 id="pvl-2">PVL</h5>
 <table>
 <thead>
 <tr class="header">
@@ -10646,7 +10781,7 @@ with <code>length</code> number of items.</td>
 </tr>
 </tbody>
 </table>
-<h3 id="quantified-expressions">Quantified Expressions</h3>
+<h4 id="quantified-expressions">Quantified Expressions</h4>
 <table>
 <thead>
 <tr class="header">
@@ -10711,8 +10846,8 @@ parentheses are required.</td>
 </tr>
 </tbody>
 </table>
-<h3 id="specification-only-expressions">Specification-only
-Expressions</h3>
+<h4 id="specification-only-expressions">Specification-only
+Expressions</h4>
 <table>
 <thead>
 <tr class="header">
@@ -10774,7 +10909,7 @@ TODO</td>
 </tr>
 </tbody>
 </table>
-<h3 id="resources">Resources</h3>
+<h4 id="resources">Resources</h4>
 <table>
 <thead>
 <tr class="header">
@@ -10890,7 +11025,7 @@ amount of locations for elements (including this one) between
 </tr>
 </tbody>
 </table>
-<h2 id="control-flow-constructs-pvl">Control flow constructs (PVL)</h2>
+<h3 id="control-flow-constructs-pvl">Control flow constructs (PVL)</h3>
 <p>PVL provides similar control flow constructs as other languages, e.g.
 loops and methods. However, there are also some unique additional
 control flow constructs that are explained here.</p>
@@ -11045,7 +11180,7 @@ with <code>goto l</code>.</td>
 </tr>
 </tbody>
 </table>
-<h2 id="verification-flow-constructs">Verification flow constructs</h2>
+<h3 id="verification-flow-constructs">Verification flow constructs</h3>
 <table>
 <thead>
 <tr class="header">
@@ -11175,13 +11310,13 @@ above, with the matching channel name. Blocks until it is received.</td>
 </tr>
 </tbody>
 </table>
-<h3 id="histories--futures-">Histories &amp; Futures
-<a name="historiesAndFutures"></a></h3>
+<h4 id="histories--futures-">Histories &amp; Futures
+<a name="historiesAndFutures"></a></h4>
 <p>Histories and futures, jointly referred to as <a
 href="https://github.com/utwente-fmt/vercors/wiki/Process-Algebra-Models">"Process
 algebra models"</a> are currently under redesign. Thus, the following
 parts may not be up to date.</p>
-<h4 id="defining-processes">Defining processes</h4>
+<h5 id="defining-processes">Defining processes</h5>
 <table>
 <thead>
 <tr class="header">
@@ -11209,7 +11344,7 @@ parts may not be up to date.</p>
 </tr>
 </tbody>
 </table>
-<h4 id="history-related-constructs">History-related constructs</h4>
+<h5 id="history-related-constructs">History-related constructs</h5>
 <table>
 <thead>
 <tr class="header">
@@ -11287,7 +11422,7 @@ combination of the actions described in <code>val1</code> and
 </tr>
 </tbody>
 </table>
-<h4 id="future-related-constructs">Future-related constructs</h4>
+<h5 id="future-related-constructs">Future-related constructs</h5>
 <table>
 <thead>
 <tr class="header">
@@ -11320,10 +11455,253 @@ combination of the actions described in <code>val1</code> and
 </tr>
 </tbody>
 </table>
+<h1 id="vercors-usage-tips--proof-debugging-tips">VerCors usage, tips
+&amp; proof debugging tips</h1>
+<h3 id="vercors-usage--tips">VerCors usage &amp; tips</h3>
+<p>If you're working on a project with <strong>VerCors</strong>, you’re
+welcome to join the <strong>VerCors community chat</strong>. Feel free
+to ask any question, big or small. The chat is an informal place to get
+help and lowers the barrier to getting started. Shoot a message to <a
+href="mailto:vercors@lists.utwente.nl"><a
+href="mailto:vercors@lists.utwente.nl">vercors@lists.utwente.nl</a></a>
+so we can invite you!</p>
+<hr />
+<h4 id="getting-vercors-up-and-running">Getting VerCors Up and
+Running</h4>
+<p>The latest features are available on the <strong><code>dev</code>
+branch</strong>, which is generally quite stable. However, you can also
+opt for a <strong>release version</strong>.</p>
+<h5 id="release-installation">Release Installation</h5>
+<ul>
+<li>Download the latest release (<strong>2.3.0</strong> at the time of
+writing).</li>
+<li>Unzip the archive and run:</li>
+</ul>
+<div class="sourceCode" id="cb61"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bin/vct</span> <span class="at">--version</span></span></code></pre></div>
+<p>to check if it works.</p>
+<h5 id="compile-from-source">Compile from Source</h5>
+<p>Follow the instructions in the <strong>README</strong> from the Git
+repository.</p>
+<hr />
+<h4 id="general-usage">General Usage</h4>
+<p>To verify a file:</p>
+<div class="sourceCode" id="cb62"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="ex">vct</span> <span class="op">&lt;</span>inputFile<span class="op">&gt;</span></span></code></pre></div>
+<hr />
+<h4 id="commonly-used-flags">Commonly Used Flags</h4>
+<ul>
+<li><code>--help</code> – Displays all available options.</li>
+</ul>
+<hr />
+<h5 id="backend-selection">Backend Selection</h5>
+<p>By default, VerCors uses the <strong>Silicon backend</strong>, which
+is based on symbolic execution.</p>
+<p>Alternatively, you can use the <strong>Carbon backend</strong>:</p>
+<div class="sourceCode" id="cb63"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="ex">--backend</span> carbon</span></code></pre></div>
+<p>Carbon generates verification conditions and passes them to
+<strong>Boogie</strong>.<br />
+In most cases, <strong>Silicon</strong> is the best option, but
+sometimes Boogie can be more powerful.</p>
+<hr />
+<h5 id="watch-mode">Watch Mode</h5>
+<p>Enable watch mode with:</p>
+<div class="sourceCode" id="cb64"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="ex">--watch</span></span></code></pre></div>
+<p>This allows VerCors to automatically verify the specified file after
+edits.<br />
+It greatly speeds up parsing after the first run and is <strong>highly
+recommended</strong>.</p>
+<hr />
+<h4 id="advanced-verification-flags">Advanced Verification Flags</h4>
+<h5 id="detection-of-unsound-preconditions">Detection of Unsound
+Preconditions</h5>
+<p>Flag:</p>
+<div class="sourceCode" id="cb65"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="ex">--dev-no-sat</span></span></code></pre></div>
+<p>Turns off detection of unsound preconditions.<br />
+Not needed for general use, but may help if you have many
+<code>forall</code> statements and verification is slow.</p>
+<p><strong>Java Example:</strong></p>
+<div class="sourceCode" id="cb66"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> C <span class="op">{</span></span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">//@ requires 1 == 2; // &lt;-- Normally this causes an error; --dev-no-sat turns this off    </span></span>
+<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">void</span> <span class="fu">m</span><span class="op">()</span> <span class="op">{</span> <span class="op">}</span></span>
+<span id="cb66-4"><a href="#cb66-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<hr />
+<h5 id="disable-consistency-checks">Disable consistency checks</h5>
+<p>Flag:</p>
+<div class="sourceCode" id="cb67"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="ex">--dev-unsafe-optimization</span></span></code></pre></div>
+<p>Turns of internal checks, which can greatly decrease running time
+especially for larger files. Implies <code>--dev-no-sat</code>. This
+does not impact the result of the verification result, however when
+errors occur they are mostly less readable.</p>
+<hr />
+<h5 id="non-linear-arithmetic-solver">Non-linear Arithmetic Solver</h5>
+<p>VerCors relies on SMT solvers such as <strong>Z3</strong> to check
+verification conditions.<br />
+However, non-linear arithmetic is <a
+href="https://stackoverflow.com/questions/13898175/how-does-z3-handle-non-linear-integer-arithmetic">generally
+undecidable</a>.</p>
+<p><strong>Example PVL code that does not verify:</strong></p>
+<div class="sourceCode" id="cb68"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>requires x <span class="op">&gt;</span> <span class="dv">0</span> <span class="op">&amp;&amp;</span> a <span class="op">&gt;</span> <span class="dv">0</span> <span class="op">&amp;&amp;</span> n <span class="op">&gt;</span> <span class="dv">0</span> <span class="op">&amp;&amp;</span> x <span class="op">&lt;</span> n <span class="op">&amp;&amp;</span> x <span class="op">&lt;</span> a<span class="op">;</span></span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> <span class="fu">f</span><span class="op">(</span><span class="dt">int</span> x<span class="op">,</span> <span class="dt">int</span> a<span class="op">,</span> <span class="dt">int</span> n<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">assert</span> a <span class="op">*</span> x <span class="op">+</span> x <span class="op">&lt;</span> a <span class="op">*</span> n<span class="op">;</span></span>
+<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>If you are working with non-linearity, we suggest to enable Z3’s
+non-linear solver with the following flag:</p>
+<div class="sourceCode" id="cb69"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="ex">--prover-config:smt.arith.solver=6</span></span></code></pre></div>
+<p>With this option, the above example verifies.</p>
+<hr />
+<h4 id="debugging-flags">Debugging Flags</h4>
+<h5 id="view-backend-files">View Backend Files</h5>
+<p>VerCors translates its inputs to the <a
+href="https://viper.ethz.ch/tutorial/">Viper intermediate verification
+language</a>. When verification fails, and the error message doesn't
+help you, it might be useful to see the generated backend file and
+directly verify it using the <a
+href="https://marketplace.visualstudio.com/items?itemName=viper-admin.viper">Viper
+plugin for VS Code</a>.</p>
+<p>To inspect the generated backend file, add the following flag:</p>
+<div class="sourceCode" id="cb70"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="ex">--backend-file-base</span> <span class="op">&lt;</span>outputFile<span class="op">&gt;</span></span></code></pre></div>
+<p>This creates a file named
+<code>&lt;outputFile&gt;-0.vpr</code>.<br />
+Often, it’s useful to also pass <code>--dev-no-sat</code> to not get
+superfluous verification errors about preconditions.</p>
+<p><strong>Notes:</strong></p>
+<ul>
+<li>The Viper version between VerCors and the VS code plugin might be
+out of sync.</li>
+<li>The VS Code plugin has a 100-second timeout (can be disabled).</li>
+</ul>
+<hr />
+<h5 id="view-output-beforeafter-internal-passes">View Output
+Before/After Internal Passes</h5>
+<p>Flags:</p>
+<div class="sourceCode" id="cb71"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="ex">--output-before-pass:</span><span class="op">&lt;</span>pass<span class="op">&gt;</span>=<span class="op">&lt;</span>path<span class="op">&gt;</span></span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a><span class="ex">--output-after-pass:</span><span class="op">&lt;</span>pass<span class="op">&gt;</span>=<span class="op">&lt;</span>path<span class="op">&gt;</span></span></code></pre></div>
+<p>Shows the internal AST before and after a pass.<br />
+Run:</p>
+<div class="sourceCode" id="cb72"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="ex">vct</span> <span class="at">--help-passes</span></span></code></pre></div>
+<p>to list all pass names.</p>
+<hr />
+<h4 id="starter-example-files">Starter Example Files</h4>
+<p>Located in the <code>example</code> folder:</p>
+<ul>
+<li><code>concepts/basic/BasicAssert.java</code></li>
+<li><code>concepts/parallel/block-par.pvl</code></li>
+<li><code>demo/demo1.pvl</code>, <code>demo/demo2.pvl</code></li>
+</ul>
+<p>Additional examples are available in the
+<strong>wiki/tutorial</strong>.</p>
+<h3 id="proof-debugging">Proof debugging</h3>
+<p>Often you will not write a specification, which immediately proves
+your code correct. In this section we suggest some general proof
+debugging steps to help you in the progress. We suggest using the
+<code>--watch</code> flag as mentioned above for these.</p>
+<p>Dafny, a similar verifier but not based on separation logic, also has
+a useful <a
+href="https://dafny.org/dafny/DafnyRef/DafnyRef#sec-verification-debugging">section
+on proof debugging</a>. Most tips are also applicable to VerCors.</p>
+<h4 id="using-assert-assume-inhale-and-exhale">Using assert, assume,
+inhale and exhale.</h4>
+<h5 id="different-branches">Different branches</h5>
+<p>Suppose you want to verify code with the following structure.</p>
+<div class="sourceCode" id="cb73"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a> requires A<span class="op">;</span></span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a> ensures B<span class="op">;</span></span>
+<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> <span class="fu">f</span><span class="op">(</span><span class="kw">...</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb73-4"><a href="#cb73-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span><span class="op">(</span><span class="kw">...</span><span class="op">){</span></span>
+<span id="cb73-5"><a href="#cb73-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">...</span></span>
+<span id="cb73-6"><a href="#cb73-6" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span> <span class="cf">else</span> <span class="cf">if</span><span class="op">(</span><span class="kw">...</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb73-7"><a href="#cb73-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">...</span></span>
+<span id="cb73-8"><a href="#cb73-8" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb73-9"><a href="#cb73-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">...</span></span>
+<span id="cb73-10"><a href="#cb73-10" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb73-11"><a href="#cb73-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>And the ensure annotation fails, but you do not know for which
+branch. This can be discovered as follows.</p>
+<div class="sourceCode" id="cb74"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a> requires A<span class="op">;</span></span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a> ensures B<span class="op">;</span></span>
+<span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> <span class="fu">f</span><span class="op">(</span><span class="kw">...</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb74-4"><a href="#cb74-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span><span class="op">(</span><span class="kw">...</span><span class="op">){</span></span>
+<span id="cb74-5"><a href="#cb74-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">...</span></span>
+<span id="cb74-6"><a href="#cb74-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> B<span class="op">;</span> <span class="co">// First branch passes</span></span>
+<span id="cb74-7"><a href="#cb74-7" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span> <span class="cf">else</span> <span class="cf">if</span><span class="op">(</span><span class="kw">...</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb74-8"><a href="#cb74-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">...</span></span>
+<span id="cb74-9"><a href="#cb74-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> B<span class="op">;</span>  <span class="co">// Second branch passes</span></span>
+<span id="cb74-10"><a href="#cb74-10" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb74-11"><a href="#cb74-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">...</span></span>
+<span id="cb74-12"><a href="#cb74-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> B<span class="op">;</span>  <span class="co">// Throws verification error, so apparently the error was here.</span></span>
+<span id="cb74-13"><a href="#cb74-13" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb74-14"><a href="#cb74-14" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h5 id="inserting-assume-false-for-faster-answers">Inserting
+<code>assume false</code> for faster answers</h5>
+<p>After an <code>assume false</code> is placed, all verification
+conditions afterwards, within the same path, pass vacuously. Typically
+this allows verification to be faster when building up a proof. For
+example:</p>
+<div class="sourceCode" id="cb75"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a> requires A<span class="op">;</span></span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a> ensures B<span class="op">;</span></span>
+<span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> <span class="fu">f</span><span class="op">(</span><span class="kw">...</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb75-4"><a href="#cb75-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span><span class="op">(</span><span class="kw">...</span><span class="op">){</span></span>
+<span id="cb75-5"><a href="#cb75-5" aria-hidden="true" tabindex="-1"></a>    assume <span class="kw">false</span><span class="op">;</span> <span class="co">// This branch is skipped</span></span>
+<span id="cb75-6"><a href="#cb75-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">...</span></span>
+<span id="cb75-7"><a href="#cb75-7" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span> <span class="cf">else</span> <span class="cf">if</span><span class="op">(</span><span class="kw">...</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb75-8"><a href="#cb75-8" aria-hidden="true" tabindex="-1"></a>    assume <span class="kw">false</span><span class="op">;</span> <span class="co">// Just like this branch</span></span>
+<span id="cb75-9"><a href="#cb75-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">...</span></span>
+<span id="cb75-10"><a href="#cb75-10" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb75-11"><a href="#cb75-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">...</span> <span class="co">// This branch is still verified.</span></span>
+<span id="cb75-12"><a href="#cb75-12" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb75-13"><a href="#cb75-13" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h5 id="checking-if-code-is-reached">Checking if code is reached</h5>
+<p>Sometimes, it might be unclear if code is actually reached. It could
+be that the path conditions are formed in such a way that this is
+impossible. Placing <code>assert false</code> will only throw an
+assertion error if this is reached.</p>
+<div class="sourceCode" id="cb76"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a> requires A<span class="op">;</span></span>
+<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a> ensures B<span class="op">;</span></span>
+<span id="cb76-3"><a href="#cb76-3" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> <span class="fu">f</span><span class="op">(</span><span class="kw">...</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb76-4"><a href="#cb76-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span><span class="op">(</span><span class="kw">...</span><span class="op">){</span></span>
+<span id="cb76-5"><a href="#cb76-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">...</span></span>
+<span id="cb76-6"><a href="#cb76-6" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span> <span class="cf">else</span> <span class="cf">if</span><span class="op">(</span><span class="kw">...</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb76-7"><a href="#cb76-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> <span class="kw">false</span><span class="op">;</span> <span class="co">// If this doesn&#39;t raise an assertion error, apparently this code is not reached.</span></span>
+<span id="cb76-8"><a href="#cb76-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">...</span></span>
+<span id="cb76-9"><a href="#cb76-9" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb76-10"><a href="#cb76-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">...</span> </span>
+<span id="cb76-11"><a href="#cb76-11" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb76-12"><a href="#cb76-12" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h5 id="using-inhale-and-exhale-to-model-a-complex-problem">Using inhale
+and exhale to model a complex problem.</h5>
+<p>Sometimes a proof fails deep down some nested statements. It can than
+be easier to model the program using inhales and exhales to see what is
+going, with less complex verification conditions. For example, in the
+following we build up an arbitrary array, which we can then modify</p>
+<div class="sourceCode" id="cb77"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> <span class="fu">test</span><span class="op">(){</span></span>
+<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a> <span class="dt">int</span><span class="op">[]</span> A<span class="op">;</span></span>
+<span id="cb77-3"><a href="#cb77-3" aria-hidden="true" tabindex="-1"></a> assume A <span class="op">!=</span> <span class="kw">null</span> <span class="op">&amp;&amp;</span> A<span class="op">.</span><span class="fu">length</span> <span class="op">==</span> <span class="dv">32</span><span class="op">;</span></span>
+<span id="cb77-4"><a href="#cb77-4" aria-hidden="true" tabindex="-1"></a> <span class="fu">inhale</span> <span class="op">(</span>\forall<span class="op">*</span> <span class="dt">int</span> i<span class="op">;</span> <span class="dv">0</span><span class="op">&lt;=</span>i <span class="op">&amp;&amp;</span> i<span class="op">&lt;</span><span class="dv">32</span><span class="op">;</span> <span class="fu">Perm</span><span class="op">({:</span>A<span class="op">[</span>i<span class="op">]:},</span> write<span class="op">));</span></span>
+<span id="cb77-5"><a href="#cb77-5" aria-hidden="true" tabindex="-1"></a> <span class="fu">assume</span> <span class="op">(</span>\forall <span class="dt">int</span> i<span class="op">;</span> <span class="dv">0</span><span class="op">&lt;=</span>i <span class="op">&amp;&amp;</span> i<span class="op">&lt;</span><span class="dv">32</span><span class="op">;</span> <span class="op">{:</span>A<span class="op">[</span>i<span class="op">]:}</span> <span class="op">&gt;</span> <span class="dv">0</span><span class="op">);</span></span>
+<span id="cb77-6"><a href="#cb77-6" aria-hidden="true" tabindex="-1"></a>  loop_invariant<span class="kw">...</span> <span class="co">// For loop which modifies the array, you want to check</span></span>
+<span id="cb77-7"><a href="#cb77-7" aria-hidden="true" tabindex="-1"></a> <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i<span class="op">=</span><span class="dv">0</span><span class="op">;</span> i<span class="op">&lt;</span><span class="dv">32</span><span class="op">;</span>i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb77-8"><a href="#cb77-8" aria-hidden="true" tabindex="-1"></a>   <span class="kw">...</span><span class="op">.</span></span>
+<span id="cb77-9"><a href="#cb77-9" aria-hidden="true" tabindex="-1"></a> <span class="op">}</span></span>
+<span id="cb77-10"><a href="#cb77-10" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <h1 id="case-studies">Case Studies</h1>
 <p>This page lists all the case studies that have been done with
 VerCors.</p>
-<h2 id="published-case-studies">Published case studies</h2>
+<h3 id="published-case-studies">Published case studies</h3>
 <ul>
 <li><strong>Automated Verification of the Parallel Bellman-Ford
 Algorithm</strong>. M. Safari, W. Oortwijn and M. Huisman (SAS 2021).
@@ -11403,10 +11781,10 @@ href="https://doi.org/10.1007/978-3-030-34968-4_23">https://doi.org/10.1007/978-
 VerCors to prove correctness of the software.</li>
 </ul></li>
 </ul>
-<h2 id="student-projects">Student projects</h2>
+<h3 id="student-projects">Student projects</h3>
 <p>Be aware that not all student projects verify complete functional
 correctness!</p>
-<h3 id="master-projects">Master projects</h3>
+<h4 id="master-projects">Master projects</h4>
 <ul>
 <li><strong>Verification of a model checking algorithm in
 VerCors</strong>. H. Hollander (2021).
@@ -11429,7 +11807,7 @@ Verification of Red-Black Trees and Their Merging</strong></a> (more
 info in the published case studies list above)</li>
 </ul></li>
 </ul>
-<h3 id="bachelor-projects">Bachelor projects</h3>
+<h4 id="bachelor-projects">Bachelor projects</h4>
 <ul>
 <li><strong>Let's sort this out: GPGPU Verification of Radix
 Sort</strong>. D.H.M.A. van Oorschot (2020).
@@ -11484,7 +11862,7 @@ of VerCors: <a
 href="https://pieter-bos.github.io/vercors-doc/">https://pieter-bos.github.io/vercors-doc/</a>.
 It provides some useful background on the setup of the project, and how
 to do certain tasks.</p>
-<h2 id="prbranch-management">PR/Branch management</h2>
+<h3 id="prbranch-management">PR/Branch management</h3>
 <p>Some general guidelines/notes to take into account when developing
 for VerCors:</p>
 <ul>
@@ -11518,7 +11896,7 @@ all tests (except flaky ones) should pass, and all files should be
 formatted using the auto formatter. On your own branch you can pretty
 much do whatever you want.</li>
 </ul>
-<h2 id="example-workflow">Example workflow</h2>
+<h3 id="example-workflow">Example workflow</h3>
 <p><em>Below you can find a description of what a typical workflow looks
 like.</em></p>
 <ol type="1">
@@ -11559,7 +11937,7 @@ branch. <em>Congratulations you're done with this PR (Pull
 Request)!</em></li>
 </ol>
 <h1 id="project-structure">Project Structure</h1>
-<h2 id="functional-overview">Functional Overview</h2>
+<h3 id="functional-overview">Functional Overview</h3>
 <p>VerCors verifies programs by going through four stages:</p>
 <ul>
 <li><strong>The frontend, or parsing</strong>: in this step a collection
@@ -11609,7 +11987,7 @@ a message from the backend mentions a part of the AST in the backend
 language, it can be translated all the way back to its origin in the
 frontend input.</li>
 </ul>
-<h2 id="technical-setup">Technical Setup</h2>
+<h3 id="technical-setup">Technical Setup</h3>
 <p>The VerCors project sources are managed on GitHub, at <a
 href="https://github.com/utwente-fmt/vercors">https://github.com/utwente-fmt/vercors</a>.
 The unstable development branch is <code>dev</code>, from where we
@@ -11629,10 +12007,10 @@ a GitHub release.</p>
 language, but we encourage you to take the time to learn some Scala - it
 is much better suited to manipulating ASTs. The build structure is
 defined in the mill build tool.</p>
-<h2 id="project-structure-1">Project Structure</h2>
+<h3 id="project-structure-1">Project Structure</h3>
 <p><em>NB: this information quickly becomes out of date as vercors is
 refactored.</em></p>
-<h3><code>/</code></h3>
+<h4><code>/</code></h4>
 <ul>
 <li><code>build.sc</code> is the root build definition. It configures
 global plugin options, wires sub-project dependencies, configures
@@ -11642,14 +12020,14 @@ metadata about the project and configures compiler options.</li>
 tool Mill.</li>
 <li></li>
 </ul>
-<h3 id="githubworkflows"><code>/.github/workflows</code></h3>
+<h4 id="githubworkflows"><code>/.github/workflows</code></h4>
 <ul>
 <li><code>scalatest.yml</code> configures Github Actions to run the test
 suite</li>
 <li><code>build-wiki-pdf.yml</code> assembles the Github wiki into a
 latex-flavoured pdf</li>
 </ul>
-<h3 id="bin"><code>/bin</code></h3>
+<h4 id="bin"><code>/bin</code></h4>
 <p>Convenience run scripts that compile and then run VerCors. They are
 helpful because they start up slightly quicker than e.g.
 <code>./mill vercors.run</code>, and VerCors starts in the foreground so
@@ -11658,7 +12036,7 @@ pretty-printing is supported.</p>
 <li><code>bashComplete</code> generates a bash command completion
 script</li>
 </ul>
-<h3 id="examples-5"><code>/examples</code></h3>
+<h4 id="examples-5"><code>/examples</code></h4>
 <p>This directory serves the dual purpose of being an archive of past
 case studies and competition results, as well as the test suite of
 VerCors. Files in this directory have a header denoting how they are
@@ -11685,21 +12063,21 @@ href="https://www.pm.inf.ethz.ch/research/verifythis.html">verification
 competition</a> that takes place every year, this is the archive of our
 results there.</li>
 </ul>
-<h3 id="lib"><code>/lib</code></h3>
+<h4 id="lib"><code>/lib</code></h4>
 <p><code>.jar</code> files that VerCors depends on, that cannot be
 specified as e.g. a maven dependency.</p>
-<h3 id="out"><code>/out</code></h3>
+<h4 id="out"><code>/out</code></h4>
 <p>Output of the mill build tool.</p>
-<h3 id="resproject"><code>/res/&lt;project&gt;</code></h3>
+<h4 id="resproject"><code>/res/&lt;project&gt;</code></h4>
 <p>Contains the resources root that is related to
 <code>&lt;project&gt;</code></p>
-<h3 id="resuniversal"><code>/res/universal</code></h3>
+<h4 id="resuniversal"><code>/res/universal</code></h4>
 <p>Named universal historically after the <a
 href="https://www.scala-sbt.org/sbt-native-packager/formats/universal.html">universal
 plugin</a>, this directory contains files that must be available on the
 classpath, but must not be packed into a jar (e.g. executables)</p>
-<h3
-id="resuniversaldepsplatform"><code>/res/universal/deps/&lt;platform&gt;</code></h3>
+<h4
+id="resuniversaldepsplatform"><code>/res/universal/deps/&lt;platform&gt;</code></h4>
 <p>Files that are specific to <code>&lt;platform&gt;</code>, not
 included on build for other platforms.</p>
 <ul>
@@ -11709,7 +12087,7 @@ verifier</a></li>
 <li><code>z3</code>: The <a href="https://github.com/z3prover/z3">Z3
 theorem prover</a></li>
 </ul>
-<h3 id="resuniversalres"><code>/res/universal/res</code></h3>
+<h4 id="resuniversalres"><code>/res/universal/res</code></h4>
 <p>Files that are included on all platforms</p>
 <ul>
 <li><code>adt</code>: definitions for VerCors' datatypes</li>
@@ -11723,18 +12101,18 @@ expressions</li>
 <li><code>systemc/config</code>: Configuration files for the SystemC
 component</li>
 </ul>
-<h3 id="srcproject"><code>/src/&lt;project&gt;</code></h3>
+<h4 id="srcproject"><code>/src/&lt;project&gt;</code></h4>
 <p>Source files for the <code>&lt;project&gt;</code> project. These may
 be in any language, such as scala, Java, antlr g4, etc. See also
 <strong><a href="#project-structure-by-package">⌄Project Structure by
 Package</a></strong></p>
-<h3 id="testproject"><code>/test/&lt;project&gt;</code></h3>
+<h4 id="testproject"><code>/test/&lt;project&gt;</code></h4>
 <p>Source files for testing the <code>&lt;project&gt;</code>
 project.</p>
-<h3 id="tmp"><code>/tmp</code></h3>
+<h4 id="tmp"><code>/tmp</code></h4>
 <p>Contains debug output from VerCors, Viper, Boogie, and Z3 when
 configured to output it.</p>
-<h3 id="util"><code>/util</code></h3>
+<h4 id="util"><code>/util</code></h4>
 <ul>
 <li><code>editors</code>: various grammar definitions for text editors
 (i.e. text highlighting), in various states of disrepair (but still
@@ -11756,7 +12134,7 @@ script until the result is no longer <code>unsat</code>.</li>
 <code>pdf</code>, <code>html</code>, the website navigation menu for
 <code>html</code>, a test suite of the examples.</li>
 </ul>
-<h2 id="project-structure-by-package">Project Structure by Package</h2>
+<h3 id="project-structure-by-package">Project Structure by Package</h3>
 <ul>
 <li><code>.</code>: in <code>colhelper</code>: Utilities to generate
 helper classes for the Node definitions, such as rewriters, comparators,
@@ -11873,7 +12251,7 @@ href="#vscode">⌄Visual Studio Code</a></strong>. Most VerCors developers
 use Intellij IDEA. Although VerCors supports Windows, MacOs and other
 unixen, most developers use a Linux distribution, so the development
 experience is tested more thoroughly on Linux.</p>
-<h2 id="basic-setup">Basic setup</h2>
+<h3 id="basic-setup">Basic setup</h3>
 <p>This section describes how to install the prerequisites in more
 detail and how to build and run VerCors from a terminal. The
 instructions after the basic setup were however tested only under these
@@ -11882,10 +12260,10 @@ conditions:</p>
 <li>A fresh installation of Ubuntu 22.04</li>
 <li>IntelliJ IDEA Community Edition 2023.1.1</li>
 </ul>
-<h3 id="ubuntu">Ubuntu</h3>
+<h4 id="ubuntu">Ubuntu</h4>
 <p>Install required dependencies:</p>
-<div class="sourceCode" id="cb61"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="ex">apt</span> install curl git openjdk-17-jdk-headless</span></code></pre></div>
+<div class="sourceCode" id="cb78"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="ex">apt</span> install curl git openjdk-17-jdk-headless</span></code></pre></div>
 <blockquote>
 <p>Note that VerCors will also work with later jdks – it is not
 necessary to install an older one. <code>openjdk-17-jdk</code> includes
@@ -11908,26 +12286,26 @@ member of the team.</li>
 <pre><code>git clone https://github.com/utwente-fmt/vercors.git</code></pre>
 </blockquote>
 <p>Move into the repository:</p>
-<div class="sourceCode" id="cb64"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> vercors</span></code></pre></div>
+<div class="sourceCode" id="cb81"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> vercors</span></code></pre></div>
 <p>Compile VerCors:</p>
-<div class="sourceCode" id="cb65"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./mill</span> <span class="at">-j</span> 0 vercors.main.compile</span></code></pre></div>
+<div class="sourceCode" id="cb82"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./mill</span> <span class="at">-j</span> 0 vercors.main.compile</span></code></pre></div>
 <p>Run an example to verify your setup works:</p>
-<div class="sourceCode" id="cb66"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./bin/vct</span> examples/concepts/arrays/array.pvl</span></code></pre></div>
+<div class="sourceCode" id="cb83"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./bin/vct</span> examples/concepts/arrays/array.pvl</span></code></pre></div>
 <p>That's it! 🥳</p>
-<h3 id="macos">MacOs</h3>
+<h4 id="macos">MacOs</h4>
 <p>Yet to be written...</p>
-<h3 id="windows">Windows</h3>
+<h4 id="windows">Windows</h4>
 <p>Install required dependencies(Git and OpenJDK17)</p>
 <blockquote>
 <p>Skip this step if you already have them installed:</p>
 </blockquote>
 <p>Run a command prompt with administrator privileges:</p>
-<div class="sourceCode" id="cb67"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="ex">winget</span> install Git.git</span>
-<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a><span class="ex">winget</span> install ms-openjdk-17</span></code></pre></div>
+<div class="sourceCode" id="cb84"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="ex">winget</span> install Git.git</span>
+<span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a><span class="ex">winget</span> install ms-openjdk-17</span></code></pre></div>
 <blockquote>
 <p>Note that VerCors will also work with later jdks – it is not
 necessary to install an older one.</p>
@@ -11950,8 +12328,8 @@ member of the team.</li>
 <pre><code>git clone https://github.com/utwente-fmt/vercors.git</code></pre>
 </blockquote>
 <p>Move into the repository:</p>
-<div class="sourceCode" id="cb70"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> vercors</span></code></pre></div>
+<div class="sourceCode" id="cb87"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> vercors</span></code></pre></div>
 <blockquote>
 <p>To be able to properly view the compilation messages hereafter, it is
 useful to enable colors for the terminal. To do this, first type
@@ -11962,19 +12340,19 @@ and name it <code>VirtualTerminalLevel</code>. Click on the new DWORD
 value and set its value to <code>1</code>.</p>
 </blockquote>
 <p>Compile VerCors:</p>
-<div class="sourceCode" id="cb71"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mill.bat</span> <span class="at">-j</span> 0 vercors.main.compile</span></code></pre></div>
+<div class="sourceCode" id="cb88"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mill.bat</span> <span class="at">-j</span> 0 vercors.main.compile</span></code></pre></div>
 <p>Run an example to verify your setup works:</p>
-<div class="sourceCode" id="cb72"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="bu">.</span><span class="dt">\b</span>in<span class="dt">\v</span>ct examples<span class="dt">\c</span>oncepts<span class="dt">\a</span>rrays<span class="dt">\a</span>rray.pvl</span></code></pre></div>
+<div class="sourceCode" id="cb89"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a><span class="bu">.</span><span class="dt">\b</span>in<span class="dt">\v</span>ct examples<span class="dt">\c</span>oncepts<span class="dt">\a</span>rrays<span class="dt">\a</span>rray.pvl</span></code></pre></div>
 <p>That's it! 🥳</p>
-<h2 id="intellij-idea">IntelliJ IDEA</h2>
+<h3 id="intellij-idea">IntelliJ IDEA</h3>
 <blockquote>
 <p>Requires <strong><a href="#basic-setup">⌃Basic Setup</a></strong></p>
 </blockquote>
 <p>Install IntelliJ IDEA if you do not have it yet:</p>
-<div class="sourceCode" id="cb73"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="ex">snap</span> install <span class="at">--classic</span> intellij-idea-community</span></code></pre></div>
+<div class="sourceCode" id="cb90"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="ex">snap</span> install <span class="at">--classic</span> intellij-idea-community</span></code></pre></div>
 <blockquote>
 <p>Note: intellij-idea-ultimate is free for educational use. See e.g. <a
 href="https://education.github.com/pack">here</a>. It includes features
@@ -12006,8 +12384,8 @@ configurations</p>
 </ul>
 <p>Set the JDK to version 17 or later in
 <code>File &gt; Project Structure &gt; Project Settings &gt; Project &gt; SDK</code>.</p>
-<h3 id="running-and-debugging-vercors">Running and Debugging
-VerCors</h3>
+<h4 id="running-and-debugging-vercors">Running and Debugging
+VerCors</h4>
 <ul>
 <li>Go to <code>Run &gt; Edit Configurations</code> and add an
 <code>Application</code> configuration</li>
@@ -12030,7 +12408,7 @@ path relative to the <code>vercors</code> root directory.</li>
 <p><img
 src="https://user-images.githubusercontent.com/901022/235703710-f63b6d1c-4d82-4db2-bb05-42019a13aac4.png"
 alt="image" /></p>
-<h3 id="running-the-test-suite">Running the test suite</h3>
+<h4 id="running-the-test-suite">Running the test suite</h4>
 <p>The test suite takes approximately 45 minutes to run on a modern
 machine. You may wish to push your changes to your branch at the main
 repository instead, so that the CI can run chunks of the test suite in
@@ -12041,18 +12419,18 @@ and then clicking
 <code>Run 'ScalaTests in &lt;directory or file&gt;'</code>. We currently
 do not have a way of running a single test in a file that contains
 multiple tests from within IntelliJ IDEA.</p>
-<h3 id="unclear-build-errors">Unclear build errors</h3>
+<h4 id="unclear-build-errors">Unclear build errors</h4>
 <p>If the build error is not clear, it may be helpful to run mill
 directly from a terminal, e.g.:</p>
-<div class="sourceCode" id="cb74"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./mill</span> <span class="at">-j</span> 0 vercors.compile</span></code></pre></div>
-<h3 id="running-the-intellij-build-from-a-terminal">Running the IntelliJ
-build from a terminal</h3>
+<div class="sourceCode" id="cb91"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./mill</span> <span class="at">-j</span> 0 vercors.compile</span></code></pre></div>
+<h4 id="running-the-intellij-build-from-a-terminal">Running the IntelliJ
+build from a terminal</h4>
 <p>IntelliJ communicates with the mill build system to build VerCors.
 The scripts at <code>./bin/vct</code> and <code>bin\vct.cmd</code> will
 ask mill how to run VerCors. Consequently, you can always run the most
 recent VerCors build from a terminal with this script.</p>
-<h2 id="vscode">VSCode</h2>
+<h3 id="vscode">VSCode</h3>
 <blockquote>
 <p>The author does not use VSCode, so apologies for any awkward
 instructions. Corrections are appreciated.</p>
@@ -12061,8 +12439,8 @@ instructions. Corrections are appreciated.</p>
 <p>Requires <strong><a href="#basic-setup">⌃Basic Setup</a></strong></p>
 </blockquote>
 <p>Install VSCode if you do not have it yet:</p>
-<div class="sourceCode" id="cb75"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="ex">snap</span> install <span class="at">--classic</span> code</span></code></pre></div>
+<div class="sourceCode" id="cb92"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="ex">snap</span> install <span class="at">--classic</span> code</span></code></pre></div>
 <p>Install the Metals plugin by going to
 <code>Ctrl+Shift+X &gt; Scala (Metals) &gt; Install</code></p>
 <p><img
@@ -12079,8 +12457,8 @@ bottom right. Alternatively you can click <code>Import build</code> from
 the Metals pane on the left.</p>
 </blockquote>
 <p>To build VerCors, click <code>Metals &gt; Cascade compile</code>.</p>
-<h3 id="running-and-debugging-vercors-1">Running and Debugging
-VerCors</h3>
+<h4 id="running-and-debugging-vercors-1">Running and Debugging
+VerCors</h4>
 <p>Go to <code>Run and Debug &gt; Create a launch.json file</code>.
 Then:</p>
 <ul>
@@ -12094,34 +12472,34 @@ messages with the program argument <code>-p</code>;</li>
 <li>Set the JVM options to <code>["-Xss20m"]</code>.</li>
 </ul>
 <p>Your launch configuration should look something like this:</p>
-<div class="sourceCode" id="cb76"><pre
-class="sourceCode json"><code class="sourceCode json"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
-<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;version&quot;</span><span class="fu">:</span> <span class="st">&quot;0.2.0&quot;</span><span class="fu">,</span></span>
-<span id="cb76-3"><a href="#cb76-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;configurations&quot;</span><span class="fu">:</span> <span class="ot">[</span><span class="fu">{</span></span>
-<span id="cb76-4"><a href="#cb76-4" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;type&quot;</span><span class="fu">:</span> <span class="st">&quot;scala&quot;</span><span class="fu">,</span></span>
-<span id="cb76-5"><a href="#cb76-5" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;request&quot;</span><span class="fu">:</span> <span class="st">&quot;launch&quot;</span><span class="fu">,</span></span>
-<span id="cb76-6"><a href="#cb76-6" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;name&quot;</span><span class="fu">:</span> <span class="st">&quot;VerCors&quot;</span><span class="fu">,</span></span>
-<span id="cb76-7"><a href="#cb76-7" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;mainClass&quot;</span><span class="fu">:</span> <span class="st">&quot;vct.main.Main&quot;</span><span class="fu">,</span></span>
-<span id="cb76-8"><a href="#cb76-8" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;args&quot;</span><span class="fu">:</span> <span class="ot">[</span><span class="st">&quot;-p&quot;</span><span class="ot">,</span> <span class="st">&quot;examples/concepts/arrays/array.pvl&quot;</span><span class="ot">]</span><span class="fu">,</span></span>
-<span id="cb76-9"><a href="#cb76-9" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;jvmOptions&quot;</span><span class="fu">:</span> <span class="ot">[</span><span class="st">&quot;-Xss20m&quot;</span><span class="ot">]</span><span class="fu">,</span></span>
-<span id="cb76-10"><a href="#cb76-10" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;env&quot;</span><span class="fu">:</span> <span class="fu">{}</span></span>
-<span id="cb76-11"><a href="#cb76-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span><span class="ot">]</span></span>
-<span id="cb76-12"><a href="#cb76-12" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
-<h3 id="running-the-test-suite-1">Running the test suite</h3>
+<div class="sourceCode" id="cb93"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb93-2"><a href="#cb93-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;version&quot;</span><span class="fu">:</span> <span class="st">&quot;0.2.0&quot;</span><span class="fu">,</span></span>
+<span id="cb93-3"><a href="#cb93-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;configurations&quot;</span><span class="fu">:</span> <span class="ot">[</span><span class="fu">{</span></span>
+<span id="cb93-4"><a href="#cb93-4" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;type&quot;</span><span class="fu">:</span> <span class="st">&quot;scala&quot;</span><span class="fu">,</span></span>
+<span id="cb93-5"><a href="#cb93-5" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;request&quot;</span><span class="fu">:</span> <span class="st">&quot;launch&quot;</span><span class="fu">,</span></span>
+<span id="cb93-6"><a href="#cb93-6" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;name&quot;</span><span class="fu">:</span> <span class="st">&quot;VerCors&quot;</span><span class="fu">,</span></span>
+<span id="cb93-7"><a href="#cb93-7" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;mainClass&quot;</span><span class="fu">:</span> <span class="st">&quot;vct.main.Main&quot;</span><span class="fu">,</span></span>
+<span id="cb93-8"><a href="#cb93-8" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;args&quot;</span><span class="fu">:</span> <span class="ot">[</span><span class="st">&quot;-p&quot;</span><span class="ot">,</span> <span class="st">&quot;examples/concepts/arrays/array.pvl&quot;</span><span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb93-9"><a href="#cb93-9" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;jvmOptions&quot;</span><span class="fu">:</span> <span class="ot">[</span><span class="st">&quot;-Xss20m&quot;</span><span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb93-10"><a href="#cb93-10" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;env&quot;</span><span class="fu">:</span> <span class="fu">{}</span></span>
+<span id="cb93-11"><a href="#cb93-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span><span class="ot">]</span></span>
+<span id="cb93-12"><a href="#cb93-12" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<h4 id="running-the-test-suite-1">Running the test suite</h4>
 <p>The test suite takes approximately 45 minutes to run on a modern
 machine. You may wish to push your changes to your branch at the main
 repository instead, so that the CI can run chunks of the test suite in
 parallel. This currently takes approximately 15 minutes instead.</p>
 <p>You can simply run tests yourself from the Test pane on the left (the
 ⚗ symbol).</p>
-<h3 id="running-the-metals-build-from-a-terminal">Running the Metals
-build from a terminal</h3>
+<h4 id="running-the-metals-build-from-a-terminal">Running the Metals
+build from a terminal</h4>
 <p>VSCode communicates with the mill build system to build VerCors. The
 scripts at <code>./bin/vct</code> and <code>bin\vct.cmd</code> will ask
 mill how to run VerCors. Consequently, you can always run the most
 recent VerCors build from a terminal with this script.</p>
 <h1 id="scalatest">ScalaTest</h1>
-<h2 id="running-scalatest">Running ScalaTest</h2>
+<h3 id="running-scalatest">Running ScalaTest</h3>
 <p>ScalaTest can be run by the commandline or via the Intellij. For
 running with Intellij you need the Scala plugin of JetBrains. VerCors
 uses a lot of memory that is why you have to add an VM option to the
@@ -12147,11 +12525,11 @@ href="https://github.com/google/pprof">pprof</a> format. This only works
 on unix-like systems, and works best on linux. The file
 <code>profile.pprof.gz</code> is generated in the current directory when
 passing the flag <code>--profile</code>:</p>
-<div class="sourceCode" id="cb77"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> vercors <span class="at">--profile</span> some/example.java</span>
-<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a><span class="kw">(</span><span class="ex">...</span><span class="kw">)</span></span>
-<span id="cb77-3"><a href="#cb77-3" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> ls profile.pprof.gz</span>
-<span id="cb77-4"><a href="#cb77-4" aria-hidden="true" tabindex="-1"></a><span class="ex">profile.pprof.gz</span></span></code></pre></div>
+<div class="sourceCode" id="cb94"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> vercors <span class="at">--profile</span> some/example.java</span>
+<span id="cb94-2"><a href="#cb94-2" aria-hidden="true" tabindex="-1"></a><span class="kw">(</span><span class="ex">...</span><span class="kw">)</span></span>
+<span id="cb94-3"><a href="#cb94-3" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> ls profile.pprof.gz</span>
+<span id="cb94-4"><a href="#cb94-4" aria-hidden="true" tabindex="-1"></a><span class="ex">profile.pprof.gz</span></span></code></pre></div>
 <p>It's safe to stop vercors with control-C (<code>SIGINT</code>), and
 the profile will contain all samples up to that point, with the
 exception of <code>childSys</code> and <code>childUser</code> (explained
@@ -12162,7 +12540,7 @@ href="https://github.com/google/pprof">pprof tool</a>, e.g.:</p>
 <p><img
 src="https://user-images.githubusercontent.com/901022/226386798-464ff7f7-5948-4c3e-b53a-6c395551acec.png"
 alt="image" /></p>
-<h3 id="samples">Samples</h3>
+<h4 id="samples">Samples</h4>
 <p>The profile contains several different samples, listed under
 "Sample":</p>
 <ul>
@@ -12185,11 +12563,11 @@ process, excluding any child processes</li>
 <li><strong>agg</strong>: all child and self usage, both system time and
 user time, all summed.</li>
 </ul>
-<h3 id="measuring-for-publication">Measuring for publication</h3>
+<h4 id="measuring-for-publication">Measuring for publication</h4>
 <p>Use <code>aggUser</code> as a stable measurement for the amount of
 computation VerCors has done: it represents the total amount of
 computation time VerCors has used.</p>
-<h3 id="diagnosing-slow-proof-goals">Diagnosing slow proof goals</h3>
+<h4 id="diagnosing-slow-proof-goals">Diagnosing slow proof goals</h4>
 <p><code>View &gt; Flame Graph</code> is most useful for this. You can
 use <code>selfUser</code> to diagnose cases where silicon itself
 (without z3) is slow. <code>wall</code> is most useful when including
@@ -12218,13 +12596,13 @@ chapter of <a
 href="https://raw.githubusercontent.com/wiki/utwente-fmt/vercors/Axiomatic-Data-Types.md">Axiomatic
 Data Types</a>. As the annotations will be hidden when viewing the
 rendered markdown, click on "edit page"</p>
-<h2 id="self-contained-code-blocks">Self-contained code blocks</h2>
+<h3 id="self-contained-code-blocks">Self-contained code blocks</h3>
 <p>Testcases defined by template, e.g.:</p>
-<div class="sourceCode" id="cb79"><pre
-class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- testBlock Fail --&gt;</span></span>
-<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a><span class="in">```java</span></span>
-<span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="kw">false</span><span class="op">;</span></span>
-<span id="cb79-4"><a href="#cb79-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
+<div class="sourceCode" id="cb96"><pre
+class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- testBlock Fail --&gt;</span></span>
+<span id="cb96-2"><a href="#cb96-2" aria-hidden="true" tabindex="-1"></a><span class="in">```java</span></span>
+<span id="cb96-3"><a href="#cb96-3" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb96-4"><a href="#cb96-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
 <p>There are three possible code block annotations:</p>
 <ul>
 <li><code>testBlock</code> wraps the code in a method and class</li>
@@ -12235,40 +12613,40 @@ class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb79-1">
 with Java and PVL.</p>
 <p>The case name of the generated test is derived from the heading
 structure.</p>
-<h2 id="snippets">Snippets</h2>
+<h3 id="snippets">Snippets</h3>
 <p>To combine multiple code blocks into one test case (potentially with
 hidden glue code), you can use Snippets. The markdown for that might
 look like this:</p>
-<div class="sourceCode" id="cb80"><pre
-class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- standaloneSnip smallCase</span></span>
-<span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a><span class="co">//:: cases smallCase</span></span>
-<span id="cb80-3"><a href="#cb80-3" aria-hidden="true" tabindex="-1"></a><span class="co">//:: verdict Fail</span></span>
-<span id="cb80-4"><a href="#cb80-4" aria-hidden="true" tabindex="-1"></a><span class="co">class Test {</span></span>
-<span id="cb80-5"><a href="#cb80-5" aria-hidden="true" tabindex="-1"></a><span class="co">--&gt;</span></span>
-<span id="cb80-6"><a href="#cb80-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb80-7"><a href="#cb80-7" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- codeSnip smallCase --&gt;</span></span>
-<span id="cb80-8"><a href="#cb80-8" aria-hidden="true" tabindex="-1"></a><span class="in">```java</span></span>
-<span id="cb80-9"><a href="#cb80-9" aria-hidden="true" tabindex="-1"></a><span class="dt">boolean</span> <span class="fu">never</span><span class="op">()</span> <span class="op">{</span></span>
-<span id="cb80-10"><a href="#cb80-10" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="kw">false</span><span class="op">;</span></span>
-<span id="cb80-11"><a href="#cb80-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb80-12"><a href="#cb80-12" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb80-13"><a href="#cb80-13" aria-hidden="true" tabindex="-1"></a>*Here could be some more explanation about &quot;never&quot;.*</span>
-<span id="cb80-14"><a href="#cb80-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb80-15"><a href="#cb80-15" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- standaloneSnip smallCase</span></span>
-<span id="cb80-16"><a href="#cb80-16" aria-hidden="true" tabindex="-1"></a><span class="co">void test() {</span></span>
-<span id="cb80-17"><a href="#cb80-17" aria-hidden="true" tabindex="-1"></a><span class="co">--&gt;</span></span>
-<span id="cb80-18"><a href="#cb80-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb80-19"><a href="#cb80-19" aria-hidden="true" tabindex="-1"></a>Then the following example will **fail**:</span>
-<span id="cb80-20"><a href="#cb80-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb80-21"><a href="#cb80-21" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- codeSnip smallCase --&gt;</span></span>
-<span id="cb80-22"><a href="#cb80-22" aria-hidden="true" tabindex="-1"></a><span class="in">```java</span></span>
-<span id="cb80-23"><a href="#cb80-23" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="fu">never</span><span class="op">();</span></span>
-<span id="cb80-24"><a href="#cb80-24" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb80-25"><a href="#cb80-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb80-26"><a href="#cb80-26" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- standaloneSnip smallCase</span></span>
-<span id="cb80-27"><a href="#cb80-27" aria-hidden="true" tabindex="-1"></a><span class="co">}</span></span>
-<span id="cb80-28"><a href="#cb80-28" aria-hidden="true" tabindex="-1"></a><span class="co">}</span></span>
-<span id="cb80-29"><a href="#cb80-29" aria-hidden="true" tabindex="-1"></a><span class="co">--&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb97"><pre
+class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- standaloneSnip smallCase</span></span>
+<span id="cb97-2"><a href="#cb97-2" aria-hidden="true" tabindex="-1"></a><span class="co">//:: cases smallCase</span></span>
+<span id="cb97-3"><a href="#cb97-3" aria-hidden="true" tabindex="-1"></a><span class="co">//:: verdict Fail</span></span>
+<span id="cb97-4"><a href="#cb97-4" aria-hidden="true" tabindex="-1"></a><span class="co">class Test {</span></span>
+<span id="cb97-5"><a href="#cb97-5" aria-hidden="true" tabindex="-1"></a><span class="co">--&gt;</span></span>
+<span id="cb97-6"><a href="#cb97-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-7"><a href="#cb97-7" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- codeSnip smallCase --&gt;</span></span>
+<span id="cb97-8"><a href="#cb97-8" aria-hidden="true" tabindex="-1"></a><span class="in">```java</span></span>
+<span id="cb97-9"><a href="#cb97-9" aria-hidden="true" tabindex="-1"></a><span class="dt">boolean</span> <span class="fu">never</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb97-10"><a href="#cb97-10" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb97-11"><a href="#cb97-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb97-12"><a href="#cb97-12" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb97-13"><a href="#cb97-13" aria-hidden="true" tabindex="-1"></a>*Here could be some more explanation about &quot;never&quot;.*</span>
+<span id="cb97-14"><a href="#cb97-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-15"><a href="#cb97-15" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- standaloneSnip smallCase</span></span>
+<span id="cb97-16"><a href="#cb97-16" aria-hidden="true" tabindex="-1"></a><span class="co">void test() {</span></span>
+<span id="cb97-17"><a href="#cb97-17" aria-hidden="true" tabindex="-1"></a><span class="co">--&gt;</span></span>
+<span id="cb97-18"><a href="#cb97-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-19"><a href="#cb97-19" aria-hidden="true" tabindex="-1"></a>Then the following example will **fail**:</span>
+<span id="cb97-20"><a href="#cb97-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-21"><a href="#cb97-21" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- codeSnip smallCase --&gt;</span></span>
+<span id="cb97-22"><a href="#cb97-22" aria-hidden="true" tabindex="-1"></a><span class="in">```java</span></span>
+<span id="cb97-23"><a href="#cb97-23" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="fu">never</span><span class="op">();</span></span>
+<span id="cb97-24"><a href="#cb97-24" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb97-25"><a href="#cb97-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-26"><a href="#cb97-26" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- standaloneSnip smallCase</span></span>
+<span id="cb97-27"><a href="#cb97-27" aria-hidden="true" tabindex="-1"></a><span class="co">}</span></span>
+<span id="cb97-28"><a href="#cb97-28" aria-hidden="true" tabindex="-1"></a><span class="co">}</span></span>
+<span id="cb97-29"><a href="#cb97-29" aria-hidden="true" tabindex="-1"></a><span class="co">--&gt;</span></span></code></pre></div>
 <p>Note that the hidden glue code uses <code>standaloneSnip</code>, and
 includes the code inside the HTML comment tags <code>&lt;!--</code> and
 <code>--&gt;</code>. The visible code snippets use
@@ -12289,7 +12667,7 @@ happening during parsing to help with that. I've tried to add (in an
 overly confident tone) what ANTLR is now reporting to us. I'm pretty
 sure there are holes in my understanding of ANTLR still, so apologies in
 advance.</p>
-<h3 id="flags-to-analyse-antlr">Flags to analyse ANTLR</h3>
+<h4 id="flags-to-analyse-antlr">Flags to analyse ANTLR</h4>
 <p>You can pass <code>--dev-parsing-ambiguities</code> and
 <code>--dev-parsing-sensitivities</code>. ANTLR only cares about
 ambiguities in the sense that it has to tell you for each rule which
@@ -12303,7 +12681,7 @@ Nevertheless this is not context-sensitive, because ANTLR dumps all
 terminals/non-terminals flatly into the context that represents the
 current production, so even in the face of a context-sensitive decision
 like this, the resulting data structure is the same anyway.</p>
-<h3 id="format-of-the-output">Format of the output</h3>
+<h4 id="format-of-the-output">Format of the output</h4>
 <p>When enabling either flag you will receive outputs like this:</p>
 <pre><code>======================================
 At /tmp/vercors-interpreted-13716491317094529415.ipp
@@ -12376,7 +12754,7 @@ pretty-printed as a production rule. This means that they may not
 exactly correspond to the input, even when not left-recursive.
 Especially note that a rule such as <code>(a | b?)</code> is
 pretty-printed as <code>(a | b)?</code>, which is equivalent (!)</p>
-<h3 id="now-what">Now what</h3>
+<h4 id="now-what">Now what</h4>
 <p>I'm not certain what you should actually change when something is
 reported. Nevertheless I offer some thoughts:</p>
 <ul>
@@ -12395,13 +12773,13 @@ href="https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks">here</a>.</p>
 <li>To format files that are changed in a commit along the scalafmt
 rules.</li>
 </ul>
-<h2 id="updating-or-installing-git-hooks">Updating or installing git
-hooks</h2>
+<h3 id="updating-or-installing-git-hooks">Updating or installing git
+hooks</h3>
 <p>You can install the git hooks for this repository with
 <code>./util/gitconfig.sh</code> in a terminal or Git Bash. This causes
 the scripts in <code>util/githooks</code> to be run at the listed event.
 Currenty only <code>pre-commit</code> does anything interesting.</p>
-<h2 id="formatting-files">Formatting files</h2>
+<h3 id="formatting-files">Formatting files</h3>
 <p>It's polite not to introduce formatting changes in commits - this
 keeps diffs nice to read. For that reason we run formatting
 automatically on the list of files that is changed in a commit just
@@ -12427,12 +12805,12 @@ documentation in the orbit of the VerCors project.</p>
 <li><a href="#antlr4-fork">ANTLR4 fork</a></li>
 <li><a href="#docker-hub">Docker Hub</a></li>
 </ul>
-<h2 id="vercors-the-tool">VerCors (the tool)</h2>
+<h3 id="vercors-the-tool">VerCors (the tool)</h3>
 <ul>
 <li>Code at <a
 href="https://github.com/utwente-fmt/vercors">https://github.com/utwente-fmt/vercors</a></li>
 </ul>
-<h2 id="vercors-website">VerCors Website</h2>
+<h3 id="vercors-website">VerCors Website</h3>
 <ul>
 <li>Code at <a
 href="https://github.com/utwente-fmt/vercors-web">https://github.com/utwente-fmt/vercors-web</a></li>
@@ -12454,8 +12832,8 @@ href="https://github.com/utwente-fmt/vercors-web-build/settings/hooks">https://g
 <li>Separate credentials for FTPS access (Ask Pieter Bos)</li>
 </ul></li>
 </ul>
-<h2 id="vercors-server-online-tool-runner">VerCors Server (online tool
-runner)</h2>
+<h3 id="vercors-server-online-tool-runner">VerCors Server (online tool
+runner)</h3>
 <p>This simply makes the tool available to run on the internet.</p>
 <ul>
 <li>Code at <a
@@ -12466,14 +12844,14 @@ href="wss://vercors-server.apps.utwente.nl/">wss://vercors-server.apps.utwente.n
 href="https://rancher.utsp.utwente.nl/">https://rancher.utsp.utwente.nl/</a>
 (Ask Tom van Dijk)</li>
 </ul>
-<h2 id="gitlab-mirror">GitLab Mirror</h2>
+<h3 id="gitlab-mirror">GitLab Mirror</h3>
 <ul>
 <li>Data at <a
 href="https://gitlab.utwente.nl/fmt/vercors/vercors-back-up">https://gitlab.utwente.nl/fmt/vercors/vercors-back-up</a></li>
 <li>Note the page will return a 404 without correct permissions</li>
 <li>Contact Ömer Șakar for credentials</li>
 </ul>
-<h2 id="tool-server">tool-server</h2>
+<h3 id="tool-server">tool-server</h3>
 <p>Minimal piece of software that makes a command line tool available to
 stream over a websocket. Not meant to be deployed directly.</p>
 <ul>
@@ -12482,19 +12860,19 @@ href="https://github.com/utwente-fmt/tool-server">https://github.com/utwente-fmt
 <li>In use by <a
 href="https://github.com/utwente-fmt/vercors-server">https://github.com/utwente-fmt/vercors-server</a></li>
 </ul>
-<h2 id="antlr4-fork">ANTLR4 Fork</h2>
+<h3 id="antlr4-fork">ANTLR4 Fork</h3>
 <ul>
 <li>Code at <a
 href="https://github.com/niomaster/antlr4/">https://github.com/niomaster/antlr4/</a></li>
 </ul>
-<h2 id="the-wiki">The Wiki</h2>
+<h3 id="the-wiki">The Wiki</h3>
 <ul>
 <li>Viewable and code at <a
 href="https://github.com/utwente-fmt/vercors/wiki">https://github.com/utwente-fmt/vercors/wiki</a></li>
 <li>Mirrored to <a
 href="https://vercors.ewi.utwente.nl/wiki">https://vercors.ewi.utwente.nl/wiki</a></li>
 </ul>
-<h2 id="docker-hub">Docker Hub</h2>
+<h3 id="docker-hub">Docker Hub</h3>
 <ul>
 <li>Viewable at <a
 href="https://hub.docker.com/u/utwentefmt">https://hub.docker.com/u/utwentefmt</a></li>
@@ -12547,125 +12925,63 @@ website.</p></li>
         <ul>
 <li>
 <a href="#introduction">Introduction</a>
-<ul>
-<li><a href="#vercors">VerCors</a></li>
-</ul>
 </li>
 <li>
 <a href="#background">Background</a>
-<ul>
-<li><a href="#software-verification">Software Verification</a></li>
-<li><a href="#separation-logic">Separation Logic</a></li>
-</ul>
 </li>
 <li>
 <a href="#installing-and-running-vercors">Installing and Running VerCors</a>
-<ul>
-<li><a href="#syntax-highlighting">Syntax highlighting</a></li>
-</ul>
 </li>
 <li>
 <a href="#prototypal-verification-language">Prototypal Verification Language</a>
 </li>
 <li>
 <a href="#specification-syntax">Specification Syntax</a>
-<ul>
-<li><a href="#method-contracts">Method Contracts</a></li>
-<li><a href="#auxiliary-annotations">Auxiliary Annotations</a></li>
-</ul>
 </li>
 <li>
 <a href="#permissions">Permissions</a>
-<ul>
-<li><a href="#self-framing">Self-framing</a></li>
-<li><a href="#permission-leaks">Permission leaks</a></li>
-<li><a href="#some-extra-notation">Some extra notation</a></li>
-</ul>
 </li>
 <li>
 <a href="#gpgpu-verification">GPGPU Verification</a>
 </li>
 <li>
 <a href="#axiomatic-data-types">Axiomatic Data Types</a>
-<ul>
-<li><a href="#sequence">Sequence</a></li>
-<li><a href="#set">Set</a></li>
-<li><a href="#bag">Bag</a></li>
-<li><a href="#map">Map</a></li>
-<li><a href="#tuple">Tuple</a></li>
-<li><a href="#option">Option</a></li>
-<li><a href="#adt-reference">ADT Reference</a></li>
-<li><a href="#custom-adts">Custom ADTs</a></li>
-</ul>
 </li>
 <li>
 <a href="#arrays-and-pointers">Arrays and Pointers</a>
-<ul>
-<li><a href="#array-permissions-in-java-and-pvl">Array permissions in Java and PVL</a></li>
-<li><a href="#syntactic-sugar">Syntactic sugar</a></li>
-<li><a href="#pointers-and-arrays-in-c-and-gpgpu-languages">Pointers and Arrays in C and GPGPU languages</a></li>
-<li><a href="#injectivity-object-arrays-and-efficient-verification">Injectivity, object arrays and efficient verification</a></li>
-</ul>
 </li>
 <li>
 <a href="#parallel-blocks">Parallel Blocks</a>
 </li>
 <li>
 <a href="#atomics-and-locks">Atomics and Locks</a>
-<ul>
-<li><a href="#pvl-built-in-locks">PVL: Built-in locks</a></li>
-<li><a href="#pvl-atomics">PVL: Atomics</a></li>
-<li><a href="#java-synchronized">Java: synchronized</a></li>
-</ul>
 </li>
 <li>
 <a href="#process-algebra-models">Process Algebra Models</a>
 </li>
 <li>
 <a href="#predicates">Predicates</a>
-<ul>
-<li><a href="#why-predicates">Why predicates?</a></li>
-<li><a href="#predicate-syntax-and-usage">Predicate syntax and usage</a></li>
-<li><a href="#the-counter-example-now-with-predicates">The <code>Counter</code> example, now with predicates</a></li>
-<li><a href="#reservedinternal-predicates">Reserved/internal predicates</a></li>
-<li><a href="#advanced-usage-of-predicates">Advanced usage of predicates</a></li>
-<li><a href="#known-problems">Known problems</a></li>
-</ul>
 </li>
 <li>
 <a href="#inheritance-1">Inheritance</a>
 </li>
 <li>
 <a href="#exceptions--goto">Exceptions & Goto</a>
-<ul>
-<li><a href="#exceptions">Exceptions</a></li>
-<li><a href="#goto-and-labels">Goto and labels</a></li>
-</ul>
 </li>
 <li>
 <a href="#vercors-by-error">VerCors by Error</a>
 </li>
 <li>
 <a href="#veymont">VeyMont</a>
-<ul>
-<li><a href="#choreography-syntax">Choreography syntax</a></li>
-<li><a href="#using-veymont-choreographic-verification--permission-generation">Using VeyMont: choreographic verification & permission generation</a></li>
-<li><a href="#choreographic-contracts">Choreographic contracts</a></li>
-<li><a href="#channel-invariants--functional-correctness">Channel invariants & functional correctness</a></li>
-<li><a href="#what-next">What next?</a></li>
-<li><a href="#publications">Publications</a></li>
-<li><a href="#veymont-syntax-overview">VeyMont syntax overview</a></li>
-</ul>
+</li>
+<li>
+<a href="#platform-dependent-verification">Platform-Dependent Verification</a>
 </li>
 <li>
 <a href="#term-rewriting-rules">Term Rewriting Rules</a>
 </li>
 <li>
 <a href="#magic-wands">Magic Wands</a>
-<ul>
-<li><a href="#what-are-magic-wands">What are Magic Wands?</a></li>
-<li><a href="#syntax-in-vercors">Syntax in VerCors</a></li>
-</ul>
 </li>
 <li>
 <a href="#inhale-and-exhale">Inhale and exhale</a>
@@ -12675,83 +12991,39 @@ website.</p></li>
 </li>
 <li>
 <a href="#pvl-syntax-reference">PVL Syntax Reference</a>
-<ul>
-<li><a href="#general">General</a></li>
-<li><a href="#types-and-data-structures">Types and Data Structures</a></li>
-<li><a href="#expressions-1">Expressions</a></li>
-<li><a href="#control-flow-constructs-pvl">Control flow constructs (PVL)</a></li>
-<li><a href="#verification-flow-constructs">Verification flow constructs</a></li>
-</ul>
+</li>
+<li>
+<a href="#vercors-usage-tips--proof-debugging-tips">VerCors usage, tips & proof debugging tips</a>
 </li>
 <li>
 <a href="#case-studies">Case Studies</a>
-<ul>
-<li><a href="#published-case-studies">Published case studies</a></li>
-<li><a href="#student-projects">Student projects</a></li>
-</ul>
 </li>
 <li>
 <a href="#developing-for-vercors">Developing for VerCors</a>
-<ul>
-<li><a href="#prbranch-management">PR/Branch management</a></li>
-<li><a href="#example-workflow">Example workflow</a></li>
-</ul>
 </li>
 <li>
 <a href="#project-structure">Project Structure</a>
-<ul>
-<li><a href="#functional-overview">Functional Overview</a></li>
-<li><a href="#technical-setup">Technical Setup</a></li>
-<li><a href="#project-structure-1">Project Structure</a></li>
-<li><a href="#project-structure-by-package">Project Structure by Package</a></li>
-</ul>
 </li>
 <li>
 <a href="#ide-import">IDE Import</a>
-<ul>
-<li><a href="#basic-setup">Basic setup</a></li>
-<li><a href="#intellij-idea">IntelliJ IDEA</a></li>
-<li><a href="#vscode">VSCode</a></li>
-</ul>
 </li>
 <li>
 <a href="#scalatest">ScalaTest</a>
-<ul>
-<li><a href="#running-scalatest">Running ScalaTest</a></li>
-</ul>
 </li>
 <li>
 <a href="#profiling">Profiling</a>
 </li>
 <li>
 <a href="#wiki-code-snippet-testing-harness">Wiki Code Snippet Testing Harness</a>
-<ul>
-<li><a href="#self-contained-code-blocks">Self-contained code blocks</a></li>
-<li><a href="#snippets">Snippets</a></li>
-</ul>
 </li>
 <li>
 <a href="#parser-analysis">Parser Analysis</a>
 </li>
 <li>
 <a href="#git-hooks">Git Hooks</a>
-<ul>
-<li><a href="#updating-or-installing-git-hooks">Updating or installing git hooks</a></li>
-<li><a href="#formatting-files">Formatting files</a></li>
-</ul>
 </li>
 <li>
 <a href="#meta">Meta</a>
-<ul>
-<li><a href="#vercors-the-tool">VerCors (the tool)</a></li>
-<li><a href="#vercors-website">VerCors Website</a></li>
-<li><a href="#vercors-server-online-tool-runner">VerCors Server (online tool runner)</a></li>
-<li><a href="#gitlab-mirror">GitLab Mirror</a></li>
-<li><a href="#tool-server">tool-server</a></li>
-<li><a href="#antlr4-fork">ANTLR4 Fork</a></li>
-<li><a href="#the-wiki">The Wiki</a></li>
-<li><a href="#docker-hub">Docker Hub</a></li>
-</ul>
 </li>
 <li>
 <a href="#making-a-new-vercors-release">Making a new VerCors release</a>
