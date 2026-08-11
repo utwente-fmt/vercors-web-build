@@ -53,10 +53,10 @@
             const path_to_root = "";
             const default_light_theme = "vercors";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-9b93a44c.js";
+            window.path_to_searchindex_js = "searchindex-d21a5cd1.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc-0460c59c.js"></script>
+        <script src="toc-51d3aee6.js"></script>
     </head>
     <body>
 <div id="header" class="top-header ">
@@ -243,10 +243,11 @@
                 <div id="mdbook-content" class="content">
                     <main>
                         <p>This page is to explain what the different error messages in VerCors mean. We try to keep this page alphabetically ordered by error message (case insensitive sorting. For sentences: spaces come before letters in the alphabet). If you have a question about error messages, please add a question to this wiki page. If you know the answer to a question asked here, please replace the question with the answer (or with a link to the answer elsewhere on the wiki).</p>
+<h2 id="error-messages"><a class="header" href="#error-messages">Error messages</a></h2>
 <h3 id="assignmentfailed-insufficient-permission"><a class="header" href="#assignmentfailed-insufficient-permission">AssignmentFailed: insufficient permission</a></h3>
 <p>This means you are trying to write to a variable (at the left hand side of an assignment) to which VerCors cannot establish a write-permission. The statement <code>assert(Perm(lhs,1));</code> in which <code>lhs</code> is the left hand side of this assignment will fail at this point in your code, but should be provable.</p>
 <h3 id="illegal-argument-count"><a class="header" href="#illegal-argument-count">Illegal argument count</a></h3>
-<p>This is a internal VerCors error, that might be due to a parse-error in your script. We have opened an <a href="https://github.com/utwente-fmt/vercors/issues/125">issue</a> for this.</p>
+<p>This is an internal VerCors error, that might be due to a parse-error in your script. We have opened an <a href="https://github.com/utwente-fmt/vercors/issues/125">issue</a> for this.</p>
 <h3 id="illegal-iteration-invariant"><a class="header" href="#illegal-iteration-invariant">Illegal iteration invariant</a></h3>
 <p>This seems to happen when you try to specify a <code>loop_invariant</code> in a <code>for</code>-loop, where you’re using a resource as invariant. Try using <code>context</code> (short for <code>ensures</code> and <code>requires</code> combined) instead. Are you getting this message in a different situation? Do let us know!</p>
 <h3 id="javalang"><a class="header" href="#javalang">java.lang.*</a></h3>
@@ -260,8 +261,6 @@
 <p>When calling the constructor method of a class, the class variables are not yet initialised. Therefore, you should not refer to them. Do you need write-permission? Don’t worry, the class constructor already has it by definition (as it implicitly creates the variables)! In particular, use <code>ensures</code> instead of <code>context</code>.</p>
 <h3 id="type-of-leftright-argument-is-resource-rather-than-boolean"><a class="header" href="#type-of-leftright-argument-is-resource-rather-than-boolean">Type of left/right argument is Resource rather than Boolean</a></h3>
 <p>This is a type error. You are using a symbol like <code>&amp;&amp;</code> that requires boolean values on both sides. Changing <code>&amp;&amp;</code> to <code>**</code>, or breaking up your specification into multiple lines might solve the problem for you.</p>
-<h3 id="verification-aborted-exceptionally-javautilconcurrentexecutionexception-javautilconcurrentexecutionexception-javautilnosuchelementexception-noneget"><a class="header" href="#verification-aborted-exceptionally-javautilconcurrentexecutionexception-javautilconcurrentexecutionexception-javautilnosuchelementexception-noneget">Verification aborted exceptionally: java.util.concurrent.ExecutionException: java.util.concurrent.ExecutionException: java.util.NoSuchElementException: None.get</a></h3>
-<p>See <a href="Predicates.html#vercors-crashes-when-predicates-are-unfolded">VerCors crashes when predicates are unfolded</a>.</p>
 <h3 id="not-injective-or-resource-may-not-be-unique-with-regards-to-the-quantified-variables-or-similar"><a class="header" href="#not-injective-or-resource-may-not-be-unique-with-regards-to-the-quantified-variables-or-similar">“Not injective”, or “resource may not be unique with regards to the quantified variables”, or similar</a></h3>
 <p>Viper requires that all <code>forall</code> with permission expressions (<code>forall*</code> in VerCors) are “injective”. That means that different values for the quantified variable(s) must result in different memory locations in the permission expression. For example in <code>(\forall* int k; 0&lt;=k &amp;&amp; k&lt;arr.length; Perm(arr[k].myField, 1))</code>, different <code>k</code> must point to different array elements, i.e. <code>arr[i]</code> must be different from <code>arr[j]</code> if <code>i!=j</code>. You need to add a condition like <code>(\forall int i, int j; 0&lt;=i &amp;&amp; i&lt;j &amp;&amp; j&lt;arr.length; arr[i] != arr[j])</code> before the quantifier that “may not be unique”. And if <code>myField</code> is an object, you might need to do the same for <code>arr[i].myField</code> and <code>arr[j].myField</code>. More info is in the section <a href="Arrays-and-Pointers.html#injectivity-object-arrays-and-efficient-verification">Arrays-and-Pointers</a>.</p>
 

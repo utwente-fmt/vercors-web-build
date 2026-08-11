@@ -53,10 +53,10 @@
             const path_to_root = "";
             const default_light_theme = "vercors";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-9b93a44c.js";
+            window.path_to_searchindex_js = "searchindex-d21a5cd1.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc-0460c59c.js"></script>
+        <script src="toc-51d3aee6.js"></script>
     </head>
     <body>
 <div id="header" class="top-header ">
@@ -442,7 +442,7 @@ void simPar(int[] a, int[] b, int[] c, int size){
 <pre class="verification-log verification-non-plain" style="display: none"></pre>
 </div>
 
-<p>As we can see we use <code>parallel</code> to define simultaneous parallel blocks. This construction can be used in a situation where we decide to run simultaneous instructions. That means, we do not define threads in the parallel blocks, but the par blocks run simultaneously. Below is an example in this situation where <code>a</code>, <code>b</code> and <code>c</code> are objects included a field <code>val</code>:</p>
+<p>As we can see we use <code>parallel</code> to define simultaneous parallel blocks. This construction can be used in a situation where we decide to run simultaneous instructions. That means, we do not define threads in the parallel blocks, but the par blocks run simultaneously. Below is an example in this situation where <code>a</code>, <code>b</code> and <code>c</code> are objects with a field <code>val</code>:</p>
 <!-- test -->
 <div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLWNvbXBsaWNhdGVkLXBhcmFsbGVsLWJsb2Nrcy1zaW11bHRhbmVvdXMtcGFyYWxsZWwtYmxvY2tzLTIKLy86OiB2ZXJkaWN0IFBhc3MKLy86OiB0b29scyBzaWxpY29uCmNsYXNzIEhhc1ZhbCB7CiAgICBpbnQgdmFsOwp9CgpjbGFzcyBNYWluIHsKICAgY29udGV4dCBQZXJtKGEudmFsLCB3cml0ZSkgKiogUGVybShiLnZhbCwgd3JpdGUpICoqIFBlcm0oYy52YWwsIHdyaXRlKTsKICAgZW5zdXJlcyBhLnZhbCA9PSBcb2xkKGEudmFsKSArIDEgJiYgYi52YWwgPT0gXG9sZChiLnZhbCkgKyAxICYmCiAgICBjLnZhbCA9PSBcb2xkKGMudmFsKSArIDE7ICAgICAgICAgICAgICAgICAgICAgIAogIHZvaWQgSW5jUGFyKEhhc1ZhbCBhLCBIYXNWYWwgYiwgSGFzVmFsIGMpewogICAgcGFyYWxsZWwgewogICAgICBwYXIgCiAgICAgICBjb250ZXh0IFBlcm0oYS52YWwsIHdyaXRlKTsKICAgICAgIGVuc3VyZXMgYS52YWwgPT0gXG9sZChhLnZhbCkgKyAxOwogICAgICB7CiAgICAgICAgYS52YWwgPSBhLnZhbCArIDE7IAogICAgICB9CiAgICAgIHBhcgogICAgICAgY29udGV4dCBQZXJtKGIudmFsLCB3cml0ZSk7CiAgICAgICBlbnN1cmVzIGIudmFsID09IFxvbGQoYi52YWwpICsgMTsKICAgICAgewogICAgICAgIGIudmFsID0gYi52YWwgKyAxOwogICAgICB9CiAgICAgIHBhcgogICAgICAgY29udGV4dCBQZXJtKGMudmFsLCB3cml0ZSk7CiAgICAgICBlbnN1cmVzIGMudmFsID09IFxvbGQoYy52YWwpICsgMTsKICAgICAgewogICAgICAgIGMudmFsID0gYy52YWwgKyAxOwogICAgICB9CiAgICB9CiAgfQp9" data-template-kind="test" data-case-name="wiki-complicated-parallel-blocks-simultaneous-parallel-blocks-2" data-case-verdict="Pass" data-language-ext="pvl" data-language-label="pvl">
 <pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">class HasVal {

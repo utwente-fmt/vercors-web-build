@@ -53,10 +53,10 @@
             const path_to_root = "";
             const default_light_theme = "vercors";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-9b93a44c.js";
+            window.path_to_searchindex_js = "searchindex-d21a5cd1.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc-0460c59c.js"></script>
+        <script src="toc-51d3aee6.js"></script>
     </head>
     <body>
 <div id="header" class="top-header ">
@@ -365,7 +365,7 @@ int pickySum(int a, int b, boolean isTuesday) throws Exception {
 <p>Instead, <code>pickySum</code> only throws an exception if one of the arguments equals five, <em>and</em> the <code>isTuesday</code> flag is true. If <code>pickySum</code> is called with <code>5</code> and <code>10</code> while <code>isTuesday</code> is false, no exception is thrown and <code>15</code> is returned instead.</p>
 <p>This artificial example shows how a signals clause should be interpreted: when an exception of the appropriate type is thrown, the <code>signals</code> clause can be assumed to hold. We call this the “reactive” semantics.</p>
 <p>It is <em>not</em> guaranteed that an exception is thrown if a <code>signals</code> condition occurs. We call this the “causal” semantics. VerCors does <em>not</em> implement this currently.</p>
-<p>If needed, there is a way to model the causal semantics using an additional <code>ensures</code> clause. To do this, an <code>ensures</code> clause needs to be added that implies <code>false</code> when the <code>signals</code> condition occurs. For example, <code>pickySum</code> can be made consistent as follows:</p>
+<p>If needed, there is a way to model the causal semantics using an additional <code>ensures</code> clause that implies <code>false</code> when the <code>signals</code> condition occurs. For example, <code>pickySum</code> can be made consistent as follows:</p>
 <!-- standaloneSnip consistentSum
 class C {
 -->

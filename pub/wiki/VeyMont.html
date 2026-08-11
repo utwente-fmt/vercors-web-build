@@ -53,10 +53,10 @@
             const path_to_root = "";
             const default_light_theme = "vercors";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-9b93a44c.js";
+            window.path_to_searchindex_js = "searchindex-d21a5cd1.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc-0460c59c.js"></script>
+        <script src="toc-51d3aee6.js"></script>
     </head>
     <body>
 <div id="header" class="top-header ">
@@ -328,7 +328,7 @@ choreography Example(int x, int y) {
   }
 }
 </code></pre>
-<p>Specifically, we add permissions to the constructor of <code>Store</code>, and permissions to the precondition of <code>run</code>. We use the <code>\endpoint</code> expression to indicate the endpoint for which the expressions is relevant. The endpoint projection uses this information to decide which endpoint to project an expression to. VeyMont knows a simple inference rule, which allows us to omit the <code>\endpoint</code> expressions in some cases. Essentially, whenever the endpoint context is directly inferable from the expression, VeyMont tries to do so. In this case, this shortens the contract to the following:</p>
+<p>Specifically, we add permissions to the constructor of <code>Store</code>, and permissions to the precondition of <code>run</code>. We use the <code>\endpoint</code> expression to indicate the endpoint for which the expression is relevant. The endpoint projection uses this information to decide which endpoint to project an expression to. VeyMont knows a simple inference rule, which allows us to omit the <code>\endpoint</code> expressions in some cases. Essentially, whenever the endpoint context is directly inferable from the expression, VeyMont tries to do so. In this case, this shortens the contract to the following:</p>
 <pre><code class="language-pvl editable read-only">choreography Example(int x, int y) {
   endpoint alex = Store(x);
   endpoint bobby = Store(y);
@@ -363,7 +363,7 @@ choreography Example(int x, int y) {
   }
 }
 </code></pre>
-<p>This version does not yet verify. VeyMont reports an error on the postcondition of the above choreography, reporting that <code>alex.v</code> and <code>bob.v</code> might not be negative and positive, respectively. Note that this error is discovered only after the choreography is verified! This shows an interesting aspect of VeyMont: at the choreography level, properties over the transferred values are included in the reasoning of VeyMont. While this is only matters for primitive values like integers, it is occasionally useful for verifying choreographies. Note that, while the generated implementation would not verify, it is not because of a bug: there are simply some annotations missing.</p>
+<p>This version does not yet verify. VeyMont reports an error on the postcondition of the above choreography, reporting that <code>alex.v</code> and <code>bob.v</code> might not be negative and positive, respectively. Note that this error is discovered only after the choreography is verified! This shows an interesting aspect of VeyMont: at the choreography level, properties over the transferred values are included in the reasoning of VeyMont. While this only matters for primitive values like integers, it is occasionally useful for verifying choreographies. Note that, while the generated implementation would not verify, it is not because of a bug: there are simply some annotations missing.</p>
 <blockquote>
 <p>In deductive program verification terms, there is a modularity boundary at the communicate statement, in the sense of modular verification. When verifying the choreography, this modularity boundary is transparent. When verifying the implementation, this modularity boundary is opaque. The decision of when and where to draw the modularity boundary is a topic of ongoing research, and might change in future versions of VeyMont.</p>
 </blockquote>

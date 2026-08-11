@@ -53,10 +53,10 @@
             const path_to_root = "";
             const default_light_theme = "vercors";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-9b93a44c.js";
+            window.path_to_searchindex_js = "searchindex-d21a5cd1.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc-0460c59c.js"></script>
+        <script src="toc-51d3aee6.js"></script>
     </head>
     <body>
 <div id="header" class="top-header ">
@@ -243,6 +243,28 @@
                 <div id="mdbook-content" class="content">
                     <main>
                         <p>VerCors allows you to define your own term rewriting rules via <code>pvl</code> files. This section shows you how.</p>
+<p>The current simplification rules VerCors uses are present at the <a href="https://github.com/utwente-fmt/vercors/tree/dev/res/universal/res/simplify">res/universal/res/simplify</a> directory.</p>
+<p>However, with the options <code>paths-simplify DIR</code> or <code>paths-simplify-after-relations DIR</code> you can specify a directory <code>DIR</code> which contain PVL files which will simplify expressions. The first option will do the simplification pass before quantifiers are simplified in an internal VerCors pass, the second option after these are simplified.</p>
+<h2 id="structure-of-simplification-files"><a class="header" href="#structure-of-simplification-files">Structure of simplification files</a></h2>
+<p>Each simplification rule should be put as an axiom in the PVL file. See for example the following rule which simplifies an expression which adds a zero.</p>
+<pre><code class="language-pvl editable read-only">axiom add_zero { (∀rational i; i + 0 == i) }
+</code></pre>
+<p>It is quantified over any <code>rational</code> number i (a fractional number). Since integers can be coerced to rationals, this rule will also work for integers. Thus any expression integer or rational expression <code>i</code> towards which is <code>0</code> is added is simplified towards <code>i</code>. In general, the left hand side is replaced by the right hand side, if the left hand side can be matched.</p>
+<p>Note that the simplification rules do not take into account commutativity and associativity. So we would need the following extra rule to cover commutativity.</p>
+<pre><code class="language-pvl editable read-only">axiom zero_add { (∀rational i; 0 + i == i) }
+</code></pre>
+<p>And the following two rules are needed to cover cancelling an addition with a subtraction, since we do not have associativity.</p>
+<pre><code class="language-pvl editable read-only">axiom add_sub_cancel_1 { (∀rational i, rational j; (j + i) - j == i) }
+axiom add_sub_cancel_2 { (∀rational i, rational j; j + (i - j) == i) }
+</code></pre>
+<blockquote class="blockquote-tag blockquote-tag-caution">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M4.47.22A.749.749 0 0 1 5 0h6c.199 0 .389.079.53.22l4.25 4.25c.141.14.22.331.22.53v6a.749.749 0 0 1-.22.53l-4.25 4.25A.749.749 0 0 1 11 16H5a.749.749 0 0 1-.53-.22L.22 11.53A.749.749 0 0 1 0 11V5c0-.199.079-.389.22-.53Zm.84 1.28L1.5 5.31v5.38l3.81 3.81h5.38l3.81-3.81V5.31L10.69 1.5ZM8 4a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 8 4Zm0 8a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Caution</p>
+<p>Axioms are not check for validity. So if they are in fact incorrect, you can introduce unsoundness, thus wrong verification results.</p>
+</blockquote>
+<p>You can not add conditions for a rewrite rule, however with using the <code>then</code> keyword you can still simplify division results as follows.</p>
+<pre><code class="language-pvl editable read-only">axiom zero_div { (∀rational i; 0 \ i == (0 then 1 \ i;)) }
+</code></pre>
+<p>Since the verifier will throw a division by zero error if <code>i</code> can be zero.</p>
 
                     </main>
 
