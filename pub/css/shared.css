@@ -11,7 +11,7 @@
     display: none;
 }
 
-nav {
+nav.top-nav {
     display: block;
     z-index: 100;
     height: 5rem;
@@ -20,50 +20,50 @@ nav {
     text-align: center;
 }
 
-nav ul {
+nav.top-nav ul {
     margin: 0;
 }
 
-nav > .container > * {
+nav.top-nav > .container > * {
     display: inline-block;
     vertical-align: middle;
 }
 
-nav a {
+nav.top-nav a {
     text-decoration: none;
 }
 
-nav > .container > ul > li > a {
+nav.top-nav > .container > ul > li > a {
     color: var(--text-dark);
 }
 
-nav > .container > ul > li {
+nav.top-nav > .container > ul > li {
     display: inline-block;
     margin-left: 0.5rem;
     position: relative;
     z-index: 100;
 }
 
-nav > .container > ul > li > a {
+nav.top-nav > .container > ul > li > a {
     text-align: left;
     padding: 0.5rem 1.5rem;
 }
 
-nav > .container > ul > li:hover > a {
+nav.top-nav > .container > ul > li:hover > a {
     color: var(--text-light);
     border-radius: 0.5rem;
 }
 
-nav > .container > ul > li:hover > a:has(+ ul) {
+nav.top-nav > .container > ul > li:hover > a:has(+ ul) {
     /* firefox 121+ */
     border-radius: 0.5rem 0.5rem 0 0;
 }
 
-nav > .container > ul > li:hover > a + ul {
+nav.top-nav > .container > ul > li:hover > a + ul {
     display: block;
 }
 
-nav > .container > ul > li > ul {
+nav.top-nav > .container > ul > li > ul {
     display: none;
     position: absolute;
     left: 0;
@@ -75,12 +75,12 @@ nav > .container > ul > li > ul {
     text-align: left;
 }
 
-nav > .container > ul > li > ul > li > a {
+nav.top-nav > .container > ul > li > ul > li > a {
     color: var(--text-light);
     padding: 0.5rem 1.5rem;
 }
 
-nav > .container > ul > li > ul > li {
+nav.top-nav > .container > ul > li > ul > li {
     display: block;
 }
 
@@ -145,7 +145,7 @@ input[type="submit"]:hover,
 input[type="reset"]:hover,
 input[type="button"]:hover,
 .button:hover, .secondary .button:hover {
-// TODO background-color: #32b777;
+/* // TODO background-color: #32b777; */
 }
 
 /* Main */

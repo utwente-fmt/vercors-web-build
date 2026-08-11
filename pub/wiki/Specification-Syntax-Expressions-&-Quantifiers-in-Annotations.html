@@ -1,0 +1,523 @@
+<!DOCTYPE HTML>
+<html lang="en" class="vercors sidebar-visible" dir="ltr">
+    <head>
+<meta name="description" content="VerCors Tutorial and documentation">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#d12010">
+
+<link rel="icon" href="/images/icon.svg">
+
+<link rel="stylesheet" href="/css/global.css">
+<link rel="stylesheet" href="/css/colors.css">
+<link rel="stylesheet" href="/css/shared.css">
+<link rel="stylesheet" href="/css/responsive.css">
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/highlight.pack.js"></script>
+<script src="/js/ace.js"></script>
+<script src="/js/datatables.min.js"></script>
+<script src="/js/vercorsonline.js"></script>
+<script src="/js/init.js"></script>
+
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Expressions &amp; Quantifiers in Annotations - VerCors Tutorial</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-88aeadc2.css">
+        <link rel="stylesheet" href="css/general-5067d8cd.css">
+        <link rel="stylesheet" href="css/chrome-7683498c.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "vercors";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-9b93a44c.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-0460c59c.js"></script>
+    </head>
+    <body>
+<div id="header" class="top-header ">
+
+            <nav class="top-nav">
+                <div class="container">
+                    <div id="logo">
+                        <span id="hamburger" onclick="document.querySelector('nav.top-nav').classList.toggle('open')"><span class="fa fa-bars"></span></span><!--
+                        --><a href="/"><img id="logo-light" src="/images/logo.svg" title="The VerCors Verifier" alt="Logo of the VerCors Verifier"><img id="logo-dark" src="/images/logo-white.svg" title="The VerCors Verifier" alt="Logo of the VerCors Verifier"></a>
+                    </div>
+                    <ul>
+                        <li>
+                            <a href="/wiki">Getting Started</a>
+                            <ul>
+                                <li><a href="/wiki/Installing-and-Running-VerCors.html">Installation Guide</a></li>
+                                <li><a href="/wiki/Tutorial.html">Tutorial</a></li>
+                                <li>
+                                    <a href="//github.com/utwente-fmt/vercors/issues" target="_blank">
+                                        Issue Tracker
+                                        <span class="fa fa-external-link" style="font-size: 10pt"></span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="/">Tools</a>
+                            <ul>
+                                <li><a href="/">Verifier</a></li>
+                                <li><a href="/alpinist/">Alpinist</a></li>
+                                <li><a href="/vesuv/">VeSUV</a></li>
+                                <li><a href="/veymont/">VeyMont</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="/publications/">Publications</a></li>
+                        <li>
+                            <a href="/about/">About</a>
+                            <ul>
+                                <li><a href="/about/#team">VerCors Team</a></li>
+                                <li><a href="/news/">News</a></li>
+                                <li><a href="/about/#contact">Contact</a></li>
+                                <li><a href="/about/#credits">Credits</a></li>
+                                <li><a href="/license/">License</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+</div>
+
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('vercors')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-vercors">VerCors</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">VerCors Tutorial </h1>
+
+                    <div class="right-buttons">
+                        <a href="/try_online/" class="online-button">Try VerCors Online</a>
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h2 id="expressions"><a class="header" href="#expressions">Expressions</a></h2>
+<p>As mentioned before, expressions in specifications are an extension of the expressions available in the target language. So if you analyse a Java program, you can use expressions like <code>a&amp;&amp;b</code> or <code>x==y+1</code> in the specifications just like in Java. However, specifications must be free of side-effects (on the program state) and for example calls to non-pure methods are not allowed.</p>
+<p>VerCors extends the expressions of the target language by a few more features that you can use in specifications. One of them is the implication operator <code>==&gt;</code>, which works like you would expect from a logical implication. A common usage is <code>requires x!=null ==&gt; &lt;some statement about fields of x&gt;</code>. Note that the implication binds less than equality or conjunction, so <code>a==&gt;b&amp;&amp;c</code> is equivalent to <code>a==&gt;(b&amp;&amp;c)</code>. You need to explicitly use parentheses if the operators shall associate differently.</p>
+<p>A related new operator is the null-coalescing operator <code>?.</code>. It can be used as <code>expr?.fun(args)</code>, which is a shorthand for <code>expr!=null ==&gt; expr.fun(args)</code>. One use-case, where this comes in handy, is when using predicates in the place of the function <code>fun</code> (see section <a href="Predicates.html">Predicates</a>).</p>
+<p>Two other new operators are <code>**</code> and <code>-*</code> from separation logic. <code>**</code> is the separating conjunct, while <code>-*</code> is the separating implication (or “magic wand”). For more on this, see the sections on <a href="Permissions.html">Permissions</a> and <a href="Magic-Wands.html">Magic Wands</a>.</p>
+<p>The target language is also extended to include new data types. A simple case is the boolean type <code>bool</code>, which can be useful in specifications if the target language has no boolean type (e.g. old C). If the target language does support boolean (e.g. Java), this is not needed (but can be used nonetheless). More interestingly, the new types include generic axiomatic data types such as <code>set&lt;T&gt;</code> and <code>option&lt;T&gt;</code> (with <code>T</code> being a type). For more information on them and their supported operations (such as getting the size, and indexing elements), see the <a href="Axiomatic-Data-Types.html">respective section</a>.</p>
+<p>An important new type are fractions, <code>frac</code>. VerCors uses concurrent separation logic (CSL) to manage the ownership and permissions to access heap locations. A permission is a value from the interval (0,1], and the type <code>frac</code> represents such a value. To give a value to a variable of type <code>frac</code>, the new operator of <em>fractional division</em> can be used: While <code>2/3</code> indicates the classical integer division, which in this example gives <code>0</code>, using the backslash instead gives a fraction: <code>2\3</code>. For more on this topic, including some additional keywords for short-hand notations, see the section <a href="Permissions.html">Permissions</a>.</p>
+<p>Sometimes, you might create complicated expressions and want to use helper variables to simplify them. However, certain constructs only allow for expressions, and not for statements such as variable declarations. To alleviate that, there is the <code>\let</code> construct, which defines a variable just for a single expression: <code>( \let type name = expr1 ; expr2 )</code>, where <code>type</code> is the type of the helper variable, <code>name</code> its name, <code>expr1</code> defines its value, and <code>expr2</code> the complicated expression that you can now simplify by using the helper variable. Example:</p>
+<pre><code class="language-java editable read-only">//@ assert (\let int abs_x = (x&lt;0 ? -x : x); y==(z==null ? abs_x : 5*abs_x));
+</code></pre>
+<h2 id="quantifiers"><a class="header" href="#quantifiers">Quantifiers</a></h2>
+<p>Note that most target languages, such as Java and C, support array types, such as <code>int[]</code>. Sometimes, you might want to reason about all elements of the array. To do that, VerCors supports using <em>quantifiers</em> in the specifications: <code>(\forall varDecl, varDecl...; cond; expr)</code>. The syntax is similar to the header of a for loop: <code>varDecl</code> declares a variable (e.g. <code>int i</code>); <code>cond</code> is a boolean expression describing a boundary condition, restricting the declared variable to the applicable cases (e.g. defining the range of the integer <code>0&lt;=i &amp;&amp; i&lt;arr.length</code>); and <code>expr</code> is the boolean expression you are interested in, such as a statement you want to assert. Note that the parentheses are mandatory. Here is an example to specify that all elements in the given array are positive:</p>
+<!-- standaloneSnip Quantifiers1
+//:: cases Quantifiers1
+//:: tools silicon
+//:: verdict Pass
+&#10;class Test {
+//@ requires arr != null;
+//@ requires Perm(arr[*], 1\2);
+-->
+<!-- codeSnip Quantifiers1 -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyBRdWFudGlmaWVyczEKLy86OiB0b29scyBzaWxpY29uCi8vOjogdmVyZGljdCBQYXNzCgpjbGFzcyBUZXN0IHsKLy9AIHJlcXVpcmVzIGFyciAhPSBudWxsOwovL0AgcmVxdWlyZXMgUGVybShhcnJbKl0sIDFcMik7Ci8vQCByZXF1aXJlcyBhcnIgIT0gbnVsbDsKLy9AIHJlcXVpcmVzIChcZm9yYWxsIGludCBpIDsgMDw9aSAmJiBpPGFyci5sZW5ndGggOyBhcnJbaV0+MCk7CnZvaWQgZm9vKGludFtdIGFycikgeyAvKiAuLi4gKi8gfQp9Cg==" data-template-kind="" data-case-name="" data-case-verdict="Pass" data-language-ext="java" data-language-label="java">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-java no_run editable code_snippet">//@ requires arr != null;
+//@ requires (\forall int i ; 0&lt;=i &amp;&amp; i&lt;arr.length ; arr[i]&gt;0);
+void foo(int[] arr) { /* ... */ }</code></pre>
+<div class="verification-language">Language for VerCors: <strong>java</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<!-- standaloneSnip Quantifiers1
+}
+-->
+<blockquote class="blockquote-tag blockquote-tag-note">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+<p>In practice, you would also have to specify permissions to access the values in the array. More on that in the <a href="Permissions.html">next section</a>.</p>
+</blockquote>
+<!-- markdownlint-disable-next-line MD028 -->
+<blockquote class="blockquote-tag blockquote-tag-tip">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M8 1.5c-2.363 0-4 1.69-4 3.75 0 .984.424 1.625.984 2.304l.214.253c.223.264.47.556.673.848.284.411.537.896.621 1.49a.75.75 0 0 1-1.484.211c-.04-.282-.163-.547-.37-.847a8.456 8.456 0 0 0-.542-.68c-.084-.1-.173-.205-.268-.32C3.201 7.75 2.5 6.766 2.5 5.25 2.5 2.31 4.863 0 8 0s5.5 2.31 5.5 5.25c0 1.516-.701 2.5-1.328 3.259-.095.115-.184.22-.268.319-.207.245-.383.453-.541.681-.208.3-.33.565-.37.847a.751.751 0 0 1-1.485-.212c.084-.593.337-1.078.621-1.489.203-.292.45-.584.673-.848.075-.088.147-.173.213-.253.561-.679.985-1.32.985-2.304 0-2.06-1.637-3.75-4-3.75ZM5.75 12h4.5a.75.75 0 0 1 0 1.5h-4.5a.75.75 0 0 1 0-1.5ZM6 15.25a.75.75 0 0 1 .75-.75h2.5a.75.75 0 0 1 0 1.5h-2.5a.75.75 0 0 1-.75-.75Z"></path></svg>Tip</p>
+<p>If you want to quantify over more than one variable (e.g. saying <code>arr1[i] != arr2[j]</code> for all <code>i</code> and <code>j</code>), do <em>not</em> use nesting, this commonly hurts proof performance. Instead, use a list of bindings: <code>(\forall int i, int j; 0&lt;=i &amp;&amp; i&lt;arr1.length &amp;&amp; 0&lt;=j &amp;&amp; j&lt;arr2.length; arr1[i]!=arr2[j])</code>.</p>
+</blockquote>
+<p>If your boundary condition is an interval (like in the examples above), you can use the shorter notation <code>(\forall type name = e1 .. e2 ; expr)</code>, where <code>type</code> must be an integral type (e.g. <code>int</code>), <code>name</code> is the name of the quantified variable, <code>e1</code> and <code>e2</code> are expressions defining the interval bounds (lower bound inclusive, upper bound exclusive) and <code>expr</code> is the expression you are interested in: <code>(\forall int i = 0 .. arr.length ; arr[i]&gt;0)</code>.</p>
+<blockquote class="blockquote-tag blockquote-tag-important">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 1.75C0 .784.784 0 1.75 0h12.5C15.216 0 16 .784 16 1.75v9.5A1.75 1.75 0 0 1 14.25 13H8.06l-2.573 2.573A1.458 1.458 0 0 1 3 14.543V13H1.75A1.75 1.75 0 0 1 0 11.25Zm1.75-.25a.25.25 0 0 0-.25.25v9.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h6.5a.25.25 0 0 0 .25-.25v-9.5a.25.25 0 0 0-.25-.25Zm7 2.25v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 9a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg>Important</p>
+<p>Depending on the circumstances, spaces are necessary around the <code>..</code> because of unambiguous parsing.</p>
+</blockquote>
+<p>You may freely mix normal bindings and range bindings, and omit the condition as you like. For example, all these quantifiers are equivalent:</p>
+<ul>
+<li><code>(\forall int i, int j; 0 &lt;= i &amp;&amp; i &lt; n &amp;&amp; i &lt; j &amp;&amp; j &lt; n ==&gt; xs[i] &lt; xs[j])</code></li>
+<li><code>(\forall int i=0..n, int j; i &lt; j &amp;&amp; j &lt; n; xs[i] &lt; xs[j])</code></li>
+<li><code>(\forall int i=0..n, int j=i+1..n; xs[i] &lt; xs[j])</code></li>
+</ul>
+<p>There also is an <code>\exists</code> quantifier analogous to the <code>forall</code> quantifier: <code>(\exists varDecl, ...; cond; expr)</code>. For instance, we could use a similar example as above, but requiring that <em>at least one</em> array element is positive:</p>
+<!-- standaloneSnip Quantifiers2
+//:: cases Quantifiers2
+//:: tools silicon
+//:: verdict Pass
+&#10;class Test {
+//@ requires arr != null;
+//@ requires Perm(arr[*], 1\2);
+-->
+<!-- codeSnip Quantifiers2 -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyBRdWFudGlmaWVyczIKLy86OiB0b29scyBzaWxpY29uCi8vOjogdmVyZGljdCBQYXNzCgpjbGFzcyBUZXN0IHsKLy9AIHJlcXVpcmVzIGFyciAhPSBudWxsOwovL0AgcmVxdWlyZXMgUGVybShhcnJbKl0sIDFcMik7Ci8vQCByZXF1aXJlcyBhcnIgIT0gbnVsbDsKLy9AIHJlcXVpcmVzIChcZXhpc3RzIGludCBpIDsgMDw9aSAmJiBpPGFyci5sZW5ndGggOyBhcnJbaV0+MCk7CnZvaWQgZm9vKGludFtdIGFycikgeyAvKiAuLi4gKi8gfQp9Cg==" data-template-kind="" data-case-name="" data-case-verdict="Pass" data-language-ext="java" data-language-label="java">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-java no_run editable code_snippet">//@ requires arr != null;
+//@ requires (\exists int i ; 0&lt;=i &amp;&amp; i&lt;arr.length ; arr[i]&gt;0);
+void foo(int[] arr) { /* ... */ }</code></pre>
+<div class="verification-language">Language for VerCors: <strong>java</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<!-- standaloneSnip Quantifiers2
+}
+-->
+<p>Again, note that in practice, you would also have to specify permissions to access the values in the array.</p>
+<blockquote class="blockquote-tag blockquote-tag-note">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+<blockquote>
+<p><code>\forall</code> quantifiers are easier to reason about than <code>\exists</code>, because they can be applied indiscriminately whenever an element is encountered, while <code>\exists</code> needs to find the element to which it can be applied. Therefore, <code>\exists</code> quantifiers are more likely to cause problems with VerCors (e.g. non-termination of the analysis), and they should be <strong>used with care</strong>!</p>
+</blockquote>
+</blockquote>
+<!-- markdownlint-disable-next-line MD028 -->
+<blockquote class="blockquote-tag blockquote-tag-note">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+<blockquote>
+<p>Further sections explain advanced concepts: new users may want to skip those._</p>
+</blockquote>
+</blockquote>
+<h3 id="alternative-quantifier-syntax"><a class="header" href="#alternative-quantifier-syntax">Alternative quantifier syntax</a></h3>
+<p>In case brevity is needed for readability, you can use the appropriate unicode symbols instead of <code>\forall</code> and <code>\exists</code>:</p>
+<ul>
+<li><code>(∀varDecl+; (cond ;)? expr)</code></li>
+<li><code>(∃varDecl+; (cond ;)? expr)</code></li>
+</ul>
+<p>For <code>\forall*</code> the following alternative notations are available:</p>
+<ul>
+<li><code>(∀*varDecl+; (cond ;)? expr)</code></li>
+<li><code>(✻varDecl+; (cond;)? expr)</code></li>
+</ul>
+<p>The IntelliJ plugin <a href="https://plugins.jetbrains.com/plugin/14267-spec--math-symbols">Spec &amp; Math Symbols</a> may be useful to type these symbols.</p>
+<h3 id="triggers"><a class="header" href="#triggers">Triggers</a></h3>
+<p>A quantifier <code>(\forall int i = 0 .. arr.length ; arr[i]&gt;0)</code> is a rather generic piece of knowledge; to apply it to a concrete case, for example when encountering <code>arr[1]</code>, the quantifier must be <em>instantiated</em>. This basically replaces the quantified variable(s), in this case <code>i</code>, with concrete values. But this is only done when necessary, so when the concrete case <code>arr[1]</code> is actually encountered. Recognising that the quantifier must be instantiated was fairly easy in this case, but for more complex expression it can become rather difficult. In those cases, VerCors might use heuristics, and even randomisation. This can lead to VerCors verifying a program successfully, and when you call it again with the exact same program, the analysis takes forever. So if you experience such behaviour, quantified expressions are a likely cause.</p>
+<p>To avoid that, you can explicitly tell VerCors what kind of expression should cause instantiating the quantifier, disabling the internal heuristics. This is called a <em>trigger</em> (or <em>pattern</em>, e.g. by Z3); for more information see the <a href="http://viper.ethz.ch/tutorial/quantifiers.html">Viper tutorial on triggers</a>. In VerCors, to mark a part of an expression as a trigger, it is enclosed in <code>{:</code> and <code>:}</code>:</p>
+<!-- standaloneSnip Triggers1
+//:: cases Triggers1
+//:: tools silicon
+//:: verdict Pass
+&#10;class Test {
+//@ requires arr != null;
+//@ requires Perm(arr[*], 1\2);
+-->
+<!-- codeSnip Triggers1 -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyBUcmlnZ2VyczEKLy86OiB0b29scyBzaWxpY29uCi8vOjogdmVyZGljdCBQYXNzCgpjbGFzcyBUZXN0IHsKLy9AIHJlcXVpcmVzIGFyciAhPSBudWxsOwovL0AgcmVxdWlyZXMgUGVybShhcnJbKl0sIDFcMik7Ci8vQCByZXF1aXJlcyBhcnIhPW51bGwgJiYgYXJyLmxlbmd0aD4zOwovL0AgcmVxdWlyZXMgKFxmb3JhbGwgaW50IGkgOyAwPD1pICYmIGk8YXJyLmxlbmd0aCA7IHs6IGFycltpXSA6fSA+IDApOwp2b2lkIGZvbyhpbnRbXSBhcnIpIHsKICBhc3NlcnQgYXJyWzNdPjA7ICAgLy8gdGhlIHRyaWdnZXIgcmVjb2duaXNlcyAiYXJyWzNdIiBhbmQgaW5zdGFudGlhdGVzIHRoZSBxdWFudGlmaWVyLCBzZXR0aW5nIGkgdG8gMwp9Cn0K" data-template-kind="" data-case-name="" data-case-verdict="Pass" data-language-ext="java" data-language-label="java">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-java no_run editable code_snippet">//@ requires arr!=null &amp;&amp; arr.length&gt;3;
+//@ requires (\forall int i ; 0&lt;=i &amp;&amp; i&lt;arr.length ; {: arr[i] :} &gt; 0);
+void foo(int[] arr) {
+  assert arr[3]&gt;0;   // the trigger recognises "arr[3]" and instantiates the quantifier, setting i to 3
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>java</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<!-- standaloneSnip Triggers1
+}
+-->
+<p>(Again, <a href="Permissions.html">Permissions</a> were omitted.)</p>
+<blockquote class="blockquote-tag blockquote-tag-important">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 1.75C0 .784.784 0 1.75 0h12.5C15.216 0 16 .784 16 1.75v9.5A1.75 1.75 0 0 1 14.25 13H8.06l-2.573 2.573A1.458 1.458 0 0 1 3 14.543V13H1.75A1.75 1.75 0 0 1 0 11.25Zm1.75-.25a.25.25 0 0 0-.25.25v9.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h6.5a.25.25 0 0 0 .25-.25v-9.5a.25.25 0 0 0-.25-.25Zm7 2.25v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 9a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg>Important</p>
+<p>The trigger must involve all quantified variables. So if you have a quantifier with multiple bindings <code>(\forall int i, int j; ... ; expr)</code>, a trigger in <code>expr</code> must be about both <code>i</code> and <code>j</code>.</p>
+</blockquote>
+<!-- markdownlint-disable-next-line MD028 -->
+<blockquote class="blockquote-tag blockquote-tag-warning">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M6.457 1.047c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0 1 14.082 15H1.918a1.75 1.75 0 0 1-1.543-2.575Zm1.763.707a.25.25 0 0 0-.44 0L1.698 13.132a.25.25 0 0 0 .22.368h12.164a.25.25 0 0 0 .22-.368Zm.53 3.996v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 11a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg>Warning</p>
+<p>You cannot use arithmetic expressions or relations as triggers. Most other operators e.g. about sequences and sets may appear in triggers. For instance in the example above, <code>{: arr[i]&gt;0 :}</code> would <strong>not</strong> be a valid trigger.</p>
+</blockquote>
+<!-- markdownlint-disable-next-line MD028 -->
+<blockquote class="blockquote-tag blockquote-tag-warning">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M6.457 1.047c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0 1 14.082 15H1.918a1.75 1.75 0 0 1-1.543-2.575Zm1.763.707a.25.25 0 0 0-.44 0L1.698 13.132a.25.25 0 0 0 .22.368h12.164a.25.25 0 0 0 .22-.368Zm.53 3.996v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 11a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg>Warning</p>
+<p>A wrong choice of triggers can lead to failed verifications of true statements:</p>
+</blockquote>
+<!-- testMethod Fail -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLXF1YW50aWZpZXJzLXRyaWdnZXJzLTEKLy86OiB2ZXJkaWN0IEZhaWwKLy86OiB0b29scyBzaWxpY29uCmZpbmFsIGNsYXNzIFRlc3QgewogICAgLypAIHB1cmUgQCovIGludCBmKGludCBhLCBpbnQgYik7CiAgICAgICAgCiAgICAvL0AgcmVxdWlyZXMgeD4wOwogICAgLy9AIHJlcXVpcmVzIChcZm9yYWxsIGludCBrIDsgMDw9ayAmJiBrPD14IDsgezogZihrLCB5KSA6fSA9PSAwKTsKICAgIC8vQCByZXF1aXJlcyAoXGZvcmFsbCBpbnQgayA7IDA8PWsgJiYgazw9eCA7IHs6IGYoaywgeSkgOn0gPT0gMCA9PT4gZihrLCB6KSA9PSAwKTsKICAgIHZvaWQgYmFyKGludCB4LCBpbnQgeSwgaW50IHopIHsKICAgICAgICAvL0AgYXNzZXJ0IGYoeCwgeSkgPT0gMDsgICAgIC8vIHRoaXMgYXNzZXJ0aW9uIHZlcmlmaWVzLCBiZWNhdXNlICJmKHgseSkiIHRyaWdnZXJzIHRoZSBmaXJzdCBxdWFudGlmaWVyCiAgICAgICAgLy9AIGFzc2VydCBmKHgvMiwgeikgPT0gMDsgICAvLyB0aGlzIGFzc2VydGlvbiBmYWlscywgZXZlbiB0aG91Z2ggdGhlIHF1YW50aWZpZXJzIGluY2x1ZGVzIHRoaXMga25vd2xlZGdlCiAgICB9Cn0=" data-template-kind="testMethod" data-case-name="wiki-quantifiers-triggers-1" data-case-verdict="Fail" data-language-ext="java" data-language-label="java">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-java no_run editable">/*@ pure @*/ int f(int a, int b);
+    
+//@ requires x&gt;0;
+//@ requires (\forall int k ; 0&lt;=k &amp;&amp; k&lt;=x ; {: f(k, y) :} == 0);
+//@ requires (\forall int k ; 0&lt;=k &amp;&amp; k&lt;=x ; {: f(k, y) :} == 0 ==&gt; f(k, z) == 0);
+void bar(int x, int y, int z) {
+    //@ assert f(x, y) == 0;     // this assertion verifies, because "f(x,y)" triggers the first quantifier
+    //@ assert f(x/2, z) == 0;   // this assertion fails, even though the quantifiers includes this knowledge
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>java</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>In this example, the first quantifier asserts that <code>f(x/2, y) == 0</code>. From that, the second quantifier could derive <code>f(x/2, z) == 0</code>, so the second assertion should hold. However, the second quantifier has no trigger for <code>f(k,z)</code>, so the quantifier does not get instantiated and the knowledge remains hidden. Removing the trigger around <code>f(k,y)</code> in the second quantifier leads to a successful verification, because without explicit triggers, VerCors’ heuristics finds the correct trigger <code>f(k,z)</code> automatically.</p>
+<h4 id="advanced-trigger-syntax"><a class="header" href="#advanced-trigger-syntax">Advanced trigger syntax</a></h4>
+<p>It is possible to specify multiple triggers for a single quantifier. In this case, the solver requires all triggers to be present before instantiating the quantifier. This also relaxes the requirement that all bindings must occur in a trigger: instead they must collectively occur in the set of all triggers. For example, a quantifier might state a pairwise equality:</p>
+<pre><code class="language-pvl editable read-only">(forall int i, int j; 0 &lt;= i &amp;&amp; i &lt; |xs| &amp;&amp;
+  0 &lt;= j &amp;&amp; j &lt; |ys|;
+  {:xs[i]:} + {:ys[j]:} == i + j)
+</code></pre>
+<p>This quantifier is only instantiated when both a term of the shape <code>xs[?]</code> and a term of the shape <code>ys[?]</code> is encountered by the solver. <code>{xs[i], ys[i]}</code> is also referred to as a trigger set.</p>
+<p>In some cases it is useful to specify multiple trigger sets. In that case, <em>all</em> terms must be matched of <em>any</em> of the trigger sets. By default, a trigger is part of trigger set <code>0</code>. For example:</p>
+<pre><code class="language-pvl editable read-only">(∀`seq`&lt;T&gt; xs, int i, T t;
+    0 &lt;= i &amp;&amp; i &lt; seq_length(xs) ==&gt; 
+    {:1:seq_length({:2:seq_update(xs, i, t):}):} ==
+    {:2:seq_length(xs):})
+</code></pre>
+<p>This quantifier is instantiated when a term of the shape <code>seq_length(seq_update(xs, i, t))</code> is encountered, <em>or</em> both a term of the shape <code>seq_update(xs, i, t)</code> <em>and</em> <code>seq_length(xs)</code>. In such a case, it is required that the <code>xs</code> appearing in both patterns are equal before the quantifier is instantiated.</p>
+<p>Finally, nested quantifiers are essentially instantiated separately: in principle the inner quantifier is never instantiated, unless the outer quantifier is instantiated. When specifying a trigger that is not meant for the innermost quantifier, you can use some number of <code>&lt;</code> symbols to indicate the trigger belongs to the quantifier that many levels up. For example:</p>
+<pre><code class="language-pvl editable read-only">(∀int i; (∀int j; {:&lt;:xs[i]:} == {:xs[j]:}))
+</code></pre>
+<h4 id="other-trigger-sources"><a class="header" href="#other-trigger-sources">Other trigger sources</a></h4>
+<p>We recommend the following sources for more examples and explanations of how triggers work.</p>
+<ul>
+<li>The paper “Trigger Selection Strategies to Stabilize Program Verifiers” gives an accessible and thorough introduction of triggers. They also describes problems of triggers, and automated solutions. These automated solutions can also be applied manually to PVL programs.
+<ul>
+<li><a href="https://pit-claudel.fr/clement/papers/dafny-trigger-selection-CAV16.pdf">pdf</a>, <a href="http://doi.org/10.1007/978-3-319-41528-4_20">doi</a></li>
+</ul>
+</li>
+<li><a href="https://github.com/dafny-lang/dafny/wiki/FAQ#how-does-dafny-handle-quantifiers-ive-heard-about-triggers-what-are-those">Dafny FAQ: How does Dafny handle quantifiers? I’ve heard about “triggers”, what are those?</a></li>
+<li><a href="http://viper.ethz.ch/tutorial/quantifiers.html">Viper tutorial on triggers</a></li>
+<li><a href="https://stackoverflow.com/questions/50668693/what-are-triggers-in-dafny-boogie">Stack Overflow: quantifiers - What are triggers in Dafny/Boogie?</a></li>
+<li><a href="http://purl.utwente.nl/essays/80892">Extending Support for Axiomatic Data Types in VerCors, Section 2.3</a>. Masters thesis by Ömer Şakar. Includes a visual explanation of the workings of triggers using Axiom Profiler, a quantifier instantiation debugging tool.</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="Specification-Syntax-Auxiliary-Annotations-&amp;-Ghost-Code.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="Permissions.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="Specification-Syntax-Auxiliary-Annotations-&amp;-Ghost-Code.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="Permissions.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-xmark><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M310.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L160 210.7 54.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L114.7 256 9.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 301.3 265.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L205.3 256 310.6 150.6z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+        <template id=fa-pencil><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M421.7 220.3l-11.3 11.3-22.6 22.6-205 205c-6.6 6.6-14.8 11.5-23.8 14.1L30.8 511c-8.4 2.5-17.5 .2-23.7-6.1S-1.5 489.7 1 481.2L38.7 353.1c2.6-9 7.5-17.2 14.1-23.8l205-205 22.6-22.6 11.3-11.3 33.9 33.9 62.1 62.1 33.9 33.9zM96 353.9l-9.3 9.3c-.9 .9-1.6 2.1-2 3.4l-25.3 86 86-25.3c1.3-.4 2.5-1.1 3.4-2l9.3-9.3H112c-8.8 0-16-7.2-16-16V353.9zM453.3 19.3l39.4 39.4c25 25 25 65.5 0 90.5l-14.5 14.5-22.6 22.6-11.3 11.3-33.9-33.9-62.1-62.1L314.3 67.7l11.3-11.3 22.6-22.6 14.5-14.5c25-25 65.5-25 90.5 0z"/></svg></span></template>
+
+
+        <script>
+            window.playground_line_numbers = true;
+        </script>
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="ace-2a3cd908.js"></script>
+        <script src="mode-rust-2c9d5c9a.js"></script>
+        <script src="../js/mode-annotated_c.js"></script>
+        <script src="../js/mode-annotated_cuda.js"></script>
+        <script src="../js/mode-annotated_java.js"></script>
+        <script src="../js/mode-annotated_opencl.js"></script>
+        <script src="../js/mode-annotated_sycl.js"></script>
+        <script src="../js/mode-pvl.js"></script>
+        <script src="../js/mode-viper.js"></script>
+
+        <script src="editor-16ca416c.js"></script>
+        <script src="theme-dawn-4493f9c8.js"></script>
+        <script src="theme-tomorrow_night-9dbe62a9.js"></script>
+        <script src="../js/theme-chrome.js"></script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-09f2665d.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-a6f5d318.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    
+<div id="footer" class="dark">
+    <footer class="container">
+        <a href="//www.utwente.nl/en/eemcs/fmt/" target="_blank"><img src="/images/FMT logo.png" alt="Formal Methods & Tools logo" title="Formal Methods & Tools"></a>
+        <hr>
+        <div class="copyright">
+            <a href="/about/#credits" target="_blank">Copyright <code id="copyright">&copy</code> The VerCors Project 2007-2026</a>
+            | <a href="//www.utwente.nl/en/eemcs/fmt/" target="_blank">FMT - University of Twente</a>
+            | <a href="/about/">About Us</a>
+        </div>
+    </footer>
+</div>
+</body>
+</html>

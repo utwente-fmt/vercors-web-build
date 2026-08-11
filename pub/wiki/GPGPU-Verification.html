@@ -1,0 +1,703 @@
+<!DOCTYPE HTML>
+<html lang="en" class="vercors sidebar-visible" dir="ltr">
+    <head>
+<meta name="description" content="VerCors Tutorial and documentation">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#d12010">
+
+<link rel="icon" href="/images/icon.svg">
+
+<link rel="stylesheet" href="/css/global.css">
+<link rel="stylesheet" href="/css/colors.css">
+<link rel="stylesheet" href="/css/shared.css">
+<link rel="stylesheet" href="/css/responsive.css">
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/highlight.pack.js"></script>
+<script src="/js/ace.js"></script>
+<script src="/js/datatables.min.js"></script>
+<script src="/js/vercorsonline.js"></script>
+<script src="/js/init.js"></script>
+
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>GPGPU Verification - VerCors Tutorial</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-88aeadc2.css">
+        <link rel="stylesheet" href="css/general-5067d8cd.css">
+        <link rel="stylesheet" href="css/chrome-7683498c.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "vercors";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-9b93a44c.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-0460c59c.js"></script>
+    </head>
+    <body>
+<div id="header" class="top-header ">
+
+            <nav class="top-nav">
+                <div class="container">
+                    <div id="logo">
+                        <span id="hamburger" onclick="document.querySelector('nav.top-nav').classList.toggle('open')"><span class="fa fa-bars"></span></span><!--
+                        --><a href="/"><img id="logo-light" src="/images/logo.svg" title="The VerCors Verifier" alt="Logo of the VerCors Verifier"><img id="logo-dark" src="/images/logo-white.svg" title="The VerCors Verifier" alt="Logo of the VerCors Verifier"></a>
+                    </div>
+                    <ul>
+                        <li>
+                            <a href="/wiki">Getting Started</a>
+                            <ul>
+                                <li><a href="/wiki/Installing-and-Running-VerCors.html">Installation Guide</a></li>
+                                <li><a href="/wiki/Tutorial.html">Tutorial</a></li>
+                                <li>
+                                    <a href="//github.com/utwente-fmt/vercors/issues" target="_blank">
+                                        Issue Tracker
+                                        <span class="fa fa-external-link" style="font-size: 10pt"></span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="/">Tools</a>
+                            <ul>
+                                <li><a href="/">Verifier</a></li>
+                                <li><a href="/alpinist/">Alpinist</a></li>
+                                <li><a href="/vesuv/">VeSUV</a></li>
+                                <li><a href="/veymont/">VeyMont</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="/publications/">Publications</a></li>
+                        <li>
+                            <a href="/about/">About</a>
+                            <ul>
+                                <li><a href="/about/#team">VerCors Team</a></li>
+                                <li><a href="/news/">News</a></li>
+                                <li><a href="/about/#contact">Contact</a></li>
+                                <li><a href="/about/#credits">Credits</a></li>
+                                <li><a href="/license/">License</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+</div>
+
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('vercors')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-vercors">VerCors</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">VerCors Tutorial </h1>
+
+                    <div class="right-buttons">
+                        <a href="/try_online/" class="online-button">Try VerCors Online</a>
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <p>This section explains how to verify GPGPU programs in VerCors. The tool supports both OpenCL and CUDA languages. The synchronization feature (i.e., barrier) in these languages is also supported by VerCors. To demonstrate GPGPU verification, we show two examples in both OpenCl and CUDA, one without barrier and the other one with barrier.</p>
+<h2 id="openclcuda-without-barrier"><a class="header" href="#openclcuda-without-barrier">OpenCL/CUDA without Barrier</a></h2>
+<p>This simple method shows an OpenCL program that adds two arrays and stores the result in another array:</p>
+<!-- test PassOnLatest -->
+<blockquote class="blockquote-tag blockquote-tag-warning">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M6.457 1.047c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0 1 14.082 15H1.918a1.75 1.75 0 0 1-1.543-2.575Zm1.763.707a.25.25 0 0 0-.44 0L1.698 13.132a.25.25 0 0 0 .22.368h12.164a.25.25 0 0 0 .22-.368Zm.53 3.996v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 11a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg>Warning</p>
+<blockquote>
+<p>The following example verifies only on the latest <a href="https://github.com/utwente-fmt/vercors/tree/dev">VerCors development version</a>, not on the version currently used by the online verifier.</p>
+</blockquote>
+</blockquote>
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLW9wZW5jbGN1ZGEtd2l0aG91dC1iYXJyaWVyLTEKLy86OiB2ZXJkaWN0IFBhc3NPbkxhdGVzdAovLzo6IHRvb2xzIHNpbGljb24KI2luY2x1ZGUgPG9wZW5jbC5oPgovKkAKIGNvbnRleHQgZ2V0X3dvcmtfZGltKCkgPT0gMTsKIGNvbnRleHQgZ2V0X2xvY2FsX3NpemUoMCkgPT0gMzIgJiYgZ2V0X251bV9ncm91cHMoMCkgPiAwOwogY29udGV4dCBhICE9IE5VTEwgJiYgXHBvaW50ZXJfbGVuZ3RoKGEpPiBnZXRfZ2xvYmFsX3NpemUoMCk7CiBjb250ZXh0IGIgIT0gTlVMTCAmJiBccG9pbnRlcl9sZW5ndGgoYik+IGdldF9nbG9iYWxfc2l6ZSgwKTsKIGNvbnRleHQgYyAhPSBOVUxMICYmIFxwb2ludGVyX2xlbmd0aChjKT4gZ2V0X2dsb2JhbF9zaXplKDApOwoKIGNvbnRleHQgUGVybSh7OmFbXGd0aWRdOn0sIHJlYWQpOwogY29udGV4dCBQZXJtKHs6YltcZ3RpZF06fSwgcmVhZCk7CiBjb250ZXh0IFBlcm0oezpjW1xndGlkXTp9LCB3cml0ZSk7CiBlbnN1cmVzIHs6Y1tcZ3RpZF06fSA9PSBhW1xndGlkXSArIGJbXGd0aWRdOyBAKi8KX19rZXJuZWwgdm9pZCBvcGVuQ0xBZGQoZ2xvYmFsIGludCBhW10sIGdsb2JhbCBpbnQgYltdLCBnbG9iYWwgaW50IGNbXSkgewogICBpbnQgdGlkID0gZ2V0X2dsb2JhbF9pZCgwKTsKICAgY1t0aWRdID0gYVt0aWRdICsgYlt0aWRdOwp9ICA=" data-template-kind="test" data-case-name="wiki-openclcuda-without-barrier-1" data-case-verdict="PassOnLatest" data-language-ext="cl" data-language-label="opencl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-cl no_run editable">#include &lt;opencl.h&gt;
+/*@
+ context get_work_dim() == 1;
+ context get_local_size(0) == 32 &amp;&amp; get_num_groups(0) &gt; 0;
+ context a != NULL &amp;&amp; \pointer_length(a)&gt; get_global_size(0);
+ context b != NULL &amp;&amp; \pointer_length(b)&gt; get_global_size(0);
+ context c != NULL &amp;&amp; \pointer_length(c)&gt; get_global_size(0);
+
+ context Perm({:a[\gtid]:}, read);
+ context Perm({:b[\gtid]:}, read);
+ context Perm({:c[\gtid]:}, write);
+ ensures {:c[\gtid]:} == a[\gtid] + b[\gtid]; @*/
+__kernel void openCLAdd(global int a[], global int b[], global int c[]) {
+   int tid = get_global_id(0);
+   c[tid] = a[tid] + b[tid];
+}  </code></pre>
+<div class="verification-language">Language for VerCors: <strong>opencl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>and this method shows the same example in CUDA:</p>
+<!-- test PassOnLatest -->
+<blockquote class="blockquote-tag blockquote-tag-warning">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M6.457 1.047c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0 1 14.082 15H1.918a1.75 1.75 0 0 1-1.543-2.575Zm1.763.707a.25.25 0 0 0-.44 0L1.698 13.132a.25.25 0 0 0 .22.368h12.164a.25.25 0 0 0 .22-.368Zm.53 3.996v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 11a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg>Warning</p>
+<blockquote>
+<p>The following example verifies only on the latest <a href="https://github.com/utwente-fmt/vercors/tree/dev">VerCors development version</a>, not on the version currently used by the online verifier.</p>
+</blockquote>
+</blockquote>
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLW9wZW5jbGN1ZGEtd2l0aG91dC1iYXJyaWVyLTIKLy86OiB2ZXJkaWN0IFBhc3NPbkxhdGVzdAovLzo6IHRvb2xzIHNpbGljb24KI2luY2x1ZGUgPGN1ZGEuaD4KLypACiBjb250ZXh0IGJsb2NrRGltLnggPT0gMzIgJiYgZ3JpZERpbS54ID4gMDsKIGNvbnRleHQgYmxvY2tEaW0ueSA9PSAxICYmIGJsb2NrRGltLnogPT0gMTsKIGNvbnRleHQgZ3JpZERpbS55ID09IDEgJiYgZ3JpZERpbS56ID09IDE7CiAKIGNvbnRleHQgYSAhPSBOVUxMICYmIFxwb2ludGVyX2xlbmd0aChhKT4gYmxvY2tEaW0ueCpncmlkRGltLng7CiBjb250ZXh0IGIgIT0gTlVMTCAmJiBccG9pbnRlcl9sZW5ndGgoYik+IGJsb2NrRGltLngqZ3JpZERpbS54OwogY29udGV4dCBjICE9IE5VTEwgJiYgXHBvaW50ZXJfbGVuZ3RoKGMpPiBibG9ja0RpbS54KmdyaWREaW0ueDsKCiBjb250ZXh0IFBlcm0oezphW1xndGlkXTp9LCByZWFkKTsKIGNvbnRleHQgUGVybSh7OmJbXGd0aWRdOn0sIHJlYWQpOwogY29udGV4dCBQZXJtKHs6Y1tcZ3RpZF06fSwgd3JpdGUpOwogZW5zdXJlcyB7OmNbXGd0aWRdOn0gPT0gYVtcZ3RpZF0gKyBiW1xndGlkXTsKQCovCl9fZ2xvYmFsX18gdm9pZCBDVURBQWRkKGludCBhW10sIGludCBiW10sIGludCBjW10pIHsKICAgaW50IHRpZCA9IGJsb2NrSWR4LnggKiBibG9ja0RpbS54ICsgdGhyZWFkSWR4Lng7CiAgIGNbdGlkXSA9IGFbdGlkXSArIGJbdGlkXTsKfQ==" data-template-kind="test" data-case-name="wiki-openclcuda-without-barrier-2" data-case-verdict="PassOnLatest" data-language-ext="cu" data-language-label="cuda">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-cu no_run editable">#include &lt;cuda.h&gt;
+/*@
+ context blockDim.x == 32 &amp;&amp; gridDim.x &gt; 0;
+ context blockDim.y == 1 &amp;&amp; blockDim.z == 1;
+ context gridDim.y == 1 &amp;&amp; gridDim.z == 1;
+ 
+ context a != NULL &amp;&amp; \pointer_length(a)&gt; blockDim.x*gridDim.x;
+ context b != NULL &amp;&amp; \pointer_length(b)&gt; blockDim.x*gridDim.x;
+ context c != NULL &amp;&amp; \pointer_length(c)&gt; blockDim.x*gridDim.x;
+
+ context Perm({:a[\gtid]:}, read);
+ context Perm({:b[\gtid]:}, read);
+ context Perm({:c[\gtid]:}, write);
+ ensures {:c[\gtid]:} == a[\gtid] + b[\gtid];
+@*/
+__global__ void CUDAAdd(int a[], int b[], int c[]) {
+   int tid = blockIdx.x * blockDim.x + threadIdx.x;
+   c[tid] = a[tid] + b[tid];
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>cuda</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>In both examples, first we should include the header files (i.g., <code>opencl.h</code> and <code>cuda.h</code>). Next we obtain thread identifiers and then each thread does the computation (lines 16-17 of the OpenCL and 19-20 of the CUDA example). As we can see obtaining the global thread identifiers are different in OpenCL and CUDA.</p>
+<p>In the specification of the methods, we specify read permission for each thread in arrays <code>a</code> and <code>b</code> and write permission in array <code>c</code> as pre- and postcondition. Finally in the last postcondition we specify the result of the methods that each location in array <code>c</code> contains the sum of the values in the corresponding locations in arrays <code>a</code> and <code>b</code>. Note that in the specification we can use the shorthand keyword <code>\gtid</code> instead of <code>get_global_id(0)</code> and <code>blockIdx.x * blockDim.x + threadIdx.x</code> in the tool.</p>
+<blockquote class="blockquote-tag blockquote-tag-caution">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M4.47.22A.749.749 0 0 1 5 0h6c.199 0 .389.079.53.22l4.25 4.25c.141.14.22.331.22.53v6a.749.749 0 0 1-.22.53l-4.25 4.25A.749.749 0 0 1 11 16H5a.749.749 0 0 1-.53-.22L.22 11.53A.749.749 0 0 1 0 11V5c0-.199.079-.389.22-.53Zm.84 1.28L1.5 5.31v5.38l3.81 3.81h5.38l3.81-3.81V5.31L10.69 1.5ZM8 4a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 8 4Zm0 8a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Caution</p>
+<p>We have set the kernels to be one dimensional: line 5-6 of the OpenCL and 2-6 of the CUDA example. If the kernels would be multi-dimensional, there would be a write-write race condition on <code>c[tid]</code> which is not allowed. Be aware that you always set the correct dimensionality in the contract of a kernel to avoid unwanted results.</p>
+</blockquote>
+<!-- markdownlint-disable-next-line MD028 -->
+<blockquote class="blockquote-tag blockquote-tag-note">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+<p>Normally <code>\gtid</code> resolves to the global thread id of all dimensions. I.e. that would be: <code>get_global_id(0)+get_global_id(1)*get_global_size(0)+get_global_id(2)*get_global_id(0)*get_global_id(1)</code> for OpenCL and similarly for CUDA, but since we only have one dimension it is simpler.</p>
+</blockquote>
+<!-- markdownlint-disable-next-line MD028 -->
+<blockquote class="blockquote-tag blockquote-tag-important">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 1.75C0 .784.784 0 1.75 0h12.5C15.216 0 16 .784 16 1.75v9.5A1.75 1.75 0 0 1 14.25 13H8.06l-2.573 2.573A1.458 1.458 0 0 1 3 14.543V13H1.75A1.75 1.75 0 0 1 0 11.25Zm1.75-.25a.25.25 0 0 0-.25.25v9.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h6.5a.25.25 0 0 0 .25-.25v-9.5a.25.25 0 0 0-.25-.25Zm7 2.25v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 9a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg>Important</p>
+<p>Annotations with thread and block identifiers (such as <code>get_global_id(0)</code>, <code>blockDim.x</code>, <code>threadIdx.x</code>) should have <em>triggers</em> specified (See the section about <a href="Specification-Syntax-Expressions-&amp;-Quantifiers-in-Annotations.html#quantifiers">quantifiers</a>). This is because the contract is implicitly quantified over the number of <em>threads</em> and number of <em>thread blocks</em>. Thus, a line like <code>context Perm({:a[\gtid]:}, read);</code> actually gets translated towards the following for the one dimensional case:</p>
+</blockquote>
+<pre><code class="language-opencl editable read-only">/*@ context (∀ int bid, int tid; 
+     0 &lt;= bid &amp;&amp; bid &lt; get_num_groups(0) &amp;&amp;
+     0 &lt;= tid &amp;&amp; tid &lt; get_local_size(0);
+      Perm({:a[tid+bid*get_local_size(0)]:}, read));*/
+</code></pre>
+<blockquote class="blockquote-tag blockquote-tag-important">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 1.75C0 .784.784 0 1.75 0h12.5C15.216 0 16 .784 16 1.75v9.5A1.75 1.75 0 0 1 14.25 13H8.06l-2.573 2.573A1.458 1.458 0 0 1 3 14.543V13H1.75A1.75 1.75 0 0 1 0 11.25Zm1.75-.25a.25.25 0 0 0-.25.25v9.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h6.5a.25.25 0 0 0 .25-.25v-9.5a.25.25 0 0 0-.25-.25Zm7 2.25v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 9a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg>Important</p>
+<p>This is true for the contract of a kernel, but also the contract of a barrier, as we will see in the next section.</p>
+</blockquote>
+<h2 id="openclcuda-with-barrier"><a class="header" href="#openclcuda-with-barrier">OpenCL/CUDA with Barrier</a></h2>
+<p>In GPU programming, when there is only one thread block, there is a mechanism to synchronize threads. This example shows an OpenCL program that uses barrier to synchronize threads:</p>
+<!-- test PassOnLatest -->
+<blockquote class="blockquote-tag blockquote-tag-warning">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M6.457 1.047c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0 1 14.082 15H1.918a1.75 1.75 0 0 1-1.543-2.575Zm1.763.707a.25.25 0 0 0-.44 0L1.698 13.132a.25.25 0 0 0 .22.368h12.164a.25.25 0 0 0 .22-.368Zm.53 3.996v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 11a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg>Warning</p>
+<blockquote>
+<p>The following example verifies only on the latest <a href="https://github.com/utwente-fmt/vercors/tree/dev">VerCors development version</a>, not on the version currently used by the online verifier.</p>
+</blockquote>
+</blockquote>
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLW9wZW5jbGN1ZGEtd2l0aC1iYXJyaWVyLTEKLy86OiB2ZXJkaWN0IFBhc3NPbkxhdGVzdAovLzo6IHRvb2xzIHNpbGljb24KI2luY2x1ZGUgPG9wZW5jbC5oPgogCi8qQAogIGNvbnRleHRfZXZlcnl3aGVyZSBnZXRfd29ya19kaW0oKSA9PSAxOwogIGNvbnRleHRfZXZlcnl3aGVyZSBnZXRfbG9jYWxfc2l6ZSgwKSA9PSBuICYmIGdldF9udW1fZ3JvdXBzKDApID09IDE7CiAgY29udGV4dF9ldmVyeXdoZXJlIGEgIT0gTlVMTCAmJiBccG9pbnRlcl9sZW5ndGgoYSkgPj0gbjsKCiAgcmVxdWlyZXMgUGVybSh7OmFbXGx0aWRdOn0sIDFcMik7CiAgcmVxdWlyZXMgXGx0aWQgIT0gbi0xID09PiBQZXJtKHs6YVtcbHRpZCsxXTp9LCAxXDIpOwogIHJlcXVpcmVzIFxsdGlkID09IG4tMSA9PT4gUGVybSh7OmFbMF06fSwgMVwyKTsKICBlbnN1cmVzIFBlcm0oezphW1xsdGlkXTp9LCB3cml0ZSk7CiAgZW5zdXJlcyBcbHRpZCAhPSBuLTEgPT0+IHs6YVtcbHRpZF06fSA9PSBcb2xkKGFbXGx0aWQrMV0pOwogIGVuc3VyZXMgXGx0aWQgPT0gbi0xID09PiB7OmFbXGx0aWRdOn0gPT0gXG9sZChhWzBdKTsgQCovCl9fa2VybmVsIHZvaWQgb3BlbkNMTGVmdFJvdGF0aW9uKGdsb2JhbCBpbnQgYVtdLCBpbnQgbikgewogIGludCB0aWQgPSBnZXRfbG9jYWxfaWQoMCk7CiAgaW50IHRlbXA7CiAgaWYodGlkICE9IG4tMSkgewogICAgdGVtcCA9IGFbdGlkKzFdOwogIH0gZWxzZSB7CiAgICB0ZW1wID0gYVswXTsKICB9CgogIC8qQAogICAgcmVxdWlyZXMgXGx0aWQgIT0gbi0xID09PiBQZXJtKHs6YVtcbHRpZCsxXTp9LCAxXDIpOwogICAgcmVxdWlyZXMgXGx0aWQgPT0gbi0xID09PiBQZXJtKHs6YVswXTp9LCAxXDIpOwogICAgZW5zdXJlcyBQZXJtKHs6YVtcbHRpZF06fSwgMVwyKTsgQCovCiAgYmFycmllcihDTEtfR0xPQkFMX01FTV9GRU5DRSk7CgogIGFbdGlkXSA9IHRlbXA7Cn0=" data-template-kind="test" data-case-name="wiki-openclcuda-with-barrier-1" data-case-verdict="PassOnLatest" data-language-ext="cl" data-language-label="opencl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-cl no_run editable">#include &lt;opencl.h&gt;
+ 
+/*@
+  context_everywhere get_work_dim() == 1;
+  context_everywhere get_local_size(0) == n &amp;&amp; get_num_groups(0) == 1;
+  context_everywhere a != NULL &amp;&amp; \pointer_length(a) &gt;= n;
+
+  requires Perm({:a[\ltid]:}, 1\2);
+  requires \ltid != n-1 ==&gt; Perm({:a[\ltid+1]:}, 1\2);
+  requires \ltid == n-1 ==&gt; Perm({:a[0]:}, 1\2);
+  ensures Perm({:a[\ltid]:}, write);
+  ensures \ltid != n-1 ==&gt; {:a[\ltid]:} == \old(a[\ltid+1]);
+  ensures \ltid == n-1 ==&gt; {:a[\ltid]:} == \old(a[0]); @*/
+__kernel void openCLLeftRotation(global int a[], int n) {
+  int tid = get_local_id(0);
+  int temp;
+  if(tid != n-1) {
+    temp = a[tid+1];
+  } else {
+    temp = a[0];
+  }
+
+  /*@
+    requires \ltid != n-1 ==&gt; Perm({:a[\ltid+1]:}, 1\2);
+    requires \ltid == n-1 ==&gt; Perm({:a[0]:}, 1\2);
+    ensures Perm({:a[\ltid]:}, 1\2); @*/
+  barrier(CLK_GLOBAL_MEM_FENCE);
+
+  a[tid] = temp;
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>opencl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>And this is the CUDA version of the example:</p>
+<!-- test PassOnLatest -->
+<blockquote class="blockquote-tag blockquote-tag-warning">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M6.457 1.047c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0 1 14.082 15H1.918a1.75 1.75 0 0 1-1.543-2.575Zm1.763.707a.25.25 0 0 0-.44 0L1.698 13.132a.25.25 0 0 0 .22.368h12.164a.25.25 0 0 0 .22-.368Zm.53 3.996v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 11a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg>Warning</p>
+<blockquote>
+<p>The following example verifies only on the latest <a href="https://github.com/utwente-fmt/vercors/tree/dev">VerCors development version</a>, not on the version currently used by the online verifier.</p>
+</blockquote>
+</blockquote>
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLW9wZW5jbGN1ZGEtd2l0aC1iYXJyaWVyLTIKLy86OiB2ZXJkaWN0IFBhc3NPbkxhdGVzdAovLzo6IHRvb2xzIHNpbGljb24KI2luY2x1ZGUgPGN1ZGEuaD4KCi8qQAogIGNvbnRleHQgYmxvY2tEaW0ueCA9PSBuICYmIGdyaWREaW0ueCA9PSAxOwogIGNvbnRleHQgYmxvY2tEaW0ueSA9PSAxICYmIGdyaWREaW0ueSA9PSAxOwogIGNvbnRleHQgYmxvY2tEaW0ueiA9PSAxICYmIGdyaWREaW0ueiA9PSAxOwogIGNvbnRleHRfZXZlcnl3aGVyZSBhICE9IE5VTEwgJiYgXHBvaW50ZXJfbGVuZ3RoKGEpID49IG47CgogIHJlcXVpcmVzIFBlcm0oezphW1xsdGlkXTp9LCAxXDIpOwogIHJlcXVpcmVzIFxsdGlkICE9IG4tMSA9PT4gUGVybSh7OmFbXGx0aWQrMV06fSwgMVwyKTsKICByZXF1aXJlcyBcbHRpZCA9PSBuLTEgPT0+IFBlcm0oezphWzBdOn0sIDFcMik7CiAgZW5zdXJlcyBQZXJtKHs6YVtcbHRpZF06fSwgd3JpdGUpOwogIGVuc3VyZXMgXGx0aWQgIT0gbi0xID09PiB7OmFbXGx0aWRdOn0gPT0gXG9sZChhW1xsdGlkKzFdKTsKICBlbnN1cmVzIFxsdGlkID09IG4tMSA9PT4gezphW1xsdGlkXTp9ID09IFxvbGQoYVswXSk7IEAqLwpfX2dsb2JhbF9fIHZvaWQgQ1VEQUxlZnRSb3RhdGlvbihpbnQgYVtdLCBpbnQgbikgewogIGludCB0aWQgPSB0aHJlYWRJZHgueDsKICBpbnQgdGVtcDsKICBpZih0aWQgIT0gbi0xKSB7CiAgICB0ZW1wID0gYVt0aWQrMV07CiAgfSBlbHNlIHsKICAgIHRlbXAgPSBhWzBdOwogIH0KCiAgLypACiAgICByZXF1aXJlcyBcbHRpZCAhPSBuLTEgPT0+IFBlcm0oezphW1xsdGlkKzFdOn0sIDFcMik7CiAgICByZXF1aXJlcyBcbHRpZCA9PSBuLTEgPT0+IFBlcm0oezphWzBdOn0sIDFcMik7CiAgICBlbnN1cmVzIFBlcm0oezphW1xsdGlkXTp9LCAxXDIpOyBAKi8KICBfX3N5bmN0aHJlYWRzKCk7CgogIGFbdGlkXSA9IHRlbXA7Cn0=" data-template-kind="test" data-case-name="wiki-openclcuda-with-barrier-2" data-case-verdict="PassOnLatest" data-language-ext="cu" data-language-label="cuda">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-cu no_run editable">#include &lt;cuda.h&gt;
+
+/*@
+  context blockDim.x == n &amp;&amp; gridDim.x == 1;
+  context blockDim.y == 1 &amp;&amp; gridDim.y == 1;
+  context blockDim.z == 1 &amp;&amp; gridDim.z == 1;
+  context_everywhere a != NULL &amp;&amp; \pointer_length(a) &gt;= n;
+
+  requires Perm({:a[\ltid]:}, 1\2);
+  requires \ltid != n-1 ==&gt; Perm({:a[\ltid+1]:}, 1\2);
+  requires \ltid == n-1 ==&gt; Perm({:a[0]:}, 1\2);
+  ensures Perm({:a[\ltid]:}, write);
+  ensures \ltid != n-1 ==&gt; {:a[\ltid]:} == \old(a[\ltid+1]);
+  ensures \ltid == n-1 ==&gt; {:a[\ltid]:} == \old(a[0]); @*/
+__global__ void CUDALeftRotation(int a[], int n) {
+  int tid = threadIdx.x;
+  int temp;
+  if(tid != n-1) {
+    temp = a[tid+1];
+  } else {
+    temp = a[0];
+  }
+
+  /*@
+    requires \ltid != n-1 ==&gt; Perm({:a[\ltid+1]:}, 1\2);
+    requires \ltid == n-1 ==&gt; Perm({:a[0]:}, 1\2);
+    ensures Perm({:a[\ltid]:}, 1\2); @*/
+  __syncthreads();
+
+  a[tid] = temp;
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>cuda</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>The above examples illustrate GPU programs that rotates the elements of an array to the left. Each thread (<code>tid</code>) stores its right neighbour in a temporary location (i.e., <code>temp</code>), except thread <code>_size_-1</code> which stores the first element in the array. Then each thread synchronizes in a barrier. After that, each thread writes the value read into its own location at index <code>tid</code> in the array (line 28).</p>
+<p>The precondition of the barrier follows from the precondition of the function and the computations before the barrier. If the precondition of the barrier holds, the postcondition can be assumed after the barrier. Then, the postcondition of the method can follow from the postcondition of the barrier. Note that in the specification we can use the shorthand keyword <code>\ltid</code> instead of <code>_get_local_id(0)_</code> and <code>_threadIdx.x_</code> in the tool.</p>
+<h2 id="shared-memory"><a class="header" href="#shared-memory">Shared memory</a></h2>
+<p>Both in OpenCL and CUDA we support shared memory (<code>__shared__</code> in CUDA and <code>local</code> in OpenCL). Static shared memory is declared with a compile-time known size (For example <code>__shared__ int s[32]</code> in CUDA and <code>local int s[32]</code> in OpenCL), thus the size does not need to be explicitly specified. For dynamic shared memory, you can use <code>\shared_mem_size(s)</code> to constraint this. See the following blur example where this is used.</p>
+<!-- test PassOnLatest -->
+<blockquote class="blockquote-tag blockquote-tag-warning">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M6.457 1.047c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0 1 14.082 15H1.918a1.75 1.75 0 0 1-1.543-2.575Zm1.763.707a.25.25 0 0 0-.44 0L1.698 13.132a.25.25 0 0 0 .22.368h12.164a.25.25 0 0 0 .22-.368Zm.53 3.996v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 11a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg>Warning</p>
+<blockquote>
+<p>The following example verifies only on the latest <a href="https://github.com/utwente-fmt/vercors/tree/dev">VerCors development version</a>, not on the version currently used by the online verifier.</p>
+</blockquote>
+</blockquote>
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLXNoYXJlZC1tZW1vcnktMQovLzo6IHZlcmRpY3QgUGFzc09uTGF0ZXN0Ci8vOjogdG9vbHMgc2lsaWNvbgojaW5jbHVkZSA8Y3VkYS5oPgoKLypACiAgY29udGV4dCBibG9ja0RpbS54ID09IDMyICYmIGJsb2NrRGltLnkgPT0gMSAmJiBibG9ja0RpbS56ID09IDE7CiAgY29udGV4dCBncmlkRGltLnggPiAwICYmIGdyaWREaW0ueSA9PSAxICYmIGdyaWREaW0ueiA9PSAxOwogIGNvbnRleHQgaW4gIT0gTlVMTCAmJiBvdXQgIT0gTlVMTDsKICBjb250ZXh0IFxwb2ludGVyX2xlbmd0aChpbikgPT0gbjsKICBjb250ZXh0IFxwb2ludGVyX2xlbmd0aChvdXQpID09IG4tMjsKICBjb250ZXh0IGJsb2NrRGltLnggKiBncmlkRGltLnggPj0gbjsKICBjb250ZXh0IChcZm9yYWxsKiBpbnQgaTsgMDw9aSAmJiBpPG47IFBlcm0oezppbltpXTp9LCB3cml0ZSBcIChibG9ja0RpbS54ICogZ3JpZERpbS54KSkpOwoKICBjb250ZXh0IFxndGlkPG4tMiA9PT4gUGVybSh7Om91dFtcZ3RpZF06fSwgd3JpdGUpOwoKICBjb250ZXh0IFxzaGFyZWRfbWVtX3NpemUocykgPT0gYmxvY2tEaW0ueCsyOwogIHJlcXVpcmVzIFBlcm0oezpzW1xsdGlkXTp9LCB3cml0ZSk7CiAgcmVxdWlyZXMgdGhyZWFkSWR4LnggPCAyID09PiBQZXJtKHs6c1tcbHRpZCArIGJsb2NrRGltLnhdOn0sIHdyaXRlKTsKCiAgZW5zdXJlcyBcZ3RpZDxuLTIgPT0+ezpvdXRbXGd0aWRdOn0gPT0gKGluW1xndGlkXSArIGluW1xndGlkKzFdICsgaW5bXGd0aWQrMl0pLzM7CiAgCkAqLwpfX2dsb2JhbF9fIHZvaWQgYmx1cl94KC8qQHVuaXF1ZTwxPiovIGludCogaW4sIC8qQHVuaXF1ZTwyPiovIGludCogb3V0LCBpbnQgbikgewogIGV4dGVybiBfX3NoYXJlZF9fIC8qQHVuaXF1ZTwzPiovIGludCBzW107CiAgaW50IHRpZCA9IGJsb2NrSWR4LnggKiBibG9ja0RpbS54ICsgdGhyZWFkSWR4Lng7CiAgaWYodGlkIDwgbikgewogICAgc1t0aHJlYWRJZHgueF0gPSBpblt0aWRdOwogIH0KICBpZih0aHJlYWRJZHgueCA8IDIgJiYgdGlkK2Jsb2NrRGltLnggPCBuKXsKICAgIHNbYmxvY2tEaW0ueCt0aHJlYWRJZHgueF0gPSBpblt0aWQrYmxvY2tEaW0ueF07CiAgfQoKICAvKkAKICAgIGNvbnRleHQgKFxmb3JhbGwqIGludCBpOyAwPD1pICYmIGk8bjsgUGVybSh7OmluW2ldOn0sIHdyaXRlIFwgKGJsb2NrRGltLnggKiBncmlkRGltLngpKSk7CiAgICBjb250ZXh0IGJsb2NrSWR4LnggKiBibG9ja0RpbS54ICsgdGhyZWFkSWR4Lng8bi0yID09PiBQZXJtKHs6b3V0W2Jsb2NrSWR4LnggKiBibG9ja0RpbS54ICsgdGhyZWFkSWR4LnhdOn0sIHdyaXRlKTsKCiAgICByZXF1aXJlcyBQZXJtKHs6c1t0aHJlYWRJZHgueF06fSwgd3JpdGUpOwogICAgcmVxdWlyZXMgdGhyZWFkSWR4LnggPCAyID09PiBQZXJtKHs6c1t0aHJlYWRJZHgueCArIGJsb2NrRGltLnhdOn0sIHdyaXRlKTsKCiAgICByZXF1aXJlcyBibG9ja0lkeC54ICogYmxvY2tEaW0ueCArIHRocmVhZElkeC54IDwgbgogICAgICA9PT4gezpzW3RocmVhZElkeC54XTp9ID09IGluW2Jsb2NrSWR4LnggKiBibG9ja0RpbS54ICsgdGhyZWFkSWR4LnhdOwogICAgcmVxdWlyZXMgdGhyZWFkSWR4LnggPCAyICYmIGJsb2NrSWR4LnggKiBibG9ja0RpbS54ICsgdGhyZWFkSWR4LngrYmxvY2tEaW0ueCA8IG4KICAgICAgPT0+IHs6c1t0aHJlYWRJZHgueCtibG9ja0RpbS54XTp9ID09IGluW2Jsb2NrSWR4LnggKiBibG9ja0RpbS54ICsgdGhyZWFkSWR4LngrYmxvY2tEaW0ueF07CgoKICAgIGVuc3VyZXMgKFxmb3JhbGwqIGludCBpOyAwIDw9IGkgJiYgaSA8IGJsb2NrRGltLngrMjsgUGVybSh7OnNbaV06fSwgd3JpdGUgXCAoYmxvY2tEaW0ueCsyKSkpOwoKICAgIGVuc3VyZXMKICAgICAgKFxmb3JhbGwgaW50IGk7IDAgPD0gaSAmJiBpIDwgYmxvY2tEaW0ueCsyICYmIGJsb2NrSWR4LngqYmxvY2tEaW0ueCArIGkgPG4KICAgICAgICA9PT4gezpzW2ldOn0gPT0gaW5bYmxvY2tJZHgueCAqIGJsb2NrRGltLngraV0pOwogIEAqLwogIF9fc3luY3RocmVhZHMoKTsKCiAgaWYodGlkIDwgbi0yKSB7CiAgICBvdXRbdGlkXSA9IChzW3RocmVhZElkeC54XSArIHNbdGhyZWFkSWR4LngrMV0gKyBzW3RocmVhZElkeC54KzJdKS8zOwogIH0KfQ==" data-template-kind="test" data-case-name="wiki-shared-memory-1" data-case-verdict="PassOnLatest" data-language-ext="cu" data-language-label="cuda">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-cu no_run editable">#include &lt;cuda.h&gt;
+
+/*@
+  context blockDim.x == 32 &amp;&amp; blockDim.y == 1 &amp;&amp; blockDim.z == 1;
+  context gridDim.x &gt; 0 &amp;&amp; gridDim.y == 1 &amp;&amp; gridDim.z == 1;
+  context in != NULL &amp;&amp; out != NULL;
+  context \pointer_length(in) == n;
+  context \pointer_length(out) == n-2;
+  context blockDim.x * gridDim.x &gt;= n;
+  context (\forall* int i; 0&lt;=i &amp;&amp; i&lt;n; Perm({:in[i]:}, write \ (blockDim.x * gridDim.x)));
+
+  context \gtid&lt;n-2 ==&gt; Perm({:out[\gtid]:}, write);
+
+  context \shared_mem_size(s) == blockDim.x+2;
+  requires Perm({:s[\ltid]:}, write);
+  requires threadIdx.x &lt; 2 ==&gt; Perm({:s[\ltid + blockDim.x]:}, write);
+
+  ensures \gtid&lt;n-2 ==&gt;{:out[\gtid]:} == (in[\gtid] + in[\gtid+1] + in[\gtid+2])/3;
+  
+@*/
+__global__ void blur_x(/*@unique&lt;1&gt;*/ int* in, /*@unique&lt;2&gt;*/ int* out, int n) {
+  extern __shared__ /*@unique&lt;3&gt;*/ int s[];
+  int tid = blockIdx.x * blockDim.x + threadIdx.x;
+  if(tid &lt; n) {
+    s[threadIdx.x] = in[tid];
+  }
+  if(threadIdx.x &lt; 2 &amp;&amp; tid+blockDim.x &lt; n){
+    s[blockDim.x+threadIdx.x] = in[tid+blockDim.x];
+  }
+
+  /*@
+    context (\forall* int i; 0&lt;=i &amp;&amp; i&lt;n; Perm({:in[i]:}, write \ (blockDim.x * gridDim.x)));
+    context blockIdx.x * blockDim.x + threadIdx.x&lt;n-2 ==&gt; Perm({:out[blockIdx.x * blockDim.x + threadIdx.x]:}, write);
+
+    requires Perm({:s[threadIdx.x]:}, write);
+    requires threadIdx.x &lt; 2 ==&gt; Perm({:s[threadIdx.x + blockDim.x]:}, write);
+
+    requires blockIdx.x * blockDim.x + threadIdx.x &lt; n
+      ==&gt; {:s[threadIdx.x]:} == in[blockIdx.x * blockDim.x + threadIdx.x];
+    requires threadIdx.x &lt; 2 &amp;&amp; blockIdx.x * blockDim.x + threadIdx.x+blockDim.x &lt; n
+      ==&gt; {:s[threadIdx.x+blockDim.x]:} == in[blockIdx.x * blockDim.x + threadIdx.x+blockDim.x];
+
+
+    ensures (\forall* int i; 0 &lt;= i &amp;&amp; i &lt; blockDim.x+2; Perm({:s[i]:}, write \ (blockDim.x+2)));
+
+    ensures
+      (\forall int i; 0 &lt;= i &amp;&amp; i &lt; blockDim.x+2 &amp;&amp; blockIdx.x*blockDim.x + i &lt;n
+        ==&gt; {:s[i]:} == in[blockIdx.x * blockDim.x+i]);
+  @*/
+  __syncthreads();
+
+  if(tid &lt; n-2) {
+    out[tid] = (s[threadIdx.x] + s[threadIdx.x+1] + s[threadIdx.x+2])/3;
+  }
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>cuda</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<blockquote class="blockquote-tag blockquote-tag-note">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+<p>We have used the <code>unique</code> type modifiers to speed up verification, which are explained in more detail in the section <a href="Unique-Types.html">Unique Types</a>.</p>
+</blockquote>
+<h2 id="extract-gpu-body"><a class="header" href="#extract-gpu-body">Extract GPU Body</a></h2>
+<p>It is possible to <code>extract</code> the body of a GPU kernel with the annotation <code>extract_body</code>, which can speed-up verification. The following more complex GPU kernel uses this. The kernel swaps the contents of two arrays. Internally, this means the verification is modelled differently. Normally a GPU kernel is modelled has having two <em>implicit</em> nested parallel blocks around its code: one for the threads and one for the threads blocks. With the <code>extract_body</code> the code is verified in isolation in its own method, and the nested parallel blocks call this method in their body. This uses the same mechanics as the <code>extract</code> keyword, see the section <a href="Frames-&amp;-Extract.html">Frames &amp; Extract</a>.</p>
+<!-- test PassOnLatest -->
+<blockquote class="blockquote-tag blockquote-tag-warning">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M6.457 1.047c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0 1 14.082 15H1.918a1.75 1.75 0 0 1-1.543-2.575Zm1.763.707a.25.25 0 0 0-.44 0L1.698 13.132a.25.25 0 0 0 .22.368h12.164a.25.25 0 0 0 .22-.368Zm.53 3.996v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 11a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg>Warning</p>
+<blockquote>
+<p>The following example verifies only on the latest <a href="https://github.com/utwente-fmt/vercors/tree/dev">VerCors development version</a>, not on the version currently used by the online verifier.</p>
+</blockquote>
+</blockquote>
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLWV4dHJhY3QtZ3B1LWJvZHktMQovLzo6IHZlcmRpY3QgUGFzc09uTGF0ZXN0Ci8vOjogdG9vbHMgc2lsaWNvbgojaW5jbHVkZSAib3BlbmNsLmgiCi8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KLy8gVGhpcyBmaWxlIGFkYXBhdGVkIGZyb20gdGhlIENMQmxhc3QgcHJvamVjdC4gQXV0aG9yKHMpOgovLyAgIENlZHJpYyBOdWd0ZXJlbiA8d3d3LmNlZHJpY251Z3RlcmVuLm5sPgovLyAgIFZlcmlmaWNhdGlvbiBzdXBwb3J0OiBMYXJzIHZhbiBkZW4gSGFhawovLwovLyBUaGlzIGZpbGUgY29udGFpbnMga2VybmVscyB0byBwZXJmb3JtIGEgc3dhcCBvZiB0d28gdmVjdG9ycy4KCi8qQAogIHJlcXVpcmVzIGEgPiAwICYmIG4gPiAwICYmIHggPj0gMCAmJiB4IDwgbjsKICBlbnN1cmVzIDAgPD0geCphICYmIHgqYSA8PSAobi0xKSphOwogIGVuc3VyZXMgMCA8PSB4KmEgJiYgeCphIDwgbiphOwogIGVuc3VyZXMgeCphIC8gYSA9PSB4OwogIGVuc3VyZXMgXHJlc3VsdDsKcHVyZSBib29sIGxlbW1hMWQoaW50IHgsIGludCBuLCBpbnQgYSk7CgogIHJlcXVpcmVzIGEgPiAwICYmIG4gPiAwICYmIHggPj0gMCAmJiB4IDwgbjsKICBlbnN1cmVzIGxlbW1hMWQoeCwgbiwgYSk7CiAgZW5zdXJlcyBiIDw9IFxyZXN1bHQgJiYgXHJlc3VsdCA8PSBiICsgKG4tMSkqYQogICAgICAgICAgICAgICAgICAgICAgICAgJiYgXHJlc3VsdCA8IGIgKyBuKmE7CiAgZW5zdXJlcyAoXHJlc3VsdC1iKSAvIGEgPT0geDsKcHVyZSBpbnQgYWNjMWQoaW50IHgsIGludCBiLCBpbnQgbiwgaW50IGEpID0gKHgqYSArIGIpOwoKICAvLyBTZWUgbGVhbjogSW50LnRtb2RfZXFfZW1vZF9vZl9ub25uZWcgYW5kIEludC5hZGRfZW1vZF9yaWdodCAKICByZXF1aXJlcyBhID49IDA7CiAgcmVxdWlyZXMgYiA+IDA7CiAgZW5zdXJlcyAoYSArIGIpICUgYiA9PSBhICUgYjsKICBlbnN1cmVzIFxyZXN1bHQ7CiAgZGVjcmVhc2VzOwpwdXJlIGJvb2wgbGVtbWFfbW9kKGludCBhLCBpbnQgYik7CgogcmVxdWlyZXMgYiAhPSAwOwppbmxpbmUgcHVyZSBpbnQgY2VpbF9kaXYoaW50IGEsIGludCBiKSA9IChhICsgYiAtIDEpIC8gYjsKKi8KCi8qQCBleHRyYWN0X2JvZHkgKi8KLypACiAgY29udGV4dCBnZXRfbG9jYWxfc2l6ZSgwKSA9PSAzMiAmJiBnZXRfbG9jYWxfc2l6ZSgxKSA9PSAxICYmIGdldF9sb2NhbF9zaXplKDIpID09IDE7CiAgLy8gTWFraW5nIHRoaXMgbnVtIG9mIGdyb3VwcyBjb25jcmV0ZSAoPT0xMCkgbWFrZXMgdmVyaWZpY2F0aW9uIGEgbG90IGZhc3Rlci4KICAvLyBJbiBnZW5lcmFsIHRoaXMgY2FuIGJlIGFueSBnZXRfbnVtX2dyb3VwcygwKT49MCwgYnV0IGl0IHRha2VzIGxvbmdlci4KICAvLyBydW4gd2l0aCAnLS1wcm92ZXItY29uZmlnOnNtdC5hcml0aC5zb2x2ZXI9NicgaWYgdXNpbmcgbm9uY29uY3JldGUgbnVtIG9mIGdyb3Vwcy4KICBjb250ZXh0IGdldF9udW1fZ3JvdXBzKDApID09IDEwICYmIGdldF9udW1fZ3JvdXBzKDEpID09IDEgJiYgZ2V0X251bV9ncm91cHMoMikgPT0gMTsKICBjb250ZXh0IG4gPj0gMTsKICBjb250ZXh0IHhfaW5jID49IDEgJiYgeF9vZmZzZXQgPj0gMCAmJiB4Z20gIT0gTlVMTCAmJiBccG9pbnRlcl9sZW5ndGgoeGdtKSA+PSBuKnhfaW5jK3hfb2Zmc2V0OwogIGNvbnRleHQgeV9pbmMgPj0gMSAmJiB5X29mZnNldCA+PSAwICYmIHlnbSAhPSBOVUxMICYmIFxwb2ludGVyX2xlbmd0aCh5Z20pID49IG4qeV9pbmMreV9vZmZzZXQ7CiAgY29udGV4dCAoXGZvcmFsbCogaW50IGk7IDAgPD0gaSAmJiBpIDwgY2VpbF9kaXYobiwgZ2V0X2dsb2JhbF9zaXplKDApKQogICAgJiYgXGd0aWQgKyBpKmdldF9nbG9iYWxfc2l6ZSgwKSA8IG47CiAgICAgIFBlcm0oezp4Z21bYWNjMWQoXGd0aWQgKyBpKmdldF9nbG9iYWxfc2l6ZSgwKSwgeF9vZmZzZXQsIG4sIHhfaW5jKV06fSwgd3JpdGUpKTsKICBjb250ZXh0IChcZm9yYWxsKiBpbnQgaTsgMCA8PSBpICYmIGkgPCBjZWlsX2RpdihuLCBnZXRfZ2xvYmFsX3NpemUoMCkpCiAgICAmJiBcZ3RpZCArIGkqZ2V0X2dsb2JhbF9zaXplKDApIDwgbjsKICAgICAgUGVybSh7OnlnbVthY2MxZChcZ3RpZCArIGkqZ2V0X2dsb2JhbF9zaXplKDApLCB5X29mZnNldCwgbiwgeV9pbmMpXTp9LCB3cml0ZSkpOwogIGVuc3VyZXMgKFxmb3JhbGwgaW50IGk7IDAgPD0gaSAmJiBpIDwgY2VpbF9kaXYobiwgZ2V0X2dsb2JhbF9zaXplKDApKSAmJiBcZ3RpZCArIGkqZ2V0X2dsb2JhbF9zaXplKDApIDwgbjsKICAgICAgICB7OnhnbVthY2MxZChcZ3RpZCArIGkqZ2V0X2dsb2JhbF9zaXplKDApLCB4X29mZnNldCwgbiwgeF9pbmMpXTp9ID09CiAgICAgICAgXG9sZCh5Z21bYWNjMWQoXGd0aWQgKyBpKmdldF9nbG9iYWxfc2l6ZSgwKSwgeV9vZmZzZXQsIG4sIHlfaW5jKV0pKTsKICBlbnN1cmVzIChcZm9yYWxsIGludCBpOyAwIDw9IGkgJiYgaSA8IGNlaWxfZGl2KG4sIGdldF9nbG9iYWxfc2l6ZSgwKSkgJiYgXGd0aWQgKyBpKmdldF9nbG9iYWxfc2l6ZSgwKSA8IG47CiAgICAgICAgXG9sZCh4Z21bYWNjMWQoXGd0aWQgKyBpKmdldF9nbG9iYWxfc2l6ZSgwKSwgeF9vZmZzZXQsIG4sIHhfaW5jKV0pID09CiAgICAgICAgezp5Z21bYWNjMWQoXGd0aWQgKyBpKmdldF9nbG9iYWxfc2l6ZSgwKSwgeV9vZmZzZXQsIG4sIHlfaW5jKV06fSk7CkAqLwovLyBGdWxsIHZlcnNpb24gb2YgdGhlIGtlcm5lbCB3aXRoIG9mZnNldHMgYW5kIHN0cmlkZWQgYWNjZXNzZXMKX19rZXJuZWwgdm9pZCBYc3dhcChjb25zdCBpbnQgbiwKICAgICAgICAgICAvKkB1bmlxdWU8MT4qLyBfX2dsb2JhbCBmbG9hdCogeGdtLCBjb25zdCBpbnQgeF9vZmZzZXQsIGNvbnN0IGludCB4X2luYywKICAgICAgICAgICAvKkB1bmlxdWU8Mj4qLyBfX2dsb2JhbCBmbG9hdCogeWdtLCBjb25zdCBpbnQgeV9vZmZzZXQsIGNvbnN0IGludCB5X2luYykgewogIC8qQCBsb29wX2ludmFyaWFudCBcZ3RpZCA8PSBpZCAmJiBpZCA8IG4gKyBnZXRfZ2xvYmFsX3NpemUoMCk7CiAgICBsb29wX2ludmFyaWFudCBpZCAlIGdldF9nbG9iYWxfc2l6ZSgwKSA9PSBcZ3RpZDsKICAgIGxvb3BfaW52YXJpYW50IChcZm9yYWxsKiBpbnQgaTsgMCA8PSBpICYmIGkgPCBjZWlsX2RpdihuLCBnZXRfZ2xvYmFsX3NpemUoMCkpIAogICAgICAmJiBcZ3RpZCArIGkqZ2V0X2dsb2JhbF9zaXplKDApIDwgbjsKICAgICAgICBQZXJtKHs6eGdtW2FjYzFkKFxndGlkICsgaSpnZXRfZ2xvYmFsX3NpemUoMCksIHhfb2Zmc2V0LCBuLCB4X2luYyldOn0sIHdyaXRlKSk7CiAgICBsb29wX2ludmFyaWFudCAoXGZvcmFsbCogaW50IGk7IDAgPD0gaSAmJiBpIDwgY2VpbF9kaXYobiwgZ2V0X2dsb2JhbF9zaXplKDApKSAKICAgICAgJiYgXGd0aWQgKyBpKmdldF9nbG9iYWxfc2l6ZSgwKSA8IG47CiAgICAgICAgUGVybSh7OnlnbVthY2MxZChcZ3RpZCArIGkqZ2V0X2dsb2JhbF9zaXplKDApLCB5X29mZnNldCwgbiwgeV9pbmMpXTp9LCB3cml0ZSkpOwogICAgbG9vcF9pbnZhcmlhbnQgKFxmb3JhbGwgaW50IGk7IGlkL2dldF9nbG9iYWxfc2l6ZSgwKSA8PSBpICYmIGkgPCBjZWlsX2RpdihuLCBnZXRfZ2xvYmFsX3NpemUoMCkpIAogICAgICAmJiBcZ3RpZCArIGkqZ2V0X2dsb2JhbF9zaXplKDApIDwgbjsKICAgICAgICB7OnhnbVthY2MxZChcZ3RpZCArIGkqZ2V0X2dsb2JhbF9zaXplKDApLCB4X29mZnNldCwgbiwgeF9pbmMpXTp9ID09CiAgICAgICBcb2xkKHhnbVthY2MxZChcZ3RpZCArIGkqZ2V0X2dsb2JhbF9zaXplKDApLCB4X29mZnNldCwgbiwgeF9pbmMpXSkpOwogICAgbG9vcF9pbnZhcmlhbnQgKFxmb3JhbGwgaW50IGk7IGlkL2dldF9nbG9iYWxfc2l6ZSgwKSA8PSBpICYmIGkgPCBjZWlsX2RpdihuLCBnZXRfZ2xvYmFsX3NpemUoMCkpIAogICAgICAmJiBcZ3RpZCArIGkqZ2V0X2dsb2JhbF9zaXplKDApIDwgbjsKICAgICAgICB7OnlnbVthY2MxZChcZ3RpZCArIGkqZ2V0X2dsb2JhbF9zaXplKDApLCB5X29mZnNldCwgbiwgeV9pbmMpXTp9ID09CiAgICAgICBcb2xkKHlnbVthY2MxZChcZ3RpZCArIGkqZ2V0X2dsb2JhbF9zaXplKDApLCB5X29mZnNldCwgbiwgeV9pbmMpXSkpOwogICAgbG9vcF9pbnZhcmlhbnQgKFxmb3JhbGwgaW50IGk7IDAgPD0gaSAmJiBpIDwgaWQvZ2V0X2dsb2JhbF9zaXplKDApCiAgICAgICYmIFxndGlkICsgaSpnZXRfZ2xvYmFsX3NpemUoMCkgPCBuOwogICAgICAgIHs6eGdtW2FjYzFkKFxndGlkICsgaSpnZXRfZ2xvYmFsX3NpemUoMCksIHhfb2Zmc2V0LCBuLCB4X2luYyldOn0gPT0gCiAgICAgICAgXG9sZCh5Z21bYWNjMWQoXGd0aWQgKyBpKmdldF9nbG9iYWxfc2l6ZSgwKSwgeV9vZmZzZXQsIG4sIHlfaW5jKV0pKTsKICAgIGxvb3BfaW52YXJpYW50IChcZm9yYWxsIGludCBpOyAwIDw9IGkgJiYgaSA8IGlkL2dldF9nbG9iYWxfc2l6ZSgwKQogICAgICAmJiBcZ3RpZCArIGkqZ2V0X2dsb2JhbF9zaXplKDApIDwgbjsKICAgICAgICB7OnlnbVthY2MxZChcZ3RpZCArIGkqZ2V0X2dsb2JhbF9zaXplKDApLCB5X29mZnNldCwgbiwgeV9pbmMpXTp9ID09IAogICAgICAgIFxvbGQoeGdtW2FjYzFkKFxndGlkICsgaSpnZXRfZ2xvYmFsX3NpemUoMCksIHhfb2Zmc2V0LCBuLCB4X2luYyldKSk7CiAgQCovCiAgLy8gTG9vcHMgb3ZlciB0aGUgd29yayB0aGF0IG5lZWRzIHRvIGJlIGRvbmUgKGFsbG93cyBmb3IgYW4gYXJiaXRyYXJ5IG51bWJlciBvZiB0aHJlYWRzKQogIGZvciAoaW50IGlkID0gZ2V0X2dsb2JhbF9pZCgwKTsgaWQ8bjsgaWQgKz0gZ2V0X2dsb2JhbF9zaXplKDApKSB7CiAgICBpbnQgaWR4ID0gaWQqeF9pbmMgKyB4X29mZnNldDsKICAgIC8vQCBhc3NlcnQgYWNjMWQoaWQsIHhfb2Zmc2V0LCBuLCB4X2luYykgPT0gaWR4OwogICAgaW50IGlkeSA9IGlkKnlfaW5jICsgeV9vZmZzZXQ7CiAgICAvL0AgYXNzZXJ0IGFjYzFkKGlkLCB5X29mZnNldCwgbiwgeV9pbmMpID09IGlkeTsKICAgIGZsb2F0IHRlbXAgPSB4Z21baWR4XTsKICAgIHhnbVtpZHhdID0geWdtW2lkeV07CiAgICB5Z21baWR5XSA9IHRlbXA7CiAgfQp9" data-template-kind="test" data-case-name="wiki-extract-gpu-body-1" data-case-verdict="PassOnLatest" data-language-ext="cl" data-language-label="opencl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-cl no_run editable">#include "opencl.h"
+// =================================================================================================
+// This file adapated from the CLBlast project. Author(s):
+//   Cedric Nugteren &lt;www.cedricnugteren.nl&gt;
+//   Verification support: Lars van den Haak
+//
+// This file contains kernels to perform a swap of two vectors.
+
+/*@
+  requires a &gt; 0 &amp;&amp; n &gt; 0 &amp;&amp; x &gt;= 0 &amp;&amp; x &lt; n;
+  ensures 0 &lt;= x*a &amp;&amp; x*a &lt;= (n-1)*a;
+  ensures 0 &lt;= x*a &amp;&amp; x*a &lt; n*a;
+  ensures x*a / a == x;
+  ensures \result;
+pure bool lemma1d(int x, int n, int a);
+
+  requires a &gt; 0 &amp;&amp; n &gt; 0 &amp;&amp; x &gt;= 0 &amp;&amp; x &lt; n;
+  ensures lemma1d(x, n, a);
+  ensures b &lt;= \result &amp;&amp; \result &lt;= b + (n-1)*a
+                         &amp;&amp; \result &lt; b + n*a;
+  ensures (\result-b) / a == x;
+pure int acc1d(int x, int b, int n, int a) = (x*a + b);
+
+  // See lean: Int.tmod_eq_emod_of_nonneg and Int.add_emod_right 
+  requires a &gt;= 0;
+  requires b &gt; 0;
+  ensures (a + b) % b == a % b;
+  ensures \result;
+  decreases;
+pure bool lemma_mod(int a, int b);
+
+ requires b != 0;
+inline pure int ceil_div(int a, int b) = (a + b - 1) / b;
+*/
+
+/*@ extract_body */
+/*@
+  context get_local_size(0) == 32 &amp;&amp; get_local_size(1) == 1 &amp;&amp; get_local_size(2) == 1;
+  // Making this num of groups concrete (==10) makes verification a lot faster.
+  // In general this can be any get_num_groups(0)&gt;=0, but it takes longer.
+  // run with '--prover-config:smt.arith.solver=6' if using nonconcrete num of groups.
+  context get_num_groups(0) == 10 &amp;&amp; get_num_groups(1) == 1 &amp;&amp; get_num_groups(2) == 1;
+  context n &gt;= 1;
+  context x_inc &gt;= 1 &amp;&amp; x_offset &gt;= 0 &amp;&amp; xgm != NULL &amp;&amp; \pointer_length(xgm) &gt;= n*x_inc+x_offset;
+  context y_inc &gt;= 1 &amp;&amp; y_offset &gt;= 0 &amp;&amp; ygm != NULL &amp;&amp; \pointer_length(ygm) &gt;= n*y_inc+y_offset;
+  context (\forall* int i; 0 &lt;= i &amp;&amp; i &lt; ceil_div(n, get_global_size(0))
+    &amp;&amp; \gtid + i*get_global_size(0) &lt; n;
+      Perm({:xgm[acc1d(\gtid + i*get_global_size(0), x_offset, n, x_inc)]:}, write));
+  context (\forall* int i; 0 &lt;= i &amp;&amp; i &lt; ceil_div(n, get_global_size(0))
+    &amp;&amp; \gtid + i*get_global_size(0) &lt; n;
+      Perm({:ygm[acc1d(\gtid + i*get_global_size(0), y_offset, n, y_inc)]:}, write));
+  ensures (\forall int i; 0 &lt;= i &amp;&amp; i &lt; ceil_div(n, get_global_size(0)) &amp;&amp; \gtid + i*get_global_size(0) &lt; n;
+        {:xgm[acc1d(\gtid + i*get_global_size(0), x_offset, n, x_inc)]:} ==
+        \old(ygm[acc1d(\gtid + i*get_global_size(0), y_offset, n, y_inc)]));
+  ensures (\forall int i; 0 &lt;= i &amp;&amp; i &lt; ceil_div(n, get_global_size(0)) &amp;&amp; \gtid + i*get_global_size(0) &lt; n;
+        \old(xgm[acc1d(\gtid + i*get_global_size(0), x_offset, n, x_inc)]) ==
+        {:ygm[acc1d(\gtid + i*get_global_size(0), y_offset, n, y_inc)]:});
+@*/
+// Full version of the kernel with offsets and strided accesses
+__kernel void Xswap(const int n,
+           /*@unique&lt;1&gt;*/ __global float* xgm, const int x_offset, const int x_inc,
+           /*@unique&lt;2&gt;*/ __global float* ygm, const int y_offset, const int y_inc) {
+  /*@ loop_invariant \gtid &lt;= id &amp;&amp; id &lt; n + get_global_size(0);
+    loop_invariant id % get_global_size(0) == \gtid;
+    loop_invariant (\forall* int i; 0 &lt;= i &amp;&amp; i &lt; ceil_div(n, get_global_size(0)) 
+      &amp;&amp; \gtid + i*get_global_size(0) &lt; n;
+        Perm({:xgm[acc1d(\gtid + i*get_global_size(0), x_offset, n, x_inc)]:}, write));
+    loop_invariant (\forall* int i; 0 &lt;= i &amp;&amp; i &lt; ceil_div(n, get_global_size(0)) 
+      &amp;&amp; \gtid + i*get_global_size(0) &lt; n;
+        Perm({:ygm[acc1d(\gtid + i*get_global_size(0), y_offset, n, y_inc)]:}, write));
+    loop_invariant (\forall int i; id/get_global_size(0) &lt;= i &amp;&amp; i &lt; ceil_div(n, get_global_size(0)) 
+      &amp;&amp; \gtid + i*get_global_size(0) &lt; n;
+        {:xgm[acc1d(\gtid + i*get_global_size(0), x_offset, n, x_inc)]:} ==
+       \old(xgm[acc1d(\gtid + i*get_global_size(0), x_offset, n, x_inc)]));
+    loop_invariant (\forall int i; id/get_global_size(0) &lt;= i &amp;&amp; i &lt; ceil_div(n, get_global_size(0)) 
+      &amp;&amp; \gtid + i*get_global_size(0) &lt; n;
+        {:ygm[acc1d(\gtid + i*get_global_size(0), y_offset, n, y_inc)]:} ==
+       \old(ygm[acc1d(\gtid + i*get_global_size(0), y_offset, n, y_inc)]));
+    loop_invariant (\forall int i; 0 &lt;= i &amp;&amp; i &lt; id/get_global_size(0)
+      &amp;&amp; \gtid + i*get_global_size(0) &lt; n;
+        {:xgm[acc1d(\gtid + i*get_global_size(0), x_offset, n, x_inc)]:} == 
+        \old(ygm[acc1d(\gtid + i*get_global_size(0), y_offset, n, y_inc)]));
+    loop_invariant (\forall int i; 0 &lt;= i &amp;&amp; i &lt; id/get_global_size(0)
+      &amp;&amp; \gtid + i*get_global_size(0) &lt; n;
+        {:ygm[acc1d(\gtid + i*get_global_size(0), y_offset, n, y_inc)]:} == 
+        \old(xgm[acc1d(\gtid + i*get_global_size(0), x_offset, n, x_inc)]));
+  @*/
+  // Loops over the work that needs to be done (allows for an arbitrary number of threads)
+  for (int id = get_global_id(0); id&lt;n; id += get_global_size(0)) {
+    int idx = id*x_inc + x_offset;
+    //@ assert acc1d(id, x_offset, n, x_inc) == idx;
+    int idy = id*y_inc + y_offset;
+    //@ assert acc1d(id, y_offset, n, y_inc) == idy;
+    float temp = xgm[idx];
+    xgm[idx] = ygm[idy];
+    ygm[idy] = temp;
+  }
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>opencl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="Parallel-Blocks.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="Atomics-and-Locks.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="Parallel-Blocks.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="Atomics-and-Locks.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-xmark><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M310.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L160 210.7 54.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L114.7 256 9.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 301.3 265.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L205.3 256 310.6 150.6z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+        <template id=fa-pencil><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M421.7 220.3l-11.3 11.3-22.6 22.6-205 205c-6.6 6.6-14.8 11.5-23.8 14.1L30.8 511c-8.4 2.5-17.5 .2-23.7-6.1S-1.5 489.7 1 481.2L38.7 353.1c2.6-9 7.5-17.2 14.1-23.8l205-205 22.6-22.6 11.3-11.3 33.9 33.9 62.1 62.1 33.9 33.9zM96 353.9l-9.3 9.3c-.9 .9-1.6 2.1-2 3.4l-25.3 86 86-25.3c1.3-.4 2.5-1.1 3.4-2l9.3-9.3H112c-8.8 0-16-7.2-16-16V353.9zM453.3 19.3l39.4 39.4c25 25 25 65.5 0 90.5l-14.5 14.5-22.6 22.6-11.3 11.3-33.9-33.9-62.1-62.1L314.3 67.7l11.3-11.3 22.6-22.6 14.5-14.5c25-25 65.5-25 90.5 0z"/></svg></span></template>
+
+
+        <script>
+            window.playground_line_numbers = true;
+        </script>
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="ace-2a3cd908.js"></script>
+        <script src="mode-rust-2c9d5c9a.js"></script>
+        <script src="../js/mode-annotated_c.js"></script>
+        <script src="../js/mode-annotated_cuda.js"></script>
+        <script src="../js/mode-annotated_java.js"></script>
+        <script src="../js/mode-annotated_opencl.js"></script>
+        <script src="../js/mode-annotated_sycl.js"></script>
+        <script src="../js/mode-pvl.js"></script>
+        <script src="../js/mode-viper.js"></script>
+
+        <script src="editor-16ca416c.js"></script>
+        <script src="theme-dawn-4493f9c8.js"></script>
+        <script src="theme-tomorrow_night-9dbe62a9.js"></script>
+        <script src="../js/theme-chrome.js"></script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-09f2665d.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-a6f5d318.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    
+<div id="footer" class="dark">
+    <footer class="container">
+        <a href="//www.utwente.nl/en/eemcs/fmt/" target="_blank"><img src="/images/FMT logo.png" alt="Formal Methods & Tools logo" title="Formal Methods & Tools"></a>
+        <hr>
+        <div class="copyright">
+            <a href="/about/#credits" target="_blank">Copyright <code id="copyright">&copy</code> The VerCors Project 2007-2026</a>
+            | <a href="//www.utwente.nl/en/eemcs/fmt/" target="_blank">FMT - University of Twente</a>
+            | <a href="/about/">About Us</a>
+        </div>
+    </footer>
+</div>
+</body>
+</html>

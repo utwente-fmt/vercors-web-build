@@ -61,7 +61,7 @@
         display: none;
     }
 
-    nav {
+    nav.top-nav {
         position: fixed;
         top: 0;
         width: 100vw;
@@ -70,16 +70,16 @@
         margin: 0;
     }
 
-    nav + #banner {
+    nav.top-nav + #banner {
         margin-top: 3rem;
     }
 
-    nav .container {
+    nav.top-nav .container {
         position: relative;
         padding: 0;
     }
 
-    nav > .container > ul {
+    nav.top-nav > .container > ul {
         display: block;
         position: absolute;
         top: 3rem;
@@ -91,33 +91,33 @@
         padding: 0;
     }
 
-    nav.open > .container > ul {
+    nav.top-nav.open > .container > ul {
         max-height: calc(100vh - 3rem);
         overflow: scroll;
         padding: 1em;
     }
 
-    nav > .container > ul > li {
+    nav.top-nav > .container > ul > li {
         display: block;
     }
 
-    nav > .container > ul > li > ul, .secondary nav > .container > ul > li > ul {
+    nav.top-nav > .container > ul > li > ul, .secondary nav.top-nav > .container > ul > li > ul {
         display: block;
         position: unset;
         width: unset;
         background-color: unset;
     }
 
-    nav > .container > ul > li > ul > li {
+    nav.top-nav > .container > ul > li > ul > li {
         display: block;
         padding-left: 2em;
     }
 
-    nav > .container > ul > li > a {
+    nav.top-nav > .container > ul > li > a {
         color: var(--text-light);
     }
 
-    nav > .container > ul > li:hover > a, .secondary nav > .container > ul > li:hover > a {
+    nav.top-nav > .container > ul > li:hover > a, .secondary nav.top-nav > .container > ul > li:hover > a {
         background-color: unset;
     }
 

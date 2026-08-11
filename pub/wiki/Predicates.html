@@ -1,0 +1,757 @@
+<!DOCTYPE HTML>
+<html lang="en" class="vercors sidebar-visible" dir="ltr">
+    <head>
+<meta name="description" content="VerCors Tutorial and documentation">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#d12010">
+
+<link rel="icon" href="/images/icon.svg">
+
+<link rel="stylesheet" href="/css/global.css">
+<link rel="stylesheet" href="/css/colors.css">
+<link rel="stylesheet" href="/css/shared.css">
+<link rel="stylesheet" href="/css/responsive.css">
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/highlight.pack.js"></script>
+<script src="/js/ace.js"></script>
+<script src="/js/datatables.min.js"></script>
+<script src="/js/vercorsonline.js"></script>
+<script src="/js/init.js"></script>
+
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Predicates - VerCors Tutorial</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-88aeadc2.css">
+        <link rel="stylesheet" href="css/general-5067d8cd.css">
+        <link rel="stylesheet" href="css/chrome-7683498c.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "vercors";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-9b93a44c.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-0460c59c.js"></script>
+    </head>
+    <body>
+<div id="header" class="top-header ">
+
+            <nav class="top-nav">
+                <div class="container">
+                    <div id="logo">
+                        <span id="hamburger" onclick="document.querySelector('nav.top-nav').classList.toggle('open')"><span class="fa fa-bars"></span></span><!--
+                        --><a href="/"><img id="logo-light" src="/images/logo.svg" title="The VerCors Verifier" alt="Logo of the VerCors Verifier"><img id="logo-dark" src="/images/logo-white.svg" title="The VerCors Verifier" alt="Logo of the VerCors Verifier"></a>
+                    </div>
+                    <ul>
+                        <li>
+                            <a href="/wiki">Getting Started</a>
+                            <ul>
+                                <li><a href="/wiki/Installing-and-Running-VerCors.html">Installation Guide</a></li>
+                                <li><a href="/wiki/Tutorial.html">Tutorial</a></li>
+                                <li>
+                                    <a href="//github.com/utwente-fmt/vercors/issues" target="_blank">
+                                        Issue Tracker
+                                        <span class="fa fa-external-link" style="font-size: 10pt"></span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="/">Tools</a>
+                            <ul>
+                                <li><a href="/">Verifier</a></li>
+                                <li><a href="/alpinist/">Alpinist</a></li>
+                                <li><a href="/vesuv/">VeSUV</a></li>
+                                <li><a href="/veymont/">VeyMont</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="/publications/">Publications</a></li>
+                        <li>
+                            <a href="/about/">About</a>
+                            <ul>
+                                <li><a href="/about/#team">VerCors Team</a></li>
+                                <li><a href="/news/">News</a></li>
+                                <li><a href="/about/#contact">Contact</a></li>
+                                <li><a href="/about/#credits">Credits</a></li>
+                                <li><a href="/license/">License</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+</div>
+
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('vercors')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-vercors">VerCors</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">VerCors Tutorial </h1>
+
+                    <div class="right-buttons">
+                        <a href="/try_online/" class="online-button">Try VerCors Online</a>
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <!-- 
+* Why predicates?
+  * Permissions are useful for indicating access rights and modifications to data
+  * But this leaks implementation details
+  * Consider the following example
+    * It is clear that the counter class modifies some internal state to the client
+    * But when the counter changes implementation, client code will have to be modified as well
+  * It is desirable that permissions are managed such that client code does not depend on irrelevant details
+  * Predicates allow this.
+* Predicate syntax and usage
+  * A predicate is defined as follows
+    * Consists of arguments and a body where arguments can be used
+  * To gain a predicate, the contents of the body must be exchanged for a predicate instance
+    * This is called "folding"
+  * A predicate can also be "unfolded"
+    * This exchanges a predicate instance for its body
+* Previous example, with predicates
+  * Note how the counter class is now free to change its internal composition
+  * Only relevant details are exposed through the predicate
+    * In this case, the value of the counter
+* Reserved/internal predicates
+  * ```lock_invariant```
+    * See atomics/locks
+  * Threads
+    * held, idle, running
+    * See PVL-Syntax
+* Advanced usage
+  * Recursive predicates
+  * Scaling & splitting
+  * Inline predicates
+  * Inheritance
+* Known problems
+  * Using predicates in while loops
+-->
+<p>This section discusses syntax and semantics of predicates. First a motivating example is given why predicates are needed. Then an overview is given of the syntax and semantics of predicates. The introductory example is then rewritten using predicates. Finally, we discuss some internal and reserved predicates, and finish this part of the tutorial with a brief overview of advanced usages of predicates and known problems.</p>
+<p>In this section, the language used for the code examples is Java. However, the concepts presented apply to PVL as well.</p>
+<h2 id="why-predicates"><a class="header" href="#why-predicates">Why predicates?</a></h2>
+<p>Permissions are useful for indicating access rights and modifications to data. But, adding permissions to private members in the contract leaks implementation details. Consider the following example:</p>
+<!-- test Pass -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLXdoeS1wcmVkaWNhdGVzLTEKLy86OiB2ZXJkaWN0IFBhc3MKLy86OiB0b29scyBzaWxpY29uCmNsYXNzIENvdW50ZXIgewogIGludCBjb3VudDsKICAKICAvL0AgY29udGV4dCBQZXJtKGNvdW50LCB3cml0ZSk7CiAgLy9AIGVuc3VyZXMgY291bnQgPT0gXG9sZChjb3VudCkgKyBuOwogIHZvaWQgaW5jcmVtZW50KGludCBuKTsKfQoKY2xhc3MgTXlQcm9ncmFtIHsKICAvL0AgcmVxdWlyZXMgYyAhPSBudWxsOwogIC8vQCByZXF1aXJlcyBQZXJtKGMuY291bnQsIHdyaXRlKTsKICAvL0AgcmVxdWlyZXMgYy5jb3VudCA9PSAwOwogIHZvaWQgZm9vKENvdW50ZXIgYykgewogICAgLy9AIGFzc2VydCBjLmNvdW50ID09IDA7CiAgICBjLmluY3JlbWVudCgyKTsKICAgIC8vQCBhc3NlcnQgYy5jb3VudCA9PSAyOwogIH0KfQ==" data-template-kind="test" data-case-name="wiki-why-predicates-1" data-case-verdict="Pass" data-language-ext="java" data-language-label="java">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-java no_run editable">class Counter {
+  int count;
+  
+  //@ context Perm(count, write);
+  //@ ensures count == \old(count) + n;
+  void increment(int n);
+}
+
+class MyProgram {
+  //@ requires c != null;
+  //@ requires Perm(c.count, write);
+  //@ requires c.count == 0;
+  void foo(Counter c) {
+    //@ assert c.count == 0;
+    c.increment(2);
+    //@ assert c.count == 2;
+  }
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>java</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>It is clear from the contract of <code>increment</code> that it modifies the internal state of the <code>Counter</code> object. Therefore, when <code>Counter</code> changes its internal layout, client code will have to be modified as well. For example, if in the previous example <code>Counter</code> adds some internal field, the client code will also have to be changed. This is shown in the next example:</p>
+<!-- test Pass -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLXdoeS1wcmVkaWNhdGVzLTIKLy86OiB2ZXJkaWN0IFBhc3MKLy86OiB0b29scyBzaWxpY29uCmNsYXNzIENvdW50ZXJFeHRlbmRlZCB7CiAgaW50IGNvdW50OwogIGludCBudW1JbmNyZW1lbnRzOwogIAogIC8vQCBjb250ZXh0IFBlcm0oY291bnQsIHdyaXRlKSAqKiBQZXJtKG51bUluY3JlbWVudHMsIHdyaXRlKTsKICAvL0AgZW5zdXJlcyBjb3VudCA9PSBcb2xkKGNvdW50KSArIG47CiAgLy9AIGVuc3VyZXMgbnVtSW5jcmVtZW50cyA9PSBcb2xkKG51bUluY3JlbWVudHMpICsgMTsKICB2b2lkIGluY3JlbWVudChpbnQgbik7Cn0KCmNsYXNzIE15UHJvZ3JhbSB7CiAgLy9AIHJlcXVpcmVzIGMgIT0gbnVsbDsKICAvL0AgcmVxdWlyZXMgUGVybShjLmNvdW50LCB3cml0ZSkgKiogUGVybShjLm51bUluY3JlbWVudHMsIHdyaXRlKTsKICAvL0AgcmVxdWlyZXMgYy5jb3VudCA9PSAwOwogIHZvaWQgZm9vKENvdW50ZXJFeHRlbmRlZCBjKSB7CiAgICAvL0AgYXNzZXJ0IGMuY291bnQgPT0gMDsKICAgIGMuaW5jcmVtZW50KDIpOwogICAgLy9AIGFzc2VydCBjLmNvdW50ID09IDI7CiAgfQp9" data-template-kind="test" data-case-name="wiki-why-predicates-2" data-case-verdict="Pass" data-language-ext="java" data-language-label="java">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-java no_run editable">class CounterExtended {
+  int count;
+  int numIncrements;
+  
+  //@ context Perm(count, write) ** Perm(numIncrements, write);
+  //@ ensures count == \old(count) + n;
+  //@ ensures numIncrements == \old(numIncrements) + 1;
+  void increment(int n);
+}
+
+class MyProgram {
+  //@ requires c != null;
+  //@ requires Perm(c.count, write) ** Perm(c.numIncrements, write);
+  //@ requires c.count == 0;
+  void foo(CounterExtended c) {
+    //@ assert c.count == 0;
+    c.increment(2);
+    //@ assert c.count == 2;
+  }
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>java</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>It is desirable that permissions are managed such that client code does not depend on irrelevant details, to avoid this rippling effect of modifications. Predicates help with this.</p>
+<h2 id="predicate-syntax-and-usage"><a class="header" href="#predicate-syntax-and-usage">Predicate syntax and usage</a></h2>
+<p>A predicate is declared as follows:</p>
+<pre><code class="language-java editable read-only">//@ resource myPredicate(int a, bool b, ...) = body;
+</code></pre>
+<p>A predicate consists of the name of the predicate, zero or more arguments, and a body where arguments can be used. In Java, the declaration must be written as a verification annotation (e.g. using <code>//@</code>). In PVL, it is a plain declaration.</p>
+<p>One can think of a predicate as a function returning type <code>resource</code>, similar to how a permission (<code>Perm</code>) is a <code>resource</code>. Except that, predicates are never called, but created and destroyed using unfold and folds. We will explain this next.</p>
+<p>To create a predicate instance, the contents of the predicate body must be exchanged for a predicate instance. This is called “folding”. Specifically, folding a predicate means any permissions present in the predicate body are removed from the program state. In return, an instance of the predicate is added to the state. In the following example folding is shown. The method <code>foo</code> receives a permission for the field <code>x</code>. At the end of the method, the permission for this field <code>x</code> has been exchanged for an instance of the predicate <code>state</code>. Note how the permission for <code>x</code> and the predicate <code>state</code> are mutually exclusive: both cannot be in the program state simultaneously.</p>
+<!-- testMethod Pass -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLXByZWRpY2F0ZS1zeW50YXgtYW5kLXVzYWdlLTEKLy86OiB2ZXJkaWN0IFBhc3MKLy86OiB0b29scyBzaWxpY29uCmZpbmFsIGNsYXNzIFRlc3QgewogICAgaW50IHg7CiAgICAKICAgIC8vQCByZXNvdXJjZSBzdGF0ZShpbnQgdmFsKSA9IFBlcm0oeCwgd3JpdGUpICoqIHggPT0gdmFsOwogICAgCiAgICAvL0AgcmVxdWlyZXMgUGVybSh4LCB3cml0ZSkgKiogeCA9PSBuOwogICAgLy9AIGVuc3VyZXMgc3RhdGUobik7CiAgICB2b2lkIGZvbyhpbnQgbikgewogICAgICAgIC8vIE5vdyB3ZSBoYXZlIFBlcm0oeCwgd3JpdGUpLgogICAgICAgIC8vQCBmb2xkIHN0YXRlKG4pOwogICAgICAgIC8vIE5vdyBQZXJtKHgsIHdyaXRlKSBpcyBnb25lLCBidXQgc3RhdGUobikgaXMgcHJlc2VudC4KICAgIH0KfQ==" data-template-kind="testMethod" data-case-name="wiki-predicate-syntax-and-usage-1" data-case-verdict="Pass" data-language-ext="java" data-language-label="java">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-java no_run editable">int x;
+
+//@ resource state(int val) = Perm(x, write) ** x == val;
+
+//@ requires Perm(x, write) ** x == n;
+//@ ensures state(n);
+void foo(int n) {
+    // Now we have Perm(x, write).
+    //@ fold state(n);
+    // Now Perm(x, write) is gone, but state(n) is present.
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>java</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>A predicate can also be “unfolded”. This exchanges a predicate instance for its body.</p>
+<!-- testMethod Pass -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLXByZWRpY2F0ZS1zeW50YXgtYW5kLXVzYWdlLTIKLy86OiB2ZXJkaWN0IFBhc3MKLy86OiB0b29scyBzaWxpY29uCmZpbmFsIGNsYXNzIFRlc3QgewogICAgaW50IHg7CiAgICAKICAgIC8vQCByZXNvdXJjZSBzdGF0ZShpbnQgdmFsKSA9IFBlcm0oeCwgd3JpdGUpICoqIHggPT0gdmFsOwogICAgCiAgICAvL0AgcmVxdWlyZXMgc3RhdGUobik7CiAgICAvL0AgZW5zdXJlcyBQZXJtKHgsIHdyaXRlKSAqKiB4ID09IG47CiAgICB2b2lkIGZvbyhpbnQgbikgewogICAgICAgIC8vIE5vdyB3ZSBoYXZlIHN0YXRlKG4pOwogICAgICAgIC8vQCB1bmZvbGQgc3RhdGUobik7CiAgICAgICAgLy8gTm93IHN0YXRlKG4pIGlzIGdvbmUsIGJ1dCBQZXJtKHgsIHdyaXRlKSBpcyBwcmVzZW50LgogICAgfQp9" data-template-kind="testMethod" data-case-name="wiki-predicate-syntax-and-usage-2" data-case-verdict="Pass" data-language-ext="java" data-language-label="java">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-java no_run editable">int x;
+
+//@ resource state(int val) = Perm(x, write) ** x == val;
+
+//@ requires state(n);
+//@ ensures Perm(x, write) ** x == n;
+void foo(int n) {
+    // Now we have state(n);
+    //@ unfold state(n);
+    // Now state(n) is gone, but Perm(x, write) is present.
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>java</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>The previous two examples also show that fields of the current class can be used in the predicate body. This is because a predicate instance is implicitly bound to an instance of the class it is defined in. The following example verifies, because the <code>this</code> part of the predicate instance is implicit. It also shows how to name predicates on objects other than <code>this</code>.</p>
+<!-- test Pass -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLXByZWRpY2F0ZS1zeW50YXgtYW5kLXVzYWdlLTMKLy86OiB2ZXJkaWN0IFBhc3MKLy86OiB0b29scyBzaWxpY29uCmZpbmFsIGNsYXNzIENlbGwgewogICAgaW50IHg7CgogICAgLy9AIHJlc291cmNlIHN0YXRlKGludCB2YWwpID0gUGVybSh4LCB3cml0ZSkgKiogeCA9PSB2YWw7CgogICAgLy8gInRoaXMiIGlzIGltcGxpY2l0OgogICAgLy9AIHJlcXVpcmVzIHRoaXMuc3RhdGUobik7CiAgICAvL0AgZW5zdXJlcyBzdGF0ZShuKTsKICAgIHZvaWQgZm9vKGludCBuKSB7CgogICAgfQoKICAgIC8vIFByZWRpY2F0ZXMgY2FuIGFwcGVhciBvbiBkaXN0aW5jdCBvYmplY3RzIHRvbzoKICAgIC8vQCBnaXZlbiBpbnQgbjsKICAgIC8vQCBnaXZlbiBpbnQgbTsKICAgIC8vQCBjb250ZXh0IG90aGVyLnN0YXRlKG0pOwogICAgLy9AIHJlcXVpcmVzIHN0YXRlKG4pOwogICAgLy9AIGVuc3VyZXMgc3RhdGUobittKTsKICAgIHZvaWQgY29tYmluZShDZWxsIG90aGVyKSB7CiAgICAgICAgLy9AIHVuZm9sZCBzdGF0ZShuKTsKICAgICAgICAvL0AgdW5mb2xkIG90aGVyLnN0YXRlKG0pOwogICAgICAgIHggKz0gb3RoZXIueDsKICAgICAgICAvL0AgZm9sZCBvdGhlci5zdGF0ZShtKTsKICAgICAgICAvL0AgZm9sZCBzdGF0ZShuK20pOwogICAgfQp9" data-template-kind="test" data-case-name="wiki-predicate-syntax-and-usage-3" data-case-verdict="Pass" data-language-ext="java" data-language-label="java">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-java no_run editable">final class Cell {
+    int x;
+
+    //@ resource state(int val) = Perm(x, write) ** x == val;
+
+    // "this" is implicit:
+    //@ requires this.state(n);
+    //@ ensures state(n);
+    void foo(int n) {
+
+    }
+
+    // Predicates can appear on distinct objects too:
+    //@ given int n;
+    //@ given int m;
+    //@ context other.state(m);
+    //@ requires state(n);
+    //@ ensures state(n+m);
+    void combine(Cell other) {
+        //@ unfold state(n);
+        //@ unfold other.state(m);
+        x += other.x;
+        //@ fold other.state(m);
+        //@ fold state(n+m);
+    }
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>java</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>Predicates can be used anywhere <code>Perm</code> can be used, and hence must also be composed using the separating conjunction (<code>**</code>) operator.</p>
+<h2 id="the-counter-example-now-with-predicates"><a class="header" href="#the-counter-example-now-with-predicates">The <code>Counter</code> example, now with predicates</a></h2>
+<p>In the next snippet we redefine the <code>Counter</code> class to use predicates, instead of plain permissions:</p>
+<!-- test Pass -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLXRoZS1jb3VudGVyLWV4YW1wbGUtbm93LXdpdGgtcHJlZGljYXRlcy0xCi8vOjogdmVyZGljdCBQYXNzCi8vOjogdG9vbHMgc2lsaWNvbgpjbGFzcyBDb3VudGVyIHsKICBpbnQgY291bnQ7CgogIC8vQCByZXNvdXJjZSBzdGF0ZShpbnQgdmFsKSA9IFBlcm0oY291bnQsIHdyaXRlKSAqKiBjb3VudCA9PSB2YWw7CiAgCiAgLy9AIGdpdmVuIGludCBvbGRDb3VudDsKICAvL0AgcmVxdWlyZXMgc3RhdGUob2xkQ291bnQpOwogIC8vQCBlbnN1cmVzIHN0YXRlKG9sZENvdW50ICsgbik7CiAgdm9pZCBpbmNyZW1lbnQoaW50IG4pOwp9CgpjbGFzcyBNeVByb2dyYW0gewogIC8vQCByZXF1aXJlcyBjICE9IG51bGwgKiogYy5zdGF0ZSgwKTsKICAvL0AgZW5zdXJlcyBjLnN0YXRlKDIpOwogIHZvaWQgZm9vKENvdW50ZXIgYykgewogICAgLy9AIGFzc2VydCBjLnN0YXRlKDApOwogICAgYy5pbmNyZW1lbnQoMikgLypAIGdpdmVuIHsgb2xkQ291bnQgPSAwIH0gKi87CiAgICAvL0AgYXNzZXJ0IGMuc3RhdGUoMik7CiAgfQp9" data-template-kind="test" data-case-name="wiki-the-counter-example-now-with-predicates-1" data-case-verdict="Pass" data-language-ext="java" data-language-label="java">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-java no_run editable">class Counter {
+  int count;
+
+  //@ resource state(int val) = Perm(count, write) ** count == val;
+  
+  //@ given int oldCount;
+  //@ requires state(oldCount);
+  //@ ensures state(oldCount + n);
+  void increment(int n);
+}
+
+class MyProgram {
+  //@ requires c != null ** c.state(0);
+  //@ ensures c.state(2);
+  void foo(Counter c) {
+    //@ assert c.state(0);
+    c.increment(2) /*@ given { oldCount = 0 } */;
+    //@ assert c.state(2);
+  }
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>java</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>The client only uses the predicate when expressing how it manipulates the counter. Therefore, the counter class is now free to change its internal composition without affecting any of its clients. This is possible because only relevant details are exposed through the predicate. In this case, this is the value of the counter. For example, adding a plain field does not break the client.</p>
+<p>If the interface of <code>Counter</code> changes, the client code will have to change too. However, the client code does not have to manage any extra permissions: it only has to specify how it uses the interface from <code>CounterExtended</code>. The next example shows this.</p>
+<!-- test Pass -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLXRoZS1jb3VudGVyLWV4YW1wbGUtbm93LXdpdGgtcHJlZGljYXRlcy0yCi8vOjogdmVyZGljdCBQYXNzCi8vOjogdG9vbHMgc2lsaWNvbgovLzo6IGNhc2VzIHByZWRpY2F0ZXMtPy10aGUtY291bnRlci1leGFtcGxlLW5vdy13aXRoLXByZWRpY2F0ZXMtMgovLzo6IHZlcmRpY3QgUGFzcwovLzo6IHRvb2xzIHNpbGljb24KY2xhc3MgQ291bnRlckV4dGVuZGVkIHsKICBpbnQgY291bnQ7CiAgaW50IG51bUluY3JlbWVudHM7CgogIC8qQCByZXNvdXJjZSBzdGF0ZShpbnQgdmFsLCBpbnQgdmFsMikgPSBQZXJtKGNvdW50LCB3cml0ZSkgKiogY291bnQgPT0gdmFsIAogICAgICAgICoqIFBlcm0obnVtSW5jcmVtZW50cywgd3JpdGUpICoqIG51bUluY3JlbWVudHMgPT0gdmFsMjsKICAgIEAqLwogIAogIC8vQCBnaXZlbiBpbnQgb2xkQ291bnQ7CiAgLy9AIGdpdmVuIGludCBvbGRJbmNyZW1lbnRzOwogIC8vQCByZXF1aXJlcyBzdGF0ZShvbGRDb3VudCwgb2xkSW5jcmVtZW50cyk7CiAgLy9AIGVuc3VyZXMgc3RhdGUob2xkQ291bnQgKyBuLCBvbGRJbmNyZW1lbnRzICsgMSk7CiAgdm9pZCBpbmNyZW1lbnQoaW50IG4pOwp9CgpjbGFzcyBNeVByb2dyYW0gewogIC8vQCBnaXZlbiBpbnQgb2xkSW5jcmVtZW50czsKICAvL0AgcmVxdWlyZXMgYyAhPSBudWxsICoqIGMuc3RhdGUoMCwgb2xkSW5jcmVtZW50cyk7CiAgLy9AIGVuc3VyZXMgYy5zdGF0ZSgyLCBvbGRJbmNyZW1lbnRzICsgMSk7CiAgdm9pZCBmb28oQ291bnRlckV4dGVuZGVkIGMpIHsKICAgIC8vQCBhc3NlcnQgYy5zdGF0ZSgwLCBvbGRJbmNyZW1lbnRzKTsKICAgIGMuaW5jcmVtZW50KDIpIC8qQCBnaXZlbiB7IG9sZENvdW50ID0gMCwgb2xkSW5jcmVtZW50cyA9IG9sZEluY3JlbWVudHN9IEAqLzsKICAgIC8vQCBhc3NlcnQgYy5zdGF0ZSgyLCBvbGRJbmNyZW1lbnRzICsgMSk7CiAgfQp9" data-template-kind="test" data-case-name="wiki-the-counter-example-now-with-predicates-2" data-case-verdict="Pass" data-language-ext="java" data-language-label="java">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-java no_run editable">//:: cases predicates-?-the-counter-example-now-with-predicates-2
+//:: verdict Pass
+//:: tools silicon
+class CounterExtended {
+  int count;
+  int numIncrements;
+
+  /*@ resource state(int val, int val2) = Perm(count, write) ** count == val 
+        ** Perm(numIncrements, write) ** numIncrements == val2;
+    @*/
+  
+  //@ given int oldCount;
+  //@ given int oldIncrements;
+  //@ requires state(oldCount, oldIncrements);
+  //@ ensures state(oldCount + n, oldIncrements + 1);
+  void increment(int n);
+}
+
+class MyProgram {
+  //@ given int oldIncrements;
+  //@ requires c != null ** c.state(0, oldIncrements);
+  //@ ensures c.state(2, oldIncrements + 1);
+  void foo(CounterExtended c) {
+    //@ assert c.state(0, oldIncrements);
+    c.increment(2) /*@ given { oldCount = 0, oldIncrements = oldIncrements} @*/;
+    //@ assert c.state(2, oldIncrements + 1);
+  }
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>java</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>To summarise, predicates are effective at hiding implementation details. They allow encapsulation. However, predicates do not protect the client from breaking changes. If the interface changes, any clients will have to change too.</p>
+<h2 id="reservedinternal-predicates"><a class="header" href="#reservedinternal-predicates">Reserved/internal predicates</a></h2>
+<p>There are a few situations where VerCors attaches special meanings to certain predicate names.</p>
+<h3 id="for-atomicslocks"><a class="header" href="#for-atomicslocks">For atomics/locks</a></h3>
+<p>For atomics and locks a predicate <code>lock_invariant</code> is defined. This predicate cannot be folded/unfolded, and has to be manipulated through locking and unlocking.</p>
+<p>Additionally, it can be checked if a lock is currently held through the <code>held(x)</code> syntax. <code>held</code> is in this case effectively a predicate that cannot be unfolded. Therefore, any semantics and techniques for manipulating predicates discussed in this part of the tutorial can be applied to <code>held</code>, such as splitting and scaling, except for folding and unfolding.</p>
+<p>For more information, see the <a href="Atomics-and-Locks.html">Atomics and Locks</a> section.</p>
+<h3 id="threads"><a class="header" href="#threads">Threads</a></h3>
+<p>A thread can be in several states, such as idle and running. The syntax for this is <code>idle(thread)</code> and <code>running(thread)</code>. <code>idle</code> and <code>running</code> are effectively predicates that cannot be unfolded. Therefore, any semantics and techniques for manipulating predicates discussed in this part of the tutorial can be applied to <code>held</code> (such as splitting and scaling).</p>
+<p>See the <a href="PVL-Syntax-Reference.html">PVL Syntax Reference</a> section for more details.</p>
+<h2 id="advanced-usage-of-predicates"><a class="header" href="#advanced-usage-of-predicates">Advanced usage of predicates</a></h2>
+<h3 id="unfolding-predicates-within-expressions-using-unfolding"><a class="header" href="#unfolding-predicates-within-expressions-using-unfolding">Unfolding predicates within expressions using <code>\unfolding</code></a></h3>
+<p>Sometimes it is necessary to briefly open a predicate within an expression, for example, to temporarily gain access to a field. This can be achieved using the <code>\unfolding</code> operator. It has the following concrete syntax:</p>
+<pre><code class="language-pvl editable read-only">\unfolding myPredicate(arg1, arg2, ...) \in expression
+</code></pre>
+<p>It takes the instance of the predicate that needs unfolding, followed by <code>\in</code>, and then an expression in which the predicate must be unfolded. After evaluating the internal expression, the predicate is folded again, without any changes to the predicate or the program state. For Java, the alternative syntax is <code>\Unfolding</code> (notice the capital U), since <code>\unfolding</code> causes a compiler error.</p>
+<p>Below is an example usage of <code>\unfolding</code> in a <code>Cell</code> class where the predicate does not have a parameter for the value inside the <code>Cell</code>. To work around this, <code>\unfolding</code> is used.</p>
+<!-- test -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLWFkdmFuY2VkLXVzYWdlLW9mLXByZWRpY2F0ZXMtdW5mb2xkaW5nLXByZWRpY2F0ZXMtd2l0aGluLWV4cHJlc3Npb25zLXVzaW5nLXVuZm9sZGluZy0xCi8vOjogdmVyZGljdCBQYXNzCi8vOjogdG9vbHMgc2lsaWNvbgpjbGFzcyBDZWxsIHsKICAvL0AgZW5zdXJlcyBzdGF0ZSgpICoqIFx1bmZvbGRpbmcgc3RhdGUoKSBcaW4geCA9PSAwOwogIENlbGwoKSB7CiAgICB4ID0gMDsKICAgIC8vQCBmb2xkIHN0YXRlKCk7CiAgfQoKICAvL0AgcmVzb3VyY2Ugc3RhdGUoKSA9IFBlcm0oeCwgd3JpdGUpOwogIGludCB4Owp9CgpjbGFzcyBNYWluIHsKICBwdWJsaWMgc3RhdGljIHZvaWQgbWFpbigpIHsKICAgIENlbGwgYyA9IG5ldyBDZWxsKCk7CiAgICAvL0AgYXNzZXJ0IFx1bmZvbGRpbmcgYy5zdGF0ZSgpIFxpbiBjLnggPT0gMDsKICB9Cn0=" data-template-kind="test" data-case-name="wiki-advanced-usage-of-predicates-unfolding-predicates-within-expressions-using-unfolding-1" data-case-verdict="Pass" data-language-ext="java" data-language-label="java">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-java no_run editable">class Cell {
+  //@ ensures state() ** \unfolding state() \in x == 0;
+  Cell() {
+    x = 0;
+    //@ fold state();
+  }
+
+  //@ resource state() = Perm(x, write);
+  int x;
+}
+
+class Main {
+  public static void main() {
+    Cell c = new Cell();
+    //@ assert \unfolding c.state() \in c.x == 0;
+  }
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>java</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<h3 id="recursive-predicates"><a class="header" href="#recursive-predicates">Recursive predicates</a></h3>
+<p>Predicates can directly and indirectly recurse without problems, provided they are not <code>inline</code>. This can be used to for example model permissions over data structures with a size that cannot be known statically, such as a linked list. In the below code example, an instance of <code>state</code> predicate of the class <code>LinkedListNode</code> contains the permission for one field, as well as permissions for all fields of the tail of the list. Additionally, the argument of the <code>state</code> predicate reflects the numbers stored in the linked list.</p>
+<!-- test -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLWFkdmFuY2VkLXVzYWdlLW9mLXByZWRpY2F0ZXMtcmVjdXJzaXZlLXByZWRpY2F0ZXMtMQovLzo6IHZlcmRpY3QgUGFzcwovLzo6IHRvb2xzIHNpbGljb24KY2xhc3MgTGlua2VkTGlzdE5vZGUgewogIC8qQCByZXNvdXJjZSBzdGF0ZShzZXE8aW50PiBkYXRhKSA9IAogICBQZXJtKHYsIHdyaXRlKSAqKiBQZXJtKG5leHQsIHdyaXRlKSAqKiB8ZGF0YXw+MCAqKiB2ID09IGRhdGFbMF0gKioKICAgKG5leHQgIT0gbnVsbCA9PT4gbmV4dC5zdGF0ZShkYXRhLnRhaWwpKTsgKi8KCiAgaW50IHY7CiAgTGlua2VkTGlzdE5vZGUgbmV4dDsKfQ==" data-template-kind="test" data-case-name="wiki-advanced-usage-of-predicates-recursive-predicates-1" data-case-verdict="Pass" data-language-ext="java" data-language-label="java">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-java no_run editable">class LinkedListNode {
+  /*@ resource state(seq&lt;int&gt; data) = 
+   Perm(v, write) ** Perm(next, write) ** |data|&gt;0 ** v == data[0] **
+   (next != null ==&gt; next.state(data.tail)); */
+
+  int v;
+  LinkedListNode next;
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>java</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<h3 id="scaling--splitting"><a class="header" href="#scaling--splitting">Scaling &amp; splitting</a></h3>
+<p>VerCors offers syntax to specify fractions of predicates, similar to how permissions can be specified in fractions. This can be useful to, for example, allow one half of a state predicate to be passed to one thread, and one to another. For a predicate <code>state(args)</code> on a variable <code>x</code>, the syntax for specifying a fraction <code>f</code> of the predicate is: <code>[f]x.state(args)</code>. The code below shows an example of how scaling can be used.</p>
+<!-- test -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLWFkdmFuY2VkLXVzYWdlLW9mLXByZWRpY2F0ZXMtc2NhbGluZy0tc3BsaXR0aW5nLTEKLy86OiB2ZXJkaWN0IFBhc3MKLy86OiB0b29scyBzaWxpY29uCi8vOjogY2FzZXMgcHJlZGljYXRlcy0/LWFkdmFuY2VkLXVzYWdlLW9mLXByZWRpY2F0ZXMtc2NhbGluZy0tc3BsaXR0aW5nLTEKLy86OiB2ZXJkaWN0IFBhc3MKLy86OiB0b29scyBzaWxpY29uCmNsYXNzIENlbGwgewogIC8vQCBlbnN1cmVzIHN0YXRlKDApOwogIENlbGwoKSB7CiAgICAvL0AgZm9sZCBzdGF0ZSgwKTsKICB9CgogIC8vQCByZXNvdXJjZSBzdGF0ZShpbnQgdikgPSBQZXJtKHgsIHdyaXRlKSAqKiB2ID09IHg7CiAgaW50IHg7Cn0KY2xhc3MgTWFpbiB7CiAgLy9AIHJlcXVpcmVzIFsxXDJdYy5zdGF0ZSgwKTsKICBwdWJsaWMgc3RhdGljIHZvaWQgc3RhcnRUaHJlYWQoQ2VsbCBjKTsKCiAgcHVibGljIHN0YXRpYyB2b2lkIG1haW4oKSB7CiAgICBDZWxsIGMgPSBuZXcgQ2VsbCgpOwogICAgLy8gQ29uc3RydWN0aW5nIGEgY2VsbCB5aWVsZHMgYSBzdGF0ZSBwcmVkaWNhdGUKICAgIC8vQCBhc3NlcnQgYy5zdGF0ZSgwKTsKICAgIC8vIFdlIGNhbiBzcGxpdCB0aGlzIGludG8gZnJhY3Rpb25zIG9mIGEgcHJlZGljYXRlCiAgICAvL0AgYXNzZXJ0IFsxXDJdYy5zdGF0ZSgwKSAqKiBbMVwyXWMuc3RhdGUoMCk7CgogICAgLy8gc3RhcnRUaHJlYWQgd2lsbCBjbGFpbSBoYWxmIG9mIHRoZSBwcmVkaWNhdGUKICAgIHN0YXJ0VGhyZWFkKGMpOwoKICAgIC8vIFRoZSBvdGhlciBoYWxmIGNhbiBiZSB1c2VkIGZvciBzb21ldGhpbmcgZWxzZQogICAgLy9AIGFzc2VydCBbMVwyXWMuc3RhdGUoMCk7CiAgfQp9" data-template-kind="test" data-case-name="wiki-advanced-usage-of-predicates-scaling--splitting-1" data-case-verdict="Pass" data-language-ext="java" data-language-label="java">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-java no_run editable">//:: cases predicates-?-advanced-usage-of-predicates-scaling--splitting-1
+//:: verdict Pass
+//:: tools silicon
+class Cell {
+  //@ ensures state(0);
+  Cell() {
+    //@ fold state(0);
+  }
+
+  //@ resource state(int v) = Perm(x, write) ** v == x;
+  int x;
+}
+class Main {
+  //@ requires [1\2]c.state(0);
+  public static void startThread(Cell c);
+
+  public static void main() {
+    Cell c = new Cell();
+    // Constructing a cell yields a state predicate
+    //@ assert c.state(0);
+    // We can split this into fractions of a predicate
+    //@ assert [1\2]c.state(0) ** [1\2]c.state(0);
+
+    // startThread will claim half of the predicate
+    startThread(c);
+
+    // The other half can be used for something else
+    //@ assert [1\2]c.state(0);
+  }
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>java</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<h3 id="inline-predicates"><a class="header" href="#inline-predicates">Inline predicates</a></h3>
+<p>Predicates can be given the <code>inline</code> attribute:</p>
+<!-- codeSnip inlinePredicate -->
+<div class="verification-container" data-examplecode-b64="Y2xhc3MgQyB7CiAgLy9AIGlubGluZSByZXNvdXJjZSBzdGF0ZSgpID0gUGVybSh4LCB3cml0ZSk7CiAgaW50IHg7Cn1jbGFzcyBUZXN0ewogIC8vQCByZXF1aXJlcyBjLnN0YXRlKCk7CiAgdm9pZCBmb28oQyBjKSB7CiAgICAvL0AgYXNzZXJ0IGMuc3RhdGUoKTsKICB9Cn0=" data-template-kind="" data-case-name="" data-case-verdict="Pass" data-language-ext="java" data-language-label="java">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-java no_run editable code_snippet">class C {
+  //@ inline resource state() = Perm(x, write);
+  int x;
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>java</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>If the <code>inline</code> attribute is given to a predicate, VerCors will inline the definition of that predicate wherever the predicate occurs. This means that the following code snippet:</p>
+<!-- codeSnip inlinePredicate -->
+<div class="verification-container" data-examplecode-b64="Y2xhc3MgQyB7CiAgLy9AIGlubGluZSByZXNvdXJjZSBzdGF0ZSgpID0gUGVybSh4LCB3cml0ZSk7CiAgaW50IHg7Cn1jbGFzcyBUZXN0ewogIC8vQCByZXF1aXJlcyBjLnN0YXRlKCk7CiAgdm9pZCBmb28oQyBjKSB7CiAgICAvL0AgYXNzZXJ0IGMuc3RhdGUoKTsKICB9Cn0=" data-template-kind="" data-case-name="" data-case-verdict="Pass" data-language-ext="java" data-language-label="java">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-java no_run editable code_snippet">class Test{
+  //@ requires c.state();
+  void foo(C c) {
+    //@ assert c.state();
+  }
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>java</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<!-- standaloneSnip inlinePredicate2
+class C {
+  //@ inline resource state() = Perm(x, write);
+  int x;
+}
+-->
+<p>Is equal to:</p>
+<!-- codeSnip inlinePredicate2 -->
+<div class="verification-container" data-examplecode-b64="Y2xhc3MgQyB7Ci8vQCBpbmxpbmUgcmVzb3VyY2Ugc3RhdGUoKSA9IFBlcm0oeCwgd3JpdGUpOwppbnQgeDsKfQpjbGFzcyBUZXN0ewogIC8vQCByZXF1aXJlcyBQZXJtKGMueCwgd3JpdGUpOwogIHZvaWQgZm9vKEMgYykgewogICAgLy9AIGFzc2VydCBQZXJtKGMueCwgd3JpdGUpOwogIH0KfQ==" data-template-kind="" data-case-name="" data-case-verdict="Pass" data-language-ext="java" data-language-label="java">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-java no_run editable code_snippet">class Test{
+  //@ requires Perm(c.x, write);
+  void foo(C c) {
+    //@ assert Perm(c.x, write);
+  }
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>java</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>Because of this inlining semantics, <code>inline</code> predicates cannot be recursive. However, besides that limitation they are equal to regular predicates, and hence support arguments and scaling.</p>
+<p>Furthermore, because of this inlining semantics, folding and unfolding inline predicates do not change the program state. However, for the ease of flexibility, VerCors allows them, interpreting them as a check for whether or not the contents of a predicate is present.</p>
+<h3 id="inheritance"><a class="header" href="#inheritance">Inheritance</a></h3>
+<p>Inheritance is not yet supported for predicates.</p>
+<h3 id="thread-local-predicates"><a class="header" href="#thread-local-predicates">Thread-local predicates</a></h3>
+<p>There is informal &amp; incomplete support for predicates with thread-dependent resources. For this, the predicate must be defined with the <code>thread_local</code> modifier. The <code>\current_thread</code> keyword can be used inside <code>thread_local</code> predicates to get the integer identifier of the current thread. This can be useful to assign e.g. array indices to individual threads in a global manner.</p>
+<p>To restrict the number of threads, and hence the possible values of <code>\current_thread</code>, assumptions can be made. This can be done either in preconditions, or in predicate bodies. For example, for some <code>N</code>:</p>
+<pre><code class="language-pvl editable read-only">requires 0 &lt;= \current_thread &amp;&amp; \current_thread &lt; N;
+</code></pre>
+<h3 id="unfolding-in-source-language"><a class="header" href="#unfolding-in-source-language">Unfolding in source language</a></h3>
+<p>It is possible to use <code>unfolding</code> in the source language, such that correct permission are available. In general the form is <code>/*@ \unfolding predExpr \in */ expr</code>. Thus the following example works:</p>
+<!-- test PassOnLatest -->
+<blockquote class="blockquote-tag blockquote-tag-warning">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M6.457 1.047c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0 1 14.082 15H1.918a1.75 1.75 0 0 1-1.543-2.575Zm1.763.707a.25.25 0 0 0-.44 0L1.698 13.132a.25.25 0 0 0 .22.368h12.164a.25.25 0 0 0 .22-.368Zm.53 3.996v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 11a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg>Warning</p>
+<blockquote>
+<p>The following example verifies only on the latest <a href="https://github.com/utwente-fmt/vercors/tree/dev">VerCors development version</a>, not on the version currently used by the online verifier.</p>
+</blockquote>
+</blockquote>
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLWFkdmFuY2VkLXVzYWdlLW9mLXByZWRpY2F0ZXMtdW5mb2xkaW5nLWluLXNvdXJjZS1sYW5ndWFnZS0xCi8vOjogdmVyZGljdCBQYXNzT25MYXRlc3QKLy86OiB0b29scyBzaWxpY29uCmNsYXNzIFRlc3QgewovL0AgcmVzb3VyY2Ugd3JhcFgoaW50IHZhbCkgPSBQZXJtKHgsIHdyaXRlKSAqKiB4ID09IHZhbDsKaW50IHg7CgovL0AgcmVxdWlyZXMgd3JhcFgoNSk7CnZvaWQgbSgpIHsKICAvL0AgZ2hvc3QgaW50IGkgPSA1OwoKICAvL0AgbG9vcF9pbnZhcmlhbnQgd3JhcFgoaSk7CiAgLy9AIGxvb3BfaW52YXJpYW50IFx1bmZvbGRpbmcgd3JhcFgoaSkgXGluIDUgPD0geCAmJiB4IDw9IDEwOwogIHdoaWxlICgvKkAgXHVuZm9sZGluZyB3cmFwWChpKSBcaW4gQCovIHggPCAxMCkgewogICAgLy9AIHVuZm9sZCB3cmFwWChpKTsKICAgIHgrKzsKICAgIC8vQCBnaG9zdCBpKys7CiAgICAvL0AgZm9sZCB3cmFwWChpKTsKICB9IAp9Cn0=" data-template-kind="test" data-case-name="wiki-advanced-usage-of-predicates-unfolding-in-source-language-1" data-case-verdict="PassOnLatest" data-language-ext="java" data-language-label="java">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-java no_run editable">class Test {
+//@ resource wrapX(int val) = Perm(x, write) ** x == val;
+int x;
+
+//@ requires wrapX(5);
+void m() {
+  //@ ghost int i = 5;
+
+  //@ loop_invariant wrapX(i);
+  //@ loop_invariant \unfolding wrapX(i) \in 5 &lt;= x &amp;&amp; x &lt;= 10;
+  while (/*@ \unfolding wrapX(i) \in @*/ x &lt; 10) {
+    //@ unfold wrapX(i);
+    x++;
+    //@ ghost i++;
+    //@ fold wrapX(i);
+  } 
+}
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>java</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="Atomics-and-Locks.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="Inheritance.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="Atomics-and-Locks.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="Inheritance.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-xmark><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M310.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L160 210.7 54.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L114.7 256 9.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 301.3 265.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L205.3 256 310.6 150.6z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+        <template id=fa-pencil><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M421.7 220.3l-11.3 11.3-22.6 22.6-205 205c-6.6 6.6-14.8 11.5-23.8 14.1L30.8 511c-8.4 2.5-17.5 .2-23.7-6.1S-1.5 489.7 1 481.2L38.7 353.1c2.6-9 7.5-17.2 14.1-23.8l205-205 22.6-22.6 11.3-11.3 33.9 33.9 62.1 62.1 33.9 33.9zM96 353.9l-9.3 9.3c-.9 .9-1.6 2.1-2 3.4l-25.3 86 86-25.3c1.3-.4 2.5-1.1 3.4-2l9.3-9.3H112c-8.8 0-16-7.2-16-16V353.9zM453.3 19.3l39.4 39.4c25 25 25 65.5 0 90.5l-14.5 14.5-22.6 22.6-11.3 11.3-33.9-33.9-62.1-62.1L314.3 67.7l11.3-11.3 22.6-22.6 14.5-14.5c25-25 65.5-25 90.5 0z"/></svg></span></template>
+
+
+        <script>
+            window.playground_line_numbers = true;
+        </script>
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="ace-2a3cd908.js"></script>
+        <script src="mode-rust-2c9d5c9a.js"></script>
+        <script src="../js/mode-annotated_c.js"></script>
+        <script src="../js/mode-annotated_cuda.js"></script>
+        <script src="../js/mode-annotated_java.js"></script>
+        <script src="../js/mode-annotated_opencl.js"></script>
+        <script src="../js/mode-annotated_sycl.js"></script>
+        <script src="../js/mode-pvl.js"></script>
+        <script src="../js/mode-viper.js"></script>
+
+        <script src="editor-16ca416c.js"></script>
+        <script src="theme-dawn-4493f9c8.js"></script>
+        <script src="theme-tomorrow_night-9dbe62a9.js"></script>
+        <script src="../js/theme-chrome.js"></script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-09f2665d.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-a6f5d318.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    
+<div id="footer" class="dark">
+    <footer class="container">
+        <a href="//www.utwente.nl/en/eemcs/fmt/" target="_blank"><img src="/images/FMT logo.png" alt="Formal Methods & Tools logo" title="Formal Methods & Tools"></a>
+        <hr>
+        <div class="copyright">
+            <a href="/about/#credits" target="_blank">Copyright <code id="copyright">&copy</code> The VerCors Project 2007-2026</a>
+            | <a href="//www.utwente.nl/en/eemcs/fmt/" target="_blank">FMT - University of Twente</a>
+            | <a href="/about/">About Us</a>
+        </div>
+    </footer>
+</div>
+</body>
+</html>

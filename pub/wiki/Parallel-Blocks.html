@@ -1,0 +1,574 @@
+<!DOCTYPE HTML>
+<html lang="en" class="vercors sidebar-visible" dir="ltr">
+    <head>
+<meta name="description" content="VerCors Tutorial and documentation">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#d12010">
+
+<link rel="icon" href="/images/icon.svg">
+
+<link rel="stylesheet" href="/css/global.css">
+<link rel="stylesheet" href="/css/colors.css">
+<link rel="stylesheet" href="/css/shared.css">
+<link rel="stylesheet" href="/css/responsive.css">
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/highlight.pack.js"></script>
+<script src="/js/ace.js"></script>
+<script src="/js/datatables.min.js"></script>
+<script src="/js/vercorsonline.js"></script>
+<script src="/js/init.js"></script>
+
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Parallel Blocks - VerCors Tutorial</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-88aeadc2.css">
+        <link rel="stylesheet" href="css/general-5067d8cd.css">
+        <link rel="stylesheet" href="css/chrome-7683498c.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "vercors";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-9b93a44c.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-0460c59c.js"></script>
+    </head>
+    <body>
+<div id="header" class="top-header ">
+
+            <nav class="top-nav">
+                <div class="container">
+                    <div id="logo">
+                        <span id="hamburger" onclick="document.querySelector('nav.top-nav').classList.toggle('open')"><span class="fa fa-bars"></span></span><!--
+                        --><a href="/"><img id="logo-light" src="/images/logo.svg" title="The VerCors Verifier" alt="Logo of the VerCors Verifier"><img id="logo-dark" src="/images/logo-white.svg" title="The VerCors Verifier" alt="Logo of the VerCors Verifier"></a>
+                    </div>
+                    <ul>
+                        <li>
+                            <a href="/wiki">Getting Started</a>
+                            <ul>
+                                <li><a href="/wiki/Installing-and-Running-VerCors.html">Installation Guide</a></li>
+                                <li><a href="/wiki/Tutorial.html">Tutorial</a></li>
+                                <li>
+                                    <a href="//github.com/utwente-fmt/vercors/issues" target="_blank">
+                                        Issue Tracker
+                                        <span class="fa fa-external-link" style="font-size: 10pt"></span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="/">Tools</a>
+                            <ul>
+                                <li><a href="/">Verifier</a></li>
+                                <li><a href="/alpinist/">Alpinist</a></li>
+                                <li><a href="/vesuv/">VeSUV</a></li>
+                                <li><a href="/veymont/">VeyMont</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="/publications/">Publications</a></li>
+                        <li>
+                            <a href="/about/">About</a>
+                            <ul>
+                                <li><a href="/about/#team">VerCors Team</a></li>
+                                <li><a href="/news/">News</a></li>
+                                <li><a href="/about/#contact">Contact</a></li>
+                                <li><a href="/about/#credits">Credits</a></li>
+                                <li><a href="/license/">License</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+</div>
+
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('vercors')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-vercors">VerCors</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">VerCors Tutorial </h1>
+
+                    <div class="right-buttons">
+                        <a href="/try_online/" class="online-button">Try VerCors Online</a>
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <p>In this section we explain how to verify parallel algorithms by creating parallel blocks in PVL. First, we give an example of a simple method using parallel block. Then, we discuss a more complex example with a barrier inside the parallel block. A barrier is used to synchronize threads inside a parallel block.</p>
+<h2 id="simple-parallel-blocks"><a class="header" href="#simple-parallel-blocks">Simple Parallel Blocks</a></h2>
+<h3 id="parallel-block-without-barrier"><a class="header" href="#parallel-block-without-barrier">Parallel Block without Barrier</a></h3>
+<p>This example shows a simple method that adds two arrays in parallel and stores the result in another array:</p>
+<!-- test -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLXNpbXBsZS1wYXJhbGxlbC1ibG9ja3MtcGFyYWxsZWwtYmxvY2std2l0aG91dC1iYXJyaWVyLTEKLy86OiB2ZXJkaWN0IFBhc3MKLy86OiB0b29scyBzaWxpY29uCmNvbnRleHRfZXZlcnl3aGVyZSBhICE9IG51bGwgJiYgYiAhPSBudWxsICYmIGMgIT0gbnVsbDsKY29udGV4dF9ldmVyeXdoZXJlIGEubGVuZ3RoID09IHNpemUgJiYgYi5sZW5ndGggPT0gc2l6ZSAmJiBjLmxlbmd0aCA9PSBzaXplOwpjb250ZXh0ICjiiIAqIGludCBpOyBpID49IDAgJiYgIGkgPCBzaXplOyBQZXJtKGFbaV0sIDFcMikpOwpjb250ZXh0ICjiiIAqIGludCBpOyBpID49IDAgJiYgIGkgPCBzaXplOyBQZXJtKGJbaV0sIDFcMikpOwpjb250ZXh0ICjiiIAqIGludCBpOyBpID49IDAgJiYgIGkgPCBzaXplOyBQZXJtKGNbaV0sIDEpKTsKZW5zdXJlcyAo4oiAIGludCBpOyBpID49IDAgJiYgIGkgPCBzaXplOyBjW2ldID09IGFbaV0gKyBiW2ldKTsKdm9pZCBBZGQoaW50W10gYSwgaW50W10gYiwgaW50W10gYywgaW50IHNpemUpewoKICAgcGFyIHRocmVhZHMgKGludCB0aWQgPSAwIC4uIHNpemUpCiAgICBjb250ZXh0IFBlcm0oYVt0aWRdLCAxXDIpICoqIFBlcm0oYlt0aWRdLCAxXDIpICoqIFBlcm0oY1t0aWRdLCAxKTsKICAgIGVuc3VyZXMgY1t0aWRdID09IGFbdGlkXSArIGJbdGlkXTsKICAgewogICAgICBjW3RpZF0gPSBhW3RpZF0gKyBiW3RpZF07CiAgIH0KIH0=" data-template-kind="test" data-case-name="wiki-simple-parallel-blocks-parallel-block-without-barrier-1" data-case-verdict="Pass" data-language-ext="pvl" data-language-label="pvl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">context_everywhere a != null &amp;&amp; b != null &amp;&amp; c != null;
+context_everywhere a.length == size &amp;&amp; b.length == size &amp;&amp; c.length == size;
+context (∀* int i; i &gt;= 0 &amp;&amp;  i &lt; size; Perm(a[i], 1\2));
+context (∀* int i; i &gt;= 0 &amp;&amp;  i &lt; size; Perm(b[i], 1\2));
+context (∀* int i; i &gt;= 0 &amp;&amp;  i &lt; size; Perm(c[i], 1));
+ensures (∀ int i; i &gt;= 0 &amp;&amp;  i &lt; size; c[i] == a[i] + b[i]);
+void Add(int[] a, int[] b, int[] c, int size){
+
+   par threads (int tid = 0 .. size)
+    context Perm(a[tid], 1\2) ** Perm(b[tid], 1\2) ** Perm(c[tid], 1);
+    ensures c[tid] == a[tid] + b[tid];
+   {
+      c[tid] = a[tid] + b[tid];
+   }
+ }</code></pre>
+<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>In this method there is a parallel block (lines 9-14) named <code>threads</code>. The keyword <code>par</code> is used to define a parallel block, followed by an arbitrary name after that defines the name of that block. Moreover, we define the number of threads in the parallel block as well as a name for the thread identifier. In this example, we have <code>size</code> threads in the range from 0 to <code>_size_-1</code> and <code>tid</code> is used as thread identifier to refer to each thread.</p>
+<p>In addition to the specification of the method (lines 1-6), we add thread-level specification to the parallel block (lines 10-11). The precondition of the method indicates that we have read permission over all locations in arrays <code>a</code> and <code>b</code> and write permission for array <code>c</code> (lines 3-5). In the parallel block, we specify that each thread (<code>tid</code>) has read permission to its own location in arrays <code>a</code> and <code>b</code> and write permission to its own location in array <code>c</code> (line 10). After termination of the parallel block as postcondition (1) we have the same permission (line 10) and (2) the result of each location in array <code>c</code> is the sum of the two corresponding locations in arrays <code>a</code> and <code>b</code> (line 11). From the postcondition of the parallel block, we can derive the postcondition of the method using universal quantifier for all locations in the arrays (line 3-6).</p>
+<h3 id="parallel-block-with-barrier"><a class="header" href="#parallel-block-with-barrier">Parallel Block with Barrier</a></h3>
+<p>Next we show an example of a parallel block which uses a barrier to synchronize threads:</p>
+<!-- test -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLXNpbXBsZS1wYXJhbGxlbC1ibG9ja3MtcGFyYWxsZWwtYmxvY2std2l0aC1iYXJyaWVyLTEKLy86OiB2ZXJkaWN0IFBhc3MKLy86OiB0b29scyBzaWxpY29uCmNvbnRleHRfZXZlcnl3aGVyZSBhcnJheSAhPSBudWxsICYmIGFycmF5Lmxlbmd0aCA9PSBzaXplOwpyZXF1aXJlcyAo4oiAKiBpbnQgaTsgaSA+PSAwICYmICBpIDwgc2l6ZTsgUGVybShhcnJheVtpXSwgd3JpdGUpKTsKZW5zdXJlcyAo4oiAKiBpbnQgaTsgaSA+PSAwICYmICBpIDwgc2l6ZTsgUGVybShhcnJheVtpXSwgd3JpdGUpKTsKZW5zdXJlcyAo4oiAIGludCBpOyBpID49IDAgJiYgIGkgPCBzaXplOyAKIChpICE9IHNpemUtMSA9PT4gYXJyYXlbaV0gPT0gXG9sZChhcnJheVtpKzFdKSkgJiYgCiAoaSA9PSBzaXplLTEgPT0+IGFycmF5W2ldID09IFxvbGQoYXJyYXlbMF0pKSApOwp2b2lkIGxlZnRSb3RhdGlvbihpbnRbXSBhcnJheSwgaW50IHNpemUpewogIHBhciB0aHJlYWRzIChpbnQgdGlkID0gMCAuLiBzaXplKQogICByZXF1aXJlcyB0aWQgIT0gc2l6ZS0xID09PiBQZXJtKGFycmF5W3RpZCsxXSwgd3JpdGUpOwogICByZXF1aXJlcyB0aWQgPT0gc2l6ZS0xID09PiBQZXJtKGFycmF5WzBdLCB3cml0ZSk7CiAgIGVuc3VyZXMgUGVybShhcnJheVt0aWRdLCB3cml0ZSk7CiAgIGVuc3VyZXMgdGlkICE9IHNpemUtMSA9PT4gYXJyYXlbdGlkXSA9PSBcb2xkKGFycmF5W3RpZCsxXSk7CiAgIGVuc3VyZXMgdGlkID09IHNpemUtMSA9PT4gYXJyYXlbdGlkXSA9PSBcb2xkKGFycmF5WzBdKTsKICB7CiAgICAgaW50IHRlbXA7CiAgICAgaWYgKHRpZCAhPSBzaXplLTEpIHsKICAgICAgIHRlbXAgPSBhcnJheVt0aWQrMV07CiAgICAgfSBlbHNlIHsKICAgICAgIHRlbXAgPSBhcnJheVswXTsKICAgICB9CiAgICAgYmFycmllcih0aHJlYWRzKQogICAgIHJlcXVpcmVzIHRpZCAhPSBzaXplLTEgPT0+IFBlcm0oYXJyYXlbdGlkKzFdLCB3cml0ZSk7CiAgICAgcmVxdWlyZXMgdGlkID09IHNpemUtMSA9PT4gUGVybShhcnJheVswXSwgd3JpdGUpOwogICAgIGVuc3VyZXMgUGVybShhcnJheVt0aWRdLCB3cml0ZSk7CiAgICAgeyAvKiBBdXRvbWF0aWMgcHJvb2YgKi8gfQogICAgIGFycmF5W3RpZF0gPSB0ZW1wOwogIH0KfQ==" data-template-kind="test" data-case-name="wiki-simple-parallel-blocks-parallel-block-with-barrier-1" data-case-verdict="Pass" data-language-ext="pvl" data-language-label="pvl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">context_everywhere array != null &amp;&amp; array.length == size;
+requires (∀* int i; i &gt;= 0 &amp;&amp;  i &lt; size; Perm(array[i], write));
+ensures (∀* int i; i &gt;= 0 &amp;&amp;  i &lt; size; Perm(array[i], write));
+ensures (∀ int i; i &gt;= 0 &amp;&amp;  i &lt; size; 
+ (i != size-1 ==&gt; array[i] == \old(array[i+1])) &amp;&amp; 
+ (i == size-1 ==&gt; array[i] == \old(array[0])) );
+void leftRotation(int[] array, int size){
+  par threads (int tid = 0 .. size)
+   requires tid != size-1 ==&gt; Perm(array[tid+1], write);
+   requires tid == size-1 ==&gt; Perm(array[0], write);
+   ensures Perm(array[tid], write);
+   ensures tid != size-1 ==&gt; array[tid] == \old(array[tid+1]);
+   ensures tid == size-1 ==&gt; array[tid] == \old(array[0]);
+  {
+     int temp;
+     if (tid != size-1) {
+       temp = array[tid+1];
+     } else {
+       temp = array[0];
+     }
+     barrier(threads)
+     requires tid != size-1 ==&gt; Perm(array[tid+1], write);
+     requires tid == size-1 ==&gt; Perm(array[0], write);
+     ensures Perm(array[tid], write);
+     { /* Automatic proof */ }
+     array[tid] = temp;
+  }
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>This example illustrates a method named <code>leftRotation</code> that rotates the elements of an array to the left. In this example, we also have <code>size</code> threads in the range from 0 to <code>_size_-1</code> and <code>tid</code> is used as thread identifier. Inside the parallel block each thread (<code>tid</code>) stores its right neighbour in a temporary location (i.e., <code>temp</code>), except thread <code>_size_-1</code> which stores the first element in the array (lines 15-20). Then each thread synchronizes at the barrier (line 22). The keyword <code>barrier</code> and the name of the parallel block as an argument (e.g., <code>threads</code> in the example) are used to define a barrier in PVL. After that, each thread writes the value read into its own location at index <code>tid</code> in the array (line 28).</p>
+<p>To verify this method in VerCors, we annotate the barrier, in addition to the method and the parallel block. As precondition of the method, we have read permission over all locations in the array (line 2). At the beginning of the parallel block, each thread reads from its right neighbour, except thread <code>_size_-1</code> which reads from location 0 (lines 16-20). Therefore, we specify read permissions as precondition of the parallel block in lines 9-10. Since after the barrier each thread (<code>tid</code>) writes into its own location at index (<code>tid</code>), we change the permissions in the barrier in such that each thread has write permissions to its own location (lines 23-25). When a thread reaches the barrier, it has to fulfill the barrier preconditions, and then it may assume the barrier postconditions. Moreover, the barrier postconditions must follow from the barrier preconditions.</p>
+<p>As postcondition of the parallel block (1) first each thread has write permission to its own location (this comes from the postcondition of the barrier) in line 11 and (2) the elements are truly shifted to the left (lines 12-13). From the postcondition of the parallel block, we can establish the same postcondition for the method (lines 3-5).</p>
+<h3 id="caution-barrier-syntax"><a class="header" href="#caution-barrier-syntax">Caution: barrier syntax</a></h3>
+<p>In this section syntax is introduced for barriers. There is a caveat to using barriers, which we want to explain first so it is not missed. Barrier syntax in VerCors has two forms. Form 1:</p>
+<pre><code class="language-pvl editable read-only">barrier(barrierName) {
+  requires P;
+  ensures Q;
+}
+</code></pre>
+<p>Form 2:</p>
+<pre><code class="language-pvl editable read-only">barrier(barrierName)
+  requires P;
+  ensures Q;
+{ }
+</code></pre>
+<p>Notice how in form 1, the contract is inside the curly braces. In form 2, the contract resides between the barrier declaration and the curly braces.</p>
+<p>There is a <em>big</em> difference between these two syntaxes. In form 1, the contract of the barrier <em>is not actually checked</em> by VerCors. This means that if you would add <code>ensures false;</code> to your barrier using the syntax of form 1, VerCors will not indicate this is a problematic contract. For form 2, however, the contract <em>is actually checked</em>. Therefore, when using barriers, form 2 should be preferred. Form 1 should only be used if there is a proof external to VerCors.</p>
+<h2 id="complicated-parallel-blocks"><a class="header" href="#complicated-parallel-blocks">Complicated Parallel Blocks</a></h2>
+<h3 id="nested-parallel-blocks"><a class="header" href="#nested-parallel-blocks">Nested Parallel Blocks</a></h3>
+<p>In the previous examples, we defined a parallel block of threads to work on one-dimensional arrays. It is also possible to define two-dimensional thread layouts to work on two-dimensional arrays. As an example we define a two-dimensional thread layout to transpose a matrix in parallel:</p>
+<!-- test -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLWNvbXBsaWNhdGVkLXBhcmFsbGVsLWJsb2Nrcy1uZXN0ZWQtcGFyYWxsZWwtYmxvY2tzLTEKLy86OiB2ZXJkaWN0IFBhc3MKLy86OiB0b29scyBzaWxpY29uCmNvbnRleHRfZXZlcnl3aGVyZSBzaXplPjA7CmNvbnRleHRfZXZlcnl3aGVyZSBpbnAgIT0gbnVsbCAmJiBvdXQgIT0gbnVsbDsgLy8vICYmIG91dCA9PSBzaXplOwpjb250ZXh0X2V2ZXJ5d2hlcmUgaW5wLmxlbmd0aCA9PSBzaXplICYmIG91dC5sZW5ndGggPT0gc2l6ZTsKY29udGV4dF9ldmVyeXdoZXJlICjiiIAqIGludCBpOyAwIDw9IGkgJiYgaSA8IHNpemU7IAogIFBlcm0oezoxOmlucFtpXTp9LCByZWFkKSAqKiBQZXJtKHs6MjpvdXRbaV06fSwgcmVhZCkpOwpjb250ZXh0X2V2ZXJ5d2hlcmUgKOKIgCBpbnQgaTsgMCA8PSBpICYmIGkgPCBzaXplOyAKICB7OjE6aW5wW2ldOn0gIT0gbnVsbCAmJiBpbnBbaV0ubGVuZ3RoID09IHNpemUgJiYKICB7OjI6b3V0W2ldOn0gIT0gbnVsbCAmJiBvdXRbaV0ubGVuZ3RoID09IHNpemUpOwpjb250ZXh0X2V2ZXJ5d2hlcmUgKOKIgCBpbnQgaSwgaW50IGo7IDAgPD0gaSAmJiBpIDwgc2l6ZSAmJiAwIDw9IGogJiYgaiA8IHNpemU7CiAgaSAhPSBqID09PiAoezoxOmlucFtpXTp9ICE9IHs6MTppbnBbal06fSAmJiB7OjI6b3V0W2ldOn0gIT0gezoyOm91dFtqXTp9KSk7Cgpjb250ZXh0ICjiiIAqIGludCBpLCBpbnQgajsgMCA8PSBpICYmIGkgPCBzaXplICYmIDAgPD0gaiAmJiBqIDwgc2l6ZTsgCiAgUGVybSh7OmlucFtpXVtqXTp9LCByZWFkKSk7CmNvbnRleHQgKOKIgCogaW50IGksIGludCBqOyAwIDw9IGkgJiYgaSA8IHNpemUgJiYgMCA8PSBqICYmIGogPCBzaXplOyAKICBQZXJtKHs6b3V0W2ldW2pdOn0sIHdyaXRlKSk7CmVuc3VyZXMgKOKIgCogaW50IGksIGludCBqOyAwIDw9IGkgJiYgaSA8IHNpemUgJiYgMCA8PSBqICYmIGogPCBzaXplOwogIHs6b3V0W2ldW2pdOn0gPT0gaW5wW2pdW2ldKTsKdm9pZCB0cmFuc3Bvc2UoaW50W11bXSBpbnAsIGludFtdW10gb3V0LCBpbnQgc2l6ZSl7CgogIHBhciB0aHJlYWRYIChpbnQgdGlkWCA9IDAgLi4gc2l6ZSkKICAgIGNvbnRleHQgKOKIgCogaW50IGk7IGkgPj0gMCAmJiBpIDwgc2l6ZTsgUGVybSh7OmlucFtpXVt0aWRYXTp9LCByZWFkKSk7CiAgICBjb250ZXh0ICjiiIAqIGludCBpOyBpID49IDAgJiYgaSA8IHNpemU7IFBlcm0oezpvdXRbdGlkWF1baV06fSwgd3JpdGUpKTsKICAgIGVuc3VyZXMgKOKIgCBpbnQgaTsgaSA+PSAwICYmIGkgPCBzaXplOyB7Om91dFt0aWRYXVtpXTp9ID09IGlucFtpXVt0aWRYXSk7CiAgewogICAgcGFyIHRocmVhZFkgKGludCB0aWRZID0gMCAuLiBzaXplKQogICAgICBjb250ZXh0IFBlcm0oezppbnBbdGlkWV1bdGlkWF06fSwgcmVhZCk7CiAgICAgIGNvbnRleHQgUGVybSh7Om91dFt0aWRYXVt0aWRZXTp9LCB3cml0ZSk7CiAgICAgIGVuc3VyZXMgezpvdXRbdGlkWF1bdGlkWV06fSA9PSBpbnBbdGlkWV1bdGlkWF07CiAgICB7CiAgICAgIG91dFt0aWRYXVt0aWRZXSA9IGlucFt0aWRZXVt0aWRYXTsgCiAgICB9IAogIH0KfQ==" data-template-kind="test" data-case-name="wiki-complicated-parallel-blocks-nested-parallel-blocks-1" data-case-verdict="Pass" data-language-ext="pvl" data-language-label="pvl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">context_everywhere size&gt;0;
+context_everywhere inp != null &amp;&amp; out != null; /// &amp;&amp; out == size;
+context_everywhere inp.length == size &amp;&amp; out.length == size;
+context_everywhere (∀* int i; 0 &lt;= i &amp;&amp; i &lt; size; 
+  Perm({:1:inp[i]:}, read) ** Perm({:2:out[i]:}, read));
+context_everywhere (∀ int i; 0 &lt;= i &amp;&amp; i &lt; size; 
+  {:1:inp[i]:} != null &amp;&amp; inp[i].length == size &amp;&amp;
+  {:2:out[i]:} != null &amp;&amp; out[i].length == size);
+context_everywhere (∀ int i, int j; 0 &lt;= i &amp;&amp; i &lt; size &amp;&amp; 0 &lt;= j &amp;&amp; j &lt; size;
+  i != j ==&gt; ({:1:inp[i]:} != {:1:inp[j]:} &amp;&amp; {:2:out[i]:} != {:2:out[j]:}));
+
+context (∀* int i, int j; 0 &lt;= i &amp;&amp; i &lt; size &amp;&amp; 0 &lt;= j &amp;&amp; j &lt; size; 
+  Perm({:inp[i][j]:}, read));
+context (∀* int i, int j; 0 &lt;= i &amp;&amp; i &lt; size &amp;&amp; 0 &lt;= j &amp;&amp; j &lt; size; 
+  Perm({:out[i][j]:}, write));
+ensures (∀* int i, int j; 0 &lt;= i &amp;&amp; i &lt; size &amp;&amp; 0 &lt;= j &amp;&amp; j &lt; size;
+  {:out[i][j]:} == inp[j][i]);
+void transpose(int[][] inp, int[][] out, int size){
+
+  par threadX (int tidX = 0 .. size)
+    context (∀* int i; i &gt;= 0 &amp;&amp; i &lt; size; Perm({:inp[i][tidX]:}, read));
+    context (∀* int i; i &gt;= 0 &amp;&amp; i &lt; size; Perm({:out[tidX][i]:}, write));
+    ensures (∀ int i; i &gt;= 0 &amp;&amp; i &lt; size; {:out[tidX][i]:} == inp[i][tidX]);
+  {
+    par threadY (int tidY = 0 .. size)
+      context Perm({:inp[tidY][tidX]:}, read);
+      context Perm({:out[tidX][tidY]:}, write);
+      ensures {:out[tidX][tidY]:} == inp[tidY][tidX];
+    {
+      out[tidX][tidY] = inp[tidY][tidX]; 
+    } 
+  }
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>As we can see defining nested parallel blocks allow us to define thread layout in different dimensions. We can simplify the above example syntactically into one parallel block:</p>
+<!-- test -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLWNvbXBsaWNhdGVkLXBhcmFsbGVsLWJsb2Nrcy1uZXN0ZWQtcGFyYWxsZWwtYmxvY2tzLTIKLy86OiB2ZXJkaWN0IFBhc3MKLy86OiB0b29scyBzaWxpY29uCmNvbnRleHRfZXZlcnl3aGVyZSBzaXplPjA7CmNvbnRleHRfZXZlcnl3aGVyZSBpbnAgIT0gbnVsbCAmJiBvdXQgIT0gbnVsbDsgLy8vICYmIG91dCA9PSBzaXplOwpjb250ZXh0X2V2ZXJ5d2hlcmUgaW5wLmxlbmd0aCA9PSBzaXplICYmIG91dC5sZW5ndGggPT0gc2l6ZTsKY29udGV4dF9ldmVyeXdoZXJlICjiiIAqIGludCBpOyAwIDw9IGkgJiYgaSA8IHNpemU7IAogIFBlcm0oezoxOmlucFtpXTp9LCByZWFkKSAqKiBQZXJtKHs6MjpvdXRbaV06fSwgcmVhZCkpOwpjb250ZXh0X2V2ZXJ5d2hlcmUgKOKIgCBpbnQgaTsgMCA8PSBpICYmIGkgPCBzaXplOyAKICB7OjE6aW5wW2ldOn0gIT0gbnVsbCAmJiBpbnBbaV0ubGVuZ3RoID09IHNpemUgJiYKICB7OjI6b3V0W2ldOn0gIT0gbnVsbCAmJiBvdXRbaV0ubGVuZ3RoID09IHNpemUpOwpjb250ZXh0X2V2ZXJ5d2hlcmUgKOKIgCBpbnQgaSwgaW50IGo7IDAgPD0gaSAmJiBpIDwgc2l6ZSAmJiAwIDw9IGogJiYgaiA8IHNpemU7CiAgaSAhPSBqID09PiAoezoxOmlucFtpXTp9ICE9IHs6MTppbnBbal06fSAmJiB7OjI6b3V0W2ldOn0gIT0gezoyOm91dFtqXTp9KSk7Cgpjb250ZXh0ICjiiIAqIGludCBpLCBpbnQgajsgMCA8PSBpICYmIGkgPCBzaXplICYmIDAgPD0gaiAmJiBqIDwgc2l6ZTsgCiAgUGVybSh7OmlucFtpXVtqXTp9LCByZWFkKSk7CmNvbnRleHQgKOKIgCogaW50IGksIGludCBqOyAwIDw9IGkgJiYgaSA8IHNpemUgJiYgMCA8PSBqICYmIGogPCBzaXplOyAKICBQZXJtKHs6b3V0W2ldW2pdOn0sIHdyaXRlKSk7CmVuc3VyZXMgKOKIgCogaW50IGksIGludCBqOyAwIDw9IGkgJiYgaSA8IHNpemUgJiYgMCA8PSBqICYmIGogPCBzaXplOwogIHs6b3V0W2ldW2pdOn0gPT0gaW5wW2pdW2ldKTsKdm9pZCB0cmFuc3Bvc2UoaW50W11bXSBpbnAsIGludFtdW10gb3V0LCBpbnQgc2l6ZSl7CgogIHBhciB0aHJlYWRYWSAoaW50IHRpZFggPSAwIC4uIHNpemUsIGludCB0aWRZID0gMCAuLiBzaXplKQogICAgY29udGV4dCBQZXJtKHs6aW5wW3RpZFldW3RpZFhdOn0sIHJlYWQpOwogICAgY29udGV4dCBQZXJtKHs6b3V0W3RpZFhdW3RpZFldOn0sIHdyaXRlKTsKICAgIGVuc3VyZXMgezpvdXRbdGlkWF1bdGlkWV06fSA9PSBpbnBbdGlkWV1bdGlkWF07CiAgewogICAgb3V0W3RpZFhdW3RpZFldID0gaW5wW3RpZFldW3RpZFhdOyAKICB9IAp9" data-template-kind="test" data-case-name="wiki-complicated-parallel-blocks-nested-parallel-blocks-2" data-case-verdict="Pass" data-language-ext="pvl" data-language-label="pvl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">context_everywhere size&gt;0;
+context_everywhere inp != null &amp;&amp; out != null; /// &amp;&amp; out == size;
+context_everywhere inp.length == size &amp;&amp; out.length == size;
+context_everywhere (∀* int i; 0 &lt;= i &amp;&amp; i &lt; size; 
+  Perm({:1:inp[i]:}, read) ** Perm({:2:out[i]:}, read));
+context_everywhere (∀ int i; 0 &lt;= i &amp;&amp; i &lt; size; 
+  {:1:inp[i]:} != null &amp;&amp; inp[i].length == size &amp;&amp;
+  {:2:out[i]:} != null &amp;&amp; out[i].length == size);
+context_everywhere (∀ int i, int j; 0 &lt;= i &amp;&amp; i &lt; size &amp;&amp; 0 &lt;= j &amp;&amp; j &lt; size;
+  i != j ==&gt; ({:1:inp[i]:} != {:1:inp[j]:} &amp;&amp; {:2:out[i]:} != {:2:out[j]:}));
+
+context (∀* int i, int j; 0 &lt;= i &amp;&amp; i &lt; size &amp;&amp; 0 &lt;= j &amp;&amp; j &lt; size; 
+  Perm({:inp[i][j]:}, read));
+context (∀* int i, int j; 0 &lt;= i &amp;&amp; i &lt; size &amp;&amp; 0 &lt;= j &amp;&amp; j &lt; size; 
+  Perm({:out[i][j]:}, write));
+ensures (∀* int i, int j; 0 &lt;= i &amp;&amp; i &lt; size &amp;&amp; 0 &lt;= j &amp;&amp; j &lt; size;
+  {:out[i][j]:} == inp[j][i]);
+void transpose(int[][] inp, int[][] out, int size){
+
+  par threadXY (int tidX = 0 .. size, int tidY = 0 .. size)
+    context Perm({:inp[tidY][tidX]:}, read);
+    context Perm({:out[tidX][tidY]:}, write);
+    ensures {:out[tidX][tidY]:} == inp[tidY][tidX];
+  {
+    out[tidX][tidY] = inp[tidY][tidX]; 
+  } 
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<h3 id="simultaneous-parallel-blocks"><a class="header" href="#simultaneous-parallel-blocks">Simultaneous Parallel Blocks</a></h3>
+<p>There might be some scenarios that we have multiple parallel blocks and all threads in each parallel block are working in disjoint memory locations. In this case we can define multiple parallel blocks to run simultaneously. That means, threads in each parallel block run independently of other threads in different parallel blocks. Below is an example of such a scenario:</p>
+<!-- test -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLWNvbXBsaWNhdGVkLXBhcmFsbGVsLWJsb2Nrcy1zaW11bHRhbmVvdXMtcGFyYWxsZWwtYmxvY2tzLTEKLy86OiB2ZXJkaWN0IFBhc3MKLy86OiB0b29scyBzaWxpY29uCmNvbnRleHRfZXZlcnl3aGVyZSBhICE9IG51bGwgJiYgYiAhPSBudWxsICYmIGMgIT0gbnVsbDsKY29udGV4dF9ldmVyeXdoZXJlIGEubGVuZ3RoID09IHNpemUgJiYgYi5sZW5ndGggPT0gc2l6ZSAmJiBjLmxlbmd0aCA9PSBzaXplOyAKY29udGV4dCAo4oiAKiBpbnQgaTsgaSA+PSAwICYmICBpIDwgc2l6ZTsgUGVybSh7OmFbaV06fSwgd3JpdGUpKTsKY29udGV4dCAo4oiAKiBpbnQgaTsgaSA+PSAwICYmICBpIDwgc2l6ZTsgUGVybSh7OmJbaV06fSwgd3JpdGUpKTsKY29udGV4dCAo4oiAKiBpbnQgaTsgaSA+PSAwICYmICBpIDwgc2l6ZTsgUGVybSh7OmNbaV06fSwgd3JpdGUpKTsKZW5zdXJlcyAo4oiAIGludCBpOyBpID49IDAgJiYgIGkgPCBzaXplOyB7OmFbaV06fSA9PSAKICBcb2xkKGFbaV0pICsgMSAmJiB7OjI6YltpXTp9ID09IFxvbGQoYltpXSkgKyAxICYmIAogIHs6MzpjW2ldOn0gPT0gXG9sZChjW2ldKSArIDEpOwp2b2lkIHNpbVBhcihpbnRbXSBhLCBpbnRbXSBiLCBpbnRbXSBjLCBpbnQgc2l6ZSl7CiAgcGFyYWxsZWwgewogICAgcGFyIHRocmVhZDEgKGludCB0aWQxID0gMCAuLiBzaXplKQogICAgY29udGV4dCBQZXJtKHs6YVt0aWQxXTp9LCB3cml0ZSk7CiAgICBlbnN1cmVzIHs6YVt0aWQxXTp9ID09IFxvbGQoYVt0aWQxXSkgKyAxOwogICAgewogICAgICBhW3RpZDFdID0gYVt0aWQxXSArIDE7IAogICAgfQogICAgcGFyIHRocmVhZDIgKGludCB0aWQyID0gMCAuLiBzaXplKQogICAgY29udGV4dCBQZXJtKHs6Ylt0aWQyXTp9LCB3cml0ZSk7CiAgICBlbnN1cmVzIHs6Ylt0aWQyXTp9ID09IFxvbGQoYlt0aWQyXSkgKyAxOwogICAgewogICAgICBiW3RpZDJdID0gYlt0aWQyXSArIDE7CiAgICB9CiAgICBwYXIgdGhyZWFkMyAoaW50IHRpZDMgPSAwIC4uIHNpemUpCiAgICBjb250ZXh0IFBlcm0oezpjW3RpZDNdOn0sIHdyaXRlKTsKICAgIGVuc3VyZXMgezpjW3RpZDNdOn0gPT0gXG9sZChjW3RpZDNdKSArIDE7CiAgICB7CiAgICAgIGNbdGlkM10gPSBjW3RpZDNdICsgMTsKICAgIH0KICB9Cn0=" data-template-kind="test" data-case-name="wiki-complicated-parallel-blocks-simultaneous-parallel-blocks-1" data-case-verdict="Pass" data-language-ext="pvl" data-language-label="pvl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">context_everywhere a != null &amp;&amp; b != null &amp;&amp; c != null;
+context_everywhere a.length == size &amp;&amp; b.length == size &amp;&amp; c.length == size; 
+context (∀* int i; i &gt;= 0 &amp;&amp;  i &lt; size; Perm({:a[i]:}, write));
+context (∀* int i; i &gt;= 0 &amp;&amp;  i &lt; size; Perm({:b[i]:}, write));
+context (∀* int i; i &gt;= 0 &amp;&amp;  i &lt; size; Perm({:c[i]:}, write));
+ensures (∀ int i; i &gt;= 0 &amp;&amp;  i &lt; size; {:a[i]:} == 
+  \old(a[i]) + 1 &amp;&amp; {:2:b[i]:} == \old(b[i]) + 1 &amp;&amp; 
+  {:3:c[i]:} == \old(c[i]) + 1);
+void simPar(int[] a, int[] b, int[] c, int size){
+  parallel {
+    par thread1 (int tid1 = 0 .. size)
+    context Perm({:a[tid1]:}, write);
+    ensures {:a[tid1]:} == \old(a[tid1]) + 1;
+    {
+      a[tid1] = a[tid1] + 1; 
+    }
+    par thread2 (int tid2 = 0 .. size)
+    context Perm({:b[tid2]:}, write);
+    ensures {:b[tid2]:} == \old(b[tid2]) + 1;
+    {
+      b[tid2] = b[tid2] + 1;
+    }
+    par thread3 (int tid3 = 0 .. size)
+    context Perm({:c[tid3]:}, write);
+    ensures {:c[tid3]:} == \old(c[tid3]) + 1;
+    {
+      c[tid3] = c[tid3] + 1;
+    }
+  }
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>As we can see we use <code>parallel</code> to define simultaneous parallel blocks. This construction can be used in a situation where we decide to run simultaneous instructions. That means, we do not define threads in the parallel blocks, but the par blocks run simultaneously. Below is an example in this situation where <code>a</code>, <code>b</code> and <code>c</code> are objects included a field <code>val</code>:</p>
+<!-- test -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLWNvbXBsaWNhdGVkLXBhcmFsbGVsLWJsb2Nrcy1zaW11bHRhbmVvdXMtcGFyYWxsZWwtYmxvY2tzLTIKLy86OiB2ZXJkaWN0IFBhc3MKLy86OiB0b29scyBzaWxpY29uCmNsYXNzIEhhc1ZhbCB7CiAgICBpbnQgdmFsOwp9CgpjbGFzcyBNYWluIHsKICAgY29udGV4dCBQZXJtKGEudmFsLCB3cml0ZSkgKiogUGVybShiLnZhbCwgd3JpdGUpICoqIFBlcm0oYy52YWwsIHdyaXRlKTsKICAgZW5zdXJlcyBhLnZhbCA9PSBcb2xkKGEudmFsKSArIDEgJiYgYi52YWwgPT0gXG9sZChiLnZhbCkgKyAxICYmCiAgICBjLnZhbCA9PSBcb2xkKGMudmFsKSArIDE7ICAgICAgICAgICAgICAgICAgICAgIAogIHZvaWQgSW5jUGFyKEhhc1ZhbCBhLCBIYXNWYWwgYiwgSGFzVmFsIGMpewogICAgcGFyYWxsZWwgewogICAgICBwYXIgCiAgICAgICBjb250ZXh0IFBlcm0oYS52YWwsIHdyaXRlKTsKICAgICAgIGVuc3VyZXMgYS52YWwgPT0gXG9sZChhLnZhbCkgKyAxOwogICAgICB7CiAgICAgICAgYS52YWwgPSBhLnZhbCArIDE7IAogICAgICB9CiAgICAgIHBhcgogICAgICAgY29udGV4dCBQZXJtKGIudmFsLCB3cml0ZSk7CiAgICAgICBlbnN1cmVzIGIudmFsID09IFxvbGQoYi52YWwpICsgMTsKICAgICAgewogICAgICAgIGIudmFsID0gYi52YWwgKyAxOwogICAgICB9CiAgICAgIHBhcgogICAgICAgY29udGV4dCBQZXJtKGMudmFsLCB3cml0ZSk7CiAgICAgICBlbnN1cmVzIGMudmFsID09IFxvbGQoYy52YWwpICsgMTsKICAgICAgewogICAgICAgIGMudmFsID0gYy52YWwgKyAxOwogICAgICB9CiAgICB9CiAgfQp9" data-template-kind="test" data-case-name="wiki-complicated-parallel-blocks-simultaneous-parallel-blocks-2" data-case-verdict="Pass" data-language-ext="pvl" data-language-label="pvl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">class HasVal {
+    int val;
+}
+
+class Main {
+   context Perm(a.val, write) ** Perm(b.val, write) ** Perm(c.val, write);
+   ensures a.val == \old(a.val) + 1 &amp;&amp; b.val == \old(b.val) + 1 &amp;&amp;
+    c.val == \old(c.val) + 1;                      
+  void IncPar(HasVal a, HasVal b, HasVal c){
+    parallel {
+      par 
+       context Perm(a.val, write);
+       ensures a.val == \old(a.val) + 1;
+      {
+        a.val = a.val + 1; 
+      }
+      par
+       context Perm(b.val, write);
+       ensures b.val == \old(b.val) + 1;
+      {
+        b.val = b.val + 1;
+      }
+      par
+       context Perm(c.val, write);
+       ensures c.val == \old(c.val) + 1;
+      {
+        c.val = c.val + 1;
+      }
+    }
+  }
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>In the above example, for each object we increase its <code>val</code> by one in parallel. As we can see, thread blocks are without names and thread identifiers in this case.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="Arrays-and-Pointers.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="GPGPU-Verification.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="Arrays-and-Pointers.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="GPGPU-Verification.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-xmark><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M310.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L160 210.7 54.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L114.7 256 9.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 301.3 265.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L205.3 256 310.6 150.6z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+        <template id=fa-pencil><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M421.7 220.3l-11.3 11.3-22.6 22.6-205 205c-6.6 6.6-14.8 11.5-23.8 14.1L30.8 511c-8.4 2.5-17.5 .2-23.7-6.1S-1.5 489.7 1 481.2L38.7 353.1c2.6-9 7.5-17.2 14.1-23.8l205-205 22.6-22.6 11.3-11.3 33.9 33.9 62.1 62.1 33.9 33.9zM96 353.9l-9.3 9.3c-.9 .9-1.6 2.1-2 3.4l-25.3 86 86-25.3c1.3-.4 2.5-1.1 3.4-2l9.3-9.3H112c-8.8 0-16-7.2-16-16V353.9zM453.3 19.3l39.4 39.4c25 25 25 65.5 0 90.5l-14.5 14.5-22.6 22.6-11.3 11.3-33.9-33.9-62.1-62.1L314.3 67.7l11.3-11.3 22.6-22.6 14.5-14.5c25-25 65.5-25 90.5 0z"/></svg></span></template>
+
+
+        <script>
+            window.playground_line_numbers = true;
+        </script>
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="ace-2a3cd908.js"></script>
+        <script src="mode-rust-2c9d5c9a.js"></script>
+        <script src="../js/mode-annotated_c.js"></script>
+        <script src="../js/mode-annotated_cuda.js"></script>
+        <script src="../js/mode-annotated_java.js"></script>
+        <script src="../js/mode-annotated_opencl.js"></script>
+        <script src="../js/mode-annotated_sycl.js"></script>
+        <script src="../js/mode-pvl.js"></script>
+        <script src="../js/mode-viper.js"></script>
+
+        <script src="editor-16ca416c.js"></script>
+        <script src="theme-dawn-4493f9c8.js"></script>
+        <script src="theme-tomorrow_night-9dbe62a9.js"></script>
+        <script src="../js/theme-chrome.js"></script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-09f2665d.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-a6f5d318.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    
+<div id="footer" class="dark">
+    <footer class="container">
+        <a href="//www.utwente.nl/en/eemcs/fmt/" target="_blank"><img src="/images/FMT logo.png" alt="Formal Methods & Tools logo" title="Formal Methods & Tools"></a>
+        <hr>
+        <div class="copyright">
+            <a href="/about/#credits" target="_blank">Copyright <code id="copyright">&copy</code> The VerCors Project 2007-2026</a>
+            | <a href="//www.utwente.nl/en/eemcs/fmt/" target="_blank">FMT - University of Twente</a>
+            | <a href="/about/">About Us</a>
+        </div>
+    </footer>
+</div>
+</body>
+</html>

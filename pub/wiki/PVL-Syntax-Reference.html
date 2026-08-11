@@ -1,0 +1,676 @@
+<!DOCTYPE HTML>
+<html lang="en" class="vercors sidebar-visible" dir="ltr">
+    <head>
+<meta name="description" content="VerCors Tutorial and documentation">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#d12010">
+
+<link rel="icon" href="/images/icon.svg">
+
+<link rel="stylesheet" href="/css/global.css">
+<link rel="stylesheet" href="/css/colors.css">
+<link rel="stylesheet" href="/css/shared.css">
+<link rel="stylesheet" href="/css/responsive.css">
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/highlight.pack.js"></script>
+<script src="/js/ace.js"></script>
+<script src="/js/datatables.min.js"></script>
+<script src="/js/vercorsonline.js"></script>
+<script src="/js/init.js"></script>
+
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>PVL Syntax Reference - VerCors Tutorial</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-88aeadc2.css">
+        <link rel="stylesheet" href="css/general-5067d8cd.css">
+        <link rel="stylesheet" href="css/chrome-7683498c.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "vercors";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-9b93a44c.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-0460c59c.js"></script>
+    </head>
+    <body>
+<div id="header" class="top-header ">
+
+            <nav class="top-nav">
+                <div class="container">
+                    <div id="logo">
+                        <span id="hamburger" onclick="document.querySelector('nav.top-nav').classList.toggle('open')"><span class="fa fa-bars"></span></span><!--
+                        --><a href="/"><img id="logo-light" src="/images/logo.svg" title="The VerCors Verifier" alt="Logo of the VerCors Verifier"><img id="logo-dark" src="/images/logo-white.svg" title="The VerCors Verifier" alt="Logo of the VerCors Verifier"></a>
+                    </div>
+                    <ul>
+                        <li>
+                            <a href="/wiki">Getting Started</a>
+                            <ul>
+                                <li><a href="/wiki/Installing-and-Running-VerCors.html">Installation Guide</a></li>
+                                <li><a href="/wiki/Tutorial.html">Tutorial</a></li>
+                                <li>
+                                    <a href="//github.com/utwente-fmt/vercors/issues" target="_blank">
+                                        Issue Tracker
+                                        <span class="fa fa-external-link" style="font-size: 10pt"></span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="/">Tools</a>
+                            <ul>
+                                <li><a href="/">Verifier</a></li>
+                                <li><a href="/alpinist/">Alpinist</a></li>
+                                <li><a href="/vesuv/">VeSUV</a></li>
+                                <li><a href="/veymont/">VeyMont</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="/publications/">Publications</a></li>
+                        <li>
+                            <a href="/about/">About</a>
+                            <ul>
+                                <li><a href="/about/#team">VerCors Team</a></li>
+                                <li><a href="/news/">News</a></li>
+                                <li><a href="/about/#contact">Contact</a></li>
+                                <li><a href="/about/#credits">Credits</a></li>
+                                <li><a href="/license/">License</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+</div>
+
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('vercors')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-vercors">VerCors</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">VerCors Tutorial </h1>
+
+                    <div class="right-buttons">
+                        <a href="/try_online/" class="online-button">Try VerCors Online</a>
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <p>On this page you can find a description of the specification language of VerCors. In general, the specification language extends the language that is verified, like Java. That means that all types, (pure) operators, etc. from the source language can also be used in the specifications, together with the specification-only constructs described below.</p>
+<p>Additionally, this page describes PVL, the Prototypal Verification Language. It is a language similar to Java or C and can be verified like them, so the same specification constructs are available. However, it is developed specifically for VerCors, so we also provide the information that is usually found in the language documentation, like the C standard.</p>
+<h2 id="general"><a class="header" href="#general">General</a></h2>
+<ul>
+<li>
+<p>Specifications are usually embedded in JML-like comments: <code>/*@ spec @*/</code> or <code>//@ spec line</code>. <strong>Exception</strong>: In PVL, specifications are <strong>not</strong> embedded in comments, instead they are written into the code directly.</p>
+</li>
+<li>
+<p>In PVL, <strong>identifiers</strong> can consist of the characters a-z, A-Z, 0-9 and _. However, they must <strong>start</strong> with an underscore or letter (a-z, A-Z).</p>
+<p>In specifications, the same rules apply for identifiers as in the language that is specified, e.g. Java identifiers in specifications of Java.</p>
+<p>Note that the following words are reserved and can therefore <strong>not</strong> be used as identifiers: create, action, destroy, send, recv, use, open, close, atomic, from, merge, split, process, apply, label, \result, write, read, none, empty and current_thread. However, keywords can be wrapped in backticks, to turn them into identifiers, e.g. <code>create</code> cannot be used as an identifier, but <code>`create`</code> is an identifier.</p>
+</li>
+<li>
+<p>Most specification constructs are self-contained statements, like preconditions, loop invariants or ghost assignments. Those end with a semicolon <code>;</code>. However, a few elements, like <code>with</code> side conditions, are parts of another statement, and do not have their own semicolon.</p>
+</li>
+</ul>
+<h3 id="pvl"><a class="header" href="#pvl">PVL</a></h3>
+<ul>
+<li>At the top level of a program, there can be methods directly (like in C). But more commonly, those are defined within a <code>class</code>:</li>
+</ul>
+<pre><code class="language-pvl editable read-only">class ClassName {
+    // Here you can add any constructors, class variables and method declarations
+}
+</code></pre>
+<ul>
+<li>The keyword <code>this</code> is used to refer to the current object, <code>null</code> for the null reference (“pointer to nothing”).</li>
+<li>You can write single-line or multi-line comments as follows:</li>
+</ul>
+<pre><code class="language-pvl editable read-only">// This is a single-line comment
+/* 
+    This is a 
+    multi-line comment 
+*/
+</code></pre>
+<ul>
+<li>Like in C or Java, statements in PVL should end with a semi-colon <code>;</code>.</li>
+<li>For a more detailed description, see <a href="https://github.com/utwente-fmt/vercors/wiki/Prototypal-Verification-Language">https://github.com/utwente-fmt/vercors/wiki/Prototypal-Verification-Language</a></li>
+</ul>
+<blockquote class="blockquote-tag blockquote-tag-caution">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M4.47.22A.749.749 0 0 1 5 0h6c.199 0 .389.079.53.22l4.25 4.25c.141.14.22.331.22.53v6a.749.749 0 0 1-.22.53l-4.25 4.25A.749.749 0 0 1 11 16H5a.749.749 0 0 1-.53-.22L.22 11.53A.749.749 0 0 1 0 11V5c0-.199.079-.389.22-.53Zm.84 1.28L1.5 5.31v5.38l3.81 3.81h5.38l3.81-3.81V5.31L10.69 1.5ZM8 4a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 8 4Zm0 8a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Caution</p>
+<blockquote>
+<p>This page is a reference overview. Some entries describe experimental, deprecated, or lightly documented constructs that exist in the parser or verifier but are not recommended for everyday use.</p>
+</blockquote>
+</blockquote>
+<h2 id="types-and-data-structures"><a class="header" href="#types-and-data-structures">Types and Data Structures</a></h2>
+<p>The following table lists the basic and composed data types supported in the specification language.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Type</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>resource</code></td><td>Boolean-like type that also allows reasoning about permissions. See <a href="https://github.com/utwente-fmt/vercors/wiki/Predicates">https://github.com/utwente-fmt/vercors/wiki/Predicates</a></td></tr>
+<tr><td><code>frac</code></td><td>Fraction, used for permission amounts. See <a href="https://github.com/utwente-fmt/vercors/wiki/Permissions">https://github.com/utwente-fmt/vercors/wiki/Permissions</a></td></tr>
+<tr><td><code>zfrac</code></td><td>Fraction that can also be zero.</td></tr>
+<tr><td><code>rational</code></td><td>Unbounded rational number</td></tr>
+<tr><td><code>bool</code></td><td>Boolean value that is either <code>true</code> or <code>false</code></td></tr>
+<tr><td><code>string</code></td><td>Text, i.e. a string of characters</td></tr>
+<tr><td><code>ref</code></td><td>Reference to an object, similar to Viper’s <code>Ref</code> type. Mostly for internal usage, e.g. ADT definitions.</td></tr>
+<tr><td><code>process</code></td><td>Type of actions and defined processes in process algebra models. See <a href="https://github.com/utwente-fmt/vercors/wiki/Process-Algebra-Models">https://github.com/utwente-fmt/vercors/wiki/Process-Algebra-Models</a></td></tr>
+<tr><td><code>any</code></td><td>Artificial type that is a supertype of any other type. Mostly for internal usage, e.g. rewrite rules.</td></tr>
+<tr><td><code>nothing</code></td><td>Artificial type that is a subtype of any other type. Mostly for internal usage, e.g. rewrite rules.</td></tr>
+<tr><td><code>seq&lt;T&gt;</code></td><td>Defines an immutable ordered list (sequence). <code>T</code> should be replaced by a type. See <a href="https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types">https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types</a></td></tr>
+<tr><td><code>set&lt;T&gt;</code></td><td>Defines an immutable orderless collection that does not allow duplicates (“set”). <code>T</code> should be replaced by a type. See <a href="https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types">https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types</a></td></tr>
+<tr><td><code>bag&lt;T&gt;</code></td><td>Defines an immutable orderless collection that does allow duplicates (“bag” or “multiset”). <code>T</code> should be replaced by a type. See <a href="https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types">https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types</a></td></tr>
+<tr><td><code>map&lt;T1, T2&gt;</code></td><td>Defines an immutable orderless collection of key/value pairs that does not allow duplicate keys (“map”, “record” or “dictionary”). <code>T1</code> and <code>T2</code> should be replaced by Types. See <a href="https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types">https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types</a></td></tr>
+<tr><td><code>option&lt;T&gt;</code></td><td>Extends type <code>T</code> with an extra element <code>None</code>. Each element is then either <code>None</code> or of the style <code>Some(e)</code> where <code>e</code> is of type <code>T</code>. <code>T</code> should be replaced by a type. Options cannot be unpacked at the moment. See <a href="https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types">https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types</a></td></tr>
+<tr><td><code>tuple&lt;T1,T2&gt;</code></td><td>Defines a pair, where the first entry is of type <code>T1</code> and the second of type <code>T2</code>. Can be nested to create larger tuples. See <a href="https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types">https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types</a></td></tr>
+<tr><td><code>pointer&lt;T&gt;</code></td><td>Defines the type of a pointer to an element of type <code>T</code>. <code>T</code> should be replaced by a type. See <a href="https://github.com/utwente-fmt/vercors/wiki/Arrays-and-Pointers">https://github.com/utwente-fmt/vercors/wiki/Arrays-and-Pointers</a></td></tr>
+<tr><td><code>type&lt;T&gt;</code></td><td>Used to define type variables that are subtype of <code>T</code>. Mostly used for rewrite rules, e.g. <code>(\forall type&lt;any&gt; T; (\forall T t; expr))</code></td></tr>
+<tr><td><code>either&lt;T1, T2&gt;</code></td><td>Defines a sum type whose values are either of type <code>T1</code> or of type <code>T2</code>. Values of this type are typically constructed with <code>Left(e)</code> or <code>Right(e)</code>.</td></tr>
+<tr><td>language type</td><td>A type from the base language, e.g. Java, can also be used in the specifications for that language. This usually provides basic types like <code>int</code>.</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="pvl-1"><a class="header" href="#pvl-1">PVL</a></h3>
+<p>In PVL, the specification types above can also be used in the regular program. Additionally, the following types are available:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Type</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>int</code></td><td>Integer</td></tr>
+<tr><td><code>boolean</code></td><td><code>true</code> or <code>false</code></td></tr>
+<tr><td><code>void</code></td><td>Used when a method does not return anything</td></tr>
+<tr><td><code>float32</code></td><td>32-bit floating point number (Note: support still limited)</td></tr>
+<tr><td><code>float64</code></td><td>64-bit floating point number (Note: support still limited)</td></tr>
+<tr><td><code>char</code></td><td>Character</td></tr>
+<tr><td><code>T[]</code></td><td>Array which contains elements of type <code>T</code>. <code>T</code> should be replaced by a type. Note that when you initialize a new array, you should always define the length of the array, e.g. <code>new int[3]</code> instead of <code>new int[]</code>.</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="expressions"><a class="header" href="#expressions">Expressions</a></h2>
+<h3 id="operators"><a class="header" href="#operators">Operators</a></h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Code</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>\</code></td><td>Division that creates a <code>frac</code>, rather than integer rounding. Same precedence as multiplication and division.</td></tr>
+<tr><td><code>==&gt;</code></td><td>Logical implication. The left side should be boolean-typed, the right side boolean or resource. Lower precedence than disjunction `</td></tr>
+<tr><td><code>**</code></td><td>Separating conjunction. <code>a ** b</code> denotes that <code>a</code> and <code>b</code> point to different variables on the heap and that both expressions must evaluate to true. This is used to reason about multiple resources. Same precedence as conjunction <code>&amp;&amp;</code>. See <a href="https://github.com/utwente-fmt/vercors/wiki/Permissions">https://github.com/utwente-fmt/vercors/wiki/Permissions</a></td></tr>
+<tr><td><code>-*</code></td><td>“Magic wand” or “separating implication”. Same precedence as implication <code>==&gt;</code>. See <a href="https://github.com/utwente-fmt/vercors/wiki/Magic-Wands">https://github.com/utwente-fmt/vercors/wiki/Magic-Wands</a></td></tr>
+<tr><td><code>[p]pred(&lt;args&gt;)</code></td><td><code>[p]</code> before a predicate invocation scales all permissions in <code>pred</code> by a factor of <code>p</code>. See <a href="https://github.com/utwente-fmt/vercors/wiki/Predicates">https://github.com/utwente-fmt/vercors/wiki/Predicates</a></td></tr>
+<tr><td><code>Left(e)</code></td><td>Constructor for <code>either&lt;T1, T2&gt;</code> values that stores a value of the left-hand type <code>T1</code>.</td></tr>
+<tr><td><code>Right(e)</code></td><td>Constructor for <code>either&lt;T1, T2&gt;</code> values that stores a value of the right-hand type <code>T2</code>.</td></tr>
+<tr><td><code>?.</code></td><td><code>o?.m(&lt;args&gt;)</code> is a conditional invocation of method <code>m</code>, equivalent to <code>o!=null ==&gt; o.m(&lt;args&gt;)</code>. See <a href="https://github.com/utwente-fmt/vercors/wiki/Specification-Syntax">https://github.com/utwente-fmt/vercors/wiki/Specification-Syntax</a></td></tr>
+<tr><td><code>m() given {a=b, c=d}</code></td><td>Invokes method <code>m</code> with expression <code>b</code> as value of ghost parameter <code>a</code> and similar for <code>c</code> and <code>d</code>. See <a href="https://github.com/utwente-fmt/vercors/wiki/Specification-Syntax">https://github.com/utwente-fmt/vercors/wiki/Specification-Syntax</a></td></tr>
+<tr><td><code>m() yields {a=b, c=d}</code></td><td>Invokes method <code>m</code>, and storing ghost return value <code>b</code> in <code>a</code> and similar for <code>c</code> and <code>d</code>. See <a href="https://github.com/utwente-fmt/vercors/wiki/Specification-Syntax">https://github.com/utwente-fmt/vercors/wiki/Specification-Syntax</a></td></tr>
+<tr><td><code>with</code></td><td>Augments an expression with a side effect that happens before evaluation, e.g. <code>/*@ with specInit(); @*/ init()</code>. This is legacy syntax; prefer <code>given</code> parameters and ordinary specification statements in new examples.</td></tr>
+<tr><td><code>then</code></td><td>Augments an expression with a side effect that happens after evaluation, e.g. <code>init() /*@ then specInit(); @*/</code>. This is legacy syntax; prefer <code>yields</code> and ordinary specification statements in new examples.</td></tr>
+<tr><td><code>(\let T t = exprA; exprB)</code></td><td>Evaluates <code>exprB</code>, replacing every occurrence of <code>t</code> with the result of evaluating<code>exprA</code>. The surrounding parentheses <code>(</code> <code>)</code> are required.</td></tr>
+<tr><td><code>\pow(a,b)</code></td><td>Power/Exponentiation</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="adts"><a class="header" href="#adts">ADTs</a></h3>
+<p>Axiomatic Data types have several dedicated operators. Some also have corresponding functions, e.g. <code>s1.subsetOf(s2)</code> for <code>s1 &lt;= s2</code>. There are also functions that do not have an operator equivalence, e.g. <code>xs.removeAt(i)</code>. See <a href="https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types">https://github.com/utwente-fmt/vercors/wiki/Axiomatic-Data-Types</a> for the full list.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Code</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>+</code></td><td>Sequence concatenation, Set union, Bag union</td></tr>
+<tr><td><code>-</code></td><td>Set difference, Bag difference</td></tr>
+<tr><td><code>*</code></td><td>Set intersection, Bag intersection</td></tr>
+<tr><td><code>&lt;</code>, <code>&lt;=</code></td><td>strict subset, or subset-or-equal, respectively (also for bags)</td></tr>
+<tr><td><code>xs[k]</code></td><td>Sequence indexing: <code>k</code>th element of sequence <code>xs</code>; Map indexing: value associated with key <code>k</code></td></tr>
+<tr><td><code>::</code></td><td><code>x :: xs</code> prepends element <code>x</code> to the front of sequence <code>xs</code>.</td></tr>
+<tr><td><code>++</code></td><td><code>xs ++ x</code> appends element <code>x</code> to the end of sequence <code>xs</code>. // Note: Discouraged, support may get removed.</td></tr>
+<tr><td><code>e[l .. r]</code></td><td>Range indexing of sequence <code>e</code> (slicing). Creates a new sequence with the elements of <code>e</code> between indices <code>l</code> (inclusive) and <code>r</code> (exclusive). One of <code>l</code> or <code>r</code> may be omitted.</td></tr>
+<tr><td><code>e[k -&gt; v]</code></td><td>Updating of map <code>e</code> at index <code>k</code> to new value <code>v</code> (<strong>not</strong> in-place).</td></tr>
+<tr><td>`</td><td>xs</td></tr>
+<tr><td><code>\values(e1, e2, e3)</code></td><td>create a sequence that stores the values from array <code>e1</code> between indices <code>e2</code> and <code>e3</code>.</td></tr>
+<tr><td><code>Some(e)</code></td><td>Turns expression <code>e</code> of type <code>T</code> into an expression of type <code>option&lt;T&gt;</code> containing <code>e</code>.</td></tr>
+<tr><td><code>seq&lt;T&gt;{vals}</code> or <code>[vals]</code></td><td>sequence literal containing values <code>vals</code> (of type <code>T</code>).</td></tr>
+<tr><td><code>set&lt;T&gt;{vals}</code> or <code>{vals}</code></td><td>set literal containing values <code>vals</code> (of type <code>T</code>).</td></tr>
+<tr><td><code>bag&lt;T&gt;{vals}</code> or <code>b{vals}</code></td><td>bag literal containing values <code>vals</code> (of type <code>T</code>).</td></tr>
+<tr><td><code>map&lt;T1, T2&gt;{k1-&gt;v1, k2-&gt;v2,...}</code></td><td>map literal mapping <code>k1</code> (of type <code>T1</code>) to <code>v1</code> (of type <code>T2</code>), etc.</td></tr>
+<tr><td><code>tuple&lt;T1, T2&gt;{v1, v2}</code></td><td>tuple literal containing the two values <code>v1</code> (of type <code>T1</code>) and <code>v2</code> (of type <code>T2</code>).</td></tr>
+<tr><td><code>[t: T]</code>, <code>{t: T}</code>, <code>b{t: T}</code></td><td>literal describing the empty <code>seq&lt;T&gt;</code>, <code>set&lt;T&gt;</code> and <code>bag&lt;T&gt;</code>, respectively. Note that <code>T</code> is a type parameter that should be replaced with the appropriate type, while <code>t:</code> is part of the syntax and should occur literally, e.g. <code>int[] emp = [t: int];</code>.</td></tr>
+<tr><td><code>{l .. r}</code></td><td>Literal of type <code>set&lt;int&gt;</code> describing the integer range from <code>l</code> (inclusive) to <code>r</code> (exclusive).</td></tr>
+<tr><td>`set<t>{ e</t></td><td>selectors ; filter }`</td></tr>
+<tr><td><code>x \in xs</code></td><td>Membership check if element <code>x</code> is contained in collection <code>xs</code>. Note: For bags, it returns the number of occurrences, <strong>not</strong> a boolean.</td></tr>
+<tr><td><code>(\sum int idx; range; e)</code></td><td>Sequence summation: sum expression <code>e</code> (which depends on the index <code>idx</code>) for all indices within the given range. Note: currently not supported.</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="pvl-2"><a class="header" href="#pvl-2">PVL</a></h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Code</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>==</code>, <code>!=</code></td><td>Equals and not equals for reasoning about the equality of expressions</td></tr>
+<tr><td><code>&amp;&amp;</code>, `</td><td></td></tr>
+<tr><td><code>&lt;</code>, <code>&lt;=</code>, <code>&gt;</code>, <code>&gt;=</code></td><td>Smaller-than, smaller-or-equal, greater-than and greater-or-equal, respectively, for comparing numerical expressions.</td></tr>
+<tr><td><code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>%</code></td><td>Addition, subtraction, multiplication, integer division, modulo respectively.</td></tr>
+<tr><td><code>++</code>, <code>--</code></td><td>As a postfix operator <code>i++</code>, increase <code>i</code> by 1 (respectively decrease for <code>--</code>). Also note the <code>++</code> binary operator above.</td></tr>
+<tr><td><code>new T(&lt;args&gt;)</code></td><td>Creates a new object of type <code>T</code>.</td></tr>
+<tr><td><code>new T[length]</code></td><td>Creates a new array which contains objects of type <code>T</code> with <code>length</code> number of items.</td></tr>
+<tr><td><code>boolExpr ? exprA : exprB;</code></td><td>Evaluates <code>boolExpr</code>, if this is true it will return <code>exprA</code> and otherwise <code>exprB</code>.</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="quantified-expressions"><a class="header" href="#quantified-expressions">Quantified Expressions</a></h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Code</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>(\forall vars; cond; boolExpr)</code></td><td>Universal quantifier: For all specified variables, if they fulfil the given condition, they must fulfil the boolean expression. <code>vars</code> should declare one or more variables over which we will reason. For integer variables, it can also directly specify their range. <code>cond</code> can be any boolean expression, often used to describe the range of <code>vars</code> (if not already defined in <code>vars</code> itself). <code>cond</code> and the subsequent semicolon can be omitted. <code>boolExpr</code> is some expression that should evaluate to a boolean for all variables in the given range. Example: <code>(\forall int i=0 .. a.length; a[i]&gt;0)</code>, which means <code>a[0]&gt;0 &amp;&amp; a[1]&gt;0 &amp;&amp; ...</code> Note: the outer parentheses are required. See <a href="https://github.com/utwente-fmt/vercors/wiki/Specification-Syntax">https://github.com/utwente-fmt/vercors/wiki/Specification-Syntax</a></td></tr>
+<tr><td><code>(\forall* vars; cond; expr)</code></td><td>Similar construct to the <code>\forall</code> except that the expressions are separated by <code>**</code> instead of <code>&amp;&amp;</code>. One can for example write <code>(\forall* int j=0 .. a.length; Perm(a[j], write))</code> which denotes that the thread has writing access to all elements in <code>a</code>. Note: the outer parentheses are required. See <a href="https://github.com/utwente-fmt/vercors/wiki/Specification-Syntax">https://github.com/utwente-fmt/vercors/wiki/Specification-Syntax</a></td></tr>
+<tr><td><code>(\exists vars; cond; expr)</code></td><td>Evaluates to true if <code>expr</code> evaluates to true for at least one of the possible assignments to the variables in <code>vars</code>, where the assignment also satisfies the condition <code>cond</code>. The latter and the respective semicolon can be omitted. Note: the outer parentheses are required. See <a href="https://github.com/utwente-fmt/vercors/wiki/Specification-Syntax">https://github.com/utwente-fmt/vercors/wiki/Specification-Syntax</a></td></tr>
+<tr><td><code>array[*]</code></td><td>This is syntactic sugar for a <code>\forall*</code> expression that ranges over all elements in the array <code>array</code>, typically used in a <code>Perm</code> expression. Instead of the example above for <code>\forall*</code>, you can then write <code>Perm(array[*], write)</code>. This <strong>cannot</strong> be used within nested <code>\forall*</code> expressions. See <a href="https://github.com/utwente-fmt/vercors/wiki/Permissions">https://github.com/utwente-fmt/vercors/wiki/Permissions</a></td></tr>
+<tr><td><code>(\forperm T1 o1, ..., Tn on \in loc; expr)</code></td><td>Universal quantifier over accessible locations: Boolean expression <code>expr</code> has to hold for all variables <code>o1</code> of type <code>T1</code>, …, <code>on</code> of type <code>Tn</code> for which we currently have at least read permission to <code>loc</code>. Example: <code>(\forperm MyClass obj \in obj.f; obj.f==0)</code> Note: the outer parentheses are required.</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="specification-only-expressions"><a class="header" href="#specification-only-expressions">Specification-only Expressions</a></h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Code</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>\result</code></td><td>The value that the method returns, only allowed in postconditions. See <a href="https://github.com/utwente-fmt/vercors/wiki/Specification-Syntax">https://github.com/utwente-fmt/vercors/wiki/Specification-Syntax</a></td></tr>
+<tr><td><code>\old(expr)</code></td><td>Refers to the value of <code>expr</code> based on the heap when the method was called. This expression is typically used in postconditions (ensures) or loop invariants, but can also occur e.g. in <code>assert</code> statements. Note: local variables are evaluated to their current value, <strong>not</strong> their old value. See <a href="https://github.com/utwente-fmt/vercors/wiki/Specification-Syntax">https://github.com/utwente-fmt/vercors/wiki/Specification-Syntax</a></td></tr>
+<tr><td><code>held(x)</code></td><td>Check whether you are holding a non-reentrant lock. <code>x</code> should refer to the lock invariant. See also: <a href="https://github.com/utwente-fmt/vercors/blob/dev/examples/waitnotify/Queue.pvl">Queue.pvl</a>.</td></tr>
+<tr><td><code>commited(x)</code></td><td>Check whether lock <code>x</code> has been initialised. See <a href="https://github.com/utwente-fmt/vercors/wiki/Atomics-and-Locks">https://github.com/utwente-fmt/vercors/wiki/Atomics-and-Locks</a></td></tr>
+<tr><td><code>idle(t)</code></td><td>Returns true if thread <code>t</code> is idle (before calling <code>t.fork()</code> or after calling <code>t.join()</code>). Overall a thread starts as idle, if the thread is forked, it goes to a ‘running’ state. If join is called on a running thread, then it goes back to an ‘idle’ state. For examples, see <a href="https://github.com/utwente-fmt/vercors/blob/dev/examples/concepts/forkjoin/">https://github.com/utwente-fmt/vercors/blob/dev/examples/concepts/forkjoin/</a></td></tr>
+<tr><td><code>running(t)</code></td><td>Returns true if thread <code>t</code> is running. Overall a thread can go through the following states: idle –[t.fork()]–&gt; running –[t.join()]–&gt; idle. For examples, see <a href="https://github.com/utwente-fmt/vercors/blob/dev/examples/concepts/forkjoin/">https://github.com/utwente-fmt/vercors/blob/dev/examples/concepts/forkjoin/</a></td></tr>
+<tr><td><code>\polarity_dependent(onInhale, onExhale)</code></td><td>Evaluates this expression differently depending on whether it is inhaled (e.g. a precondition while verifying a method body) or exhaled (e.g. a precondition while verifying a caller). <code>onInhale</code> and <code>onExhale</code> are the two variants. <strong>Use with care: this is an advanced construct that can easily become unsound.</strong></td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="resources"><a class="header" href="#resources">Resources</a></h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Code</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>Perm(var, p)</code></td><td>Defines permissions for variable <code>var</code>. If <code>p</code> is <code>1</code> or <code>write</code> then it denotes write permission, anything between 0 and 1 or <code>read</code> denotes read permission. Be aware that you cannot use arithmetic when using <code>read</code> such as <code>read/2</code> or dividing <code>read</code> among multiple threads! <code>Perm(...)</code> is of the type Resource. See <a href="https://github.com/utwente-fmt/vercors/wiki/Permissions">https://github.com/utwente-fmt/vercors/wiki/Permissions</a></td></tr>
+<tr><td><code>perm(var)</code></td><td>The amount of permission currently held for variable <code>var</code>. <strong>Do not confuse this with capitalised <code>Perm</code> above.</strong> <code>perm(x)</code> has type <code>frac</code> and can be used in specifications that inspect the current permission amount.</td></tr>
+<tr><td><code>PointsTo(var, p, val)</code></td><td>Denotes permissions <code>p</code> for variable <code>var</code> similar to <code>Perm()</code>. Moreover, variable <code>var</code> points to the value <code>val</code>. <code>PointsTo()</code> is of the type Resource. See <a href="https://github.com/utwente-fmt/vercors/wiki/Permissions">https://github.com/utwente-fmt/vercors/wiki/Permissions</a></td></tr>
+<tr><td><code>Value(var)</code></td><td>Defines a read-only permission on the given variable. This read-only permission cannot become a write permission and it can duplicate as often as necessary. See <a href="https://github.com/utwente-fmt/vercors/wiki/Permissions">https://github.com/utwente-fmt/vercors/wiki/Permissions</a></td></tr>
+<tr><td><code>HPerm(var, p)</code></td><td>History permission, related to process algebra models. See <a href="https://github.com/utwente-fmt/vercors/wiki/Process-Algebra-Models">https://github.com/utwente-fmt/vercors/wiki/Process-Algebra-Models</a></td></tr>
+<tr><td><code>APerm(var, p)</code></td><td>Action permission, related to process algebra models. See <a href="https://github.com/utwente-fmt/vercors/wiki/Process-Algebra-Models">https://github.com/utwente-fmt/vercors/wiki/Process-Algebra-Models</a></td></tr>
+<tr><td><code>ArrayPerm(arr, i, step, count, perm)</code></td><td>Denotes permission <code>perm</code> to <code>arr[i]</code>, <code>arr[i+step]</code>, …, <code>arr[i+(count-1)*step]</code>. This syntax is currently not supported and is kept here for reference only.</td></tr>
+<tr><td><code>\array(arr, len)</code></td><td>Shortcut for <code>arr != null &amp;&amp; arr.length == len</code>. Does <strong>not</strong> specify permissions. See <a href="https://github.com/utwente-fmt/vercors/wiki/Arrays-and-Pointers">https://github.com/utwente-fmt/vercors/wiki/Arrays-and-Pointers</a></td></tr>
+<tr><td><code>\matrix(mat, m, n)</code></td><td>Indicates that <code>mat</code> is an <code>m</code> by <code>n</code> matrix, i.e. an array of pairwise-distinct arrays. Contains <code>read</code> permissions for the outer array, but no permissions for the matrix elements. See <a href="https://github.com/utwente-fmt/vercors/wiki/Arrays-and-Pointers">https://github.com/utwente-fmt/vercors/wiki/Arrays-and-Pointers</a></td></tr>
+<tr><td><code>\pointer(x, size, p)</code></td><td>Indicates that <code>x</code> is a pointer, like an array in C. Elements <code>x[0]</code> to <code>x[size-1]</code> are not <code>NULL</code> and can be dereferenced. For each of them, we have permission <code>p</code>. See <a href="https://github.com/utwente-fmt/vercors/wiki/Arrays-and-Pointers">https://github.com/utwente-fmt/vercors/wiki/Arrays-and-Pointers</a></td></tr>
+<tr><td><code>\pointer_index(x, idx, p)</code></td><td>Indicates that <code>x</code> is a pointer or array in C, which is not NULL. For <code>x[idx]</code>, we have permission <code>p</code> (no statement about other array elements). See <a href="https://github.com/utwente-fmt/vercors/wiki/Arrays-and-Pointers">https://github.com/utwente-fmt/vercors/wiki/Arrays-and-Pointers</a></td></tr>
+<tr><td><code>\pointer_block_length(x)</code></td><td>The length of the pointer block (i.e. C array) that <code>x</code> is part of. This is the size (the amount of elements) of the allocation that <code>x</code> is a part of.</td></tr>
+<tr><td><code>\pointer_block_offset(x)</code></td><td>The offset of <code>x</code> within the pointer block (i.e. C array). This is the offset (the amount of elements) of the pointer <code>x</code> compared to the start of the allocation that <code>x</code> is a part of.</td></tr>
+<tr><td><code>\pointer_block(x)</code></td><td>The block which contains the location <code>x</code>. You may need to assume that a pointer originates from the same block as another pointer if VerCors cannot figure out that the two pointers have the same provenance. (i.e. they originate from the same allocation)</td></tr>
+<tr><td><code>\pointer_length(x)</code></td><td>The remaining length of the pointer block (i.e. C array) that <code>x</code> is a part of starting at <code>x</code>. This is the amount of locations for elements (including this one) between <code>x</code> and the end of the allocation.</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="control-flow-constructs-pvl"><a class="header" href="#control-flow-constructs-pvl">Control flow constructs (PVL)</a></h2>
+<p>PVL provides similar control flow constructs as other languages, e.g. loops and methods. However, there are also some unique additional control flow constructs that are explained here.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Control flow construct</th><th>Example</th></tr>
+</thead>
+<tbody>
+<tr><td><code>contract returnType methodName(paramType paramName, ...) { ... }</code></td><td>Method definition. <code>contract</code> should describe the specification of the method (see “Verification flow constructs” below). <code>returnType</code> should be replaced by a PVL type described as above, depending on what (if anything) the method returns. <code>methodName</code> should be replaced by the name of the function. <code>paramType paramName, ...</code> is a comma-separated list of parameters, for every parameter you should define its type and its name. It is also possible to have no parameters. The body is placed within parentheses. Example: <code>ensures \result == a + b; int sum(int a, int b) { return a + b; }</code></td></tr>
+<tr><td><code>contract returnType methodName(paramType paramName, ...);</code></td><td>Abstract method definition. like above, except no implementation is specified in the body, just a semicolon. <strong>Note: Be careful, it is easy to create unsoundness with abstract methods!</strong></td></tr>
+<tr><td><code>contract pure returnType methodName(paramType paramName, ...) = expr;</code></td><td>(Pure) function definition. Similar to a method, except no side effects are allowed, and the body is just a single expression. See <a href="https://github.com/utwente-fmt/vercors/wiki/Specification-Syntax">https://github.com/utwente-fmt/vercors/wiki/Specification-Syntax</a></td></tr>
+<tr><td><code>return expr;</code></td><td>Exit current method and return value of expression <code>expr</code>. The expression can be omitted for <code>void</code> methods.</td></tr>
+<tr><td><code>if(cond) thenStmt else elseStmt</code></td><td>Branching control flow, depending on value of boolean expression <code>cond</code>. Statements <code>thenStmt</code> and <code>elseStmt</code> can be single statements, or compound statements using <code>{...}</code>. The <code>else</code> branch can be omitted.</td></tr>
+<tr><td><code>loopContract for (init; cond; update) stmt</code></td><td>Classic <code>for</code> loop. <code>loopContract</code> defines loop invariants and variants as defined below. The body <code>stmt</code> can be a single statement, or compound using <code>{...}</code>. The initialisation <code>init</code> can be one or more statements separated by comma, or omitted. The same holds for the <code>update</code> statement(s). The boolean expression <code>cond</code> can also be omitted.</td></tr>
+<tr><td><code>loopContract for(T var = lo .. hi) stmt</code></td><td>Ranged <code>for</code> loop. <code>loopContract</code> and <code>stmt</code> as above. The loop variable <code>var</code>(of type <code>T</code>) ranges from <code>lo</code> (inclusive) to <code>hi</code> (exclusive).</td></tr>
+<tr><td><code>loopContract while (cond) stmt</code></td><td>Classic <code>while</code> loop. <code>loopContract</code> and <code>stmt</code> as above, boolean condition <code>cond</code>.</td></tr>
+<tr><td><code>par identifier(iters) contract { ... }</code></td><td>Parallel block. See <a href="https://github.com/utwente-fmt/vercors/wiki/Parallel-Blocks">https://github.com/utwente-fmt/vercors/wiki/Parallel-Blocks</a></td></tr>
+<tr><td><code>parallel { parBlocks }</code></td><td>Executes multiple parallel blocks parallelly.</td></tr>
+<tr><td><code>sequential { parBlocks }</code></td><td>Executes multiple parallel blocks sequentially, the inner blocks might still be parallel.</td></tr>
+<tr><td><code>vec (iters) { ... }</code></td><td>Vector block: A variant of the parallel block where every step is executed in lock step. <code>iters</code> should define what variables are iterated over, e.g., <code>int i = 0..10</code>. Not the absence of a contract, compared to regular <code>par</code> blocks.</td></tr>
+<tr><td><code>atomic(inv) { ... }</code></td><td>Atomic block: performs the actions within the block atomically. See <a href="https://github.com/utwente-fmt/vercors/wiki/Atomics-and-Locks">https://github.com/utwente-fmt/vercors/wiki/Atomics-and-Locks</a></td></tr>
+<tr><td><code>invariant invName(expr) { ... }</code></td><td>Define resource expression <code>expr</code> as a named invariant that can then be referenced inside the given block <code>{...}</code>, e.g. by an <code>atomic</code></td></tr>
+<tr><td><code>barrier(identifier) contract { ... }</code></td><td>Barrier: waits for all threads to reach this point in the program, then permissions can be redistributed amongst all threads, after which the threads are allowed to continue. See <a href="https://github.com/utwente-fmt/vercors/wiki/Parallel-Blocks">https://github.com/utwente-fmt/vercors/wiki/Parallel-Blocks</a></td></tr>
+<tr><td><code>fork expr;</code></td><td>starts a new thread.</td></tr>
+<tr><td><code>join expr;</code></td><td>waits for the specified thread to complete.</td></tr>
+<tr><td><code>wait expr;</code></td><td>pause the thread until it is notified to continue.</td></tr>
+<tr><td><code>notify expr;</code></td><td>notify another thread that it may continue if it is waiting.</td></tr>
+<tr><td><code>lock expr;</code></td><td>Acquire a lock. See <a href="https://github.com/utwente-fmt/vercors/wiki/Atomics-and-Locks">https://github.com/utwente-fmt/vercors/wiki/Atomics-and-Locks</a></td></tr>
+<tr><td><code>unlock expr;</code></td><td>Release a lock. See <a href="https://github.com/utwente-fmt/vercors/wiki/Atomics-and-Locks">https://github.com/utwente-fmt/vercors/wiki/Atomics-and-Locks</a></td></tr>
+<tr><td><code>label l;</code></td><td>Label: indicates a location in the program that can be jumped to with <code>goto l</code>.</td></tr>
+<tr><td><code>goto l;</code></td><td>jump to the location of the label <code>l</code>.</td></tr>
+<tr><td><code>communicate x.f1 -&gt; y.f2;</code></td><td>VeyMont syntax: send value of field <code>x.f1</code> to field <code>y.f2</code>. Opposite direction also possible via <code>&lt;-</code>.</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="verification-flow-constructs"><a class="header" href="#verification-flow-constructs">Verification flow constructs</a></h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Code</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>assert expr;</code></td><td>Check that boolean or resource expression <code>expr</code> holds at this program point.</td></tr>
+<tr><td><code>assume expr;</code></td><td>Assume without checking that boolean expression <code>expr</code> holds at this program point. <strong>Note: Careful, can easily cause unsoundness!</strong></td></tr>
+<tr><td><code>requires expr;</code></td><td>Method or function precondition: Boolean or resource expression <code>expr</code> is checked to hold when calling this method, and assumed to hold when verifying the method body. Defined as part of a method contract, as well as e.g. contracts for parallel blocks.</td></tr>
+<tr><td><code>ensures expr;</code></td><td>Method or function postcondition: Boolean or resource expression <code>expr</code> is assumed to hold immediately after calling this method, and checked to hold when verifying the method body. Defined as part of a method contract, as well as e.g. contracts for parallel blocks.</td></tr>
+<tr><td><code>context expr;</code></td><td>Shorthand that combines <code>requires expr</code> and <code>ensures expr</code>.</td></tr>
+<tr><td><code>loop_invariant expr;</code></td><td>Loop invariant: Boolean or resource expression <code>expr</code> must hold before entering the loop and after each loop iteration. Part of a loop contract.</td></tr>
+<tr><td><code>context_everywhere expr;</code></td><td>Shorthand that combines <code>requires expr</code> and <code>ensures expr</code>. Moreover, it also adds <code>loop_invariant expr;</code> to all loops within the method. Part of a method contract.</td></tr>
+<tr><td><code>given T p;</code></td><td>Ghost input parameter: Defines a specification-only parameter <code>p</code> of type <code>T</code> that must be passed when this method is called (see <code>given</code> above). Part of a method contract.</td></tr>
+<tr><td><code>yields T p;</code></td><td>Ghost output parameter: Defines a specification-only return value <code>p</code> of type <code>T</code>. <code>p</code> can be assigned in the method body like a local variable; the last assigned value is automatically returned to the caller, who can store it in their own local variable (see <code>yields</code> above). Part of a method contract.</td></tr>
+<tr><td><code>fold pred(...);</code></td><td>Fold a predicate, i.e. wrap permissions inside. See <a href="https://github.com/utwente-fmt/vercors/wiki/Predicates">https://github.com/utwente-fmt/vercors/wiki/Predicates</a></td></tr>
+<tr><td><code>unfold pred(...);</code></td><td>Unfold predicate, i.e. unwrap the contained permissions. See <a href="https://github.com/utwente-fmt/vercors/wiki/Predicates">https://github.com/utwente-fmt/vercors/wiki/Predicates</a></td></tr>
+<tr><td><code>\unfolding pred(...) \in expr</code></td><td>Temporarily unfold predicate in (pure) expression <code>expr</code>. See <a href="https://github.com/utwente-fmt/vercors/wiki/Predicates">https://github.com/utwente-fmt/vercors/wiki/Predicates</a></td></tr>
+<tr><td><code>refute expr;</code></td><td>Disproves <code>expr</code> at this program point. Internally it is translated to <code>assert !(expr)</code>.</td></tr>
+<tr><td><code>inhale expr;</code></td><td>Take in the permissions specified in the resource expression <code>expr</code>, i.e. add them to the current set of permissions without checking. Additionally, assume without checking all boolean properties contained in <code>expr</code>. <strong>Note: Be careful, this can easily lead to unsoundness!</strong></td></tr>
+<tr><td><code>exhale expr;</code></td><td>Assert all permissions and boolean properties contained in <code>expr</code>, then discard the specified permissions, i.e. remove them from the current set of permissions.</td></tr>
+<tr><td><code>witness x;</code></td><td>Obsolete syntax to declare witness names for the old backend Chalice. <em>This feature is deprecated and should no longer be used</em>.</td></tr>
+<tr><td><code>send channelName, delta: expr;</code></td><td>Transfer permissions and boolean facts contained in the resource expression <code>expr</code> to another thread, identified via the channel name. Used within parallelised loops, and <code>delta</code> is the amount of loop iterations how far the expression is sent ahead. Example: <code>send S,1: Perm(arr[i+1], 1\2);</code> sends permission for the next array element to the next iteration. That way, the next iteration can write to its <code>arr[i]</code>, even if it did not originally have all the permission. See e.g. <a href="https://github.com/utwente-fmt/vercors/blob/dev/examples/concepts/arrays/JavaArrayExamples.java">https://github.com/utwente-fmt/vercors/blob/dev/examples/concepts/arrays/JavaArrayExamples.java</a>. See also <code>recv</code> below.</td></tr>
+<tr><td><code>recv channelName;</code></td><td>Receive the expression sent by a <code>send</code> as specified above, with the matching channel name. Blocks until it is received.</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="histories--futures"><a class="header" href="#histories--futures">Histories &amp; Futures</a></h3>
+<p>Histories and futures, jointly referred to as <a href="Process-Algebra-Models.html">Process algebra models</a> are currently under redesign. Thus, the following parts may not be up to date.</p>
+<h4 id="defining-processes"><a class="header" href="#defining-processes">Defining processes</a></h4>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Code</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>process</code></td><td>Type of actions and defined processes in histories.</td></tr>
+<tr><td><code>process1 + process 2</code></td><td>Do either <code>process1</code> or <code>process2</code></td></tr>
+<tr><td><code>process1 * process 2</code></td><td>Sequential composition, do <code>process1</code> followed by <code>process2</code></td></tr>
+<tr><td>`process1</td><td></td></tr>
+</tbody>
+</table>
+</div>
+<h4 id="history-related-constructs"><a class="header" href="#history-related-constructs">History-related constructs</a></h4>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Code</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>History hist</code></td><td>Declare a History object called <code>hist</code></td></tr>
+<tr><td><code>HPerm(var, p)</code></td><td>History-specific permissions where <code>var</code> refers to a variable in the history and <code>p</code> is the amount of permissions (a value between 0 and 1)</td></tr>
+<tr><td><code>APerm(var, p)</code></td><td>History-specific permissions within <code>action</code> blocks where <code>var</code> refers to a variable in the history and <code>p</code> is the amount of permissions (a value between 0 and 1)</td></tr>
+<tr><td><code>Hist(var, p, val)</code></td><td>Similar to <code>PointsTo</code>, it denotes permissions <code>p</code> for variable <code>var</code> (which is in a history). Moreover, variable <code>var</code> points to the value <code>val</code>.</td></tr>
+<tr><td><code>AbstractState(h, boolExpr)</code></td><td>This can be used to check that the given boolean expression holds in the history (or future) <code>h</code></td></tr>
+<tr><td><code>action(h, perm, preState, postState) { ... }</code></td><td>The action describes how the state of the history (or future) is changed by the code within <code>{ ... }</code>. The pre- and post-state describe the state of the history (or future) in terms of processes. <code>perm</code> describes the permissions we have on the history (or future) and <code>h</code> is the name of the history (or future)</td></tr>
+<tr><td><code>create h</code></td><td>Create a history. Note that the History class should be instantiated beforehand.</td></tr>
+<tr><td><code>destroy h, val</code></td><td>Destroy a history <code>h</code> which has the value <code>val</code></td></tr>
+<tr><td><code>split h, p1, val1, p2, val2</code></td><td>Split a history (or future) into two such that the first part has permissions <code>p1</code> and value <code>val1</code> and the second part has permissions <code>p2</code> and value <code>val2</code></td></tr>
+<tr><td><code>merge h, p1, val1, p2, val2</code></td><td>Merge two histories (or futures) such that resulting history <code>h</code> has permissions <code>p1+p2</code> and consists of combination of the actions described in <code>val1</code> and <code>val2</code></td></tr>
+<tr><td><code>modifies vars</code></td><td>List of locations that might be modified</td></tr>
+<tr><td><code>accessible vars</code></td><td>List of locations that might be accessed</td></tr>
+</tbody>
+</table>
+</div>
+<h4 id="future-related-constructs"><a class="header" href="#future-related-constructs">Future-related constructs</a></h4>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Code</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>Future f</code></td><td>Declare a Future object called <code>f</code></td></tr>
+<tr><td><code>Future(f, p, val)</code></td><td>It denotes that we have permissions <code>p</code> on future <code>f</code> of which the state is <code>val</code></td></tr>
+<tr><td><code>choose f, p1, pre, post</code></td><td>Legacy future-related construct. Public documentation is currently limited; avoid relying on it in new examples unless you also consult the implementation or research material.</td></tr>
+<tr><td><code>create f, val</code></td><td>Create a future <code>f</code> with the initial state <code>val</code></td></tr>
+<tr><td><code>destroy f</code></td><td>Destroy the future <code>f</code></td></tr>
+</tbody>
+</table>
+</div>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="Common-VerCors-error-messages.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="VerCors-usage-tips.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="Common-VerCors-error-messages.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="VerCors-usage-tips.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-xmark><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M310.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L160 210.7 54.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L114.7 256 9.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 301.3 265.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L205.3 256 310.6 150.6z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+        <template id=fa-pencil><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M421.7 220.3l-11.3 11.3-22.6 22.6-205 205c-6.6 6.6-14.8 11.5-23.8 14.1L30.8 511c-8.4 2.5-17.5 .2-23.7-6.1S-1.5 489.7 1 481.2L38.7 353.1c2.6-9 7.5-17.2 14.1-23.8l205-205 22.6-22.6 11.3-11.3 33.9 33.9 62.1 62.1 33.9 33.9zM96 353.9l-9.3 9.3c-.9 .9-1.6 2.1-2 3.4l-25.3 86 86-25.3c1.3-.4 2.5-1.1 3.4-2l9.3-9.3H112c-8.8 0-16-7.2-16-16V353.9zM453.3 19.3l39.4 39.4c25 25 25 65.5 0 90.5l-14.5 14.5-22.6 22.6-11.3 11.3-33.9-33.9-62.1-62.1L314.3 67.7l11.3-11.3 22.6-22.6 14.5-14.5c25-25 65.5-25 90.5 0z"/></svg></span></template>
+
+
+        <script>
+            window.playground_line_numbers = true;
+        </script>
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="ace-2a3cd908.js"></script>
+        <script src="mode-rust-2c9d5c9a.js"></script>
+        <script src="../js/mode-annotated_c.js"></script>
+        <script src="../js/mode-annotated_cuda.js"></script>
+        <script src="../js/mode-annotated_java.js"></script>
+        <script src="../js/mode-annotated_opencl.js"></script>
+        <script src="../js/mode-annotated_sycl.js"></script>
+        <script src="../js/mode-pvl.js"></script>
+        <script src="../js/mode-viper.js"></script>
+
+        <script src="editor-16ca416c.js"></script>
+        <script src="theme-dawn-4493f9c8.js"></script>
+        <script src="theme-tomorrow_night-9dbe62a9.js"></script>
+        <script src="../js/theme-chrome.js"></script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-09f2665d.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-a6f5d318.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    
+<div id="footer" class="dark">
+    <footer class="container">
+        <a href="//www.utwente.nl/en/eemcs/fmt/" target="_blank"><img src="/images/FMT logo.png" alt="Formal Methods & Tools logo" title="Formal Methods & Tools"></a>
+        <hr>
+        <div class="copyright">
+            <a href="/about/#credits" target="_blank">Copyright <code id="copyright">&copy</code> The VerCors Project 2007-2026</a>
+            | <a href="//www.utwente.nl/en/eemcs/fmt/" target="_blank">FMT - University of Twente</a>
+            | <a href="/about/">About Us</a>
+        </div>
+    </footer>
+</div>
+</body>
+</html>

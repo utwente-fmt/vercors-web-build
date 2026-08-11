@@ -1,0 +1,592 @@
+<!DOCTYPE HTML>
+<html lang="en" class="vercors sidebar-visible" dir="ltr">
+    <head>
+<meta name="description" content="VerCors Tutorial and documentation">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#d12010">
+
+<link rel="icon" href="/images/icon.svg">
+
+<link rel="stylesheet" href="/css/global.css">
+<link rel="stylesheet" href="/css/colors.css">
+<link rel="stylesheet" href="/css/shared.css">
+<link rel="stylesheet" href="/css/responsive.css">
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/highlight.pack.js"></script>
+<script src="/js/ace.js"></script>
+<script src="/js/datatables.min.js"></script>
+<script src="/js/vercorsonline.js"></script>
+<script src="/js/init.js"></script>
+
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Auxiliary Annotations &amp; Ghost Code - VerCors Tutorial</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-88aeadc2.css">
+        <link rel="stylesheet" href="css/general-5067d8cd.css">
+        <link rel="stylesheet" href="css/chrome-7683498c.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "vercors";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-9b93a44c.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-0460c59c.js"></script>
+    </head>
+    <body>
+<div id="header" class="top-header ">
+
+            <nav class="top-nav">
+                <div class="container">
+                    <div id="logo">
+                        <span id="hamburger" onclick="document.querySelector('nav.top-nav').classList.toggle('open')"><span class="fa fa-bars"></span></span><!--
+                        --><a href="/"><img id="logo-light" src="/images/logo.svg" title="The VerCors Verifier" alt="Logo of the VerCors Verifier"><img id="logo-dark" src="/images/logo-white.svg" title="The VerCors Verifier" alt="Logo of the VerCors Verifier"></a>
+                    </div>
+                    <ul>
+                        <li>
+                            <a href="/wiki">Getting Started</a>
+                            <ul>
+                                <li><a href="/wiki/Installing-and-Running-VerCors.html">Installation Guide</a></li>
+                                <li><a href="/wiki/Tutorial.html">Tutorial</a></li>
+                                <li>
+                                    <a href="//github.com/utwente-fmt/vercors/issues" target="_blank">
+                                        Issue Tracker
+                                        <span class="fa fa-external-link" style="font-size: 10pt"></span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="/">Tools</a>
+                            <ul>
+                                <li><a href="/">Verifier</a></li>
+                                <li><a href="/alpinist/">Alpinist</a></li>
+                                <li><a href="/vesuv/">VeSUV</a></li>
+                                <li><a href="/veymont/">VeyMont</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="/publications/">Publications</a></li>
+                        <li>
+                            <a href="/about/">About</a>
+                            <ul>
+                                <li><a href="/about/#team">VerCors Team</a></li>
+                                <li><a href="/news/">News</a></li>
+                                <li><a href="/about/#contact">Contact</a></li>
+                                <li><a href="/about/#credits">Credits</a></li>
+                                <li><a href="/license/">License</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+</div>
+
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('vercors')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-vercors">VerCors</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">VerCors Tutorial </h1>
+
+                    <div class="right-buttons">
+                        <a href="/try_online/" class="online-button">Try VerCors Online</a>
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <p>When method bodies become more complicated than the toy examples above, it becomes more difficult for VerCors to prove by itself that the post-conditions hold after executing the method, and additional annotations are needed inside the method body to guide the verification. These can take the form of loop invariants, assumptions and assertions, or ghost code. Ghost code can also occur outside of methods, for instance to define helper functions.</p>
+<h2 id="loop-invariants"><a class="header" href="#loop-invariants">Loop Invariants</a></h2>
+<p>Loop invariants are similar to the <code>context</code> in a method contracts, but for loops: They specify expressions that must hold before entering the loop (like a pre-condition), as well as after each loop iteration, including the last iteration (like a post-condition). Loop invariants use the keyword <code>loop_invariant</code> and are placed above the loop header:</p>
+<!-- testMethod -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLWxvb3AtaW52YXJpYW50cy0xCi8vOjogdmVyZGljdCBQYXNzCi8vOjogdG9vbHMgc2lsaWNvbgpmaW5hbCBjbGFzcyBUZXN0IHsKICAgIC8vQCByZXF1aXJlcyBhPjAgJiYgYj4wOwogICAgLy9AIGVuc3VyZXMgXHJlc3VsdCA9PSBhKmI7CiAgICBwdWJsaWMgaW50IG11bHQoaW50IGEsIGludCBiKSB7CiAgICAgIGludCByZXMgPSAwOwogICAgICAvL0AgbG9vcF9pbnZhcmlhbnQgcmVzID09IGkqYTsKICAgICAgLy9AIGxvb3BfaW52YXJpYW50IGkgPD0gYjsKICAgICAgZm9yIChpbnQgaT0wOyBpPGI7IGkrKykgewogICAgICAgIHJlcyA9IHJlcyArIGE7CiAgICAgIH0KICAgICAgcmV0dXJuIHJlczsKICAgIH0KfQ==" data-template-kind="testMethod" data-case-name="wiki-loop-invariants-1" data-case-verdict="Pass" data-language-ext="java" data-language-label="java">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-java no_run editable">//@ requires a&gt;0 &amp;&amp; b&gt;0;
+//@ ensures \result == a*b;
+public int mult(int a, int b) {
+  int res = 0;
+  //@ loop_invariant res == i*a;
+  //@ loop_invariant i &lt;= b;
+  for (int i=0; i&lt;b; i++) {
+    res = res + a;
+  }
+  return res;
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>java</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>Let us examine why this program verifies (you can skip this paragraph if you are familiar with software verification and loop invariants): The first loop invariant holds before we start the loop, because we initialise both <code>i</code> and <code>res</code> to zero, and <code>0 == 0*a</code> is true. Then in each iteration, we increase <code>i</code> by one and <code>res</code> by <code>a</code>, so if <code>res == i*a</code> held before the iteration, then it will also hold afterwards. Looking at the second invariant, we see that it holds before the loop execution because <code>i</code> is initialised to zero and <code>b</code> is required to be greater than zero. To understand why the invariant holds after each iteration, we also have to consider the loop condition, <code>i&lt;b</code>. This condition has to be true at the beginning of the iteration, otherwise the loop would have stopped iterating. Since <code>i</code> and <code>b</code> are integers and <code>i&lt;b</code> at the beginning of the iteration, an increment of <code>i</code> by one during the iteration will ensure that at the end of the iteration, <code>i&lt;=b</code> still holds. Note that if <code>i</code> or <code>b</code> were floating point numbers, <code>i</code> might have gone from <code>b-0.5</code> to <code>b+0.5</code>, and we would not have been able to assert the loop invariant. Likewise, any increment by more than one could step over <code>b</code>. Only the combination of all these factors lets us assert the invariant at the end of the loop iteration. When the loop stops iterating, we know three things: Each of the two loop invariants holds, and the loop condition does no longer hold (otherwise we would still be iterating). Note that the combination of the second loop invariant and the negated loop condition, <code>i&lt;=b &amp;&amp; !(i&lt;b)</code>, ensures that <code>i==b</code>. Combining that with the first invariant ensures the post-condition of the method.</p>
+<blockquote class="blockquote-tag blockquote-tag-warning">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M6.457 1.047c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0 1 14.082 15H1.918a1.75 1.75 0 0 1-1.543-2.575Zm1.763.707a.25.25 0 0 0-.44 0L1.698 13.132a.25.25 0 0 0 .22.368h12.164a.25.25 0 0 0 .22-.368Zm.53 3.996v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 11a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg>Warning</p>
+<p>Without further instruction, VerCors checks for partial correctness, so there is no check whether the loop actually stops iterating at some point. It just asserts that <em>if</em> the loop stops, then the post-condition holds. VerCors can check loop termination by adding a <code>decreases</code> clause, more on that in the section on <a href="Termination.html">Termination</a>.</p>
+</blockquote>
+<p>As mentioned before, <code>context_everywhere expr;</code> in the method contract will implicitly add <code>expr</code> as a loop invariant to <em>all</em> loops in the method body. This can be useful for expressions that hold for the entirety of the method, e.g. in the case of <code>xs!=null</code>; but it can also be a subtle cause for errors if it adds invariants to a loop that were not intended there (especially in the case of multiple loops). For example, a method to insert an element into a sorted array may add the new value at the end, and then step by step restore the ordering of the array; in that case, adding a sortedness property as <code>context_everywhere</code> would not verify.</p>
+<p>In PVL and C a loop invariant may also be attached to a label such that loops formed using <code>goto</code>s can be verified.</p>
+<h2 id="assumptions-and-assertions"><a class="header" href="#assumptions-and-assertions">Assumptions and Assertions</a></h2>
+<p>Sometimes, VerCors has trouble deriving a post-condition from the given code and established facts (like pre-conditions), and it requires explicitly specifying an intermediate step to guide the verification. VerCors first proves these intermediate steps, and then can use them to derive the desired facts. This can be done with the keyword <code>assert</code>:</p>
+<!-- testMethod -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLWFzc3VtcHRpb25zLWFuZC1hc3NlcnRpb25zLTEKLy86OiB2ZXJkaWN0IFBhc3MKLy86OiB0b29scyBzaWxpY29uCmZpbmFsIGNsYXNzIFRlc3QgewogICAgLy9AIGVuc3VyZXMgYT09MCA/IFxyZXN1bHQgPT0gMCA6IFxyZXN1bHQgPj0gMTA7CiAgICBwdWJsaWMgaW50IG11bHQxMChpbnQgYSkgewogICAgICBpbnQgcmVzID0gYTsKICAgICAgaWYgKHJlcyA8IDApIHsKICAgICAgICByZXMgPSAwLXJlczsKICAgICAgfQogICAgICAvL0AgYXNzZXJ0IHJlcyA+PSAwOwogICAgICByZXR1cm4gMTAqcmVzOwogICAgfQp9" data-template-kind="testMethod" data-case-name="wiki-assumptions-and-assertions-1" data-case-verdict="Pass" data-language-ext="java" data-language-label="java">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-java no_run editable">//@ ensures a==0 ? \result == 0 : \result &gt;= 10;
+public int mult10(int a) {
+  int res = a;
+  if (res &lt; 0) {
+    res = 0-res;
+  }
+  //@ assert res &gt;= 0;
+  return 10*res;
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>java</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<blockquote class="blockquote-tag blockquote-tag-note">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+<p>VerCors would be able to verify this example even without the assertion, but this demonstrates how to use <code>assert</code>.</p>
+</blockquote>
+<!-- markdownlint-disable-next-line MD028 -->
+<blockquote class="blockquote-tag blockquote-tag-tip">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M8 1.5c-2.363 0-4 1.69-4 3.75 0 .984.424 1.625.984 2.304l.214.253c.223.264.47.556.673.848.284.411.537.896.621 1.49a.75.75 0 0 1-1.484.211c-.04-.282-.163-.547-.37-.847a8.456 8.456 0 0 0-.542-.68c-.084-.1-.173-.205-.268-.32C3.201 7.75 2.5 6.766 2.5 5.25 2.5 2.31 4.863 0 8 0s5.5 2.31 5.5 5.25c0 1.516-.701 2.5-1.328 3.259-.095.115-.184.22-.268.319-.207.245-.383.453-.541.681-.208.3-.33.565-.37.847a.751.751 0 0 1-1.485-.212c.084-.593.337-1.078.621-1.489.203-.292.45-.584.673-.848.075-.088.147-.173.213-.253.561-.679.985-1.32.985-2.304 0-2.06-1.637-3.75-4-3.75ZM5.75 12h4.5a.75.75 0 0 1 0 1.5h-4.5a.75.75 0 0 1 0-1.5ZM6 15.25a.75.75 0 0 1 .75-.75h2.5a.75.75 0 0 1 0 1.5h-2.5a.75.75 0 0 1-.75-.75Z"></path></svg>Tip</p>
+<p>Assertions can also be useful for debugging: If VerCors fails to prove the post-condition, adding <code>assert</code> statements throughout the method body can help to pinpoint where the verification fails, either because of a shortcoming of VerCors or because of an actual error in the code. Additionally, <code>assert false;</code> should always fail, so if the verification does not seem to terminate, adding such statements throughout the method can show where VerCors gets stuck. Finally, remember that a contradiction e.g. in the pre-conditions can imply anything; even <code>false</code>. So <code>assert false;</code> can be used to check that no such contradiction occurred: If it verifies, something went seriously wrong.</p>
+</blockquote>
+<p>While assertions add additional proof obligations, <em>assumptions</em> introduce additional facts that VerCors just takes for granted afterwards, similar to pre-conditions. This is done via the keyword <code>assume</code>. This can be dangerous if the assumptions contradict the actual state of the program:</p>
+<!-- testBlock -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLWFzc3VtcHRpb25zLWFuZC1hc3NlcnRpb25zLTIKLy86OiB2ZXJkaWN0IFBhc3MKLy86OiB0b29scyBzaWxpY29uCmZpbmFsIGNsYXNzIFRlc3QgewogICAgdm9pZCB0ZXN0KCkgewogICAgICAgIGludCB4ID0gMjsKICAgICAgICAvL0AgYXNzdW1lIHggPT0gMTsKICAgICAgICBpbnQgeSA9IHggKyAzOwogICAgICAgIC8vQCBhc3NlcnQgeSA9PSA0OwogICAgfQp9" data-template-kind="testBlock" data-case-name="wiki-assumptions-and-assertions-2" data-case-verdict="Pass" data-language-ext="java" data-language-label="java">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-java no_run editable">int x = 2;
+//@ assume x == 1;
+int y = x + 3;
+//@ assert y == 4;</code></pre>
+<div class="verification-language">Language for VerCors: <strong>java</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>This snippet verifies, even though the actual value of <code>y</code> at the end is 5. However, based on the (wrong) assumptions that <code>x==1</code> on Line 2, the assertion holds. Therefore, <strong>assumptions should be used with caution!</strong></p>
+<p>Nevertheless, assumptions can be useful, e.g. for debugging purposes. Also, while still being in the process of verifying the code, it can be useful to assume certain basic facts to prove the bigger picture, and then drill deeper and prove that the assumed facts actually hold.</p>
+<p>VerCors also supports a <code>refute</code> statement, which is the opposite of <code>assert</code>. Internally, <code>refute expr;</code> is transformed into <code>assert !(expr);</code>, i.e. asserting the negation. Note that a failing <code>assert expr;</code> is not equivalent to a successful <code>refute expr;</code>. For example, if we know nothing about the value of a variable <code>a</code>, then both <code>assert a&gt;0;</code> and <code>refute a&gt;0;</code> will fail, as <code>a</code> <em>could</em> be greater than zero, but it also could be less.</p>
+<p>For assert, VerCors supports the following alternative syntax:</p>
+<pre><code class="language-pvl editable read-only">⊢ expr;
+</code></pre>
+<h2 id="ghost-code"><a class="header" href="#ghost-code">Ghost Code</a></h2>
+<p>Recall that annotations must never have side-effects on the program state, otherwise the results of methods would be different between VerCors (which takes the annotations into account) and the compiler (which treats them as comments). However, it can be useful to extend the program state, for example introducing additional helper variables to keep track of intermediate results. This helper code, which only exists for the purpose of verification, is called <em>ghost code</em>, and the respective variables form the <em>ghost state</em>.</p>
+<p>Ghost code can occur inside method bodies, but also outside, for instance as global ghost variables. In principle, ghost code can be any construct that the target language supports; for example when verifying Java programs, you could define ghost classes, and in C programs, you may use pointers in ghost code. Additionally, the ghost code can use the extensions that the specification language adds to the target language, such as the new type <code>seq&lt;T&gt;</code> (see section “Expressions” below).</p>
+<p>Keep in mind that ghost code does not exist for the compiler, so it cannot have side effects on the program state, and “real” code cannot refer e.g. to ghost variables. However, it is possible to read from “regular” variables (e.g. to create a ghost variable with the same value).</p>
+<p>When using constructs from the target language (such as variable declarations), the keyword <code>ghost</code> is required before the use of the construct.</p>
+<p>Here is an example for ghost code inside a method:</p>
+<!-- testMethod -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLWdob3N0LWNvZGUtMQovLzo6IHZlcmRpY3QgUGFzcwovLzo6IHRvb2xzIHNpbGljb24KZmluYWwgY2xhc3MgVGVzdCB7CiAgICAvKkAKICAgICAgcmVxdWlyZXMgeD49MCAmJiB5Pj0wOwogICAgICBlbnN1cmVzIFxyZXN1bHQgPT0gKHg8eSA/IDUqeCA6IDUqeSk7CiAgICBAKi8KICAgIHB1YmxpYyBpbnQgbWluVGltZXM1KGludCB4LCBpbnQgeSkgewogICAgICAvL0AgZ2hvc3QgaW50IG1pbiA9ICh4PHkgPyB4IDogeSk7CiAgICAgIGludCByZXMgPSAwOwogICAgICAvL0AgbG9vcF9pbnZhcmlhbnQgaTw9NTsKICAgICAgLy9AIGxvb3BfaW52YXJpYW50IHJlcyA9PSBpKm1pbjsKICAgICAgLy9AIGxvb3BfaW52YXJpYW50IG1pbjw9eCAmJiBtaW48PXkgJiYgKG1pbj09eCB8fCBtaW49PXkpOyAKICAgICAgZm9yIChpbnQgaT0wOyBpPDU7IGkrKykgewogICAgICAgIGlmICh4PHkpIHsKICAgICAgICAgIHJlcyA9IHJlcyArIHg7CiAgICAgICAgfSBlbHNlIHsKICAgICAgICAgIHJlcyA9IHJlcyArIHk7CiAgICAgICAgfQogICAgICB9CiAgICAgIC8qQCAKICAgICAgZ2hvc3QgaWYgKHg8eSkgewogICAgICAgIGFzc2VydCByZXMgPT0gNSp4OwogICAgICB9IGVsc2UgewogICAgICAgIGFzc2VydCByZXMgPT0gNSp5OwogICAgICB9CiAgICAgIEAqLwogICAgICByZXR1cm4gcmVzOwogICAgfQogICAgCn0=" data-template-kind="testMethod" data-case-name="wiki-ghost-code-1" data-case-verdict="Pass" data-language-ext="java" data-language-label="java">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-java no_run editable">/*@
+  requires x&gt;=0 &amp;&amp; y&gt;=0;
+  ensures \result == (x&lt;y ? 5*x : 5*y);
+@*/
+public int minTimes5(int x, int y) {
+  //@ ghost int min = (x&lt;y ? x : y);
+  int res = 0;
+  //@ loop_invariant i&lt;=5;
+  //@ loop_invariant res == i*min;
+  //@ loop_invariant min&lt;=x &amp;&amp; min&lt;=y &amp;&amp; (min==x || min==y); 
+  for (int i=0; i&lt;5; i++) {
+    if (x&lt;y) {
+      res = res + x;
+    } else {
+      res = res + y;
+    }
+  }
+  /*@ 
+  ghost if (x&lt;y) {
+    assert res == 5*x;
+  } else {
+    assert res == 5*y;
+  }
+  @*/
+  return res;
+}
+</code></pre>
+<div class="verification-language">Language for VerCors: <strong>java</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>Note the definition of a ghost variable <code>min</code> at the beginning of the method, and the ghost <code>if</code> statement at its end.</p>
+<h3 id="ghost-methods-and-functions"><a class="header" href="#ghost-methods-and-functions">Ghost Methods and Functions</a></h3>
+<p>You can use ghost code not only within methods but also to declare entire ghost methods:</p>
+<!-- testMethod -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLWdob3N0LWNvZGUtZ2hvc3QtbWV0aG9kcy1hbmQtZnVuY3Rpb25zLTEKLy86OiB2ZXJkaWN0IFBhc3MKLy86OiB0b29scyBzaWxpY29uCmZpbmFsIGNsYXNzIFRlc3QgewogICAgLypACiAgICBnaG9zdAogICAgcmVxdWlyZXMgeCA+IDA7CiAgICBlbnN1cmVzIFxyZXN1bHQgPT0gKGNvbmQgPyB4K3kgOiB4KTsKICAgIHN0YXRpYyBpbnQgY29uZF9hZGQoYm9vbGVhbiBjb25kLCBpbnQgeCwgaW50IHkpIHsKICAgICAgaWYgKGNvbmQpIHsKICAgICAgICByZXR1cm4geCt5OwogICAgICB9IGVsc2UgewogICAgICAgIHJldHVybiB4OwogICAgICB9CiAgICB9CiAgICBAKi8KICAgIAogICAgLy9AIHJlcXVpcmVzIHZhbDEgPiAwICYmIHZhbDI+MCAmJiB6PT12YWwxK3ZhbDI7CiAgICB2b2lkIHNvbWVfbWV0aG9kKGludCB2YWwxLCBpbnQgdmFsMiwgaW50IHopIHsKICAgICAgLy9AIGdob3N0IGludCB6MiA9IGNvbmRfYWRkKHZhbDI+MCwgdmFsMSwgdmFsMik7CiAgICAgIC8vQCBhc3NlcnQgeiA9PSB6MjsKICAgIH0KfQ==" data-template-kind="testMethod" data-case-name="wiki-ghost-code-ghost-methods-and-functions-1" data-case-verdict="Pass" data-language-ext="java" data-language-label="java">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-java no_run editable">/*@
+ghost
+requires x &gt; 0;
+ensures \result == (cond ? x+y : x);
+static int cond_add(boolean cond, int x, int y) {
+  if (cond) {
+    return x+y;
+  } else {
+    return x;
+  }
+}
+@*/
+
+//@ requires val1 &gt; 0 &amp;&amp; val2&gt;0 &amp;&amp; z==val1+val2;
+void some_method(int val1, int val2, int z) {
+  //@ ghost int z2 = cond_add(val2&gt;0, val1, val2);
+  //@ assert z == z2;
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>java</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>The conditional addition <code>cond_add</code> is defined as a ghost method. Otherwise, it looks like any normal method, including having a method contract (in this case, just a single precondition). We then use this ghost method in the body of <code>some_method</code> (but only inside annotations!).</p>
+<blockquote class="blockquote-tag blockquote-tag-note">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+<p>The precondition is not wrapped in the special comment <code>//@</code>, like the precondition of <code>some_method</code> is, because the entire ghost method already is inside a special comment <code>/*@</code>.</p>
+</blockquote>
+<h4 id="functions-and-pure-methods"><a class="header" href="#functions-and-pure-methods">Functions and Pure Methods</a></h4>
+<p><em>Functions</em> are, in a way, a special kind of ghost methods. They look like any method, but they are pure by design (as signified by the keyword <code>pure</code>) and their body is a single expression following an <code>=</code>, rather than a block of statements:</p>
+<!-- testMethod -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLWdob3N0LWNvZGUtZ2hvc3QtbWV0aG9kcy1hbmQtZnVuY3Rpb25zLWZ1bmN0aW9ucy1hbmQtcHVyZS1tZXRob2RzLTEKLy86OiB2ZXJkaWN0IFBhc3MKLy86OiB0b29scyBzaWxpY29uCmZpbmFsIGNsYXNzIFRlc3QgewogICAgLypACiAgICByZXF1aXJlcyB4ID4gMDsKICAgIHB1cmUgaW50IGNvbmRfYWRkKGJvb2xlYW4gY29uZCwgaW50IHgsIGludCB5KSAKICAgICAgPSBjb25kID8geCt5IDogeDsKICAgIEAqLwp9" data-template-kind="testMethod" data-case-name="wiki-ghost-code-ghost-methods-and-functions-functions-and-pure-methods-1" data-case-verdict="Pass" data-language-ext="java" data-language-label="java">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-java no_run editable">/*@
+requires x &gt; 0;
+pure int cond_add(boolean cond, int x, int y) 
+  = cond ? x+y : x;
+@*/</code></pre>
+<div class="verification-language">Language for VerCors: <strong>java</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>Note that the <code>ghost</code> keyword is not used: It is only required when using a construct from the target language (e.g. <code>if</code>, variable declarations, etc), <em>not</em> for specification-internal constructs like defining a function. However, using a stand-alone call statement to call the function (e.g. invoke a lemma directly and not in an <code>assert</code>) still needs the <code>ghost</code> keyword, as method calls are constructs from the target language: <code>//@ ghost myLemma();</code>. The important distinction to normal methods, apart from the fact that they have just one expression, is that functions <em>must be pure, i.e. must be without side-effects</em>, even on the ghost state. Thus, the body cannot contain for instance calls to non-pure methods.</p>
+<p>Remember that in VerCors, only the contract of a method is used to reason about the behaviour of a method call, the actual behaviour of the method body is not taken into account at this point. For functions, this restriction is not as strict: For simple functions like the one above, VerCors actually uses the “real” behaviour of the function to analyse the behaviour of a call to that function. Thus, the behaviour does not need to be specified explicitly in a post-condition, like it does for other methods. However, this only works for simple functions, and for example a recursive function may still need a post-condition specifying its behaviour.</p>
+<p>You can also add the <code>pure</code> keyword to a “real” method. This indicates that the method does not have side-effects, and can therefore be used e.g. in method contracts, while still being accessible by the “real” code. However, for a method to be pure, it has to be actually without side-effects, therefore only a limited number of constructs are allowed in methods that are designated pure: <code>if</code> statements, return statements and variable declarations.</p>
+<!-- testMethod -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLWdob3N0LWNvZGUtZ2hvc3QtbWV0aG9kcy1hbmQtZnVuY3Rpb25zLWZ1bmN0aW9ucy1hbmQtcHVyZS1tZXRob2RzLTIKLy86OiB2ZXJkaWN0IFBhc3MKLy86OiB0b29scyBzaWxpY29uCmZpbmFsIGNsYXNzIFRlc3QgewogICAgLypACiAgICByZXF1aXJlcyB4ID4gMDsKICAgIEAqLwogICAgc3RhdGljIC8qQCBwdXJlIEAqLyBpbnQgY29uZF9hZGQoYm9vbGVhbiBjb25kLCBpbnQgeCwgaW50IHkpIHsKICAgICAgaWYgKGNvbmQpIHsKICAgICAgICByZXR1cm4geCt5OwogICAgICB9IGVsc2UgewogICAgICAgIHJldHVybiB4OwogICAgICB9CiAgICB9Cn0=" data-template-kind="testMethod" data-case-name="wiki-ghost-code-ghost-methods-and-functions-functions-and-pure-methods-2" data-case-verdict="Pass" data-language-ext="java" data-language-label="java">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-java no_run editable">/*@
+requires x &gt; 0;
+@*/
+static /*@ pure @*/ int cond_add(boolean cond, int x, int y) {
+  if (cond) {
+    return x+y;
+  } else {
+    return x;
+  }
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>java</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<h4 id="abstract-methods-and-functions"><a class="header" href="#abstract-methods-and-functions">Abstract Methods and Functions</a></h4>
+<p>Ghost functions and methods do not require a body. Sometimes, you are only interested in the assertions that a function or method gives in its post-condition, and do not care about the actual implementation. In such a case, you can omit the body, turning the method or function <em>abstract</em>. Given that method calls are usually reasoned about only based on the contract, the call site does not see a difference between an abstract method and a “real” method. However, this removes the assurance that it is actually possible to derive the post-condition from the pre-condition by some computation. Consider a post-condition <code>false</code>: The call site will simply assume that the method establishes its post-condition, and treat it as a known fact. Normally, verifying the method body will check that the post-condition is actually fulfilled; but for an abstract method, this check is missing. Since <code>false</code> implies everything, this can easily lead to unsoundness. Therefore, from the perspective of correctness, it is always better to have a body proving that the post-condition can actually be established based on the pre-condition.</p>
+<p>However, making a method abstract relieves VerCors from the effort to check that the method body actually adheres to the contract. Therefore, it can be an interesting option to speed up the re-run of an analysis: Once you proved that a method can indeed derive its post-condition, you can turn the method abstract and focus on other parts of the code without checking this method every time you re-run the analysis.</p>
+<p>Syntactically, an abstract method or function has a semicolon in place of its body:</p>
+<!-- testMethod -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLWdob3N0LWNvZGUtZ2hvc3QtbWV0aG9kcy1hbmQtZnVuY3Rpb25zLWFic3RyYWN0LW1ldGhvZHMtYW5kLWZ1bmN0aW9ucy0xCi8vOjogdmVyZGljdCBQYXNzCi8vOjogdG9vbHMgc2lsaWNvbgpmaW5hbCBjbGFzcyBUZXN0IHsKICAgIC8vQCByZXF1aXJlcyBhPjAgJiYgYj4wOwogICAgLy9AIGVuc3VyZXMgXHJlc3VsdCA9PSBhKmI7CiAgICBwdWJsaWMgaW50IG11bHQoaW50IGEsIGludCBiKTsKICAgIC8vIGNvbW1lbnRlZCBvdXQgYm9keSBmb3IgdGhlIHNha2Ugb2Ygc3BlZWRpbmcgdXAgdGhlIGFuYWx5c2lzOgogICAgLy97CiAgICAvLyAgaW50IHJlcyA9IDA7CiAgICAvLyAgLy8gbG9vcF9pbnZhcmlhbnQgcmVzID09IGkqYTsKICAgIC8vICAvLyBsb29wX2ludmFyaWFudCBpIDw9IGI7CiAgICAvLyAgZm9yIChpbnQgaT0wOyBpPGI7IGkrKykgewogICAgLy8gICAgcmVzICs9IGE7CiAgICAvLyAgfQogICAgLy8gIHJldHVybiByZXM7CiAgICAvL30KICAgIAogICAgLypACiAgICAgIGdob3N0CiAgICAgIHJlcXVpcmVzIGE+MCAmJiBiPjA7CiAgICAgIGVuc3VyZXMgXHJlc3VsdCA9PSBhK2I7CiAgICBwdWJsaWMgcHVyZSBpbnQgYWRkKGludCBhLCBpbnQgYik7CiAgICBAKi8KfQ==" data-template-kind="testMethod" data-case-name="wiki-ghost-code-ghost-methods-and-functions-abstract-methods-and-functions-1" data-case-verdict="Pass" data-language-ext="java" data-language-label="java">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-java no_run editable">//@ requires a&gt;0 &amp;&amp; b&gt;0;
+//@ ensures \result == a*b;
+public int mult(int a, int b);
+// commented out body for the sake of speeding up the analysis:
+//{
+//  int res = 0;
+//  // loop_invariant res == i*a;
+//  // loop_invariant i &lt;= b;
+//  for (int i=0; i&lt;b; i++) {
+//    res += a;
+//  }
+//  return res;
+//}
+
+/*@
+  ghost
+  requires a&gt;0 &amp;&amp; b&gt;0;
+  ensures \result == a+b;
+public pure int add(int a, int b);
+@*/</code></pre>
+<div class="verification-language">Language for VerCors: <strong>java</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<blockquote class="blockquote-tag blockquote-tag-note">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+<p>VerCors can also work with abstract methods that are not ghost methods (like <code>mult</code> in the example above), but your compiler may complain about missing method definitions.</p>
+</blockquote>
+<h4 id="inline-functions"><a class="header" href="#inline-functions">Inline Functions</a></h4>
+<p>Inline functions are like macros in C: You can write an expression that occurs frequently in your code as a macro and then use it as if it were a function; but before verifying the program, VerCors replaces every call to the inline function with the function’s body as if you had written out the body in place of the function call. Therefore, during the analysis, the “real” behaviour of the function is taken into account, rather than just the specification of the function’s contract. However, inline functions are only possible if the body of the function is simple enough; for example a recursive function cannot be used in that way, otherwise there would be an infinite loop of replacing a function call with the body, which again contains a call. Inline functions are declared using the <code>inline</code> keyword.</p>
+<!-- testMethod -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLWdob3N0LWNvZGUtZ2hvc3QtbWV0aG9kcy1hbmQtZnVuY3Rpb25zLWlubGluZS1mdW5jdGlvbnMtMQovLzo6IHZlcmRpY3QgUGFzcwovLzo6IHRvb2xzIHNpbGljb24KZmluYWwgY2xhc3MgVGVzdCB7CiAgICAvL0AgaW5saW5lIHB1cmUgaW50IG1pbihpbnQgeCwgaW50IHkpID0gKHg8eSA/IHggOiB5KTsKfQ==" data-template-kind="testMethod" data-case-name="wiki-ghost-code-ghost-methods-and-functions-inline-functions-1" data-case-verdict="Pass" data-language-ext="java" data-language-label="java">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-java no_run editable">//@ inline pure int min(int x, int y) = (x&lt;y ? x : y);</code></pre>
+<div class="verification-language">Language for VerCors: <strong>java</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<blockquote class="blockquote-tag blockquote-tag-note">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+<p>The <code>inline</code> keyword is also used for inline predicates (see section <a href="Predicates.html">Predicates</a>), which are a similar concept.</p>
+</blockquote>
+<h3 id="ghost-parameters-and-results"><a class="header" href="#ghost-parameters-and-results">Ghost Parameters and Results</a></h3>
+<p>You can extend the header of an existing method, by adding additional parameters and return values to a method. This is done by using the <code>given</code> and <code>yields</code> keywords in the method contract, respectively. To assign and retrieve the values when calling the method, use <code>given</code> and <code>yields</code> symmetrically:</p>
+<!-- testMethod -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLWdob3N0LWNvZGUtZ2hvc3QtcGFyYW1ldGVycy1hbmQtcmVzdWx0cy0xCi8vOjogdmVyZGljdCBQYXNzCi8vOjogdG9vbHMgc2lsaWNvbgpmaW5hbCBjbGFzcyBUZXN0IHsKICAgIC8qQAogICAgZ2l2ZW4gaW50IHg7CiAgICBnaXZlbiBpbnQgeTsKICAgIHlpZWxkcyBpbnQgbW9kaWZpZWRfeDsKICAgIHJlcXVpcmVzIHggPiAwOwogICAgZW5zdXJlcyBtb2RpZmllZF94ID4gMDsKICAgIEAqLwogICAgaW50IHNvbWVfbWV0aG9kKGJvb2xlYW4gcmVhbF9hcmcpIHsKICAgICAgaW50IHJlcyA9IDA7CiAgICAgIC8qIC4uLiAqLwogICAgICAvL0AgZ2hvc3QgbW9kaWZpZWRfeCA9IHggKyAxOwogICAgICAvKiAuLi4gKi8KICAgICAgcmV0dXJuIHJlczsKICAgIH0KICAgIAogICAgdm9pZCBvdGhlcl9tZXRob2QoKSB7CiAgICAgIC8vQCBnaG9zdCBpbnQgc29tZV9naG9zdDsKICAgICAgaW50IHNvbWVfcmVzdWx0ID0gc29tZV9tZXRob2QodHJ1ZSkgLypAIGdpdmVuIHt5PTMsIHg9Mn0gQCovIC8qQCB5aWVsZHMge3NvbWVfZ2hvc3Q9bW9kaWZpZWRfeH0gQCovOwogICAgfQp9" data-template-kind="testMethod" data-case-name="wiki-ghost-code-ghost-parameters-and-results-1" data-case-verdict="Pass" data-language-ext="java" data-language-label="java">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-java no_run editable">/*@
+given int x;
+given int y;
+yields int modified_x;
+requires x &gt; 0;
+ensures modified_x &gt; 0;
+@*/
+int some_method(boolean real_arg) {
+  int res = 0;
+  /* ... */
+  //@ ghost modified_x = x + 1;
+  /* ... */
+  return res;
+}
+
+void other_method() {
+  //@ ghost int some_ghost;
+  int some_result = some_method(true) /*@ given {y=3, x=2} @*/ /*@ yields {some_ghost=modified_x} @*/;
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>java</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>There are several points of interest in this example: Note that the pre- and post-condition of <code>some_method</code> can reference the ghost parameter and result just like normal parameters. If the ghost parameters and results are not just primitive integers, but heap objects, then permissions are needed to access them, just like with normal parameters and results (see <a href="Permissions.html">following section</a>). There is no explicit <code>return</code> statement for the ghost result; instead, the ghost result is whatever value the variable has when the method returns. Therefore, make sure when your method returns that you always have a defined value assigned to your ghost result variable! In <code>other_method</code>, the <code>given</code> keyword is followed by a list of bindings to the ghost parameters. The parameters are named, so the assignment can be in any order, and need not adhere to the order in which the ghost parameters are defined. Make sure to assign a value to each ghost parameter! Otherwise, the method will be missing a parameter, just as if you called a method <code>void foo(int x)</code> as <code>foo();</code>. Similarly, the <code>yields</code> keyword is followed by a block of bindings that retrieve the yielded values. The yielded values may only be immediately assigned to a local variable. The respective local variable, <code>some_ghost</code>, must be a ghost variable, otherwise you would affect the “real” program state from inside an annotation. Note that it is not required to have an output for every yielded value. Both the <code>given</code> and the <code>yields</code> are placed in a specification comment between the method call and the respective semicolon.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="Specification-Syntax-Method-Contracts.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="Specification-Syntax-Expressions-&amp;-Quantifiers-in-Annotations.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="Specification-Syntax-Method-Contracts.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="Specification-Syntax-Expressions-&amp;-Quantifiers-in-Annotations.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-xmark><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M310.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L160 210.7 54.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L114.7 256 9.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 301.3 265.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L205.3 256 310.6 150.6z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+        <template id=fa-pencil><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M421.7 220.3l-11.3 11.3-22.6 22.6-205 205c-6.6 6.6-14.8 11.5-23.8 14.1L30.8 511c-8.4 2.5-17.5 .2-23.7-6.1S-1.5 489.7 1 481.2L38.7 353.1c2.6-9 7.5-17.2 14.1-23.8l205-205 22.6-22.6 11.3-11.3 33.9 33.9 62.1 62.1 33.9 33.9zM96 353.9l-9.3 9.3c-.9 .9-1.6 2.1-2 3.4l-25.3 86 86-25.3c1.3-.4 2.5-1.1 3.4-2l9.3-9.3H112c-8.8 0-16-7.2-16-16V353.9zM453.3 19.3l39.4 39.4c25 25 25 65.5 0 90.5l-14.5 14.5-22.6 22.6-11.3 11.3-33.9-33.9-62.1-62.1L314.3 67.7l11.3-11.3 22.6-22.6 14.5-14.5c25-25 65.5-25 90.5 0z"/></svg></span></template>
+
+
+        <script>
+            window.playground_line_numbers = true;
+        </script>
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="ace-2a3cd908.js"></script>
+        <script src="mode-rust-2c9d5c9a.js"></script>
+        <script src="../js/mode-annotated_c.js"></script>
+        <script src="../js/mode-annotated_cuda.js"></script>
+        <script src="../js/mode-annotated_java.js"></script>
+        <script src="../js/mode-annotated_opencl.js"></script>
+        <script src="../js/mode-annotated_sycl.js"></script>
+        <script src="../js/mode-pvl.js"></script>
+        <script src="../js/mode-viper.js"></script>
+
+        <script src="editor-16ca416c.js"></script>
+        <script src="theme-dawn-4493f9c8.js"></script>
+        <script src="theme-tomorrow_night-9dbe62a9.js"></script>
+        <script src="../js/theme-chrome.js"></script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-09f2665d.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-a6f5d318.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    
+<div id="footer" class="dark">
+    <footer class="container">
+        <a href="//www.utwente.nl/en/eemcs/fmt/" target="_blank"><img src="/images/FMT logo.png" alt="Formal Methods & Tools logo" title="Formal Methods & Tools"></a>
+        <hr>
+        <div class="copyright">
+            <a href="/about/#credits" target="_blank">Copyright <code id="copyright">&copy</code> The VerCors Project 2007-2026</a>
+            | <a href="//www.utwente.nl/en/eemcs/fmt/" target="_blank">FMT - University of Twente</a>
+            | <a href="/about/">About Us</a>
+        </div>
+    </footer>
+</div>
+</body>
+</html>

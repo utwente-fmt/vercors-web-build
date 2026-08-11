@@ -1,0 +1,557 @@
+<!DOCTYPE HTML>
+<html lang="en" class="vercors sidebar-visible" dir="ltr">
+    <head>
+<meta name="description" content="VerCors Tutorial and documentation">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#d12010">
+
+<link rel="icon" href="/images/icon.svg">
+
+<link rel="stylesheet" href="/css/global.css">
+<link rel="stylesheet" href="/css/colors.css">
+<link rel="stylesheet" href="/css/shared.css">
+<link rel="stylesheet" href="/css/responsive.css">
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/highlight.pack.js"></script>
+<script src="/js/ace.js"></script>
+<script src="/js/datatables.min.js"></script>
+<script src="/js/vercorsonline.js"></script>
+<script src="/js/init.js"></script>
+
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Atomics and Locks - VerCors Tutorial</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-88aeadc2.css">
+        <link rel="stylesheet" href="css/general-5067d8cd.css">
+        <link rel="stylesheet" href="css/chrome-7683498c.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "vercors";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-9b93a44c.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-0460c59c.js"></script>
+    </head>
+    <body>
+<div id="header" class="top-header ">
+
+            <nav class="top-nav">
+                <div class="container">
+                    <div id="logo">
+                        <span id="hamburger" onclick="document.querySelector('nav.top-nav').classList.toggle('open')"><span class="fa fa-bars"></span></span><!--
+                        --><a href="/"><img id="logo-light" src="/images/logo.svg" title="The VerCors Verifier" alt="Logo of the VerCors Verifier"><img id="logo-dark" src="/images/logo-white.svg" title="The VerCors Verifier" alt="Logo of the VerCors Verifier"></a>
+                    </div>
+                    <ul>
+                        <li>
+                            <a href="/wiki">Getting Started</a>
+                            <ul>
+                                <li><a href="/wiki/Installing-and-Running-VerCors.html">Installation Guide</a></li>
+                                <li><a href="/wiki/Tutorial.html">Tutorial</a></li>
+                                <li>
+                                    <a href="//github.com/utwente-fmt/vercors/issues" target="_blank">
+                                        Issue Tracker
+                                        <span class="fa fa-external-link" style="font-size: 10pt"></span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="/">Tools</a>
+                            <ul>
+                                <li><a href="/">Verifier</a></li>
+                                <li><a href="/alpinist/">Alpinist</a></li>
+                                <li><a href="/vesuv/">VeSUV</a></li>
+                                <li><a href="/veymont/">VeyMont</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="/publications/">Publications</a></li>
+                        <li>
+                            <a href="/about/">About</a>
+                            <ul>
+                                <li><a href="/about/#team">VerCors Team</a></li>
+                                <li><a href="/news/">News</a></li>
+                                <li><a href="/about/#contact">Contact</a></li>
+                                <li><a href="/about/#credits">Credits</a></li>
+                                <li><a href="/license/">License</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+</div>
+
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('vercors')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-vercors">VerCors</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">VerCors Tutorial </h1>
+
+                    <div class="right-buttons">
+                        <a href="/try_online/" class="online-button">Try VerCors Online</a>
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <p>VerCors supports three forms of synchronization primitives. Two can only be used in PVL: built-in locks, and atomics. One can only be used in Java: the <code>synchronized</code> block. Each form will be discussed individually in the next sections.</p>
+<p>Warning: at the time of writing, VerCors supports only non-reentrant locks. This means locking twice in a row is unsound, which could have implications for code that uses Java’s <code>synchronized</code>. See the caveats section at the end of this document for more info.</p>
+<h2 id="pvl-built-in-locks"><a class="header" href="#pvl-built-in-locks">PVL: Built-in locks</a></h2>
+<p>Using built-in locks in PVL consists of the following parts:</p>
+<ul>
+<li>Lock invariant, which describes the resources that the lock guards</li>
+<li>The <code>lock</code> statement</li>
+<li>The <code>unlock</code> statement</li>
+<li>The <code>commit</code> statement and <code>committed(l)</code> expression, which indicate whether or not a lock is initialized.</li>
+</ul>
+<h3 id="lock-invariant"><a class="header" href="#lock-invariant">Lock invariant</a></h3>
+<p>A lock invariant can be defined for a class with the following syntax:</p>
+<!-- test Pass -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLXB2bC1idWlsdC1pbi1sb2Nrcy1sb2NrLWludmFyaWFudC0xCi8vOjogdmVyZGljdCBQYXNzCi8vOjogdG9vbHMgc2lsaWNvbgpsb2NrX2ludmFyaWFudCB0cnVlIC8qIG9yOiByZXNvdXJjZSBleHByZXNzaW9uIGludm9sdmluZyBwZXJtaXNzaW9ucyBhbmQgYm9vbGVhbiBhc3NlcnRpb25zICovOwpjbGFzcyBDIHsKCn0=" data-template-kind="test" data-case-name="wiki-pvl-built-in-locks-lock-invariant-1" data-case-verdict="Pass" data-language-ext="pvl" data-language-label="pvl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">lock_invariant true /* or: resource expression involving permissions and boolean assertions */;
+class C {
+
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>Because a lock invariant is defined for a class, it is always related to a specific class instance. Therefore, it is possible to make assertions about instance fields in the lock invariant. For example, a lock invariant could be specified that contains the permissions for a field, and also the fact that that field must have a value greater than 10, using the following syntax:</p>
+<!-- test Pass -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLXB2bC1idWlsdC1pbi1sb2Nrcy1sb2NrLWludmFyaWFudC0yCi8vOjogdmVyZGljdCBQYXNzCi8vOjogdG9vbHMgc2lsaWNvbgpsb2NrX2ludmFyaWFudCBQZXJtKGYsIHdyaXRlKSAqKiBmID4gMTA7CmNsYXNzIEMgewogICAgaW50IGY7CgogICAgY29uc3RydWN0b3IoKSB7CiAgICAgICAgZiA9IDExOwogICAgICAgIC8vIExvY2sgaW52YXJpYW50IG11c3QgaG9sZCBoZXJlIQogICAgfQp9" data-template-kind="test" data-case-name="wiki-pvl-built-in-locks-lock-invariant-2" data-case-verdict="Pass" data-language-ext="pvl" data-language-label="pvl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">lock_invariant Perm(f, write) ** f &gt; 10;
+class C {
+    int f;
+
+    constructor() {
+        f = 11;
+        // Lock invariant must hold here!
+    }
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>The lock invariant must hold at the end of the constructor. If VerCors cannot prove this, the program will be rejected.</p>
+<p>Using Java terminology, in the above example the field <code>f</code> is “guarded” by the built-in lock of the object that has the field <code>f</code>. That is, to write permission for <code>this.f</code>, and hence access to <code>this.f</code>, first the lock on <code>this</code> needs to be acquired. This is done using the <code>lock</code> statement, which is described in the next section.</p>
+<h3 id="lock-statement"><a class="header" href="#lock-statement"><code>lock</code> statement</a></h3>
+<p>The lock statement has the following syntax:</p>
+<pre><code class="language-pvl editable read-only">lock o;
+</code></pre>
+<p>Where <code>o</code> can be an arbitrary expression. The only constraint is that <code>o</code> is not <code>null</code>. The default lock invariant for a class is <code>true</code>, so by default <code>lock o</code> does not give you extra information, until a <code>lock_invariant</code> is specified.</p>
+<p>The lock statement ensures that only one thread at a time can lock on an object. Once the lock has been acquired, the lock invariant of the object <code>o</code> may be assumed. For example, after the <code>lock</code> statement, often fields of the object <code>o</code> can be accessed or written to. For example, consider the code snippet below. It is similar to the previous example, with the addition of an increment method:</p>
+<!-- test Pass -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLXB2bC1idWlsdC1pbi1sb2Nrcy1sb2NrLXN0YXRlbWVudC0xCi8vOjogdmVyZGljdCBQYXNzCi8vOjogdG9vbHMgc2lsaWNvbgpsb2NrX2ludmFyaWFudCBQZXJtKGYsIHdyaXRlKTsKY2xhc3MgQyB7CiAgICBpbnQgZjsKCiAgICByZXF1aXJlcyBjb21taXR0ZWQodGhpcyk7CiAgICB2b2lkIGluY3JlbWVudCgpIHsKICAgICAgICBsb2NrIHRoaXM7CiAgICAgICAgYXNzZXJ0IFBlcm0oZiwgd3JpdGUpOwogICAgICAgIGYgPSBmICsgMTsKICAgIH0KfQ==" data-template-kind="test" data-case-name="wiki-pvl-built-in-locks-lock-statement-1" data-case-verdict="Pass" data-language-ext="pvl" data-language-label="pvl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">lock_invariant Perm(f, write);
+class C {
+    int f;
+
+    requires committed(this);
+    void increment() {
+        lock this;
+        assert Perm(f, write);
+        f = f + 1;
+    }
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>Notice how the lock is acquired before <code>f</code> is incremented. Because after lock statement the lock invariant may be assumed, this ensures the thread that is executing <code>increment</code> has <code>write</code> permission for <code>f</code>, which in turn allows reading and writing to <code>f</code>. Additionally, this excludes any data races on <code>f</code>, as the thread that has the lock will be the only thread currently incrementing <code>f</code>. We will explain the <code>committed</code> annotation shortly.</p>
+<p>The above example is still incomplete: when <code>f</code> has been incremented, the lock should be unlocked again. This is done with the <code>unlock</code> statement, which we describe next.</p>
+<h3 id="unlock-statement"><a class="header" href="#unlock-statement"><code>unlock</code> statement</a></h3>
+<p>The unlock statement has the following syntax:</p>
+<pre><code class="language-pvl editable read-only">unlock o;
+</code></pre>
+<p>Similar to the <code>lock</code> statement, <code>o</code> must be non-null.</p>
+<p>The <code>unlock</code> statement behaves as the inverse of the <code>lock</code> statement. For the program to progress beyond <code>unlock</code>, the lock invariant must be re-established. If this is not possible, VerCors will reject the program. If the lock invariant can be re-established, the lock is unlocked, and the program proceeds. Because the lock is now unlocked, other threads can lock it, and gain access to the resources protected by the lock.</p>
+<p>In the code snippet, the previous code snippet is completed with the missing <code>unlock</code> statement:</p>
+<!-- test Pass -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLXB2bC1idWlsdC1pbi1sb2Nrcy11bmxvY2stc3RhdGVtZW50LTEKLy86OiB2ZXJkaWN0IFBhc3MKLy86OiB0b29scyBzaWxpY29uCmxvY2tfaW52YXJpYW50IFBlcm0oZiwgd3JpdGUpOwpjbGFzcyBDIHsKICAgIGludCBmOwoKICAgIHJlcXVpcmVzIGNvbW1pdHRlZCh0aGlzKTsKICAgIHZvaWQgaW5jcmVtZW50KCkgewogICAgICAgIGxvY2sgdGhpczsKICAgICAgICBhc3NlcnQgUGVybShmLCB3cml0ZSk7CiAgICAgICAgZiA9IGYgKyAxOwogICAgICAgIHVubG9jayB0aGlzOwogICAgfQp9" data-template-kind="test" data-case-name="wiki-pvl-built-in-locks-unlock-statement-1" data-case-verdict="Pass" data-language-ext="pvl" data-language-label="pvl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">lock_invariant Perm(f, write);
+class C {
+    int f;
+
+    requires committed(this);
+    void increment() {
+        lock this;
+        assert Perm(f, write);
+        f = f + 1;
+        unlock this;
+    }
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>Because the only thing we did between <code>lock</code> and <code>unlock</code> was increment <code>f</code>, the write permission for <code>f</code> is still available, and hence VerCors can trivially prove that the lock invariant can be re-established. Hence, this example verifies.</p>
+<h3 id="commit-statement"><a class="header" href="#commit-statement"><code>commit</code> statement</a></h3>
+<p>Before a lock can be locked, it must be initialized. In VerCors, a lock is initialized when it is “committed”. This is done using the <code>commit e;</code> statement. The lock must be committed before the end of the constructor. After any <code>commit e;</code> statement, the expression <code>committed(e)</code> is guaranteed to be true.</p>
+<p>In the following example, the lock invariant of <code>C</code> requires permission for the field <code>f</code>, and that <code>f</code> has value 3. The constructor writes 3 to <code>f</code>, and then commits the invariant. This ensures that the <code>tryLock</code> method can lock on a newly created object of type <code>C</code>. Without the <code>commit</code> statement, an error would occur. In addition, the postcondition contains <code>committed(this)</code>, to indicate that after the constructor the new object is lockable.</p>
+<!-- test Pass -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLXB2bC1idWlsdC1pbi1sb2Nrcy1jb21taXQtc3RhdGVtZW50LTEKLy86OiB2ZXJkaWN0IFBhc3MKLy86OiB0b29scyBzaWxpY29uCmxvY2tfaW52YXJpYW50IFBlcm0oZiwgMSkgKiogZiA9PSAzOwpjbGFzcyBDIHsKICBpbnQgZjsKCiAgZW5zdXJlcyBjb21taXR0ZWQodGhpcyk7CiAgY29uc3RydWN0b3IoKSB7CiAgICBmID0gMzsKICAgIGNvbW1pdCB0aGlzOwogICAgYXNzZXJ0IGNvbW1pdHRlZCh0aGlzKTsKICB9Cn0KCnZvaWQgdHJ5TG9jaygpIHsKICBDIGMgPSBuZXcgQygpOwogIGxvY2sgYzsKICBhc3NlcnQgUGVybShjLmYsIDEpICoqIGMuZiA9PSAzOwp9" data-template-kind="test" data-case-name="wiki-pvl-built-in-locks-commit-statement-1" data-case-verdict="Pass" data-language-ext="pvl" data-language-label="pvl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">lock_invariant Perm(f, 1) ** f == 3;
+class C {
+  int f;
+
+  ensures committed(this);
+  constructor() {
+    f = 3;
+    commit this;
+    assert committed(this);
+  }
+}
+
+void tryLock() {
+  C c = new C();
+  lock c;
+  assert Perm(c.f, 1) ** c.f == 3;
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<h3 id="built-in-lock-caveats"><a class="header" href="#built-in-lock-caveats">Built-in lock: caveats</a></h3>
+<p>There are several caveats to look out for when using built-in locks in PVL.</p>
+<h4 id="avoid-locking-a-lock-twice"><a class="header" href="#avoid-locking-a-lock-twice">Avoid: locking a lock twice</a></h4>
+<p>PVL locks are non-reentrant: locking a lock twice, without unlocking the lock between, will result in a deadlock. VerCors does not warn about this situation if it occurs. Hence, it needs to be checked manually that this situation does not occur.</p>
+<h4 id="avoid-deadlocking-interleavings"><a class="header" href="#avoid-deadlocking-interleavings">Avoid: deadlocking interleavings</a></h4>
+<p>Deadlocks can occur when using multiple locks. For example, consider a situation with two locks, <code>l1</code> and <code>l2</code>. Process A first locks <code>l1</code>, and then tries to acquire <code>l2</code>. Process B locks <code>l2</code>, and then tries to acquire <code>l1</code>. Since built-in locks in PVL are blocking, this interleaving will deadlock. VerCors does not warn about this situation if it occurs. Hence, it needs to be checked manually that this situation does not occur, because it can otherwise allow unsoundness to occur.</p>
+<h2 id="pvl-atomics"><a class="header" href="#pvl-atomics">PVL: Atomics</a></h2>
+<p>For this section, we assume you are familiar with the concept of “lock invariant”, as introduced int the previous section.</p>
+<p>Atomics in PVL are used through two statements: the <code>invariant</code> statement and the <code>atomic</code> statement. We will discuss them separately.</p>
+<h3 id="invariant-block"><a class="header" href="#invariant-block"><code>invariant</code> block</a></h3>
+<p>The syntax of the <code>invariant</code> block is as follows:</p>
+<!-- testBlock Pass -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLXB2bC1hdG9taWNzLWludmFyaWFudC1ibG9jay0xCi8vOjogdmVyZGljdCBQYXNzCi8vOjogdG9vbHMgc2lsaWNvbgpjbGFzcyBUZXN0IHsKICAgIHZvaWQgdGVzdCgpIHsKICAgICAgICBpbnZhcmlhbnQgaW52TmFtZSh0cnVlKSB7CiAgICAgICAgICAgIC8vIC4uLgogICAgICAgIH0KICAgIH0KfQ==" data-template-kind="testBlock" data-case-name="wiki-pvl-atomics-invariant-block-1" data-case-verdict="Pass" data-language-ext="pvl" data-language-label="pvl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">invariant invName(true) {
+    // ...
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>An invariant block consists of the keyword <code>invariant</code>, then a name, and finally an expression that is the atomic invariant of the block. The invariant block may only occur in methods or procedures, and may be nested, provided that the names of each invariant block are unique.</p>
+<p>The invariant block will ensure that the atomic invariant holds at the beginning of the block. Inside the invariant block, you will not have access to the atomic invariant, as it is removed from the state at the beginning of the invariant block. You can get access to the atomic invariant using the <code>atomic</code> block, which is explained in the next section. After the invariant block, the atomic invariant may be assumed again.</p>
+<h4 id="atomic-block"><a class="header" href="#atomic-block"><code>atomic</code> block</a></h4>
+<p>The syntax of the <code>atomic</code> block is as follows:</p>
+<!-- standaloneSnip onlyAtomicBlock
+class C {
+    void m() {
+        invariant invName(true) {
+-->
+<!-- codeSnip onlyAtomicBlock -->
+<div class="verification-container" data-examplecode-b64="Y2xhc3MgQyB7CnZvaWQgbSgpIHsKaW52YXJpYW50IGludk5hbWUodHJ1ZSkgewphdG9taWMoaW52TmFtZSkgewogICAgLy8gLi4uCn0KfSB9IH0K" data-template-kind="" data-case-name="" data-case-verdict="Pass" data-language-ext="pvl" data-language-label="pvl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable code_snippet">atomic(invName) {
+    // ...
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<!-- standaloneSnip onlyAtomicBlock
+} } }
+-->
+<p>The atomic block consists of the keyword <code>atomic</code>, followed by the name of the invariant the atomic block synchronizes on. The atomic block may only occur in methods or procedures, may not be nested, and the invariant that is referred to must enclose the atomic block.</p>
+<p>The atomic block will ensure only one thread at a time will synchronize on the invariant. At the beginning of the atomic block, the atomic invariant is assumed. At any point in the atomic block, this atomic invariant can be used and broken. Finally, when the program exits the atomic block, the atomic invariant needs to be re-established. If VerCors cannot prove that this is always possible, VerCors will reject the program and verification will fail.</p>
+<p>The atomic block is similar to the lock invariant and <code>lock</code>/<code>unlock</code> statements, with two subtle differences:</p>
+<ol>
+<li>The synchronization done by the atomic block is scoped, so unlocking is done automatically.</li>
+<li>Declaration of the invariant is done at the method level, instead of at the class level.</li>
+</ol>
+<h2 id="java-synchronized"><a class="header" href="#java-synchronized">Java: synchronized</a></h2>
+<p>The <code>synchronized</code> statement allows you to work with lock invariants in Java. It is a combination of built-in locks from PVL, and atomics from PVL, which are both explained in previous sections. Specifically, VerCors supports the lock invariant syntax for Java classes, and <code>synchronized</code> blocks work almost identically to atomic blocks. Both concepts will be discussed in the next sections.</p>
+<h3 id="java-lock-invariants"><a class="header" href="#java-lock-invariants">Java: lock invariants</a></h3>
+<p>VerCors supports the lock invariant syntax for Java classes. The syntax is as follows:</p>
+<!-- test Pass -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLWphdmEtc3luY2hyb25pemVkLWphdmEtbG9jay1pbnZhcmlhbnRzLTEKLy86OiB2ZXJkaWN0IFBhc3MKLy86OiB0b29scyBzaWxpY29uCi8vQCBsb2NrX2ludmFyaWFudCB0cnVlOwpjbGFzcyBDICB7CiAgICBDKCkgewogICAgICAgIC8vIExvY2sgaW52YXJpYW50IGlzIGVzdGFibGlzaGVkIGhlcmUhCiAgICB9Cn0=" data-template-kind="test" data-case-name="wiki-java-synchronized-java-lock-invariants-1" data-case-verdict="Pass" data-language-ext="java" data-language-label="java">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-java no_run editable">//@ lock_invariant true;
+class C  {
+    C() {
+        // Lock invariant is established here!
+    }
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>java</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>Notice how the syntax is identical to the PVL syntax, except that it must now be placed in ghost code, as indicated by the <code>//@</code> marker. In the above example the trivial lock invariant <code>true</code> is used, but in principle the lock invariant can contain the same things as in PVL: permissions about fields, arrays, and properties about those fields and arrays.</p>
+<p>The lock invariant has to hold at the end of a constructor, otherwise verification will fail. The lock invariant is assumed at the beginning of <code>synchronized</code> blocks, and has to be re-established at the end of synchronized blocks. If it cannot be re-established, VerCors will reject the program and verification will fail.</p>
+<h3 id="java-synchronized-block"><a class="header" href="#java-synchronized-block">Java: synchronized block</a></h3>
+<p>VerCors supports Java’s syntax for synchronized blocks. The syntax is as follows:</p>
+<!-- standaloneSnip onlySynchronizedBlock
+//@ lock_invariant true;
+class C {
+    void m() {
+        Object expr = this;
+        //@ ghost commit expr;
+-->
+<!-- codeSnip onlySynchronizedBlock -->
+<div class="verification-container" data-examplecode-b64="Ly9AIGxvY2tfaW52YXJpYW50IHRydWU7CmNsYXNzIEMgewp2b2lkIG0oKSB7Ck9iamVjdCBleHByID0gdGhpczsKLy9AIGdob3N0IGNvbW1pdCBleHByOwpzeW5jaHJvbml6ZWQgKGV4cHIpIHsKICAgIC8vIC4uLgp9Cn0gfQo=" data-template-kind="" data-case-name="" data-case-verdict="Pass" data-language-ext="java" data-language-label="java">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-java no_run editable code_snippet">synchronized (expr) {
+    // ...
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>java</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<!-- standaloneSnip onlySynchronizedBlock
+} }
+-->
+<p>Note the similarity to the <code>atomic</code> block statement. The only requirement is that <code>expr</code> is non-null and of type class. If no lock invariant is specified on the class, the default invariant <code>true</code> will be used.</p>
+<p>The only additional behaviour of the <code>synchronized</code> expr is that it accounts for exceptions. That is, when an exception is thrown before the end of the synchronized block, the lock is still closed, and hence the lock invariant still needs to be re-established.</p>
+<h3 id="caveats"><a class="header" href="#caveats">Caveats</a></h3>
+<p>There are some caveats to verifying Java locks in VerCors.</p>
+<h4 id="avoid-locking-in-the-constructor"><a class="header" href="#avoid-locking-in-the-constructor">Avoid: locking in the constructor</a></h4>
+<p>Similar to PVL, VerCors does not allow locking on an object before the lock invariant is established. However, VerCors does not check for this, so the user must manually ensure that this does not occur.</p>
+<h4 id="avoid-locking-on-an-object-twice"><a class="header" href="#avoid-locking-on-an-object-twice">Avoid: locking on an object twice</a></h4>
+<p>Similar to PVL, VerCors models Java’s locks as single-entrant locks. This is inaccurate, as Java’s locks are actually re-entrant. We are working on improving this, but this is currently not yet implemented. Therefore, users have to take care that locking twice on a single object does not occur. If it does occur, it might cause unsoundness.</p>
+<h4 id="avoid-deadlocking-interleavings-1"><a class="header" href="#avoid-deadlocking-interleavings-1">Avoid: deadlocking interleavings</a></h4>
+<p>Some interleaving of <code>synchronized</code> locking sequences might deadlock. VerCors does not warn, nor check for this. Therefore, it is the user’s responsibility to ensure that this does not occur.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="GPGPU-Verification.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="Predicates.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="GPGPU-Verification.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="Predicates.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-xmark><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M310.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L160 210.7 54.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L114.7 256 9.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 301.3 265.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L205.3 256 310.6 150.6z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+        <template id=fa-pencil><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M421.7 220.3l-11.3 11.3-22.6 22.6-205 205c-6.6 6.6-14.8 11.5-23.8 14.1L30.8 511c-8.4 2.5-17.5 .2-23.7-6.1S-1.5 489.7 1 481.2L38.7 353.1c2.6-9 7.5-17.2 14.1-23.8l205-205 22.6-22.6 11.3-11.3 33.9 33.9 62.1 62.1 33.9 33.9zM96 353.9l-9.3 9.3c-.9 .9-1.6 2.1-2 3.4l-25.3 86 86-25.3c1.3-.4 2.5-1.1 3.4-2l9.3-9.3H112c-8.8 0-16-7.2-16-16V353.9zM453.3 19.3l39.4 39.4c25 25 25 65.5 0 90.5l-14.5 14.5-22.6 22.6-11.3 11.3-33.9-33.9-62.1-62.1L314.3 67.7l11.3-11.3 22.6-22.6 14.5-14.5c25-25 65.5-25 90.5 0z"/></svg></span></template>
+
+
+        <script>
+            window.playground_line_numbers = true;
+        </script>
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="ace-2a3cd908.js"></script>
+        <script src="mode-rust-2c9d5c9a.js"></script>
+        <script src="../js/mode-annotated_c.js"></script>
+        <script src="../js/mode-annotated_cuda.js"></script>
+        <script src="../js/mode-annotated_java.js"></script>
+        <script src="../js/mode-annotated_opencl.js"></script>
+        <script src="../js/mode-annotated_sycl.js"></script>
+        <script src="../js/mode-pvl.js"></script>
+        <script src="../js/mode-viper.js"></script>
+
+        <script src="editor-16ca416c.js"></script>
+        <script src="theme-dawn-4493f9c8.js"></script>
+        <script src="theme-tomorrow_night-9dbe62a9.js"></script>
+        <script src="../js/theme-chrome.js"></script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-09f2665d.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-a6f5d318.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    
+<div id="footer" class="dark">
+    <footer class="container">
+        <a href="//www.utwente.nl/en/eemcs/fmt/" target="_blank"><img src="/images/FMT logo.png" alt="Formal Methods & Tools logo" title="Formal Methods & Tools"></a>
+        <hr>
+        <div class="copyright">
+            <a href="/about/#credits" target="_blank">Copyright <code id="copyright">&copy</code> The VerCors Project 2007-2026</a>
+            | <a href="//www.utwente.nl/en/eemcs/fmt/" target="_blank">FMT - University of Twente</a>
+            | <a href="/about/">About Us</a>
+        </div>
+    </footer>
+</div>
+</body>
+</html>

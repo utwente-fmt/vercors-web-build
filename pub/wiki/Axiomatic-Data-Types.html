@@ -1,0 +1,866 @@
+<!DOCTYPE HTML>
+<html lang="en" class="vercors sidebar-visible" dir="ltr">
+    <head>
+<meta name="description" content="VerCors Tutorial and documentation">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#d12010">
+
+<link rel="icon" href="/images/icon.svg">
+
+<link rel="stylesheet" href="/css/global.css">
+<link rel="stylesheet" href="/css/colors.css">
+<link rel="stylesheet" href="/css/shared.css">
+<link rel="stylesheet" href="/css/responsive.css">
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/highlight.pack.js"></script>
+<script src="/js/ace.js"></script>
+<script src="/js/datatables.min.js"></script>
+<script src="/js/vercorsonline.js"></script>
+<script src="/js/init.js"></script>
+
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Axiomatic Data Types - VerCors Tutorial</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-88aeadc2.css">
+        <link rel="stylesheet" href="css/general-5067d8cd.css">
+        <link rel="stylesheet" href="css/chrome-7683498c.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "vercors";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-9b93a44c.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-0460c59c.js"></script>
+    </head>
+    <body>
+<div id="header" class="top-header ">
+
+            <nav class="top-nav">
+                <div class="container">
+                    <div id="logo">
+                        <span id="hamburger" onclick="document.querySelector('nav.top-nav').classList.toggle('open')"><span class="fa fa-bars"></span></span><!--
+                        --><a href="/"><img id="logo-light" src="/images/logo.svg" title="The VerCors Verifier" alt="Logo of the VerCors Verifier"><img id="logo-dark" src="/images/logo-white.svg" title="The VerCors Verifier" alt="Logo of the VerCors Verifier"></a>
+                    </div>
+                    <ul>
+                        <li>
+                            <a href="/wiki">Getting Started</a>
+                            <ul>
+                                <li><a href="/wiki/Installing-and-Running-VerCors.html">Installation Guide</a></li>
+                                <li><a href="/wiki/Tutorial.html">Tutorial</a></li>
+                                <li>
+                                    <a href="//github.com/utwente-fmt/vercors/issues" target="_blank">
+                                        Issue Tracker
+                                        <span class="fa fa-external-link" style="font-size: 10pt"></span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="/">Tools</a>
+                            <ul>
+                                <li><a href="/">Verifier</a></li>
+                                <li><a href="/alpinist/">Alpinist</a></li>
+                                <li><a href="/vesuv/">VeSUV</a></li>
+                                <li><a href="/veymont/">VeyMont</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="/publications/">Publications</a></li>
+                        <li>
+                            <a href="/about/">About</a>
+                            <ul>
+                                <li><a href="/about/#team">VerCors Team</a></li>
+                                <li><a href="/news/">News</a></li>
+                                <li><a href="/about/#contact">Contact</a></li>
+                                <li><a href="/about/#credits">Credits</a></li>
+                                <li><a href="/license/">License</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+</div>
+
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('vercors')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-vercors">VerCors</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">VerCors Tutorial </h1>
+
+                    <div class="right-buttons">
+                        <a href="/try_online/" class="online-button">Try VerCors Online</a>
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <p>Axiomatic data types are data types that are defined by a set of uninterpreted functions and axioms that define the behaviour of these functions. This is in contrast to concrete data types which are defined by their implementation in a programming language such as Java or C++. Axiomatic data types are not to be confused with <em>algebraic</em> data types.</p>
+<p>In the sections below, we are going to go over all ADTs supported by VerCors, give the definition of each, and show examples of common operations defined on them. A reference table can be found at the end showing all the operations defined on the ADTs.</p>
+<!-- markdownlint-disable-next-line MD059 -->
+<p>The axiomatizations used by VerCors and its back end Viper can be found <a href="https://github.com/viperproject/silicon/tree/master/src/main/resources/dafny_axioms">here</a> (for sequences sets and bags) and <a href="https://github.com/utwente-fmt/vercors/tree/dev/res/universal/res/adt">here</a> (for the other ADTs).</p>
+<p>Finally, it is also possible to create custom ADTs, though with limited syntax support. This is discussed at the end of this section.</p>
+<h2 id="sequence"><a class="header" href="#sequence">Sequence</a></h2>
+<p>Sequences are an ordered/enumerated collection also commonly referred to as lists. Sequences are finite and immutable (i.e. once created they cannot be altered).</p>
+<p>There are two ways to construct a sequence: the explicit syntax and the implicit syntax. The explicit syntax requires the type of the sequence to be explicitly defined. For example, <code>s1</code> is a sequence of integers initialized with the values 1, 2 and 3 and <code>s2</code> is an empty sequence of integers.</p>
+<!-- testBlock Pass -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLXNlcXVlbmNlLTEKLy86OiB2ZXJkaWN0IFBhc3MKLy86OiB0b29scyBzaWxpY29uCmNsYXNzIFRlc3QgewogICAgdm9pZCB0ZXN0KCkgewogICAgICAgIHNlcTxpbnQ+IHMxID0gc2VxPGludD4geyAxLCAyLCAzIH07CiAgICAgICAgc2VxPGludD4gczIgPSBzZXE8aW50PiB7IH07CiAgICB9Cn0=" data-template-kind="testBlock" data-case-name="wiki-sequence-1" data-case-verdict="Pass" data-language-ext="pvl" data-language-label="pvl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">seq&lt;int&gt; s1 = seq&lt;int&gt; { 1, 2, 3 };
+seq&lt;int&gt; s2 = seq&lt;int&gt; { };</code></pre>
+<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>The implicit syntax is a shorter syntax. If the sequence is initialized with at least one value (using the implicit syntax), VerCors infers the type of the sequence. An empty sequence can be constructed by providing the type of the sequence. For example, <code>s3</code> is equivalent to <code>s1</code> and <code>s4</code> is equivalent to <code>s2</code>. Notice how there is no space between <code>[</code> and <code>t</code>, this is mandated by the VerCors grammar.</p>
+<!-- testBlock Pass -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLXNlcXVlbmNlLTIKLy86OiB2ZXJkaWN0IFBhc3MKLy86OiB0b29scyBzaWxpY29uCmNsYXNzIFRlc3QgewogICAgdm9pZCB0ZXN0KCkgewogICAgICAgIHNlcTxpbnQ+IHMzID0gWyAxLCAyLCAzIF07CiAgICAgICAgc2VxPGludD4gczQgPSBbdDogaW50IF07CiAgICB9Cn0=" data-template-kind="testBlock" data-case-name="wiki-sequence-2" data-case-verdict="Pass" data-language-ext="pvl" data-language-label="pvl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">seq&lt;int&gt; s3 = [ 1, 2, 3 ];
+seq&lt;int&gt; s4 = [t: int ];</code></pre>
+<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>Once we have a sequence, we can query different properties of that sequence. The syntax <code>s5[i]</code> can be used to retrieve the element at index <code>i</code> from sequence <code>s5</code>. The notation <code>s5.head</code> is shorthand for <code>s5[0]</code>. The length of a sequence <code>s5</code> can be obtained by using the notation <code>|s5|</code>. Two sequences can be compared using the <code>==</code> operator where they are equal iff they are of the same length and the elements at the same indices are equal.</p>
+<!-- testBlock Pass -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLXNlcXVlbmNlLTMKLy86OiB2ZXJkaWN0IFBhc3MKLy86OiB0b29scyBzaWxpY29uCmNsYXNzIFRlc3QgewogICAgdm9pZCB0ZXN0KCkgewogICAgICAgIHNlcTxpbnQ+IHM1ID0gWyAxLCAyLCA0LCA4LCAxNiBdOwogICAgICAgIGFzc2VydCBzNVszXSA9PSA4OwogICAgICAgIGFzc2VydCB8czV8ID09IDU7CiAgICAgICAgYXNzZXJ0IHM1ID09IHNlcTxpbnQ+IHsgMSwgMiwgNCwgOCwgMTYgfTsKICAgIH0KfQ==" data-template-kind="testBlock" data-case-name="wiki-sequence-3" data-case-verdict="Pass" data-language-ext="pvl" data-language-label="pvl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">seq&lt;int&gt; s5 = [ 1, 2, 4, 8, 16 ];
+assert s5[3] == 8;
+assert |s5| == 5;
+assert s5 == seq&lt;int&gt; { 1, 2, 4, 8, 16 };</code></pre>
+<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<h3 id="constructing-sequences-from-existing-sequences"><a class="header" href="#constructing-sequences-from-existing-sequences">Constructing sequences from existing sequences</a></h3>
+<p>As mentioned above sequences are immutable, however it is possible to construct a new sequence from an existing sequence.</p>
+<p>Elements can be added to a sequence in two ways. The first way is by concatenating two sequences <code>s6 + s7</code>. This expression represents a new sequence with the elements of <code>s6</code> followed by the elements of <code>s7</code>. The second way is to add a single value to the front of a sequence. The syntax <code>e::s6</code> is used to prepend <code>e</code> at the front of <code>s6</code>.</p>
+<!-- testBlock Pass -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLXNlcXVlbmNlLWNvbnN0cnVjdGluZy1zZXF1ZW5jZXMtZnJvbS1leGlzdGluZy1zZXF1ZW5jZXMtMQovLzo6IHZlcmRpY3QgUGFzcwovLzo6IHRvb2xzIHNpbGljb24KY2xhc3MgVGVzdCB7CiAgICB2b2lkIHRlc3QoKSB7CiAgICAgICAgc2VxPGludD4gczYgPSBbIDEsIDIsIDQsIDgsIDE2IF07CiAgICAgICAgYXNzZXJ0IDA6OnM2ID09IFsgMCwgMSwgMiwgNCwgOCwgMTYgXTsKICAgICAgICAKICAgICAgICBzZXE8aW50PiBzNyA9IFsgMzIsIDY0LCAxMjggXTsKICAgICAgICBhc3NlcnQgczYgKyBzNyA9PSBbIDEsIDIsIDQsIDgsIDE2LCAzMiwgNjQsIDEyOCBdOwogICAgfQp9" data-template-kind="testBlock" data-case-name="wiki-sequence-constructing-sequences-from-existing-sequences-1" data-case-verdict="Pass" data-language-ext="pvl" data-language-label="pvl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">seq&lt;int&gt; s6 = [ 1, 2, 4, 8, 16 ];
+assert 0::s6 == [ 0, 1, 2, 4, 8, 16 ];
+
+seq&lt;int&gt; s7 = [ 32, 64, 128 ];
+assert s6 + s7 == [ 1, 2, 4, 8, 16, 32, 64, 128 ];</code></pre>
+<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>It is also possible to take a subsequence from an existing sequence. The syntax <code>s8[i..j]</code> is used to take the elements from <code>s8</code> from index <code>i</code> to index <code>j</code> (exclusive). By omitting either the lower bound or upper bound, one can take or drop from a sequence. The notation <code>s8.tail</code> can be used as a shorthand for <code>s8[1..]</code>.</p>
+<!-- testBlock Pass -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLXNlcXVlbmNlLWNvbnN0cnVjdGluZy1zZXF1ZW5jZXMtZnJvbS1leGlzdGluZy1zZXF1ZW5jZXMtMgovLzo6IHZlcmRpY3QgUGFzcwovLzo6IHRvb2xzIHNpbGljb24KY2xhc3MgVGVzdCB7CiAgICB2b2lkIHRlc3QoKSB7CiAgICAgICAgc2VxPGludD4gczggPSBbIDEsIDIsIDQsIDgsIDE2IF07CiAgICAgICAgYXNzZXJ0IHM4WzEuLjRdID09IFsgMiwgNCwgOCBdOwogICAgICAgIGFzc2VydCBzOFsuLjJdID09IFsgMSwgMiBdOwogICAgICAgIGFzc2VydCBzOC50YWlsID09IHM4WzEuLl07IAogICAgfQp9" data-template-kind="testBlock" data-case-name="wiki-sequence-constructing-sequences-from-existing-sequences-2" data-case-verdict="Pass" data-language-ext="pvl" data-language-label="pvl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">seq&lt;int&gt; s8 = [ 1, 2, 4, 8, 16 ];
+assert s8[1..4] == [ 2, 4, 8 ];
+assert s8[..2] == [ 1, 2 ];
+assert s8.tail == s8[1..]; </code></pre>
+<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<h3 id="examples"><a class="header" href="#examples">Examples</a></h3>
+<h4 id="sortedness"><a class="header" href="#sortedness">Sortedness</a></h4>
+<p>Sortedness is a property that is often used in the verification of sorting algorithms. The sortedness property for a sequence of integers could be defined as follows:</p>
+<!-- test Pass -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLXNlcXVlbmNlLWV4YW1wbGVzLXNvcnRlZG5lc3MtMQovLzo6IHZlcmRpY3QgUGFzcwovLzo6IHRvb2xzIHNpbGljb24KcHVyZSBib29sZWFuIHNvcnRlZChzZXE8aW50PiB4cykgPSAKICAoXGZvcmFsbCBpbnQgaSA7IDAgPD0gaSAmJiBpIDwgfHhzfC0xOyB4c1tpXSA8PSB4c1tpKzFdKTs=" data-template-kind="test" data-case-name="wiki-sequence-examples-sortedness-1" data-case-verdict="Pass" data-language-ext="pvl" data-language-label="pvl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">pure boolean sorted(seq&lt;int&gt; xs) = 
+  (\forall int i ; 0 &lt;= i &amp;&amp; i &lt; |xs|-1; xs[i] &lt;= xs[i+1]);</code></pre>
+<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<h4 id="distinct-element"><a class="header" href="#distinct-element">Distinct Element</a></h4>
+<p>Another property on sequences is the uniqueness of the elements. This property could be expressed for a sequence of integers as follows:</p>
+<!-- test Pass -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLXNlcXVlbmNlLWV4YW1wbGVzLWRpc3RpbmN0LWVsZW1lbnQtMQovLzo6IHZlcmRpY3QgUGFzcwovLzo6IHRvb2xzIHNpbGljb24KcHVyZSBib29sZWFuIGRpc3RpbmN0KHNlcTxpbnQ+IHMpID0KICAoXGZvcmFsbCBpbnQgaSwgaW50IGo7IDAgPD0gaSAmJiBpIDwgfHN8CiAgICAmJiAwIDw9IGogJiYgaiA8IHxzfCAmJiBzW2ldID09IHNbal07CiAgICAgIGkgPT0gagogICk7" data-template-kind="test" data-case-name="wiki-sequence-examples-distinct-element-1" data-case-verdict="Pass" data-language-ext="pvl" data-language-label="pvl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">pure boolean distinct(seq&lt;int&gt; s) =
+  (\forall int i, int j; 0 &lt;= i &amp;&amp; i &lt; |s|
+    &amp;&amp; 0 &lt;= j &amp;&amp; j &lt; |s| &amp;&amp; s[i] == s[j];
+      i == j
+  );</code></pre>
+<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<h4 id="maximum-element"><a class="header" href="#maximum-element">Maximum element</a></h4>
+<p>Recursive functions are often used to transform or reduce a sequence. The example below goes over a sequence to get its maximum value. This function could be defined for a sequence of integers as follows:</p>
+<!-- test Pass -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLXNlcXVlbmNlLWV4YW1wbGVzLW1heGltdW0tZWxlbWVudC0xCi8vOjogdmVyZGljdCBQYXNzCi8vOjogdG9vbHMgc2lsaWNvbgpyZXF1aXJlcyB8eHN8ID4gMDsKZW5zdXJlcyAoXGZvcmFsbCBpbnQgaTsgMCA8PSBpICYmIGkgPCB8eHN8OyB4c1tpXSA8PSBccmVzdWx0KTsKcHVyZSBpbnQgbWF4KHNlcTxpbnQ+IHhzKSA9CiAgICAxID09IHx4c3wgPwogICAgICAgIHhzWzBdOgogICAgICAgICh4c1swXSA+IG1heCh4c1sxLi5dKSA/CiAgICAgICAgICAgIHhzWzBdOgogICAgICAgICAgICBtYXgoeHNbMS4uXQogICAgICAgICkKKTs=" data-template-kind="test" data-case-name="wiki-sequence-examples-maximum-element-1" data-case-verdict="Pass" data-language-ext="pvl" data-language-label="pvl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">requires |xs| &gt; 0;
+ensures (\forall int i; 0 &lt;= i &amp;&amp; i &lt; |xs|; xs[i] &lt;= \result);
+pure int max(seq&lt;int&gt; xs) =
+    1 == |xs| ?
+        xs[0]:
+        (xs[0] &gt; max(xs[1..]) ?
+            xs[0]:
+            max(xs[1..]
+        )
+);</code></pre>
+<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<h2 id="set"><a class="header" href="#set">Set</a></h2>
+<p>Sets are an unordered collection with unique values. Sets are finite and immutable (i.e. once created they cannot be altered).</p>
+<p>Similar to sequences, there are two ways to construct a set: the explicit syntax and the implicit syntax. The explicit syntax requires the type of the set explicitly defined. For example, <code>s1</code> is a set of integers initialized with the values 1, 2 and 3 and <code>s2</code> is an empty set of integers.</p>
+<!-- testBlock Pass -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLXNldC0xCi8vOjogdmVyZGljdCBQYXNzCi8vOjogdG9vbHMgc2lsaWNvbgpjbGFzcyBUZXN0IHsKICAgIHZvaWQgdGVzdCgpIHsKICAgICAgICBzZXQ8aW50PiBzMSA9IHNldDxpbnQ+IHsgMSwgMiwgMywgMiB9OwogICAgICAgIHNldDxpbnQ+IHMyID0gc2V0PGludD4geyB9OwogICAgfQp9" data-template-kind="testBlock" data-case-name="wiki-set-1" data-case-verdict="Pass" data-language-ext="pvl" data-language-label="pvl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">set&lt;int&gt; s1 = set&lt;int&gt; { 1, 2, 3, 2 };
+set&lt;int&gt; s2 = set&lt;int&gt; { };</code></pre>
+<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>The implicit syntax is a shorter syntax. If the set is initialized with at least one value (using the implicit syntax), VerCors infers the type of the set. An empty set can be constructed by providing the type of the set. For example, <code>s3</code> is equivalent to <code>s1</code> and <code>s4</code> is equivalent to <code>s2</code>. Notice how there is no space between <code>{</code> and <code>t</code>, this is mandated by the VerCors grammar.</p>
+<!-- testBlock Pass -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLXNldC0yCi8vOjogdmVyZGljdCBQYXNzCi8vOjogdG9vbHMgc2lsaWNvbgpjbGFzcyBUZXN0IHsKICAgIHZvaWQgdGVzdCgpIHsKICAgICAgICBzZXQ8aW50PiBzMyA9IHsgMSwgMiwgMiwgMyB9OwogICAgICAgIHNldDxpbnQ+IHM0ID0ge3Q6IGludCB9OwogICAgfQp9" data-template-kind="testBlock" data-case-name="wiki-set-2" data-case-verdict="Pass" data-language-ext="pvl" data-language-label="pvl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">set&lt;int&gt; s3 = { 1, 2, 2, 3 };
+set&lt;int&gt; s4 = {t: int };</code></pre>
+<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>Once we have a set, we can query different properties of that set. The length of a set <code>s5</code> can be obtained by using the notation <code>|s5|</code>. Two set <code>s6</code> and <code>s7</code> can be compared using the <code>==</code> operator where they are equal iff all elements of <code>s6</code> are in <code>s7</code> and all elements of <code>s7</code> are in <code>s6</code>. The syntax <code>e1 \in s8</code> is used to check if set <code>s8</code> contains the element <code>e1</code>. The <code>&lt;</code> and <code>&lt;=</code> operators denote the strict subset and subset operators respectively.</p>
+<!-- testBlock Pass -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLXNldC0zCi8vOjogdmVyZGljdCBQYXNzCi8vOjogdG9vbHMgc2lsaWNvbgpjbGFzcyBUZXN0IHsKICAgIHZvaWQgdGVzdCgpIHsKICAgICAgICBzZXQ8aW50PiBzNSA9IHsgMSwgMiwgMiwgMyB9OwogICAgICAgIHNldDxpbnQ+IHM2ID0geyAzLCA0LCA1LCA2IH07CiAgICAgICAgc2V0PGludD4gczcgPSB7IDEsIDIgfTsKICAgICAgICBzZXQ8aW50PiBzOCA9IHsgMiwgMyB9OwogICAgICAgIGludCBlMSA9IDM7CiAgICAgICAgCiAgICAgICAgYXNzZXJ0IHxzNXwgPT0gMzsKICAgICAgICBhc3NlcnQgczYgIT0gczc7CiAgICAgICAgYXNzZXJ0IGUxIFxpbiBzODsKICAgICAgICBhc3NlcnQgczggPCBzNTsKICAgIH0KfQ==" data-template-kind="testBlock" data-case-name="wiki-set-3" data-case-verdict="Pass" data-language-ext="pvl" data-language-label="pvl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">set&lt;int&gt; s5 = { 1, 2, 2, 3 };
+set&lt;int&gt; s6 = { 3, 4, 5, 6 };
+set&lt;int&gt; s7 = { 1, 2 };
+set&lt;int&gt; s8 = { 2, 3 };
+int e1 = 3;
+
+assert |s5| == 3;
+assert s6 != s7;
+assert e1 \in s8;
+assert s8 &lt; s5;</code></pre>
+<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<h3 id="constructing-sets-from-existing-sets"><a class="header" href="#constructing-sets-from-existing-sets">Constructing sets from existing sets</a></h3>
+<p>As mentioned above sets are immutable, however it is possible to construct a new set from an existing set.</p>
+<p>There are several operations defined on sets that are part of set theory. The union of two sets is denoted by <code>s5 + s6</code>, the difference between two sets is denoted by <code>s5 - s6</code> and the intersection of two sets is denoted by <code>s5 * s6</code>.</p>
+<!-- testBlock Pass -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLXNldC1jb25zdHJ1Y3Rpbmctc2V0cy1mcm9tLWV4aXN0aW5nLXNldHMtMQovLzo6IHZlcmRpY3QgUGFzcwovLzo6IHRvb2xzIHNpbGljb24KY2xhc3MgVGVzdCB7CiAgICB2b2lkIHRlc3QoKSB7CiAgICAgICAgc2V0PGludD4gczUgPSB7IDEsIDIsIDIsIDMgfTsKICAgICAgICBzZXQ8aW50PiBzNiA9IHsgMywgNCwgNSwgNiB9OwogICAgICAgIAogICAgICAgIGFzc2VydCBzNSArIHM2ID09IHsgMSwgMiwgMywgNCwgNSwgNiB9OwogICAgICAgIGFzc2VydCBzNSAtIHM2ID09IHsgMSwgMiB9OwogICAgICAgIGFzc2VydCBzNiAtIHM1ID09IHsgNCwgNSwgNn07CiAgICAgICAgYXNzZXJ0IHM1LmludGVyc2VjdChzNikgPT0geyAzIH07CiAgICB9Cn0=" data-template-kind="testBlock" data-case-name="wiki-set-constructing-sets-from-existing-sets-1" data-case-verdict="Pass" data-language-ext="pvl" data-language-label="pvl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">set&lt;int&gt; s5 = { 1, 2, 2, 3 };
+set&lt;int&gt; s6 = { 3, 4, 5, 6 };
+
+assert s5 + s6 == { 1, 2, 3, 4, 5, 6 };
+assert s5 - s6 == { 1, 2 };
+assert s6 - s5 == { 4, 5, 6};
+assert s5.intersect(s6) == { 3 };</code></pre>
+<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<h3 id="getting-an-element"><a class="header" href="#getting-an-element">Getting an element</a></h3>
+<p>It is possible to a get a random element from a set, using <code>choose</code> and <code>choose_fresh</code> constructs. With <code>choose</code> the same element is always picked, which <code>choose_fresh</code> a non deterministic choice is made.</p>
+<!-- testBlock Pass -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLXNldC1nZXR0aW5nLWFuLWVsZW1lbnQtMQovLzo6IHZlcmRpY3QgUGFzcwovLzo6IHRvb2xzIHNpbGljb24KY2xhc3MgVGVzdCB7CiAgICB2b2lkIHRlc3QoKSB7CiAgICAgICAgc2V0PGludD4gcyA9IHsgMSwgMiwgMiwgMyB9OwogICAgICAgIGFzc2VydCBcY2hvb3NlX2ZyZXNoKHMpIFxpbiBzOwogICAgICAgIGFzc2VydCBcY2hvb3NlKHMpIFxpbiBzOwogICAgICAgIAogICAgICAgIGFzc2VydCBcY2hvb3NlKHMpID09IFxjaG9vc2Uocyk7CiAgICAgICAgCiAgICAgICAgLy8gVGhlIGZvbGxvd2luZyB3aWxsIGZhaWwuIFdlIF9jb3VsZF8gZ2V0IHRoZSBzYW1lIGVsbWVudAogICAgICAgIC8vIGJ1dCB0aGlzIGlzIG5vdCBndWFyYW50ZWVkLgogICAgICAgIC8vIGFzc2VydCBcY2hvb3NlX2ZyZXNoKHMpID09IFxjaG9vc2VfZnJlc2gocyk7CiAgICB9Cn0=" data-template-kind="testBlock" data-case-name="wiki-set-getting-an-element-1" data-case-verdict="Pass" data-language-ext="pvl" data-language-label="pvl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">set&lt;int&gt; s = { 1, 2, 2, 3 };
+assert \choose_fresh(s) \in s;
+assert \choose(s) \in s;
+
+assert \choose(s) == \choose(s);
+
+// The following will fail. We _could_ get the same elment
+// but this is not guaranteed.
+// assert \choose_fresh(s) == \choose_fresh(s);</code></pre>
+<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<h3 id="set-comprehension"><a class="header" href="#set-comprehension">Set comprehension</a></h3>
+<blockquote class="blockquote-tag blockquote-tag-important">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 1.75C0 .784.784 0 1.75 0h12.5C15.216 0 16 .784 16 1.75v9.5A1.75 1.75 0 0 1 14.25 13H8.06l-2.573 2.573A1.458 1.458 0 0 1 3 14.543V13H1.75A1.75 1.75 0 0 1 0 11.25Zm1.75-.25a.25.25 0 0 0-.25.25v9.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h6.5a.25.25 0 0 0 .25-.25v-9.5a.25.25 0 0 0-.25-.25Zm7 2.25v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 9a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg>Important</p>
+<blockquote>
+<p>Set comprehensions are <a href="https://github.com/utwente-fmt/vercors/discussions/1068">currently not supported</a>.</p>
+</blockquote>
+</blockquote>
+<p>An advanced way to create a set is using <em>set comprehension</em>. The syntax is <code>set&lt;T&gt; { main | variables; selector }</code> and consists of three parts: the <code>main</code>, the <code>variables</code> and the <code>selector</code>.</p>
+<p>The <code>variables</code> are the variables that are quantified over and these variables can be bound or unbound. From the quantified variables, we can select specific values by using the <code>selector</code> expression. This is a Boolean expression that selects (a part of) the quantified variables. With the selected set of variables to quantify over, we express the value that is going to be part of the resulting set using the <code>main</code> expression.</p>
+<p>For example, we can construct the set of all even integers from 0 to 9 as follows:</p>
+<pre><code class="language-pvl editable read-only">set&lt;int&gt; {x | int x &lt;- {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}; x % 2 == 0};
+</code></pre>
+<p>To use more complex <code>main</code> expressions (i.e. non-identity functions), it is recommended to wrap the expression in a function and use that function in the <code>main</code> expression. For example, suppose we have a set of integers from 0 to 5 (inclusive) and we want to construct the set of integers where each element is doubled, we could use set comprehension as follows:</p>
+<!-- test Error -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLXNldC1zZXQtY29tcHJlaGVuc2lvbi0xCi8vOjogdmVyZGljdCBFcnJvcgovLzo6IHRvb2xzIHNpbGljb24KY2xhc3MgU2V0Q29tcCB7CiAgICByZXF1aXJlcyAwIDw9IGogJiYgaiA8IDU7CiAgICB2b2lkIG15TWV0aG9kKGludCBqKSB7CiAgICAgICBzZXQ8aW50PiBhID0gc2V0PGludD4ge1NldENvbXAucGx1cyh4LCB4KSB8IGludCB4OyB4ID49IDAgJiYgeCA8PSA1IH07CiAgICAgICBhc3NlcnQgcGx1cygxLCAxKSBpbiBhOyAKICAgICAgIGFzc2VydCBwbHVzKGosIGopIGluIGE7IAogICAgfQoKICAgIHB1cmUgaW50IHBsdXMoaW50IGEsIGludCBiKSA9IGErYjsKfQ==" data-template-kind="test" data-case-name="wiki-set-set-comprehension-1" data-case-verdict="Error" data-language-ext="pvl" data-language-label="pvl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">class SetComp {
+    requires 0 &lt;= j &amp;&amp; j &lt; 5;
+    void myMethod(int j) {
+       set&lt;int&gt; a = set&lt;int&gt; {SetComp.plus(x, x) | int x; x &gt;= 0 &amp;&amp; x &lt;= 5 };
+       assert plus(1, 1) in a; 
+       assert plus(j, j) in a; 
+    }
+
+    pure int plus(int a, int b) = a+b;
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>Here we define a function <code>plus</code> to wrap the expression <code>a+b</code> and use an invocation of the <code>plus</code> function as the <code>main</code> of our set comprehension.</p>
+<h2 id="bag"><a class="header" href="#bag">Bag</a></h2>
+<p>A bag (also called a multiset) is an unordered collection. They are equivalent to sequences without order, or sets with duplicates. Bags are finite and immutable (i.e. once created they cannot be altered).</p>
+<p>Similar to sequences and sets, there are two ways to construct a bag: the explicit syntax and the implicit syntax. The explicit syntax requires the type of the bag explicitly defined. For example, <code>b1</code> is a bag of integers initialized with the values 1, 2, 2 and 3 and <code>b2</code> is an empty bag of integers.</p>
+<!-- testBlock Pass -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLWJhZy0xCi8vOjogdmVyZGljdCBQYXNzCi8vOjogdG9vbHMgc2lsaWNvbgpjbGFzcyBUZXN0IHsKICAgIHZvaWQgdGVzdCgpIHsKICAgICAgICBiYWc8aW50PiBiMSA9IGJhZzxpbnQ+IHsgMSwgMiwgMywgMiB9OwogICAgICAgIGJhZzxpbnQ+IGIyID0gYmFnPGludD4geyB9OwogICAgfQp9" data-template-kind="testBlock" data-case-name="wiki-bag-1" data-case-verdict="Pass" data-language-ext="pvl" data-language-label="pvl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">bag&lt;int&gt; b1 = bag&lt;int&gt; { 1, 2, 3, 2 };
+bag&lt;int&gt; b2 = bag&lt;int&gt; { };</code></pre>
+<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>The implicit syntax is a shorter syntax. If the bag is initialized with at least one value (using the implicit syntax), VerCors infers the type of the bag. An empty bag can be constructed by providing the type of the bag. For example, <code>b3</code> is equivalent to <code>b1</code> and <code>b4</code> is equivalent to <code>b2</code>. Notice how there is no space between <code>b{</code> and <code>t</code>, this is mandated by the VerCors grammar.</p>
+<!-- testBlock Pass -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLWJhZy0yCi8vOjogdmVyZGljdCBQYXNzCi8vOjogdG9vbHMgc2lsaWNvbgpjbGFzcyBUZXN0IHsKICAgIHZvaWQgdGVzdCgpIHsKICAgICAgICBiYWc8aW50PiBiMyA9IGJ7IDEsIDIsIDIsIDMgfTsKICAgICAgICBiYWc8aW50PiBiNCA9IGJ7dDogaW50IH07CiAgICB9Cn0=" data-template-kind="testBlock" data-case-name="wiki-bag-2" data-case-verdict="Pass" data-language-ext="pvl" data-language-label="pvl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">bag&lt;int&gt; b3 = b{ 1, 2, 2, 3 };
+bag&lt;int&gt; b4 = b{t: int };</code></pre>
+<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>Once we have a bag, we can query different properties of that bag. The length of a bag <code>b5</code> can be obtained by using the notation <code>|b5|</code>. The syntax <code>e1 \in b6</code> is used to get the multiplicity (or number of occurrences) of an element <code>e1</code> in the bag <code>b6</code>. Two bags <code>b7</code> and <code>b8</code> can be compared using the <code>==</code> operator where they are equal iff for all elements <code>e2</code>, the multiplicity of <code>e2</code> in <code>b7</code> and <code>b8</code> are equal. The <code>&lt;</code> and <code>&lt;=</code> operators denote the strict subset and subset operators respectively.</p>
+<!-- testBlock Pass -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLWJhZy0zCi8vOjogdmVyZGljdCBQYXNzCi8vOjogdG9vbHMgc2lsaWNvbgpjbGFzcyBUZXN0IHsKICAgIHZvaWQgdGVzdCgpIHsKICAgICAgICBiYWc8aW50PiBiNSA9IGJ7IDEsIDIsIDIsIDMgfTsKICAgICAgICBiYWc8aW50PiBiNiA9IGJ7IDMsIDQsIDUsIDYsIDUgfTsKICAgICAgICBiYWc8aW50PiBiNyA9IGJ7IDEsIDIsIDMsIDIsIDIsIDYgfTsKICAgICAgICBiYWc8aW50PiBiOCA9IGJ7IDYsIDEsIDIsIDIsIDIsIDMgfTsKICAgICAgICBpbnQgZTEgPSA1OwogICAgICAgIAogICAgICAgIAogICAgICAgIGFzc2VydCB8YjV8ID09IDQ7CiAgICAgICAgYXNzZXJ0IChlMSBcaW4gYjYpID09IDI7CiAgICAgICAgYXNzZXJ0IGI1IDw9IGI3ICYmIGI1IDwgYjg7CiAgICAgICAgYXNzZXJ0IGI3ID09IGI4OwogICAgfQp9" data-template-kind="testBlock" data-case-name="wiki-bag-3" data-case-verdict="Pass" data-language-ext="pvl" data-language-label="pvl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">bag&lt;int&gt; b5 = b{ 1, 2, 2, 3 };
+bag&lt;int&gt; b6 = b{ 3, 4, 5, 6, 5 };
+bag&lt;int&gt; b7 = b{ 1, 2, 3, 2, 2, 6 };
+bag&lt;int&gt; b8 = b{ 6, 1, 2, 2, 2, 3 };
+int e1 = 5;
+
+
+assert |b5| == 4;
+assert (e1 \in b6) == 2;
+assert b5 &lt;= b7 &amp;&amp; b5 &lt; b8;
+assert b7 == b8;</code></pre>
+<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<h3 id="constructing-bags-from-existing-bags"><a class="header" href="#constructing-bags-from-existing-bags">Constructing bags from existing bags</a></h3>
+<p>As mentioned above bags are immutable, however it is possible to construct a new bag from an existing bag.</p>
+<p>The union of two bags is denoted by <code>b9 + b10</code>, the difference between two bags is denoted by <code>b11 - b12</code> and the intersection of two bags is denoted by <code>b13 * b14</code>.</p>
+<!-- testBlock Pass -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLWJhZy1jb25zdHJ1Y3RpbmctYmFncy1mcm9tLWV4aXN0aW5nLWJhZ3MtMQovLzo6IHZlcmRpY3QgUGFzcwovLzo6IHRvb2xzIHNpbGljb24KY2xhc3MgVGVzdCB7CiAgICB2b2lkIHRlc3QoKSB7CiAgICAgICAgYmFnPGludD4gYjkgPSBiYWc8aW50PiB7IDMgfTsKICAgICAgICBiYWc8aW50PiBiMTAgPSBiYWc8aW50PiB7IDMsIDQgfTsKICAgICAgICBiYWc8aW50PiBiMTEgPSBiYWc8aW50PiB7IDEsIDIsIDIsIDMgfTsKICAgICAgICBiYWc8aW50PiBiMTIgPSBiYWc8aW50PiB7IDIsIDMsIDMsIDQgfTsKICAgICAgICBiYWc8aW50PiBiMTMgPSBiYWc8aW50PiB7IDEsIDEsIDIsIDMgfTsKICAgICAgICBiYWc8aW50PiBiMTQgPSBiYWc8aW50PiB7IDIsIDMsIDMsIDQgfTsKICAgICAgICAKICAgICAgICBhc3NlcnQgYjkgKyBiMTAgPT0gYmFnPGludD4geyAzLCAzLCA0IH07CiAgICAgICAgYXNzZXJ0IGIxMiAtIGIxMSA9PSBiYWc8aW50PiB7IDMsIDQgfTsKICAgICAgICBhc3NlcnQgYjExIC0gYjEyID09IGJhZzxpbnQ+IHsgMSwgMiB9OwogICAgICAgIGFzc2VydCBiMTMuaW50ZXJzZWN0KGIxNCkgPT0gYmFnPGludD4geyAyLCAzIH07CiAgICB9Cn0=" data-template-kind="testBlock" data-case-name="wiki-bag-constructing-bags-from-existing-bags-1" data-case-verdict="Pass" data-language-ext="pvl" data-language-label="pvl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">bag&lt;int&gt; b9 = bag&lt;int&gt; { 3 };
+bag&lt;int&gt; b10 = bag&lt;int&gt; { 3, 4 };
+bag&lt;int&gt; b11 = bag&lt;int&gt; { 1, 2, 2, 3 };
+bag&lt;int&gt; b12 = bag&lt;int&gt; { 2, 3, 3, 4 };
+bag&lt;int&gt; b13 = bag&lt;int&gt; { 1, 1, 2, 3 };
+bag&lt;int&gt; b14 = bag&lt;int&gt; { 2, 3, 3, 4 };
+
+assert b9 + b10 == bag&lt;int&gt; { 3, 3, 4 };
+assert b12 - b11 == bag&lt;int&gt; { 3, 4 };
+assert b11 - b12 == bag&lt;int&gt; { 1, 2 };
+assert b13.intersect(b14) == bag&lt;int&gt; { 2, 3 };</code></pre>
+<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<h2 id="map"><a class="header" href="#map">Map</a></h2>
+<p>Maps are an unordered, collection of key/value pairs with unique keys. Maps are finite and immutable (i.e. once created they cannot be altered).</p>
+<p>A map can be constructed using the syntax <code>map&lt;K,V&gt; { k1 -&gt; v1, k2 -&gt; v2, ...}</code>. This syntax constructs a map with keys/value pairs <code>(k1, v1)</code> and <code>(k2, v2)</code> (of type <code>K</code> and type <code>V</code> respectively). An empty map can be constructed by declaring no key/value pair.</p>
+<!-- testBlock Pass -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLW1hcC0xCi8vOjogdmVyZGljdCBQYXNzCi8vOjogdG9vbHMgc2lsaWNvbgpjbGFzcyBUZXN0IHsKICAgIHZvaWQgdGVzdCgpIHsKICAgICAgICBtYXA8aW50LCBib29sZWFuPiBtMSA9IG1hcDxpbnQsYm9vbGVhbj57MSAtPiB0cnVlLCAKICAgICAgICAgIDIgLT4gdHJ1ZSwgMCAtPiBmYWxzZX07CiAgICAgICAgbWFwPGludCwgYm9vbGVhbj4gbTIgPSBtYXA8aW50LGJvb2xlYW4+ezEgLT4gdHJ1ZSwgCiAgICAgICAgICAyIC0+IHRydWUsIDAgLT4gZmFsc2UsIDEgLT4gZmFsc2UsIDEgLT4gdHJ1ZX07CiAgICAgICAgYXNzZXJ0IG0xID09IG0yOwogICAgfQp9" data-template-kind="testBlock" data-case-name="wiki-map-1" data-case-verdict="Pass" data-language-ext="pvl" data-language-label="pvl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">map&lt;int, boolean&gt; m1 = map&lt;int,boolean&gt;{1 -&gt; true, 
+  2 -&gt; true, 0 -&gt; false};
+map&lt;int, boolean&gt; m2 = map&lt;int,boolean&gt;{1 -&gt; true, 
+  2 -&gt; true, 0 -&gt; false, 1 -&gt; false, 1 -&gt; true};
+assert m1 == m2;</code></pre>
+<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>Once we have a map, we can query different properties of that map. Given a key <code>k1</code>, we can get its associated value in map <code>m1</code> using the syntax <code>m1[k1]</code> or <code>m1.get(k1)</code>. The cardinality/size of the map can be queried using the syntax <code>|m1|</code> or <code>m1.size</code>. The size of a map is equivalent to the size of its key set. The key, value and key/value pair sets can be obtained using the notations <code>m1.keys</code>, <code>m1.values</code> and <code>m1.items</code> respectively.</p>
+<!-- testBlock Pass -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLW1hcC0yCi8vOjogdmVyZGljdCBQYXNzCi8vOjogdG9vbHMgc2lsaWNvbgpjbGFzcyBUZXN0IHsKICAgIHZvaWQgdGVzdCgpIHsKICAgICAgICBtYXA8aW50LCBib29sZWFuPiBtMSA9IG1hcDxpbnQsYm9vbGVhbj57MSAtPiB0cnVlLCAyIC0+IHRydWUsIDAgLT4gZmFsc2V9OwogICAgICAgIAogICAgICAgIGFzc2VydCB8bTF8ID09IDM7CiAgICAgICAgYXNzZXJ0IG0xWzBdID09IGZhbHNlOwogICAgICAgIGFzc2VydCBtMVsxXSA9PSB0cnVlOwogICAgICAgIGFzc2VydCBtMVsyXSA9PSB0cnVlOwogICAgICAgIAogICAgICAgIGFzc2VydCBtMS5rZXlzID09IHsgMSwgMiwgMCB9OwogICAgICAgIGFzc2VydCBtMS52YWx1ZXMgPT0geyB0cnVlLCBmYWxzZSB9OwogICAgICAgIGFzc2VydCB0dXBsZTxpbnQsIGJvb2xlYW4+IHsgMCwgZmFsc2UgfSBcaW4gbTEuaXRlbXM7CiAgICAgICAgYXNzZXJ0IHR1cGxlPGludCwgYm9vbGVhbj4geyAxLCB0cnVlIH0gXGluIG0xLml0ZW1zOwogICAgICAgIGFzc2VydCB0dXBsZTxpbnQsIGJvb2xlYW4+IHsgMiwgdHJ1ZSB9IFxpbiBtMS5pdGVtczsKICAgIH0KfQ==" data-template-kind="testBlock" data-case-name="wiki-map-2" data-case-verdict="Pass" data-language-ext="pvl" data-language-label="pvl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">map&lt;int, boolean&gt; m1 = map&lt;int,boolean&gt;{1 -&gt; true, 2 -&gt; true, 0 -&gt; false};
+
+assert |m1| == 3;
+assert m1[0] == false;
+assert m1[1] == true;
+assert m1[2] == true;
+
+assert m1.keys == { 1, 2, 0 };
+assert m1.values == { true, false };
+assert tuple&lt;int, boolean&gt; { 0, false } \in m1.items;
+assert tuple&lt;int, boolean&gt; { 1, true } \in m1.items;
+assert tuple&lt;int, boolean&gt; { 2, true } \in m1.items;</code></pre>
+<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>We can add a key/value pair <code>(k4, v4)</code> to the map <code>m4</code> using the syntax <code>m4.add(k4, v4)</code>. If the key was already present in <code>m4</code>, its value gets updated. We can also remove a key <code>k5</code> from a map <code>m5</code> using the function <code>m5.remove(k5)</code>.</p>
+<!-- testBlock Pass -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLW1hcC0zCi8vOjogdmVyZGljdCBQYXNzCi8vOjogdG9vbHMgc2lsaWNvbgpjbGFzcyBUZXN0IHsKICAgIHZvaWQgdGVzdCgpIHsKICAgICAgICBtYXA8aW50LCBpbnQ+IG0xID0gbWFwPGludCxpbnQ+e307CiAgICAgICAgbWFwPGludCwgaW50PiBtMiA9IG0xLmFkZCgxLCAxKS5hZGQoMiwgNCkuYWRkKDMsIDkpOwogICAgICAgIG1hcDxpbnQsIGludD4gbTMgPSBtMi5yZW1vdmUoMik7CiAgICAgICAgbWFwPGludCwgaW50PiBtNCA9IG0zLnJlbW92ZSgzKS5yZW1vdmUoMSk7CiAgICAgICAgCiAgICAgICAgYXNzZXJ0IHxtMXwgPT0gMDsKICAgICAgICBhc3NlcnQgbTJbMV0gPT0gMTsKICAgICAgICBhc3NlcnQgbTJbMl0gPT0gNDsKICAgICAgICBhc3NlcnQgbTJbM10gPT0gOTsKICAgICAgICAKICAgICAgICBhc3NlcnQgISgyIFxpbiBtMy5rZXlzKTsKICAgICAgICBhc3NlcnQgbTNbMV0gPT0gMTsKICAgICAgICBhc3NlcnQgbTNbM10gPT0gOTsKICAgICAgICAKICAgICAgICBhc3NlcnQgfG00fCA9PSAwOwogICAgfQp9" data-template-kind="testBlock" data-case-name="wiki-map-3" data-case-verdict="Pass" data-language-ext="pvl" data-language-label="pvl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">map&lt;int, int&gt; m1 = map&lt;int,int&gt;{};
+map&lt;int, int&gt; m2 = m1.add(1, 1).add(2, 4).add(3, 9);
+map&lt;int, int&gt; m3 = m2.remove(2);
+map&lt;int, int&gt; m4 = m3.remove(3).remove(1);
+
+assert |m1| == 0;
+assert m2[1] == 1;
+assert m2[2] == 4;
+assert m2[3] == 9;
+
+assert !(2 \in m3.keys);
+assert m3[1] == 1;
+assert m3[3] == 9;
+
+assert |m4| == 0;</code></pre>
+<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<h2 id="tuple"><a class="header" href="#tuple">Tuple</a></h2>
+<p>A tuple is an ordered, immutable collection containing exactly two elements.</p>
+<p>A tuple can be constructed using the syntax <code>tuple&lt;F,S&gt; { fst, snd }</code>. This syntax constructs a tuple with the first value <code>fst</code> of type <code>F</code> and the second value <code>snd</code> of type <code>S</code>. A tuple can also be deconstructed into its first and second value by using the functions <code>t2.fst</code> and <code>t2.snd</code> respectively. For example, a tuple <code>t1</code> with values <code>(1, false)</code> is constructed as:</p>
+<!-- testBlock Pass -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLXR1cGxlLTEKLy86OiB2ZXJkaWN0IFBhc3MKLy86OiB0b29scyBzaWxpY29uCmNsYXNzIFRlc3QgewogICAgdm9pZCB0ZXN0KCkgewogICAgICAgIHR1cGxlPGludCwgYm9vbGVhbj4gdDEgPSB0dXBsZTxpbnQsIGJvb2xlYW4+IHsgMSwgZmFsc2UgfTsKICAgICAgICBhc3NlcnQgdDEuZnN0ID09IDE7CiAgICAgICAgYXNzZXJ0IHQxLnNuZCA9PSBmYWxzZTsKICAgIH0KfQ==" data-template-kind="testBlock" data-case-name="wiki-tuple-1" data-case-verdict="Pass" data-language-ext="pvl" data-language-label="pvl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">tuple&lt;int, boolean&gt; t1 = tuple&lt;int, boolean&gt; { 1, false };
+assert t1.fst == 1;
+assert t1.snd == false;</code></pre>
+<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<h2 id="option"><a class="header" href="#option">Option</a></h2>
+<p>The option data type is a container that either represents the presence of an element in the container or the absence of it.</p>
+<p>An option type can be constructed with the constructors <code>Some(e)</code> or <code>None</code>. The constructor <code>Some(e)</code> represents the presence of the value <code>e</code> in the option type and the constructor <code>None</code> represents the absence of an element.</p>
+<!-- testBlock Pass -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLW9wdGlvbi0xCi8vOjogdmVyZGljdCBQYXNzCi8vOjogdG9vbHMgc2lsaWNvbgpjbGFzcyBUZXN0IHsKICAgIHZvaWQgdGVzdCgpIHsKICAgICAgICBvcHRpb248aW50PiBvMSA9IE5vbmU7CiAgICAgICAgb3B0aW9uPGludD4gbzIgPSBTb21lKDMpOwogICAgfQp9" data-template-kind="testBlock" data-case-name="wiki-option-1" data-case-verdict="Pass" data-language-ext="pvl" data-language-label="pvl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">option&lt;int&gt; o1 = None;
+option&lt;int&gt; o2 = Some(3);</code></pre>
+<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>Option types can be compared to each other where two options <code>o3</code> and <code>o4</code> are equivalent iff they both contain an element <code>e3</code> and <code>e4</code> respectively and <code>e3</code> equals <code>e4</code>, or both are empty.</p>
+<!-- testBlock Pass -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLW9wdGlvbi0yCi8vOjogdmVyZGljdCBQYXNzCi8vOjogdG9vbHMgc2lsaWNvbgpjbGFzcyBUZXN0IHsKICAgIHZvaWQgdGVzdCgpIHsKICAgICAgICBvcHRpb248aW50PiBvMyA9IFNvbWUoNik7CiAgICAgICAgb3B0aW9uPGludD4gbzQgPSBTb21lKDYpOwogICAgICAgIG9wdGlvbjxpbnQ+IG81ID0gU29tZSgxKTsKICAgICAgICBvcHRpb248aW50PiBvNiA9IE5vbmU7CiAgICAgICAgCiAgICAgICAgYXNzZXJ0IG8zID09IG80OwogICAgICAgIGFzc2VydCBvNCAhPSBvNTsKICAgICAgICBhc3NlcnQgbzUgIT0gbzY7CiAgICB9Cn0=" data-template-kind="testBlock" data-case-name="wiki-option-2" data-case-verdict="Pass" data-language-ext="pvl" data-language-label="pvl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">option&lt;int&gt; o3 = Some(6);
+option&lt;int&gt; o4 = Some(6);
+option&lt;int&gt; o5 = Some(1);
+option&lt;int&gt; o6 = None;
+
+assert o3 == o4;
+assert o4 != o5;
+assert o5 != o6;</code></pre>
+<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<h2 id="adt-reference"><a class="header" href="#adt-reference">ADT Reference</a></h2>
+<p>The tables below are a reference for all the functions/operations that are defined on the different ADTs.</p>
+<h3 id="sequence-1"><a class="header" href="#sequence-1">Sequence</a></h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Short Description</th><th>Return type</th><th>Syntax</th></tr>
+</thead>
+<tbody>
+<tr><td>Constructor</td><td><code>seq&lt;T&gt;</code></td><td><code>seq&lt;T&gt; { e1, e2, ... }</code><br>Constructs a sequence with elements of type <code>T</code> initialized with values <code>e1</code>, <code>e2</code>, etc. When the sequence is not initialized, an empty sequence is constructed.</td></tr>
+<tr><td>Constructor</td><td><code>seq&lt;T&gt;</code></td><td><code>[ e1, e2, ... ]</code><br>Constructs a sequence with elements of type <code>T</code> initialized with values <code>e1</code>, <code>e2</code>, etc. This syntax requires the sequence to be initialized.</td></tr>
+<tr><td>Constructor</td><td><code>seq&lt;T&gt;</code></td><td><code>[t: T ]</code><br>Constructs an empty sequence with element of type <code>T</code></td></tr>
+<tr><td>Length</td><td><code>int</code></td><td>`</td></tr>
+<tr><td>Empty</td><td><code>boolean</code></td><td><code>s1.isEmpty</code><br>Returns whether `</td></tr>
+<tr><td>Comparison</td><td><code>boolean</code></td><td><code>s1 == s2</code><br>Returns <code>true</code> if <code>s1</code> and <code>s2</code> are equivalent</td></tr>
+<tr><td>Concatenation</td><td><code>seq&lt;T&gt;</code></td><td><code>s1 + s2</code> or <code>s1.concat(s2)</code><br>Denotes the sequence with elements from <code>s1</code> followed by the elements of <code>s2</code></td></tr>
+<tr><td>Contains</td><td><code>boolean</code></td><td><code>e \in xs</code> or <code>xs.contains(e)</code>. True if <code>e</code> is in <code>xs</code>.</td></tr>
+<tr><td>Indexing</td><td><code>T</code></td><td><code>s1[i]</code><br>Returns the element at index <code>i</code> of sequence <code>s1</code></td></tr>
+<tr><td>Head</td><td><code>T</code></td><td><code>s1.head</code><br>Returns the first element of sequence <code>s1</code></td></tr>
+<tr><td>Tail</td><td><code>seq&lt;T&gt;</code></td><td><code>s1.tail</code><br>Denotes the sequence with the elements from <code>s1</code> excluding the first element</td></tr>
+<tr><td>Prepend</td><td><code>seq&lt;T&gt;</code></td><td><code>x::xs</code> or <code>xs.prepend(x)</code><br>Denotes the sequence with elements of <code>xs</code> prepended with the element <code>x</code></td></tr>
+<tr><td>Slicing</td><td><code>seq&lt;T&gt;</code></td><td><code>s1[i..j]</code> or <code>s1.slice(i, j)</code><br>Denotes the subsequence of sequence <code>s1</code> from index <code>i</code> until index <code>j</code> (exclusive)</td></tr>
+<tr><td>Dropping</td><td><code>seq&lt;T&gt;</code></td><td><code>s1[i..]</code> or <code>s1.drop(i)</code><br>Denotes the subsequence starting at <code>i</code></td></tr>
+<tr><td>Taking</td><td><code>seq&lt;T&gt;</code></td><td><code>s1[..j]</code> or <code>s1.take(j)</code><br>Denotes the subsequence of the first <code>j</code> elements</td></tr>
+<tr><td>Updating</td><td><code>seq&lt;T&gt;</code></td><td><code>s1[i -&gt; v]</code> or <code>s1.update(i, v)</code><br>Denotes the sequence with elements from <code>s1</code> where index <code>i</code> has been updated to value <code>v</code></td></tr>
+<tr><td>Removing</td><td><code>seq&lt;T&gt;</code></td><td><code>s1.removeAt(i)</code><br>Denotes the sequence where the element at index <code>i</code> is removed. Equivalent to <code>s1[..i] + s1[i+1..]</code></td></tr>
+<tr><td>Summation</td><td><code>int</code></td><td><code>(\sum int i; low &lt;=i &amp;&amp; i&lt; up; s1[i]);</code><br>Sum the elements of a sequence of integers <code>s1</code> between the indices <code>low</code> and <code>up</code> (exclusive)</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="set-1"><a class="header" href="#set-1">Set</a></h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Short Description</th><th>Return type</th><th>Syntax</th></tr>
+</thead>
+<tbody>
+<tr><td>Constructor</td><td><code>set&lt;T&gt;</code></td><td><code>set&lt;T&gt; { e1, e2, ... }</code><br>Constructs a set with elements of type <code>T</code> initialized with values <code>e1</code>, <code>e2</code>, etc. When the set is not initialized, an empty set is constructed.</td></tr>
+<tr><td>Constructor</td><td><code>set&lt;T&gt;</code></td><td><code>{ e1, e2, ... }</code><br>Constructs a set with elements of type <code>T</code> initialized with values <code>e1</code>, <code>e2</code>, etc. This syntax requires the set to be initialized.</td></tr>
+<tr><td>Constructor</td><td><code>set&lt;int&gt;</code></td><td><code>{ e1 .. e2 }</code><br>Constructs a set with all elements between e1 (inclusive) and e2 (exclusive).</td></tr>
+<tr><td>Constructor</td><td><code>set&lt;T&gt;</code></td><td><code>{t: T }</code><br>Constructs an empty set with element of type <code>T</code></td></tr>
+<tr><td>Length</td><td><code>int</code></td><td>`</td></tr>
+<tr><td>Empty</td><td><code>boolean</code></td><td><code>s1.isEmpty</code><br>Returns whether `</td></tr>
+<tr><td>Comparison</td><td><code>boolean</code></td><td><code>s1 == s2</code><br>Returns <code>true</code> if <code>s1</code> and <code>s2</code> are equivalent</td></tr>
+<tr><td>Membership</td><td><code>boolean</code></td><td><code>e \in s1</code> or <code>s1.contains(e)</code><br>Returns <code>true</code> if the value <code>e</code> is in the set <code>s1</code></td></tr>
+<tr><td>Set Union</td><td><code>set&lt;T&gt;</code></td><td><code>s1 + s2</code> or <code>s1.union(s2)</code><br>Denotes the set of all elements from sets <code>s1</code> and <code>s2</code> of the same type <code>T</code></td></tr>
+<tr><td>Set Difference</td><td><code>set&lt;T&gt;</code></td><td><code>s1 - s2</code> or <code>s1.difference(s2)</code><br>Denotes the set of all elements from set <code>s1</code> that are not in set <code>s2</code></td></tr>
+<tr><td>Subset</td><td><code>boolean</code></td><td><code>s1 &lt;= s2</code> or <code>s1.subsetOf(s2)</code><br>Returns <code>true</code> if set <code>s1</code> is a subset of set <code>s2</code></td></tr>
+<tr><td>Strict Subset</td><td><code>boolean</code></td><td><code>s1 &lt; s2</code> or <code>s1.strictSubsetOf(s2)</code><br>Returns <code>true</code> if set <code>s1</code> is a strict subset of set <code>s2</code></td></tr>
+<tr><td>Intersection</td><td><code>set&lt;T&gt;</code></td><td><code>s1.intersect(s2)</code><br>Denotes the set of all elements that are both in sets <code>s1</code> and <code>s2</code></td></tr>
+<tr><td>Set Comprehension</td><td><code>set&lt;T&gt;</code></td><td>`set<t> { main</t></td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="bag-1"><a class="header" href="#bag-1">Bag</a></h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Short Description</th><th>Return type</th><th>Syntax</th></tr>
+</thead>
+<tbody>
+<tr><td>Constructor</td><td><code>bag&lt;T&gt;</code></td><td><code>bag&lt;T&gt; { e1, e2, ... }</code><br>Constructs a bag with elements of type <code>T</code> initialized with values <code>e1</code>, <code>e2</code>, etc. When the bag is not initialized, an empty bag is constructed.</td></tr>
+<tr><td>Constructor</td><td><code>bag&lt;T&gt;</code></td><td><code>b{ e1, e2, ... }</code><br>Constructs a bag with elements of type <code>T</code> initialized with values <code>e1</code>, <code>e2</code>, etc. This syntax requires the bag to be initialized.</td></tr>
+<tr><td>Constructor</td><td><code>bag&lt;T&gt;</code></td><td><code>b{t: T }</code><br>Constructs an empty bag with element of type <code>T</code></td></tr>
+<tr><td>Length</td><td><code>int</code></td><td>`</td></tr>
+<tr><td>Empty</td><td><code>boolean</code></td><td><code>b1.isEmpty</code><br>Returns whether `</td></tr>
+<tr><td>Multiplicity</td><td><code>int</code></td><td><code>e \in b1</code> or <code>b1.count(e)</code><br>Returns the number of occurrences of value <code>e</code> in bag <code>b1</code></td></tr>
+<tr><td>Comparison</td><td><code>boolean</code></td><td><code>b1 == b2</code><br>Returns <code>true</code> if <code>b1</code> and <code>b2</code> are equivalent</td></tr>
+<tr><td>Bag Union</td><td><code>bag&lt;T&gt;</code></td><td><code>b1 + b2</code> or <code>b1.sum(b2)</code><br>Denotes the bag of all elements from bags <code>b1</code> and <code>b2</code> of the same type <code>T</code></td></tr>
+<tr><td>Bag Difference</td><td><code>bag&lt;T&gt;</code></td><td><code>b1 - b2</code> or <code>b1.difference(b2)</code><br>Denotes the bag of all elements from bag <code>b1</code> that are not in bag <code>b2</code></td></tr>
+<tr><td>Subset</td><td><code>boolean</code></td><td><code>b1 &lt;= b2</code> or <code>b1.subbagOf(b2)</code><br>Returns <code>true</code> if bag <code>b1</code> is a subset of bag <code>b2</code></td></tr>
+<tr><td>Strict Subset</td><td><code>boolean</code></td><td><code>b1 &lt; b2</code> or <code>b1.strictSubbagOf(b2)</code><br>Returns <code>true</code> if bag <code>b1</code> is a strict subset of bag <code>b2</code></td></tr>
+<tr><td>Intersection</td><td><code>bag&lt;T&gt;</code></td><td><code>b1 * b2</code> or <code>b1.intersect(b2)</code><br>Denotes the bag of all elements that are both in bags <code>b1</code> and <code>b2</code></td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="map-1"><a class="header" href="#map-1">Map</a></h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Short Description</th><th>Return type</th><th>Syntax</th></tr>
+</thead>
+<tbody>
+<tr><td>Constructor</td><td><code>map&lt;K,V&gt;</code></td><td><code>map&lt;K,V&gt; { k1 -&gt; v1, k2 -&gt; v2, ...}</code><br>Constructs a map with key-value pairs of type <code>K</code> and <code>V</code> respectively initialized with pairs <code>k1,v1</code>, <code>k2,v2</code>, etc.</td></tr>
+<tr><td>Build/Add</td><td><code>map&lt;K,V&gt;</code></td><td><code>m1.add(k1, v1)</code><br>Adds the key/value pair <code>(k1,v1)</code> to the map <code>m1</code>. If the key is already present in <code>m1</code>, update the value of the key.</td></tr>
+<tr><td>GetByKey</td><td><code>V</code></td><td><code>m1.get(k1)</code> or <code>map[k1]</code><br>Gets the value mapped by the key <code>k1</code> from the map <code>m1</code>.</td></tr>
+<tr><td>Remove</td><td><code>map&lt;K,V&gt;</code></td><td><code>m1.remove(k1)</code><br>Removes the key <code>k1</code> and its associated value from the map <code>m1</code>.</td></tr>
+<tr><td>Length</td><td><code>int</code></td><td><code>m1.size</code> or `</td></tr>
+<tr><td>Empty</td><td><code>boolean</code></td><td><code>m1.isEmpty</code><br>Returns whether `</td></tr>
+<tr><td>Comparison</td><td><code>boolean</code></td><td><code>m1.equals(m2)</code> or <code>m1 == m2</code><br>Returns <code>true</code> if the key sets of <code>m1</code> and <code>m2</code> are equivalent and the keys map to the same values.</td></tr>
+<tr><td>Key Set</td><td><code>set&lt;K&gt;</code></td><td><code>m1.keys</code><br>Returns a set of keys in map <code>m1</code></td></tr>
+<tr><td>Value Set</td><td><code>set&lt;V&gt;</code></td><td><code>m1.values</code><br>Returns a set of the values in map <code>m1</code></td></tr>
+<tr><td>Item Set</td><td><code>set&lt;tuple&lt;K,V&gt;&gt;</code></td><td><code>m1.items</code><br>Returns a set of tuples corresponding to the key-value pairs in map <code>m1</code></td></tr>
+<tr><td>Disjoint</td><td><code>boolean</code></td><td><code>m1.disjoint(m2)</code><br>Returns <code>true</code> if no key is in both the key set of <code>m1</code> and the key set of <code>m2</code>.</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="tuple-1"><a class="header" href="#tuple-1">Tuple</a></h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Short Description</th><th>Return type</th><th>Syntax</th></tr>
+</thead>
+<tbody>
+<tr><td>Constructor</td><td><code>tuple&lt;F,S&gt;</code></td><td><code>tuple&lt;F,S&gt; {fst, snd}</code><br>Construct a tuple with first element <code>fst</code> (of type <code>F</code>) and second element <code>snd</code> (of type <code>S</code>)</td></tr>
+<tr><td>Get First Element</td><td><code>F</code></td><td><code>t.fst</code><br> Get the first element of the tuple <code>t</code> (of type <code>tuple&lt;F,S&gt;</code>)</td></tr>
+<tr><td>Get Second Element</td><td><code>S</code></td><td><code>t.snd</code><br> Get the second element of the tuple <code>t</code> (of type <code>tuple&lt;F,S&gt;</code>)</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="option-1"><a class="header" href="#option-1">Option</a></h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Short Description</th><th>Return type</th><th>Syntax</th></tr>
+</thead>
+<tbody>
+<tr><td>Constructor</td><td><code>option&lt;T&gt;</code></td><td><code>Some(e)</code><br> Constructs an option which contains the element <code>e</code> of type <code>T</code></td></tr>
+<tr><td>Constructor</td><td><code>option&lt;T&gt;</code></td><td><code>None</code><br> Returns the option <code>None</code></td></tr>
+<tr><td>Getter</td><td><code>T</code></td><td><code>e.get</code><br>Returns the value contained in the option if it is filled</td></tr>
+<tr><td>Getter</td><td><code>T</code></td><td><code>e.getOrElse(t)</code><br>Returns the value contained in the option, <code>t</code> otherwise</td></tr>
+<tr><td>Comparison</td><td><code>boolean</code></td><td><code>o1 == o2</code> <br> Returns <code>true</code> if the element contained in the option <code>o1</code> is equivalent to the element wrapped in the option <code>o2</code>, or both are empty</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="custom-adts"><a class="header" href="#custom-adts">Custom ADTs</a></h2>
+<p>ADTs can be useful to provide VerCors with domain-specific assumptions. For example, a custom int-tuple ADT can be defined in PVL as follows:</p>
+<!-- test -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLWN1c3RvbS1hZHRzLTEKLy86OiB2ZXJkaWN0IFBhc3MKLy86OiB0b29scyBzaWxpY29uCmFkdCBNeVR1cGxlIHsKICBwdXJlIE15VHVwbGUgY29ucyhpbnQgbCwgaW50IHIpOwogIHB1cmUgaW50IGxlZnQoTXlUdXBsZSB0KTsKICBwdXJlIGludCByaWdodChNeVR1cGxlIHQpOwoKICBheGlvbSAoXGZvcmFsbCBpbnQgbCwgaW50IHI7IGxlZnQoY29ucyhsLCByKSkgPT0gbCk7CiAgYXhpb20gKFxmb3JhbGwgaW50IGwsIGludCByOyByaWdodChjb25zKGwsIHIpKSA9PSByKTsKICBheGlvbSAoXGZvcmFsbCBpbnQgbDEsIGludCBsMiwgaW50IHIxLCBpbnQgcjI7IAogICAgKGNvbnMobDEsIHIxKSA9PSBjb25zKGwyLCByMikpID09PiAobDEgPT0gbDIgJiYgcjEgPT0gcjIpKTsKfQoKdm9pZCB0ZXN0VHVwbGUoTXlUdXBsZSB0KSB7CiAgYXNzZXJ0IE15VHVwbGUuY29ucygxLCAyKSA9PSBNeVR1cGxlLmNvbnMoMSwgMik7CiAgYXNzZXJ0IE15VHVwbGUuY29ucygxLCAyKSAhPSBNeVR1cGxlLmNvbnMoMywgNCk7Cn0=" data-template-kind="test" data-case-name="wiki-custom-adts-1" data-case-verdict="Pass" data-language-ext="pvl" data-language-label="pvl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">adt MyTuple {
+  pure MyTuple cons(int l, int r);
+  pure int left(MyTuple t);
+  pure int right(MyTuple t);
+
+  axiom (\forall int l, int r; left(cons(l, r)) == l);
+  axiom (\forall int l, int r; right(cons(l, r)) == r);
+  axiom (\forall int l1, int l2, int r1, int r2; 
+    (cons(l1, r1) == cons(l2, r2)) ==&gt; (l1 == l2 &amp;&amp; r1 == r2));
+}
+
+void testTuple(MyTuple t) {
+  assert MyTuple.cons(1, 2) == MyTuple.cons(1, 2);
+  assert MyTuple.cons(1, 2) != MyTuple.cons(3, 4);
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<blockquote class="blockquote-tag blockquote-tag-warning">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M6.457 1.047c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0 1 14.082 15H1.918a1.75 1.75 0 0 1-1.543-2.575Zm1.763.707a.25.25 0 0 0-.44 0L1.698 13.132a.25.25 0 0 0 .22.368h12.164a.25.25 0 0 0 .22-.368Zm.53 3.996v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 11a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg>Warning</p>
+<p>It is easy to make mistakes and define axioms from which false can be derived. If this happens, and your custom ADT is used in your code or contracts, from that point on VerCors assumes false, which makes every proof obligation after that point trivial to prove. Furthermore, when writing quantifiers in ADTs it is important to also define triggers. VerCors and its backend can often infer some trigger, but these are usually suboptimal.</p>
+</blockquote>
+<p>Custom ADTs are supported in all frontends.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="Termination.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="Arrays-and-Pointers.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="Termination.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="Arrays-and-Pointers.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-xmark><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M310.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L160 210.7 54.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L114.7 256 9.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 301.3 265.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L205.3 256 310.6 150.6z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+        <template id=fa-pencil><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M421.7 220.3l-11.3 11.3-22.6 22.6-205 205c-6.6 6.6-14.8 11.5-23.8 14.1L30.8 511c-8.4 2.5-17.5 .2-23.7-6.1S-1.5 489.7 1 481.2L38.7 353.1c2.6-9 7.5-17.2 14.1-23.8l205-205 22.6-22.6 11.3-11.3 33.9 33.9 62.1 62.1 33.9 33.9zM96 353.9l-9.3 9.3c-.9 .9-1.6 2.1-2 3.4l-25.3 86 86-25.3c1.3-.4 2.5-1.1 3.4-2l9.3-9.3H112c-8.8 0-16-7.2-16-16V353.9zM453.3 19.3l39.4 39.4c25 25 25 65.5 0 90.5l-14.5 14.5-22.6 22.6-11.3 11.3-33.9-33.9-62.1-62.1L314.3 67.7l11.3-11.3 22.6-22.6 14.5-14.5c25-25 65.5-25 90.5 0z"/></svg></span></template>
+
+
+        <script>
+            window.playground_line_numbers = true;
+        </script>
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="ace-2a3cd908.js"></script>
+        <script src="mode-rust-2c9d5c9a.js"></script>
+        <script src="../js/mode-annotated_c.js"></script>
+        <script src="../js/mode-annotated_cuda.js"></script>
+        <script src="../js/mode-annotated_java.js"></script>
+        <script src="../js/mode-annotated_opencl.js"></script>
+        <script src="../js/mode-annotated_sycl.js"></script>
+        <script src="../js/mode-pvl.js"></script>
+        <script src="../js/mode-viper.js"></script>
+
+        <script src="editor-16ca416c.js"></script>
+        <script src="theme-dawn-4493f9c8.js"></script>
+        <script src="theme-tomorrow_night-9dbe62a9.js"></script>
+        <script src="../js/theme-chrome.js"></script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-09f2665d.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-a6f5d318.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    
+<div id="footer" class="dark">
+    <footer class="container">
+        <a href="//www.utwente.nl/en/eemcs/fmt/" target="_blank"><img src="/images/FMT logo.png" alt="Formal Methods & Tools logo" title="Formal Methods & Tools"></a>
+        <hr>
+        <div class="copyright">
+            <a href="/about/#credits" target="_blank">Copyright <code id="copyright">&copy</code> The VerCors Project 2007-2026</a>
+            | <a href="//www.utwente.nl/en/eemcs/fmt/" target="_blank">FMT - University of Twente</a>
+            | <a href="/about/">About Us</a>
+        </div>
+    </footer>
+</div>
+</body>
+</html>

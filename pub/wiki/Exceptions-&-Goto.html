@@ -1,0 +1,542 @@
+<!DOCTYPE HTML>
+<html lang="en" class="vercors sidebar-visible" dir="ltr">
+    <head>
+<meta name="description" content="VerCors Tutorial and documentation">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#d12010">
+
+<link rel="icon" href="/images/icon.svg">
+
+<link rel="stylesheet" href="/css/global.css">
+<link rel="stylesheet" href="/css/colors.css">
+<link rel="stylesheet" href="/css/shared.css">
+<link rel="stylesheet" href="/css/responsive.css">
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/highlight.pack.js"></script>
+<script src="/js/ace.js"></script>
+<script src="/js/datatables.min.js"></script>
+<script src="/js/vercorsonline.js"></script>
+<script src="/js/init.js"></script>
+
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Exceptions &amp; Goto - VerCors Tutorial</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-88aeadc2.css">
+        <link rel="stylesheet" href="css/general-5067d8cd.css">
+        <link rel="stylesheet" href="css/chrome-7683498c.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "vercors";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-9b93a44c.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-0460c59c.js"></script>
+    </head>
+    <body>
+<div id="header" class="top-header ">
+
+            <nav class="top-nav">
+                <div class="container">
+                    <div id="logo">
+                        <span id="hamburger" onclick="document.querySelector('nav.top-nav').classList.toggle('open')"><span class="fa fa-bars"></span></span><!--
+                        --><a href="/"><img id="logo-light" src="/images/logo.svg" title="The VerCors Verifier" alt="Logo of the VerCors Verifier"><img id="logo-dark" src="/images/logo-white.svg" title="The VerCors Verifier" alt="Logo of the VerCors Verifier"></a>
+                    </div>
+                    <ul>
+                        <li>
+                            <a href="/wiki">Getting Started</a>
+                            <ul>
+                                <li><a href="/wiki/Installing-and-Running-VerCors.html">Installation Guide</a></li>
+                                <li><a href="/wiki/Tutorial.html">Tutorial</a></li>
+                                <li>
+                                    <a href="//github.com/utwente-fmt/vercors/issues" target="_blank">
+                                        Issue Tracker
+                                        <span class="fa fa-external-link" style="font-size: 10pt"></span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="/">Tools</a>
+                            <ul>
+                                <li><a href="/">Verifier</a></li>
+                                <li><a href="/alpinist/">Alpinist</a></li>
+                                <li><a href="/vesuv/">VeSUV</a></li>
+                                <li><a href="/veymont/">VeyMont</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="/publications/">Publications</a></li>
+                        <li>
+                            <a href="/about/">About</a>
+                            <ul>
+                                <li><a href="/about/#team">VerCors Team</a></li>
+                                <li><a href="/news/">News</a></li>
+                                <li><a href="/about/#contact">Contact</a></li>
+                                <li><a href="/about/#credits">Credits</a></li>
+                                <li><a href="/license/">License</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+</div>
+
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('vercors')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-vercors">VerCors</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">VerCors Tutorial </h1>
+
+                    <div class="right-buttons">
+                        <a href="/try_online/" class="online-button">Try VerCors Online</a>
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <p>This section discusses support for exceptions and goto in VerCors. The following topics are discussed:</p>
+<ul>
+<li>We list the <a href="Exceptions-&amp;-Goto.html#support">support</a>.</li>
+<li>Then we give a brief summary of <a href="Exceptions-&amp;-Goto.html#java-exceptions-example">exceptions in Java</a>.</li>
+<li>Then we discuss the <a href="Exceptions-&amp;-Goto.html#the-signals-clause"><code>signals</code> contract clause</a>, which models exceptions in VerCors.</li>
+<li>Finally, support for <a href="Exceptions-&amp;-Goto.html#goto-and-labels">goto</a> is discussed.</li>
+</ul>
+<h2 id="exceptions"><a class="header" href="#exceptions">Exceptions</a></h2>
+<h3 id="support"><a class="header" href="#support">Support</a></h3>
+<p>VerCors currently only supports Java exceptions. They are not supported in PVL. We also do not support signal handlers in C. The table below lists which facets of exceptions in Java are currently supported in VerCors.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Feature</th><th>Supported</th></tr>
+</thead>
+<tbody>
+<tr><td><code>throw</code></td><td>Yes</td></tr>
+<tr><td><code>throws</code></td><td>Yes</td></tr>
+<tr><td><code>try-catch</code></td><td>Yes</td></tr>
+<tr><td><code>try-finally</code></td><td>Yes</td></tr>
+<tr><td><code>try-catch-finally</code></td><td>Yes</td></tr>
+<tr><td><code>try-with-resources</code></td><td>No</td></tr>
+<tr><td>Multi-catch</td><td>No</td></tr>
+<tr><td>Defining custom exceptions</td><td>Yes, but only if directly inheriting from one of: Exception, RuntimeException, Throwable, Error. This limitation is temporary.</td></tr>
+<tr><td>JML <code>signals</code></td><td>Yes</td></tr>
+<tr><td>JML <code>signals_only</code></td><td>No</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="java-exceptions-example"><a class="header" href="#java-exceptions-example">Java Exceptions Example</a></h3>
+<p>We will now discuss a basic artificial example of exception usage in Java. For a more thorough overview, we refer the reader to the Java tutorial on exceptions: <a href="https://docs.oracle.com/javase/tutorial/essential/exceptions/index.html">https://docs.oracle.com/javase/tutorial/essential/exceptions/index.html</a>.</p>
+<p>In the following code example, the <code>find</code> method determines whether an array contains a specific integer value:</p>
+<pre><code class="language-java editable read-only">class MyFind {
+    public static boolean find(int[] xs, int value) throws Exception {
+        for (int i = 0; i &lt; xs.length; i++) {
+            if (xs[i] == value) {
+                return true;
+            } else if (xs[i] &lt; 0) {
+                throw new Exception();
+            }
+        }
+
+        return false;
+    }
+
+    public static void main(String[] args) {
+        int[] myXs = new int[3];
+        myXs[0] = 1;
+        myXs[1] = 10;
+        myXs[2] = -3;
+       
+        try {
+            find(myXs, 22);
+        } catch (Exception e) {
+            System.out.println("An error occurred");
+        }
+    }
+}
+</code></pre>
+<p>If the <code>find</code> method encounters a negative array element while searching, it throws an exception. The fact that the method throws an exception at all is indicated by the <code>throws Exception</code> modifier when the <code>find</code> method is defined. Specifically, the exception is thrown by the <code>throw new Exception()</code> statement in the <code>find</code> method.</p>
+<p>The thrown exception is handled in the <code>main</code> method by wrapping the call to <code>find</code> in a <code>try-catch</code> block. Whenever an exception is thrown within a <code>try-catch</code> block, the exception is passed to the <code>catch</code> block of the type of the exception that matches the type of the <code>catch</code> block. This catch block can then handle the exception to allow the program to continue, or perform cleanup such that the program can exit safely. If none of the catch blocks can handle the exception, it is passed further up the call stack, possibly terminating the program if it is not caught and handled.</p>
+<h3 id="the-signals-clause"><a class="header" href="#the-signals-clause">The signals clause</a></h3>
+<p>The signals clause supported in VerCors is similar to the signals clauses supported in JML (<a href="https://www.cs.ucf.edu/~leavens/JML/jmlrefman/jmlrefman_9.html#SEC109">documented here</a>). It is a contract element like <code>requires</code> or <code>ensures</code>, and declares the postcondition that must hold if an exception is thrown. The declared postcondition holds when the thrown type matches the type stated in the <code>signals</code> clause. When an exception is thrown, normal <code>ensures</code> postconditions do not hold; instead, only the relevant <code>signals</code> clauses apply.</p>
+<p>As an artificial example, we can define a <code>signals</code> clause for a method that sums two numbers. The method throws an exception if one of the numbers is equal to five.</p>
+<!--
+TODO: Nice example would be overflowing addition here. But we do not have that yet in vercors
+-->
+<!-- standaloneSnip plainSum
+class C {
+-->
+<!-- codeSnip plainSum -->
+<div class="verification-container" data-examplecode-b64="Y2xhc3MgQyB7Ci8vQCBzaWduYWxzIChFeGNlcHRpb24gZSkgYSA9PSA1IHx8IGIgPT0gNTsKLy9AIGVuc3VyZXMgXHJlc3VsdCA9PSAoYSArIGIpOwppbnQgc3VtKGludCBhLCBpbnQgYikgdGhyb3dzIEV4Y2VwdGlvbiB7CiAgICBpZiAoYSA9PSA1IHx8IGIgPT0gNSkgewogICAgICAgIHRocm93IG5ldyBFeGNlcHRpb24oKTsKICAgIH0gZWxzZSB7CiAgICAgICAgcmV0dXJuIGEgKyBiOwogICAgfQp9Cn0K" data-template-kind="" data-case-name="" data-case-verdict="Pass" data-language-ext="java" data-language-label="java">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-java no_run editable code_snippet">//@ signals (Exception e) a == 5 || b == 5;
+//@ ensures \result == (a + b);
+int sum(int a, int b) throws Exception {
+    if (a == 5 || b == 5) {
+        throw new Exception();
+    } else {
+        return a + b;
+    }
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>java</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<!-- standaloneSnip plainSum
+}
+-->
+<p>Similar to the <code>throws</code> attribute, the <code>signals</code> clause can name both checked and unchecked exceptions. The only limitation is that the type must extend <code>Throwable</code>.</p>
+<blockquote class="blockquote-tag blockquote-tag-important">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 1.75C0 .784.784 0 1.75 0h12.5C15.216 0 16 .784 16 1.75v9.5A1.75 1.75 0 0 1 14.25 13H8.06l-2.573 2.573A1.458 1.458 0 0 1 3 14.543V13H1.75A1.75 1.75 0 0 1 0 11.25Zm1.75-.25a.25.25 0 0 0-.25.25v9.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h6.5a.25.25 0 0 0 .25-.25v-9.5a.25.25 0 0 0-.25-.25Zm7 2.25v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 9a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg>Important</p>
+<blockquote>
+<p>A <code>signals</code> clause describes what must hold if an exception is thrown. It does not, by itself, force the implementation to throw whenever the condition becomes true.</p>
+</blockquote>
+</blockquote>
+<h4 id="signals-does-not-guarantee-an-exception"><a class="header" href="#signals-does-not-guarantee-an-exception">Signals does not guarantee an exception</a></h4>
+<p>A frequently occurring use case is to guarantee that an exception is thrown if a certain condition occurs. This is also how the semantics of the <code>signals</code> clause is sometimes misinterpreted. Following that line of thought, one might expect the method <code>sum</code> to <em>always</em> throw if one of the arguments equals five. However, this is not the case. The implementation for <code>pickySum</code> below demonstrates this. The implementation for <code>pickySum</code> also satisfies the contract for <code>sum</code>, but clearly <code>pickySum</code> does not <em>always</em> throw an exception if one of the arguments equals 5:</p>
+<!-- standaloneSnip pickySum
+class C {
+-->
+<!-- codeSnip pickySum -->
+<div class="verification-container" data-examplecode-b64="Y2xhc3MgQyB7Ci8vQCBzaWduYWxzIChFeGNlcHRpb24gZSkgYSA9PSA1IHx8IGIgPT0gNTsKLy9AIGVuc3VyZXMgXHJlc3VsdCA9PSAoYSArIGIpOwppbnQgcGlja3lTdW0oaW50IGEsIGludCBiLCBib29sZWFuIGlzVHVlc2RheSkgdGhyb3dzIEV4Y2VwdGlvbiB7CiAgICBpZiAoKGEgPT0gNSB8fCBiID09IDUpICYmIGlzVHVlc2RheSkgewogICAgICAgIHRocm93IG5ldyBFeGNlcHRpb24oKTsKICAgIH0gZWxzZSB7CiAgICAgICAgcmV0dXJuIGEgKyBiOwogICAgfQp9Cn0K" data-template-kind="" data-case-name="" data-case-verdict="Pass" data-language-ext="java" data-language-label="java">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-java no_run editable code_snippet">//@ signals (Exception e) a == 5 || b == 5;
+//@ ensures \result == (a + b);
+int pickySum(int a, int b, boolean isTuesday) throws Exception {
+    if ((a == 5 || b == 5) &amp;&amp; isTuesday) {
+        throw new Exception();
+    } else {
+        return a + b;
+    }
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>java</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<!-- standaloneSnip pickySum
+}
+-->
+<p>Instead, <code>pickySum</code> only throws an exception if one of the arguments equals five, <em>and</em> the <code>isTuesday</code> flag is true. If <code>pickySum</code> is called with <code>5</code> and <code>10</code> while <code>isTuesday</code> is false, no exception is thrown and <code>15</code> is returned instead.</p>
+<p>This artificial example shows how a signals clause should be interpreted: when an exception of the appropriate type is thrown, the <code>signals</code> clause can be assumed to hold. We call this the “reactive” semantics.</p>
+<p>It is <em>not</em> guaranteed that an exception is thrown if a <code>signals</code> condition occurs. We call this the “causal” semantics. VerCors does <em>not</em> implement this currently.</p>
+<p>If needed, there is a way to model the causal semantics using an additional <code>ensures</code> clause. To do this, an <code>ensures</code> clause needs to be added that implies <code>false</code> when the <code>signals</code> condition occurs. For example, <code>pickySum</code> can be made consistent as follows:</p>
+<!-- standaloneSnip consistentSum
+class C {
+-->
+<!-- codeSnip consistentSum -->
+<div class="verification-container" data-examplecode-b64="Y2xhc3MgQyB7Ci8vQCBzaWduYWxzIChFeGNlcHRpb24gZSkgYSA9PSA1IHx8IGIgPT0gNTsKLy9AIGVuc3VyZXMgKGEgPT0gNSB8fCBiID09IDUpID09PiBmYWxzZTsKLy9AIGVuc3VyZXMgXHJlc3VsdCA9PSAoYSArIGIpOwppbnQgY29uc2lzdGVudFN1bShpbnQgYSwgaW50IGIpIHRocm93cyBFeGNlcHRpb24gewogICAgaWYgKGEgPT0gNSB8fCBiID09IDUpIHsKICAgICAgICB0aHJvdyBuZXcgRXhjZXB0aW9uKCk7CiAgICB9IGVsc2UgewogICAgICAgIHJldHVybiBhICsgYjsKICAgIH0KfQp9Cg==" data-template-kind="" data-case-name="" data-case-verdict="Pass" data-language-ext="java" data-language-label="java">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-java no_run editable code_snippet">//@ signals (Exception e) a == 5 || b == 5;
+//@ ensures (a == 5 || b == 5) ==&gt; false;
+//@ ensures \result == (a + b);
+int consistentSum(int a, int b) throws Exception {
+    if (a == 5 || b == 5) {
+        throw new Exception();
+    } else {
+        return a + b;
+    }
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>java</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<!-- standaloneSnip consistentSum
+}
+-->
+<p>By ensuring that the method cannot terminate normally if one of the arguments equals 5, it is guaranteed that an exception is thrown when one of the arguments equals 5. This encodes the causal semantics using the reactive semantics supported by VerCors.</p>
+<h5 id="exception-guarantees"><a class="header" href="#exception-guarantees">Exception guarantees</a></h5>
+<p>Java guarantees that methods only throw checked exceptions if they are explicitly mentioned in the <code>throws</code> attribute. Unchecked exceptions can always be thrown.</p>
+<p>VerCors does not implement this exact semantics. Instead, it assumes that any exception that can be thrown is mentioned in either the <code>throws</code> attribute or in a <code>signals</code> clause. In other words, if a method has no <code>throws</code> clauses, nor <code>signals</code> clauses, it is 100% exception safe according to VerCors. A downside of this is that the VerCors exception semantics does not 100% reflect the Java semantics. The upside is that VerCors can now guarantee that all specified exceptions are caught, as all relevant exceptions are stated explicitly.</p>
+<p>For example, if a method does not have a <code>signals</code> clause stating it throws a <code>RuntimeException</code>, VerCors assumes this exception will never be thrown by the method. Another example, if a <code>throw new RuntimeException()</code> statement occurs in method M, VerCors will give an error if M does not have a <code>signals</code> clause for RuntimeException.</p>
+<p>In some situations it might be necessary to opt into the more realistic Java semantics of unchecked exceptions. VerCors does not support this directly, but it can be modelled with an additional <code>signals</code> clause. To do this, an additional <code>signals</code> clause must be added with the condition <code>true</code>. For example, we can modify the contract of the earlier presented <code>sum</code> method to allow throwing a <code>RuntimeException</code> arbitrarily:</p>
+<!-- header-snip ExcGuarantees Error -->
+<!-- wrap-class-snip ExcGuarantees -->
+<pre><code class="language-java editable read-only">//@ signals (ArithmeticException e) a == 5 || b == 5;
+//@ signals (RuntimeException e) true;
+//@ ensures \result == (a + b);
+int sum(int a, int b) {
+    if (a == 5 || b == 5) {
+        throw new ArithmeticException();
+    } else {
+        return a + b;
+    }
+}
+
+void useSum() {
+    int result = sum(5, 10);
+    System.out.println("Result: " + result);
+}
+</code></pre>
+<p>If this example is checked by VerCors, it will yield an error in the <code>useSum</code> method. The error will complain that <code>sum</code> might throw a <code>RuntimeException</code>, but that it is neither specified in the caller contract nor handled in the <code>useSum</code> body.</p>
+<p>A way to resolve this would be to catch the <code>RuntimeException</code> by wrapping the call to <code>sum</code> in a <code>try-catch</code> block. However, since catching a <code>RuntimeException</code> is bad practice, it is sometimes better to indicate in the contract of <code>useSum</code> that <code>useSum</code> might also throw a <code>RuntimeException</code>. This propagates the responsibility for handling the unchecked exception to the caller.</p>
+<h3 id="the-signals_only-clause"><a class="header" href="#the-signals_only-clause">The signals_only clause</a></h3>
+<p>The <code>signals_only</code> clause from JML (<a href="https://www.cs.ucf.edu/~leavens/JML/jmlrefman/jmlrefman_9.html#SEC110">documented here</a>) is not supported by VerCors. It guarantees that the only types that will be thrown by the method are the types listed in the <code>signals_only</code> clause.</p>
+<p>To simulate the functionality of <code>signals_only T1, ..., Tn</code>, a signals clause with the condition <code>true</code> can be added for each <code>Ti</code>. For example, the clause <code>signals_only T1, T2;</code> can be simulated by adding two <code>signals</code> clauses to a method contract as follows:</p>
+<pre><code class="language-java editable read-only">//@ signals (T1 e) true;
+//@ signals (T2 e) true;
+void m() {
+    
+}
+</code></pre>
+<p>Alternatively, the abbreviation of <code>signals_only</code> documented in <a href="https://www.cs.ucf.edu/~leavens/JML/jmlrefman/jmlrefman_9.html#SEC110">Section 9.9.5 of the JML reference manual</a> can also be used to approximate the semantics of <code>signals_only</code> in VerCors.</p>
+<h2 id="goto-and-labels"><a class="header" href="#goto-and-labels">Goto and labels</a></h2>
+<p>PVL has support for <code>goto</code> and <code>label</code>. They are useful for modelling control flow primitives not yet supported in VerCors. The semantics are standard: when the <code>goto l</code> statement is encountered, control flow is immediately transferred to the location indicated by the label <code>l</code>. For example, the following program verifies:</p>
+<!-- header-snip GotoEx1 -->
+<!-- wrap-method-snip GotoEx1 -->
+<pre><code class="language-java editable read-only">int x = 3;
+goto l;
+x = 4;
+label l;
+assert x == 3;
+</code></pre>
+<p>As PVL does not have a construct like <code>finally</code> in Java, there are no exceptions for the semantics of <code>goto</code> in PVL.</p>
+<p>One example where use of <code>goto</code> might lead to confusing results is the following. In the below example, <code>goto</code> is used to exit the <code>while</code> loop. Because <code>goto</code> redirects control flow to the destination label immediately, checking the loop invariant is skipped.</p>
+<!-- header-snip GotoEx2 -->
+<!-- wrap-method-snip GotoEx2 -->
+<pre><code class="language-java editable read-only">int r = 10;
+loop_invariant r == 10;
+while (true) {
+  r = 20;
+  goto lbl2;
+}
+assert r == 10; // Never executed
+label lbl2;
+assert r == 20;
+</code></pre>
+<p>If it is desired that the loop invariant is checked at <code>goto</code> as well, this can be modelled by adding asserts at the exit labels of the <code>while</code> loop.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="Inheritance.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="VeyMont.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="Inheritance.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="VeyMont.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-xmark><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M310.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L160 210.7 54.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L114.7 256 9.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 301.3 265.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L205.3 256 310.6 150.6z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+        <template id=fa-pencil><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M421.7 220.3l-11.3 11.3-22.6 22.6-205 205c-6.6 6.6-14.8 11.5-23.8 14.1L30.8 511c-8.4 2.5-17.5 .2-23.7-6.1S-1.5 489.7 1 481.2L38.7 353.1c2.6-9 7.5-17.2 14.1-23.8l205-205 22.6-22.6 11.3-11.3 33.9 33.9 62.1 62.1 33.9 33.9zM96 353.9l-9.3 9.3c-.9 .9-1.6 2.1-2 3.4l-25.3 86 86-25.3c1.3-.4 2.5-1.1 3.4-2l9.3-9.3H112c-8.8 0-16-7.2-16-16V353.9zM453.3 19.3l39.4 39.4c25 25 25 65.5 0 90.5l-14.5 14.5-22.6 22.6-11.3 11.3-33.9-33.9-62.1-62.1L314.3 67.7l11.3-11.3 22.6-22.6 14.5-14.5c25-25 65.5-25 90.5 0z"/></svg></span></template>
+
+
+        <script>
+            window.playground_line_numbers = true;
+        </script>
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="ace-2a3cd908.js"></script>
+        <script src="mode-rust-2c9d5c9a.js"></script>
+        <script src="../js/mode-annotated_c.js"></script>
+        <script src="../js/mode-annotated_cuda.js"></script>
+        <script src="../js/mode-annotated_java.js"></script>
+        <script src="../js/mode-annotated_opencl.js"></script>
+        <script src="../js/mode-annotated_sycl.js"></script>
+        <script src="../js/mode-pvl.js"></script>
+        <script src="../js/mode-viper.js"></script>
+
+        <script src="editor-16ca416c.js"></script>
+        <script src="theme-dawn-4493f9c8.js"></script>
+        <script src="theme-tomorrow_night-9dbe62a9.js"></script>
+        <script src="../js/theme-chrome.js"></script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-09f2665d.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-a6f5d318.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    
+<div id="footer" class="dark">
+    <footer class="container">
+        <a href="//www.utwente.nl/en/eemcs/fmt/" target="_blank"><img src="/images/FMT logo.png" alt="Formal Methods & Tools logo" title="Formal Methods & Tools"></a>
+        <hr>
+        <div class="copyright">
+            <a href="/about/#credits" target="_blank">Copyright <code id="copyright">&copy</code> The VerCors Project 2007-2026</a>
+            | <a href="//www.utwente.nl/en/eemcs/fmt/" target="_blank">FMT - University of Twente</a>
+            | <a href="/about/">About Us</a>
+        </div>
+    </footer>
+</div>
+</body>
+</html>

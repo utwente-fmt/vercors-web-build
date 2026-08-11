@@ -1,0 +1,719 @@
+<!DOCTYPE HTML>
+<html lang="en" class="vercors sidebar-visible" dir="ltr">
+    <head>
+<meta name="description" content="VerCors Tutorial and documentation">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#d12010">
+
+<link rel="icon" href="/images/icon.svg">
+
+<link rel="stylesheet" href="/css/global.css">
+<link rel="stylesheet" href="/css/colors.css">
+<link rel="stylesheet" href="/css/shared.css">
+<link rel="stylesheet" href="/css/responsive.css">
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/highlight.pack.js"></script>
+<script src="/js/ace.js"></script>
+<script src="/js/datatables.min.js"></script>
+<script src="/js/vercorsonline.js"></script>
+<script src="/js/init.js"></script>
+
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Permissions - VerCors Tutorial</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-88aeadc2.css">
+        <link rel="stylesheet" href="css/general-5067d8cd.css">
+        <link rel="stylesheet" href="css/chrome-7683498c.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "vercors";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-9b93a44c.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-0460c59c.js"></script>
+    </head>
+    <body>
+<div id="header" class="top-header ">
+
+            <nav class="top-nav">
+                <div class="container">
+                    <div id="logo">
+                        <span id="hamburger" onclick="document.querySelector('nav.top-nav').classList.toggle('open')"><span class="fa fa-bars"></span></span><!--
+                        --><a href="/"><img id="logo-light" src="/images/logo.svg" title="The VerCors Verifier" alt="Logo of the VerCors Verifier"><img id="logo-dark" src="/images/logo-white.svg" title="The VerCors Verifier" alt="Logo of the VerCors Verifier"></a>
+                    </div>
+                    <ul>
+                        <li>
+                            <a href="/wiki">Getting Started</a>
+                            <ul>
+                                <li><a href="/wiki/Installing-and-Running-VerCors.html">Installation Guide</a></li>
+                                <li><a href="/wiki/Tutorial.html">Tutorial</a></li>
+                                <li>
+                                    <a href="//github.com/utwente-fmt/vercors/issues" target="_blank">
+                                        Issue Tracker
+                                        <span class="fa fa-external-link" style="font-size: 10pt"></span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="/">Tools</a>
+                            <ul>
+                                <li><a href="/">Verifier</a></li>
+                                <li><a href="/alpinist/">Alpinist</a></li>
+                                <li><a href="/vesuv/">VeSUV</a></li>
+                                <li><a href="/veymont/">VeyMont</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="/publications/">Publications</a></li>
+                        <li>
+                            <a href="/about/">About</a>
+                            <ul>
+                                <li><a href="/about/#team">VerCors Team</a></li>
+                                <li><a href="/news/">News</a></li>
+                                <li><a href="/about/#contact">Contact</a></li>
+                                <li><a href="/about/#credits">Credits</a></li>
+                                <li><a href="/license/">License</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+</div>
+
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('vercors')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-vercors">VerCors</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">VerCors Tutorial </h1>
+
+                    <div class="right-buttons">
+                        <a href="/try_online/" class="online-button">Try VerCors Online</a>
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <p><em>This feature is supported for all languages.</em></p>
+<p>This section discusses the basics of handling ownership using a simple toy example. Ownership is used to express whether a thread (or synchronization object) has access to a specific element on the heap. This access can be shared among multiple threads (or synchronization objects), which allows the threads to read the value of this element, or it can be unique to one, in which case the value can written to or read from. Permission annotations are used to express ownership. We start by considering the following simple example program, written in Java:</p>
+<!-- test Fail -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLTEKLy86OiB2ZXJkaWN0IEZhaWwKLy86OiB0b29scyBzaWxpY29uCmNsYXNzIENvdW50ZXIgewogIHB1YmxpYyBpbnQgdmFsOwoKICB2b2lkIGluY3IoaW50IG4pIHsKICAgIHRoaXMudmFsID0gdGhpcy52YWwgKyBuOwogIH0KfQ==" data-template-kind="test" data-case-name="wiki-1" data-case-verdict="Fail" data-language-ext="java" data-language-label="java">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-java no_run editable">class Counter {
+  public int val;
+
+  void incr(int n) {
+    this.val = this.val + n;
+  }
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>java</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>If you wish, you can store this file as, say, <code>counter.java</code>, and try to run VerCors on this file by running <code>vct --silicon counter.java</code> in a console (assuming you have VerCors installed). This program currently does not contain any annotations, but we will eventually annotate the program to verify the following simple property: after calling the <code>incr</code> function, the value of <code>val</code> has been increased by an amount <code>n</code>. This can be expressed as a postcondition for the <code>incr</code> method: <code>ensures this.val == \old(this.val) + n</code>. The <code>\old(_)</code> expression is used to evaluate an expression in an earlier state. By default this is in the state as it was just after the precondition. This is explained further <a href="#old-heap-state">later on</a>.</p>
+<p>However, if you run VerCors on this example, as it is now, you will see that VerCors fails to verify the correctness of the program and reports an ‘AssignmentFailed: InsufficientPermission’ error, since the caller of the method has insufficient permission to access <code>this.val</code>. First observe that <code>this.val</code> is shared-memory; there may be other threads that also access the <code>val</code> field, since the field is public. In order to prevent other threads from accessing <code>this.val</code> while the calling thread is executing <code>incr</code>, we need to specify that threads may only call <code>c.incr</code> (on any object <code>c</code> that is an instance of <code>Counter</code>) when they have <em>write permission</em> for <code>c.val</code>:</p>
+<!-- test -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLTIKLy86OiB2ZXJkaWN0IFBhc3MKLy86OiB0b29scyBzaWxpY29uCmNsYXNzIENvdW50ZXIgewogIHB1YmxpYyBpbnQgdmFsOwoKICAvKkAKICAgIHJlcXVpcmVzIFBlcm0odGhpcy52YWwsIDEpOwogICAgZW5zdXJlcyBQZXJtKHRoaXMudmFsLCAxKTsKICAgIGVuc3VyZXMgdGhpcy52YWwgPT0gXG9sZCh0aGlzLnZhbCkgKyBuOwogICovCiAgdm9pZCBpbmNyKGludCBuKSB7CiAgICB0aGlzLnZhbCA9IHRoaXMudmFsICsgbjsKICB9Cn0=" data-template-kind="test" data-case-name="wiki-2" data-case-verdict="Pass" data-language-ext="java" data-language-label="java">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-java no_run editable">class Counter {
+  public int val;
+
+  /*@
+    requires Perm(this.val, 1);
+    ensures Perm(this.val, 1);
+    ensures this.val == \old(this.val) + n;
+  */
+  void incr(int n) {
+    this.val = this.val + n;
+  }
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>java</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>We added three things to the counter program. The first is a <code>requires</code> clause, which is a precondition expressing that <code>incr</code> can only be called when the calling thread has permission to write to <code>val</code>. The second is an <code>ensures</code> clause, which is a postcondition expressing that, given that the <code>incr</code> function terminates (which is trivial in the above example), the function returns write permission for <code>val</code> to the thread that made the call to <code>incr</code>. The third is a postcondition that states that after <code>incr</code> has terminated, the value of <code>this.val</code> has indeed been increased by <code>n</code>. If you run this annotated program with VerCors, you will see that it now passes. The remainder of this section mostly focuses on how to use the <code>Perm</code> ownership predicates.</p>
+<p>Observe that the clause <code>Perm(this.val, 1)</code> expresses write permission for <code>this.val</code>. Recall that VerCors has a explicit notion of ownership, and that ownership is expressed via fractional permissions. The second argument to the <code>Perm</code> predicate is a <em>fractional permission</em>; a rational number <code>q</code> in the range <code>0 &lt; q &lt;= 1</code>. The ownership system in VerCors enforces that all permissions for a shared memory location together cannot exceed <code>1</code>. This implies that, if some thread has permission <code>1</code> for a shared-memory location at some point, then no other thread can have any permission predicate for that location at that point, for otherwise the total amount of permissions for that location exceeds <code>1</code> (since fractional permissions are strictly larger than <code>0</code>). For this reason, we refer to permission predicates of the form <code>Perm(o.f, 1)</code> as <em>write permissions</em>, and <code>Perm(o.f, q)</code> with <code>q &lt; 1</code> as <em>read permissions</em>. Threads are only allowed to read from shared memory if they have read permission for that shared memory, and may only write to shared memory if they have write permission. In the above example, the function <code>incr</code> both reads and writes <code>this.val</code>, which is fine: having write permission for a field implies having read permission for that field.</p>
+<p>Let us now go a bit deeper into the ownership system of VerCors. If one has a permission predicate <code>Perm(o.f, q)</code>, then this predicate can be <em>split</em> into <code>Perm(o.f, q\2) ** Perm(o.f, q\2)</code>. Moreover, a formula of the form <code>Perm(o.f, q1) ** Perm(o.f, q2)</code> can be <em>merged</em> back into <code>Perm(o.f, q1 + q2)</code>. For example, if we change the program annotations as shown below, the program still verifies successfully:</p>
+<!-- standaloneSnip mergedPerm 
+class Counter {
+public int val;
+-->
+<!-- codeSnip mergedPerm -->
+<div class="verification-container" data-examplecode-b64="Y2xhc3MgQ291bnRlciB7CnB1YmxpYyBpbnQgdmFsOwovKkAKICByZXF1aXJlcyBQZXJtKHRoaXMudmFsLCAxXDIpICoqIFBlcm0odGhpcy52YWwsIDFcMik7CiAgZW5zdXJlcyBQZXJtKHRoaXMudmFsLCAxXDIpICoqIFBlcm0odGhpcy52YWwsIDFcMik7CiAgZW5zdXJlcyB0aGlzLnZhbCA9PSBcb2xkKHRoaXMudmFsKSArIG47CiovCnZvaWQgaW5jcihpbnQgbikgewogIHRoaXMudmFsID0gdGhpcy52YWwgKyBuOwp9Cn0K" data-template-kind="" data-case-name="" data-case-verdict="Pass" data-language-ext="java" data-language-label="java">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-java no_run editable code_snippet">/*@
+  requires Perm(this.val, 1\2) ** Perm(this.val, 1\2);
+  ensures Perm(this.val, 1\2) ** Perm(this.val, 1\2);
+  ensures this.val == \old(this.val) + n;
+*/
+void incr(int n) {
+  this.val = this.val + n;
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>java</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<!-- standaloneSnip mergedPerm
+}
+-->
+<p>For splitting and merging we use the <code>**</code> operator, which is known as the separating conjunction, a connective from separation logic. A formula of the form <code>P ** Q</code> can be read as: “<code>P</code>, and <em>separately</em> <code>Q</code>”, and comes somewhat close to the standard logical conjunction. In essence, <code>P ** Q</code> expresses that the subformulas <code>P</code> and <code>Q</code> both hold, and in addition, that all ownership resources in <code>P</code> and <code>Q</code> are together <em>disjoint</em>, meaning that all the permission components together do not exceed <code>1</code> for any field. Consider the formula <code>Perm(x.f, 1) ** Perm(y.f, 1)</code>. The permissions for a field <code>f</code> cannot exceed <code>1</code>, therefore we can deduce that <code>x != y</code>.</p>
+<p>One may also try to verify the following alteration, which does not pass, since write permission for <code>this.val</code> is needed, but only read permission is obtained via the precondition. VerCors will again give an ‘InsufficientPermission’ failure on this example.</p>
+<!-- standaloneSnip onlyReadPerm
+//:: verdict Fail
+class Counter {
+public int val;
+-->
+<!-- codeSnip onlyReadPerm-->
+<div class="verification-container" data-examplecode-b64="Ly86OiB2ZXJkaWN0IEZhaWwKY2xhc3MgQ291bnRlciB7CnB1YmxpYyBpbnQgdmFsOwovKkAKICByZXF1aXJlcyBQZXJtKHRoaXMudmFsLCAxXDIpOwogIGVuc3VyZXMgUGVybSh0aGlzLnZhbCwgMVwyKTsKICBlbnN1cmVzIHRoaXMudmFsID09IFxvbGQodGhpcy52YWwpICsgbjsKKi8Kdm9pZCBpbmNyKGludCBuKSB7CiAgdGhpcy52YWwgPSB0aGlzLnZhbCArIG47Cn0KfQo=" data-template-kind="" data-case-name="" data-case-verdict="Pass" data-language-ext="java" data-language-label="java">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-java no_run editable code_snippet">/*@
+  requires Perm(this.val, 1\2);
+  ensures Perm(this.val, 1\2);
+  ensures this.val == \old(this.val) + n;
+*/
+void incr(int n) {
+  this.val = this.val + n;
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>java</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<!-- standaloneSnip onlyReadPerm
+}
+-->
+<p>If you replace both ownership predicates for <code>Perm(this.val, 3/2)</code>, then the tool will report a ‘MethodPreConditionUnsound: MethodPreConditionFalse’ error because the precondition can then never by satisfied by any caller, since no thread can have permission greater than <code>1</code> for any shared-memory location. VerCors is a verification tool for <em>partial correctness</em>; if the precondition of a method cannot be satisfied because it is absurd, then the program trivially verifies. To illustrate this, try to change the precondition into <code>requires false</code> and see what happens when running VerCors. Note that VerCors does try to help the user identify these cases by showing a ‘MethodPreConditionUnsound’ if it can derive that the precondition is unsatisfiable. But one has to be a bit careful about the assumptions made on the program as preconditions.</p>
+<h2 id="self-framing"><a class="header" href="#self-framing">Self-framing</a></h2>
+<p>Consider the following variant on our program. Would this verify?</p>
+<!-- standaloneSnip noPostConditionPerm
+//:: verdict Fail
+class Counter {
+public int val;
+-->
+<!-- codeSnip noPostConditionPerm -->
+<div class="verification-container" data-examplecode-b64="Ly86OiB2ZXJkaWN0IEZhaWwKY2xhc3MgQ291bnRlciB7CnB1YmxpYyBpbnQgdmFsOwovKkAKICByZXF1aXJlcyBQZXJtKHRoaXMudmFsLCAxKTsKICBlbnN1cmVzIHRoaXMudmFsID09IFxvbGQodGhpcy52YWwpICsgbjsKKi8Kdm9pZCBpbmNyKGludCBuKSB7CiAgdGhpcy52YWwgPSB0aGlzLnZhbCArIG47Cn0KfQo=" data-template-kind="" data-case-name="" data-case-verdict="Pass" data-language-ext="java" data-language-label="java">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-java no_run editable code_snippet">/*@
+  requires Perm(this.val, 1);
+  ensures this.val == \old(this.val) + n;
+*/
+void incr(int n) {
+  this.val = this.val + n;
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>java</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<!-- standaloneSnip noPostConditionPerm
+}
+-->
+<p>This program does not verify and gives an ‘InsufficientPermission’ failure when given to VerCors. The reason is that, also in the specifications one cannot read from shared-memory without the required permissions. In this program, the <code>ensures</code> clause accesses <code>this.val</code>, however no ownership for <code>this.val</code> is ensured by the <code>incr</code> method. Note that, without a notion of ownership, one cannot establish the postcondition: perhaps some other thread changed the contents of <code>this.val</code> while evaluating the postcondition. By having a notion of ownership, no other thread can change the contents of <code>this.val</code> while we evaluate the postcondition of the call, since no other threads can have resources to do so.</p>
+<p>Moreover, the order of specifying permissions and functional properties does matter. For example, the following program also does not verify, even though it ensures enough permissions to establish the postcondition:</p>
+<!-- standaloneSnip wrongOrderPostConditionPerm
+//:: verdict Fail
+class Counter {
+public int val;
+-->
+<!-- codeSnip wrongOrderPostConditionPerm-->
+<div class="verification-container" data-examplecode-b64="Ly86OiB2ZXJkaWN0IEZhaWwKY2xhc3MgQ291bnRlciB7CnB1YmxpYyBpbnQgdmFsOwovKkAKICByZXF1aXJlcyBQZXJtKHRoaXMudmFsLCAxKTsKICBlbnN1cmVzIHRoaXMudmFsID09IFxvbGQodGhpcy52YWwpICsgbjsKICBlbnN1cmVzIFBlcm0odGhpcy52YWwsIDEpOwoqLwp2b2lkIGluY3IoaW50IG4pIHsKICB0aGlzLnZhbCA9IHRoaXMudmFsICsgbjsKfQp9Cg==" data-template-kind="" data-case-name="" data-case-verdict="Pass" data-language-ext="java" data-language-label="java">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-java no_run editable code_snippet">/*@
+  requires Perm(this.val, 1);
+  ensures this.val == \old(this.val) + n;
+  ensures Perm(this.val, 1);
+*/
+void incr(int n) {
+  this.val = this.val + n;
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>java</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<!-- standaloneSnip wrongOrderPostConditionPerm
+}
+-->
+<p>VerCors enforces that shared-memory accesses are <em>framed</em> by ownership resources. Before accessing <code>this.val</code> in the first <code>ensures</code> clause, the permissions for <code>this.val</code> must already be known! In the program given above, the access to <code>this.val</code> in the postcondition is <em>not</em> framed by the ownership predicate: it comes too late.</p>
+<h2 id="permission-leaks"><a class="header" href="#permission-leaks">Permission leaks</a></h2>
+<p>So what about the following change? Can VerCors successfully verify the following program?</p>
+<!-- standaloneSnip permissionLeak
+class Counter {
+public int val;
+-->
+<!-- codeSnip permissionLeak-->
+<div class="verification-container" data-examplecode-b64="Y2xhc3MgQ291bnRlciB7CnB1YmxpYyBpbnQgdmFsOwovKkAKICByZXF1aXJlcyBQZXJtKHRoaXMudmFsLCAxKTsKICBlbnN1cmVzIFBlcm0odGhpcy52YWwsIDFcMik7CiAgZW5zdXJlcyB0aGlzLnZhbCA9PSBcb2xkKHRoaXMudmFsKSArIG47CiovCnZvaWQgaW5jcihpbnQgbikgewogIHRoaXMudmFsID0gdGhpcy52YWwgKyBuOwp9Cn0K" data-template-kind="" data-case-name="" data-case-verdict="Pass" data-language-ext="java" data-language-label="java">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-java no_run editable code_snippet">/*@
+  requires Perm(this.val, 1);
+  ensures Perm(this.val, 1\2);
+  ensures this.val == \old(this.val) + n;
+*/
+void incr(int n) {
+  this.val = this.val + n;
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>java</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<!-- standaloneSnip permissionLeak
+}
+-->
+<p>VerCors is able to verify the example program given above. However, less permission for <code>this.val</code> is ensured then is required, meaning that any thread that calls <code>c.incr</code> will need to give up write permission for <code>c.val</code>, but only receives read permission back in return, after <code>incr</code> has terminated. So this example has a <em>permission leak</em>. Recall that threads need full permission in order to write to shared heap locations, so essentially, calling <code>c.incr</code> has the effect of losing the ability to ever write to <code>c.val</code> again. In some cases this can be problematic, while in other cases this can be helpful, as losing permissions in such a way causes shared-memory to become read-only, specification-wise. However, in the scenario given below the permission leak will prevent successful verification:</p>
+<!-- standaloneSnip permissionLeakConsequence
+//:: verdict Fail
+class Counter {
+public int val;
+-->
+<!-- codeSnip permissionLeakConsequence-->
+<div class="verification-container" data-examplecode-b64="Ly86OiB2ZXJkaWN0IEZhaWwKY2xhc3MgQ291bnRlciB7CnB1YmxpYyBpbnQgdmFsOwovKkAKICByZXF1aXJlcyBQZXJtKHRoaXMudmFsLCAxKTsKICBlbnN1cmVzIFBlcm0odGhpcy52YWwsIDFcMik7CiAgZW5zdXJlcyB0aGlzLnZhbCA9PSBcb2xkKHRoaXMudmFsKSArIG47CiovCnZvaWQgaW5jcihpbnQgbikgewogIHRoaXMudmFsID0gdGhpcy52YWwgKyBuOwp9CiAgCi8qQAogIHJlcXVpcmVzIFBlcm0odGhpcy52YWwsIDEpOwoqLwp2b2lkIGluY3IyKGludCBuKSB7CiAgaW5jcihuKTsKICBpbmNyKG4pOwp9Cn0K" data-template-kind="" data-case-name="" data-case-verdict="Pass" data-language-ext="java" data-language-label="java">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-java no_run editable code_snippet">/*@
+  requires Perm(this.val, 1);
+  ensures Perm(this.val, 1\2);
+  ensures this.val == \old(this.val) + n;
+*/
+void incr(int n) {
+  this.val = this.val + n;
+}
+  
+/*@
+  requires Perm(this.val, 1);
+*/
+void incr2(int n) {
+  incr(n);
+  incr(n);
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>java</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<!-- standaloneSnip permissionLeakConsequence
+}
+-->
+<p>In the <code>incr2</code> method, the first call <code>incr(n)</code> will consume write permission for <code>this.val</code>, but only produce read permission in return. Therefore, the requirements of the second call <code>incr(n)</code> cannot be satisfied, which causes the verification to be unsuccessful.</p>
+<h2 id="some-extra-notation"><a class="header" href="#some-extra-notation">Some extra notation</a></h2>
+<p>We end the section by mentioning some notational enhancements for handling permissions. Instead of writing <code>Perm(o.f, 1)</code>, one may also write <code>Perm(o.f, write)</code>, which is perhaps a more readable way to express write permission for <code>o.f</code>.</p>
+<p>Similarly, one can write <code>Perm(o.f, read)</code> to express a non-zero read permission. Note that if this is used in a pre- and postcondition, it is not guaranteed to be the same amount of permissions. The underlying amount of permissions is an unspecified fraction and can therefore not be merged back into a write permission. This can be observed in the following program where the <code>assert</code> fails:</p>
+<!-- test Fail -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLXNvbWUtZXh0cmEtbm90YXRpb24tMQovLzo6IHZlcmRpY3QgRmFpbAovLzo6IHRvb2xzIHNpbGljb24KY2xhc3MgQ291bnRlciB7CiBpbnQgdmFsOwoKIC8qQAogcmVxdWlyZXMgUGVybSh0aGlzLnZhbCwgd3JpdGUpOwogZW5zdXJlcyBQZXJtKHRoaXMudmFsLCB3cml0ZSk7CiBlbnN1cmVzIHRoaXMudmFsID09IFxvbGQodGhpcy52YWwpICsgbjsKICovCiB2b2lkIGluY3IoaW50IG4pIHsKICBpbnQgb2xkVmFsdWUgPSBnZXRWYWx1ZSgpOwogIC8vQCBhc3NlcnQgUGVybSh0aGlzLnZhbCwgd3JpdGUpOwogIHRoaXMudmFsID0gb2xkVmFsdWUgKyBuOwogfQogCiAvKkAKIHJlcXVpcmVzIFBlcm0odGhpcy52YWwsIHJlYWQpOwogZW5zdXJlcyBQZXJtKHRoaXMudmFsLCByZWFkKTsKIGVuc3VyZXMgXHJlc3VsdCA9PSB0aGlzLnZhbDsKICovCiBpbnQgZ2V0VmFsdWUoKSB7CiAgcmV0dXJuIHRoaXMudmFsOwogfQp9" data-template-kind="test" data-case-name="wiki-some-extra-notation-1" data-case-verdict="Fail" data-language-ext="java" data-language-label="java">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-java no_run editable">class Counter {
+ int val;
+
+ /*@
+ requires Perm(this.val, write);
+ ensures Perm(this.val, write);
+ ensures this.val == \old(this.val) + n;
+ */
+ void incr(int n) {
+  int oldValue = getValue();
+  //@ assert Perm(this.val, write);
+  this.val = oldValue + n;
+ }
+ 
+ /*@
+ requires Perm(this.val, read);
+ ensures Perm(this.val, read);
+ ensures \result == this.val;
+ */
+ int getValue() {
+  return this.val;
+ }
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>java</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p><code>read</code> is mostly useful for specifying immutable data structures. One can also write <code>Value(o.f)</code> to express read permission to <code>o.f</code>, where the value of the fractional permission does not matter. Consequently, <code>Value</code> ownership predicates can be split indefinitely.</p>
+<p>If you instead want to express that you require some non-zero amount of read permission and that the same amount of permission is returned you an either add a ghost parameter of type <code>frac</code> which must be provided at every call site to specify the amount of available read permission, or you can use <code>AutoValue(o.f)</code>. Similarly to <code>Value</code>, <code>AutoValue</code> expresses that some amount of read permission is required. However, unlike <code>Value</code> no amount of read permission is removed when <code>AutoValue</code> is exhaled, it merely checks that there exists some amount of read permission. When the <code>AutoValue</code> in a precondition is inhaled you gain a symbolic non-zero, non-write amount of read permission which must be exhaled at the end of the context again. If the same <code>AutoValue</code> expression does not appear in the postcondition an automatic leak check is added. Usage looks like this (unlike the previous example the assert now passes):</p>
+<!-- test -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLXNvbWUtZXh0cmEtbm90YXRpb24tMgovLzo6IHZlcmRpY3QgUGFzcwovLzo6IHRvb2xzIHNpbGljb24KY2xhc3MgQ291bnRlciB7CiBpbnQgdmFsOwoKIC8qQAogcmVxdWlyZXMgUGVybSh0aGlzLnZhbCwgd3JpdGUpOwogZW5zdXJlcyBQZXJtKHRoaXMudmFsLCB3cml0ZSk7CiBlbnN1cmVzIHRoaXMudmFsID09IFxvbGQodGhpcy52YWwpICsgbjsKICovCiB2b2lkIGluY3IoaW50IG4pIHsKICBpbnQgb2xkVmFsdWUgPSBnZXRWYWx1ZSgpOwogIC8vQCBhc3NlcnQgUGVybSh0aGlzLnZhbCwgd3JpdGUpOwogIHRoaXMudmFsID0gb2xkVmFsdWUgKyBuOwogfQogCiAvKkAKIHJlcXVpcmVzIEF1dG9WYWx1ZSh0aGlzLnZhbCk7CiBlbnN1cmVzIEF1dG9WYWx1ZSh0aGlzLnZhbCk7CiBlbnN1cmVzIFxyZXN1bHQgPT0gdGhpcy52YWw7CiAqLwogaW50IGdldFZhbHVlKCkgewogIHJldHVybiB0aGlzLnZhbDsKIH0KfQ==" data-template-kind="test" data-case-name="wiki-some-extra-notation-2" data-case-verdict="Pass" data-language-ext="java" data-language-label="java">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-java no_run editable">class Counter {
+ int val;
+
+ /*@
+ requires Perm(this.val, write);
+ ensures Perm(this.val, write);
+ ensures this.val == \old(this.val) + n;
+ */
+ void incr(int n) {
+  int oldValue = getValue();
+  //@ assert Perm(this.val, write);
+  this.val = oldValue + n;
+ }
+ 
+ /*@
+ requires AutoValue(this.val);
+ ensures AutoValue(this.val);
+ ensures \result == this.val;
+ */
+ int getValue() {
+  return this.val;
+ }
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>java</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<blockquote class="blockquote-tag blockquote-tag-note">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+<blockquote>
+<p><code>AutoValue</code> may only be used in combination with <code>**</code>, <code>==&gt;</code>, <code>\let .. in ..</code>, and <code>.. ? .. : ..</code>. For the implication, let, and ternary expressions the <code>AutoValue</code> may only appear on the right-hand side and in the postcondition the left-hand side will automatically be wrapped in <code>\old(_)</code> because the leak check must always occur at the end of the scope to prevent unsoundness.</p>
+</blockquote>
+</blockquote>
+<p>If you want to express that a thread has no ownership over a certain heap element, then one can use the keyword <code>none</code>, e.g. <code>Perm(o.f, none)</code>. This is equivalent to writing <code>true</code>. It can be useful in situations where the amount of permission is conditional, e.g. <code>Perm(o.f, cond ? 1\2 : none)</code>.</p>
+<p>If you want to express permissions to multiple locations, one may use <code>\forall* vars; range; expr</code>. For example, <code>(\forall* int j; j &gt;= 0 &amp;&amp; j &lt; array.length; Perm(array[j], write)</code> denotes that the thread has write access to all elements in <code>array</code>. It is equivalent to writing <code>Perm(array[0], write) ** Perm(array[1], write) ** … ** Perm(array[array.length-1], write)</code>. Another way to specify permissions of all array elements is to use <code>Perm(array[*], write)</code> which is equivalent to the previous expression.</p>
+<p>If you want to reason about the value that the variable refers to as well then you can use <code>PointsTo(var, p, val)</code> which denotes that you have permission <code>p</code>for variable <code>var</code> which has value <code>val</code>. It is similar to saying <code>Perm(var, p)</code> and <code>var == val</code>.</p>
+<h3 id="old-heap-state"><a class="header" href="#old-heap-state">Old Heap State</a></h3>
+<p>As mentioned earlier, you can use <code>\old(_)</code> to evaluate an expression in an older state. By state here we mean strictly the heap, and not any local variables. By default, the <code>\old</code> predicate uses the heap just after the precondition as the heap to evaluate the expression in. You can specify a different heap with <code>\old[l](_)</code>, where <code>l</code> is either a ghost label (<code>//@ ghost label l</code>) or a regular label in your input language.</p>
+<p>As an example, consider the following method:</p>
+<!-- test -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLXNvbWUtZXh0cmEtbm90YXRpb24tb2xkLWhlYXAtc3RhdGUtMQovLzo6IHZlcmRpY3QgUGFzcwovLzo6IHRvb2xzIHNpbGljb24KY2xhc3MgT2JqIHsgaW50IGY7IH0KCmNvbnRleHQgUGVybSh4LmYsIHdyaXRlKSAqKiBQZXJtKHkuZiwgd3JpdGUpOwp2b2lkIHRlc3QoT2JqIHgsIE9iaiB5KSB7CiAgICBPYmogeiA9IHg7CiAgICAKICAgIHkuZiA9IDI7CiAgICBsYWJlbCBhOwogICAgCiAgICB6LmYgPSAzMDsKICAgIGxhYmVsIGI7CiAgICAKICAgIHouZiA9IDQwMDsKICAgIGxhYmVsIGM7CiAgICAKICAgIHogPSB5OwogICAgei5mID0gMzAwMDsKICAgIGxhYmVsIGQ7CiAgICAKICAgIGFzc2VydAogICAgICAgIHouZiArIC8vICgxKQogICAgICAgIFxvbGRbYV0oCiAgICAgICAgICAgIHouZiArIC8vICgyKSAKICAgICAgICAgICAgXG9sZFtiXSgKICAgICAgICAgICAgICAgIHouZiArIC8vICgzKSAKICAgICAgICAgICAgICAgIFxvbGRbY10oCiAgICAgICAgICAgICAgICAgICAgei5mICsgLy8gKDQpCiAgICAgICAgICAgICAgICAgICAgXG9sZFtkXSgKICAgICAgICAgICAgICAgICAgICAgICAgei5mIC8vICg1KQogICAgICAgICAgICAgICAgICAgICkKICAgICAgICAgICAgICAgICkKICAgICAgICAgICAgKQogICAgICAgICkgPT0gNjAwNjsKfQ==" data-template-kind="test" data-case-name="wiki-some-extra-notation-old-heap-state-1" data-case-verdict="Pass" data-language-ext="pvl" data-language-label="pvl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">class Obj { int f; }
+
+context Perm(x.f, write) ** Perm(y.f, write);
+void test(Obj x, Obj y) {
+    Obj z = x;
+    
+    y.f = 2;
+    label a;
+    
+    z.f = 30;
+    label b;
+    
+    z.f = 400;
+    label c;
+    
+    z = y;
+    z.f = 3000;
+    label d;
+    
+    assert
+        z.f + // (1)
+        \old[a](
+            z.f + // (2) 
+            \old[b](
+                z.f + // (3) 
+                \old[c](
+                    z.f + // (4)
+                    \old[d](
+                        z.f // (5)
+                    )
+                )
+            )
+        ) == 6006;
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>Any time that an expression uses the heap to evaluate itself, we look where the nearest <code>\old</code> expression is. For us, that is:</p>
+<ul>
+<li>(1) has no <code>\old</code> above it, so it is simply the current heap.</li>
+<li>(2) has <code>\old[a]</code> as its closest parent <code>\old</code>, so it is evaluated in the heap at label <code>a</code></li>
+<li>(3) is evaluated in the heap at label <code>b</code></li>
+<li>(4) is evaluated at label <code>c</code></li>
+<li>(5) is evaluated at label <code>d</code>, which is the same heap that (1) is evaluated with</li>
+</ul>
+<p>Now, why is the answer <code>6006</code>? This is because the expression <code>z.f</code> is evaluated with an old heap, but <em>not</em> with an older value of the variable <code>z</code>. Thus: it only counts that <code>z</code> aliases the same object as <code>y</code> when we enter the assertion. The value for <code>y.f</code> at all our heaps are, respectively:</p>
+<ul>
+<li>(1) <code>y.f == 2</code>, since we just assigned it</li>
+<li>(2) <code>y.f == 2</code>, since an assignment to <code>x</code> has no effect on <code>y</code></li>
+<li>(3) <code>y.f == 2</code>, idem</li>
+<li>(4) <code>y.f == 3000</code>, since we just assigned it</li>
+<li>(5) <code>y.f == 3000</code> still, since the heap at (1) is the same heap as at label <code>d</code></li>
+</ul>
+<blockquote class="blockquote-tag blockquote-tag-note">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+<blockquote>
+<p>This is just an illustrative example, and as a matter of style you should try to keep the expression you evaluate in an <code>\old</code> as small as possible. Certainly it should not be necessary to nest them.</p>
+</blockquote>
+</blockquote>
+<p>Another important detail is how <code>\old</code> interacts with <code>\unfolding</code>. (In case you are reading this tutorial in order, you can come back to this section after reading about predicates). The intuition is that <code>\unfolding</code> takes the current heap, and temporarily unfolds a predicate while its body is evaluated, whereas <code>\old</code> discards the current heap and replaces it with a different one. The consequence of this is that nesting them can lead to unexpected effects:</p>
+<ul>
+<li>An <code>\unfolding</code> nested in an <code>\old</code>: first the <code>\old</code> has replaced the current heap, after which the <code>\unfolding</code> unfolds a predicate in the old heap</li>
+<li>An <code>\old</code> nested in an <code>\unfolding</code>: first the <code>\unfolding</code> unfolds a predicate in the current heap, but this action is thrown away by <code>\old</code>, since it replaces the entire heap.</li>
+</ul>
+<p>An example of the second situation is a program like this:</p>
+<!-- test Fail -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLXNvbWUtZXh0cmEtbm90YXRpb24tb2xkLWhlYXAtc3RhdGUtMgovLzo6IHZlcmRpY3QgRmFpbAovLzo6IHRvb2xzIHNpbGljb24KY2xhc3MgUHJvYmxlbSB7ICAKICBpbnQgeDsKICByZXNvdXJjZSBzdGF0ZSgpID0gUGVybSh4LCAxKTsKCiAgcmVxdWlyZXMgc3RhdGUoKTsKICAvLyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFstCiAgZW5zdXJlcyBzdGF0ZSgpICoqIChcdW5mb2xkaW5nIHN0YXRlKCkgXGluICh4ID09IFxvbGQoeCkgKyAxKSk7CiAgLy8gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgLV0KICAvLyBFUlJPUjogVGhlcmUgbWF5IGJlIGluc3VmZmljaWVudCBwZXJtaXNzaW9uIHRvIGFjY2VzcyB0aGlzIGZpZWxkIGhlcmUKICB2b2lkIGluYygpIHsKICAgIHVuZm9sZCBzdGF0ZSgpOwogICAgeCsrOwogICAgZm9sZCBzdGF0ZSgpOwogIH0KfQ==" data-template-kind="test" data-case-name="wiki-some-extra-notation-old-heap-state-2" data-case-verdict="Fail" data-language-ext="pvl" data-language-label="pvl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">class Problem {  
+  int x;
+  resource state() = Perm(x, 1);
+
+  requires state();
+  //                                                   [-
+  ensures state() ** (\unfolding state() \in (x == \old(x) + 1));
+  //                                                    -]
+  // ERROR: There may be insufficient permission to access this field here
+  void inc() {
+    unfold state();
+    x++;
+    fold state();
+  }
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>It is clear what the intended behaviour is: we simply want to relate the value of <code>x</code> between the pre- and postcondition, so we temporarily unfold it and compare the values. This does not work, because the <code>\old</code> nested under <code>\unfolding</code> replaces the whole heap with a heap as it was just past the precondition. In this heap, we can derive from the precondition that it just contains <code>state()</code>, so we do not have permission to <code>x</code>.</p>
+<p>The solution is to unfold twice: once in the current heap, and once in the old heap. We first have to enter the old heap before we unfold its state.</p>
+<!-- test -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLXNvbWUtZXh0cmEtbm90YXRpb24tb2xkLWhlYXAtc3RhdGUtMwovLzo6IHZlcmRpY3QgUGFzcwovLzo6IHRvb2xzIHNpbGljb24KY2xhc3MgU29sdXRpb24geyAgCiAgaW50IHg7CiAgcmVzb3VyY2Ugc3RhdGUoKSA9IFBlcm0oeCwgMSk7CgogIHJlcXVpcmVzIHN0YXRlKCk7CiAgZW5zdXJlcyBzdGF0ZSgpICoqIChcdW5mb2xkaW5nIHN0YXRlKCkgXGluIHgpID09IFxvbGQoKFx1bmZvbGRpbmcgc3RhdGUoKSBcaW4geCkpICsgMTsKICAvLyBWZXJpZmllZAogIHZvaWQgaW5jKCkgewogICAgdW5mb2xkIHN0YXRlKCk7CiAgICB4Kys7CiAgICBmb2xkIHN0YXRlKCk7CiAgfQp9" data-template-kind="test" data-case-name="wiki-some-extra-notation-old-heap-state-3" data-case-verdict="Pass" data-language-ext="pvl" data-language-label="pvl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">class Solution {  
+  int x;
+  resource state() = Perm(x, 1);
+
+  requires state();
+  ensures state() ** (\unfolding state() \in x) == \old((\unfolding state() \in x)) + 1;
+  // Verified
+  void inc() {
+    unfold state();
+    x++;
+    fold state();
+  }
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="Specification-Syntax-Expressions-&amp;-Quantifiers-in-Annotations.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="Termination.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="Specification-Syntax-Expressions-&amp;-Quantifiers-in-Annotations.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="Termination.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-xmark><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M310.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L160 210.7 54.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L114.7 256 9.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 301.3 265.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L205.3 256 310.6 150.6z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+        <template id=fa-pencil><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M421.7 220.3l-11.3 11.3-22.6 22.6-205 205c-6.6 6.6-14.8 11.5-23.8 14.1L30.8 511c-8.4 2.5-17.5 .2-23.7-6.1S-1.5 489.7 1 481.2L38.7 353.1c2.6-9 7.5-17.2 14.1-23.8l205-205 22.6-22.6 11.3-11.3 33.9 33.9 62.1 62.1 33.9 33.9zM96 353.9l-9.3 9.3c-.9 .9-1.6 2.1-2 3.4l-25.3 86 86-25.3c1.3-.4 2.5-1.1 3.4-2l9.3-9.3H112c-8.8 0-16-7.2-16-16V353.9zM453.3 19.3l39.4 39.4c25 25 25 65.5 0 90.5l-14.5 14.5-22.6 22.6-11.3 11.3-33.9-33.9-62.1-62.1L314.3 67.7l11.3-11.3 22.6-22.6 14.5-14.5c25-25 65.5-25 90.5 0z"/></svg></span></template>
+
+
+        <script>
+            window.playground_line_numbers = true;
+        </script>
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="ace-2a3cd908.js"></script>
+        <script src="mode-rust-2c9d5c9a.js"></script>
+        <script src="../js/mode-annotated_c.js"></script>
+        <script src="../js/mode-annotated_cuda.js"></script>
+        <script src="../js/mode-annotated_java.js"></script>
+        <script src="../js/mode-annotated_opencl.js"></script>
+        <script src="../js/mode-annotated_sycl.js"></script>
+        <script src="../js/mode-pvl.js"></script>
+        <script src="../js/mode-viper.js"></script>
+
+        <script src="editor-16ca416c.js"></script>
+        <script src="theme-dawn-4493f9c8.js"></script>
+        <script src="theme-tomorrow_night-9dbe62a9.js"></script>
+        <script src="../js/theme-chrome.js"></script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-09f2665d.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-a6f5d318.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    
+<div id="footer" class="dark">
+    <footer class="container">
+        <a href="//www.utwente.nl/en/eemcs/fmt/" target="_blank"><img src="/images/FMT logo.png" alt="Formal Methods & Tools logo" title="Formal Methods & Tools"></a>
+        <hr>
+        <div class="copyright">
+            <a href="/about/#credits" target="_blank">Copyright <code id="copyright">&copy</code> The VerCors Project 2007-2026</a>
+            | <a href="//www.utwente.nl/en/eemcs/fmt/" target="_blank">FMT - University of Twente</a>
+            | <a href="/about/">About Us</a>
+        </div>
+    </footer>
+</div>
+</body>
+</html>

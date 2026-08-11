@@ -1,0 +1,475 @@
+<!DOCTYPE HTML>
+<html lang="en" class="vercors sidebar-visible" dir="ltr">
+    <head>
+<meta name="description" content="VerCors Tutorial and documentation">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#d12010">
+
+<link rel="icon" href="/images/icon.svg">
+
+<link rel="stylesheet" href="/css/global.css">
+<link rel="stylesheet" href="/css/colors.css">
+<link rel="stylesheet" href="/css/shared.css">
+<link rel="stylesheet" href="/css/responsive.css">
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/highlight.pack.js"></script>
+<script src="/js/ace.js"></script>
+<script src="/js/datatables.min.js"></script>
+<script src="/js/vercorsonline.js"></script>
+<script src="/js/init.js"></script>
+
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Project Structure - VerCors Tutorial</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-88aeadc2.css">
+        <link rel="stylesheet" href="css/general-5067d8cd.css">
+        <link rel="stylesheet" href="css/chrome-7683498c.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "vercors";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-9b93a44c.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-0460c59c.js"></script>
+    </head>
+    <body>
+<div id="header" class="top-header ">
+
+            <nav class="top-nav">
+                <div class="container">
+                    <div id="logo">
+                        <span id="hamburger" onclick="document.querySelector('nav.top-nav').classList.toggle('open')"><span class="fa fa-bars"></span></span><!--
+                        --><a href="/"><img id="logo-light" src="/images/logo.svg" title="The VerCors Verifier" alt="Logo of the VerCors Verifier"><img id="logo-dark" src="/images/logo-white.svg" title="The VerCors Verifier" alt="Logo of the VerCors Verifier"></a>
+                    </div>
+                    <ul>
+                        <li>
+                            <a href="/wiki">Getting Started</a>
+                            <ul>
+                                <li><a href="/wiki/Installing-and-Running-VerCors.html">Installation Guide</a></li>
+                                <li><a href="/wiki/Tutorial.html">Tutorial</a></li>
+                                <li>
+                                    <a href="//github.com/utwente-fmt/vercors/issues" target="_blank">
+                                        Issue Tracker
+                                        <span class="fa fa-external-link" style="font-size: 10pt"></span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="/">Tools</a>
+                            <ul>
+                                <li><a href="/">Verifier</a></li>
+                                <li><a href="/alpinist/">Alpinist</a></li>
+                                <li><a href="/vesuv/">VeSUV</a></li>
+                                <li><a href="/veymont/">VeyMont</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="/publications/">Publications</a></li>
+                        <li>
+                            <a href="/about/">About</a>
+                            <ul>
+                                <li><a href="/about/#team">VerCors Team</a></li>
+                                <li><a href="/news/">News</a></li>
+                                <li><a href="/about/#contact">Contact</a></li>
+                                <li><a href="/about/#credits">Credits</a></li>
+                                <li><a href="/license/">License</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+</div>
+
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('vercors')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-vercors">VerCors</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">VerCors Tutorial </h1>
+
+                    <div class="right-buttons">
+                        <a href="/try_online/" class="online-button">Try VerCors Online</a>
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <p>VerCors verifies programs by going through four stages:</p>
+<ul>
+<li><strong>The frontend, or parsing</strong>: in this step a collection of files is read and parsed into COL, the common object language. This is the internal intermediate representation of programs in VerCors.</li>
+<li><strong>Resolution</strong>: here we figure out what names in the AST mean. Every name must point to (part of) a declaration. Afterwards, we forget about the name and only remember a pointer to the relevant declaration.</li>
+<li><strong>The rewrite stage</strong>: The COL AST (usually referred to as just the AST) is transformed into a different AST, or it is checked for some property, together called a “pass”. Depending on user-supplied options many passes are applied to the AST. They can be divided in several categories:
+<ul>
+<li><em>Reducing a feature</em>: The subset of COL used is reduced, by encoding the proof obligations of a language construct in some other way. An example is that we reduce <code>for</code> loops to <code>while</code> loops, by placing the initialization before a new while loop, retaining the condition, and appending the update to the end of the loop body.</li>
+<li><em>Checking for consistency</em>: in some places it is useful that the type structure of the AST is not as strict as the set of ASTs we want to allow. Almost all checks are done in the type check, a single pass executed many times.</li>
+<li><em>Standardization</em>: many passes expect certain properties to be true about the AST (e.g. “expressions have no side effects”), but on the other hand it is useful not to constrain passes too much in what they can generate. Therefore we standardize the AST between passes, to reduce simple language features.</li>
+<li><em>Importing builtins</em>: some features are supported by importing a header of sorts into the AST.</li>
+<li><em>Optimization</em>: optimizing passes transform the AST (in particular expressions) such that they are faster to prove, or rely less on heuristics of the backend.</li>
+</ul>
+</li>
+<li><strong>The backend, or verification</strong>: the very much reduced AST is transformed once more, into the language of the selected backend. The backend makes a judgement on the program. This judgement is translated back into useful information about the program.</li>
+</ul>
+<p>There are also a few cross-cutting concerns:</p>
+<ul>
+<li><strong>The origin system</strong> tracks how the frontend parse tree is transformed via COL into a backend language. This means that if a message from the backend mentions a part of the AST in the backend language, it can be translated all the way back to its origin in the frontend input.</li>
+</ul>
+<h2 id="technical-setup"><a class="header" href="#technical-setup">Technical Setup</a></h2>
+<p>The VerCors project sources are managed on GitHub, at <a href="https://github.com/utwente-fmt/vercors">https://github.com/utwente-fmt/vercors</a>. The unstable development branch is <code>dev</code>, from where we branch to develop new features and bugfixes. Those with access may push feature branches to the main repository, or create a fork if they prefer. A pull request is then made and reviewed by someone appropriate.</p>
+<p>Pushed commits as well as pull requests are checked via continuous integration, currently Github Actions. Github builds Vercors and runs the test suite. Once the checks pas and a code review is completed, the PR is merged in dev. In dev is also where we hope to notice bad interactions between new features.</p>
+<p>We aim to make a new VerCors release once per month, which is done via a tagged merge commit to the <code>master</code> branch, followed by a GitHub release.</p>
+<p>VerCors is written in java and scala. Code is accepted in either language, but we encourage you to take the time to learn some Scala - it is much better suited to manipulating ASTs. The build structure is defined in the mill build tool.</p>
+<h2 id="project-structure"><a class="header" href="#project-structure">Project Structure</a></h2>
+<p><em>NB: this information quickly becomes out of date as vercors is refactored.</em></p>
+<h3 id=""><a class="header" href="#"><code>/</code></a></h3>
+<ul>
+<li><code>build.sc</code> is the root build definition. It configures global plugin options, wires sub-project dependencies, configures run-time build information, denotes external dependencies, configures metadata about the project and configures compiler options.</li>
+<li><code>mill</code>/<code>mill.bat</code> bootstrap and run the build tool Mill.</li>
+<li></li>
+</ul>
+<h3 id="githubworkflows"><a class="header" href="#githubworkflows"><code>/.github/workflows</code></a></h3>
+<ul>
+<li><code>scalatest.yml</code> configures Github Actions to run the test suite</li>
+<li><code>build-wiki-pdf.yml</code> assembles the Github wiki into a latex-flavoured pdf</li>
+</ul>
+<h3 id="bin"><a class="header" href="#bin"><code>/bin</code></a></h3>
+<p>Convenience run scripts that compile and then run VerCors. They are helpful because they start up slightly quicker than e.g. <code>./mill vercors.run</code>, and VerCors starts in the foreground so pretty-printing is supported.</p>
+<ul>
+<li><code>bashComplete</code> generates a bash command completion script</li>
+</ul>
+<h3 id="examples"><a class="header" href="#examples"><code>/examples</code></a></h3>
+<p>This directory serves the dual purpose of being an archive of past case studies and competition results, as well as the test suite of VerCors. Files in this directory have a header denoting how they are used in the test suite. Names denoted by “case” or “cases” are collected, where overlapping names are joined together as one test case. Files may occur in more than one “case.” “tools” denotes the backend used (silicon by default), “verdict” the expected final result (Pass by default).</p>
+<ul>
+<li><code>private</code>: this can be created as a subdirectory and is ignored by git. Contributing examples (however small) that reproduce issues are however appreciated.</li>
+<li><code>archive</code> contains examples that are broken or irrelevant: generally a lower priority.</li>
+<li><code>concepts</code> contain examples sorted by topic</li>
+<li><code>demo</code> is a standard set of demo files, suitable of e.g. a ~1 hour presentation.</li>
+<li><code>publications</code> contains examples that are mentioned or reproduced in publications by us.</li>
+<li><code>technical</code> has no good reason to exist: they should most likely be inline test fixtures.</li>
+<li><code>verifythis</code> is a <a href="https://www.pm.inf.ethz.ch/research/verifythis.html">verification competition</a> that takes place every year, this is the archive of our results there.</li>
+</ul>
+<h3 id="lib"><a class="header" href="#lib"><code>/lib</code></a></h3>
+<p><code>.jar</code> files that VerCors depends on, that cannot be specified as e.g. a maven dependency.</p>
+<h3 id="out"><a class="header" href="#out"><code>/out</code></a></h3>
+<p>Output of the mill build tool.</p>
+<h3 id="resproject"><a class="header" href="#resproject"><code>/res/&lt;project&gt;</code></a></h3>
+<p>Contains the resources root that is related to <code>&lt;project&gt;</code></p>
+<h3 id="resuniversal"><a class="header" href="#resuniversal"><code>/res/universal</code></a></h3>
+<p>Named universal historically after the <a href="https://www.scala-sbt.org/sbt-native-packager/formats/universal.html">universal plugin</a>, this directory contains files that must be available on the classpath, but must not be packed into a jar (e.g. executables)</p>
+<h3 id="resuniversaldepsplatform"><a class="header" href="#resuniversaldepsplatform"><code>/res/universal/deps/&lt;platform&gt;</code></a></h3>
+<p>Files that are specific to <code>&lt;platform&gt;</code>, not included on build for other platforms.</p>
+<ul>
+<li><code>boogie</code>: The <a href="https://github.com/boogie-org/boogie">boogie program verifier</a></li>
+<li><code>z3</code>: The <a href="https://github.com/z3prover/z3">Z3 theorem prover</a></li>
+</ul>
+<h3 id="resuniversalres"><a class="header" href="#resuniversalres"><code>/res/universal/res</code></a></h3>
+<p>Files that are included on all platforms</p>
+<ul>
+<li><code>adt</code>: definitions for VerCors’ data types</li>
+<li><code>c</code>: header files that specify C functions</li>
+<li><code>include</code>: miscellaneous library files that are loaded into vercors</li>
+<li><code>jdk</code>: Java files that specify Java methods and classes</li>
+<li><code>simplify</code>: Term rewriting rules for simplifying expressions</li>
+<li><code>systemc/config</code>: Configuration files for the SystemC component</li>
+</ul>
+<h3 id="srcproject"><a class="header" href="#srcproject"><code>/src/&lt;project&gt;</code></a></h3>
+<p>Source files for the <code>&lt;project&gt;</code> project. These may be in any language, such as scala, Java, antlr g4, etc. See also <strong><a href="#project-structure-by-package">⌄Project Structure by Package</a></strong></p>
+<h3 id="testproject"><a class="header" href="#testproject"><code>/test/&lt;project&gt;</code></a></h3>
+<p>Source files for testing the <code>&lt;project&gt;</code> project.</p>
+<h3 id="tmp"><a class="header" href="#tmp"><code>/tmp</code></a></h3>
+<p>Contains debug output from VerCors, Viper, Boogie, and Z3 when configured to output it.</p>
+<h3 id="util"><a class="header" href="#util"><code>/util</code></a></h3>
+<ul>
+<li><code>editors</code>: various grammar definitions for text editors (i.e. text highlighting), in various states of disrepair (but still useful)</li>
+<li><code>inheritance</code>: A plan to implement better inheritance support</li>
+<li><code>oldRewriteRules</code>: The old definitions in the term rewriter, to be scoured for good definitions</li>
+<li><code>processalgebra</code>: A plan to implement process algebra support again</li>
+<li><code>release</code>: Utility script to draft a VerCors release</li>
+<li><code>SplitVerify</code>: Tool that can focus on a single method in a verification input, for more rapid prototyping of specifications.</li>
+<li><code>stubimpl</code>: Helper script to generate <code>NodeImpl</code> traits, useful when adding lots of Nodes.</li>
+<li><code>stupidUnsatCore</code>: Removes line from an <code>smt2</code> script until the result is no longer <code>unsat</code>.</li>
+<li><code>wiki</code>: Utility script that parses the wiki into <code>pdf</code>, <code>html</code>, the website navigation menu for <code>html</code>, a test suite of the examples.</li>
+</ul>
+<h2 id="project-structure-by-package"><a class="header" href="#project-structure-by-package">Project Structure by Package</a></h2>
+<ul>
+<li><code>.</code>: in <code>colhelper</code>: Utilities to generate helper classes for the Node definitions, such as rewriters, comparators, subnode recursors, etc.</li>
+<li><code>antlr4</code>: Grammar definitions.</li>
+<li><code>hre</code>: General utilities not necessarily specific to VerCors</li>
+<li><code>hre/cache</code>: Generates a cache directory in an appropriate place keyed on customizable values (such as application version)</li>
+<li><code>vct/cache</code>: Uses the cache directory to store verification results, keyed on the vercors and viper versions.</li>
+<li><code>hre/debug</code>: Debugging utilities,</li>
+<li><code>hre/io</code>: I/O utilities. <code>Readable</code> and <code>Writeable</code> are the canonical way to describe a resource that can be opened for reading/writing in VerCors, with the default implementation for files <code>RWFile</code></li>
+<li><code>hre/perf</code>: Platform-independent profiling utilities, measuring time usages and resource usage</li>
+<li><code>hre/platform</code>: Detects the current platform (Windows/Unix/Mac), mostly used to determine executable format (PE/ELF/Mach-O)</li>
+<li><code>hre/progress</code>: Utilities to maintain a tree of tasks currently executing across threads, for accounting profiling information and display.</li>
+<li><code>hre/resource</code>: Utility to locate platform-appropriate resources.</li>
+<li><code>hre/stages</code>: Named functions, with an input and output type that can be chained, and catch <code>VerificationError</code>s by default.</li>
+<li><code>hre/unix</code>: Unix-specific utilities, currently only <code>getrusage</code> (where MacOS here <em>does</em> count as unix)</li>
+<li><code>hre/util</code>: misc</li>
+<li><code>viper</code>: The Viper backend</li>
+<li><code>viper.api</code>: Utilities to interface between VerCors and the Viper backend</li>
+<li><code>viper.api.transform</code>: Translate between the Viper language (historically referred to as “Silver”) and the VerCors intermediate language “COL”</li>
+<li><code>viper.api.backend</code>: Implements the interface for Carbon and Silicon, the two Viper implementations.</li>
+<li><code>vct/result</code>: <code>VerificationError</code> may be thrown, which is either a <code>SystemError</code> (always a bug, need not be informational) or a <code>UserError</code> (sometimes a bug, but must describe the situation well)</li>
+<li><code>vct/importer</code>: Load library files from resources and other paths.</li>
+<li><code>vct/main</code>: Wires up command line options into executable vercors runs, assembled of <code>Stage</code>s.</li>
+<li><code>vct/modes</code>: A VerCors run is determined by exactly one mode, the default being verification.</li>
+<li><code>vct/stages</code>: The pieces of VerCors that can be chained together. Might as well be plain functions, the primary difference being these use the progress framework.</li>
+<li><code>vct/stages/Stages.scala::ofOptions</code>: the meat and potatoes: defines the actual components of VerCors from the command line options. Each stage is <code>_.run(_)</code> in turn.</li>
+<li><code>vct/main/Main.scala</code>: defines <code>public static void main(String[] args)</code> - the actual entry point.</li>
+<li><code>vct/options</code>: The command line options.</li>
+<li><code>vct/resources</code>: Defines the default location for various resources.</li>
+<li><code>vct/parsers</code>: Uses ANTLR to transform various input sources to a COL tree.</li>
+<li><code>vct/parsers/transform</code>: Defines how to transform an ANTLR tree to a COL tree.</li>
+<li><code>vct/rewrite</code>: Transformations on COL ASTs - the most important part of VerCors.</li>
+<li><code>vct/col</code>: All things related to the internal COL language</li>
+<li><code>vct/col/ast</code>: Definitions of all nodes in COL. All definitions live in <code>Node.scala</code>, but all implementations are moved into separate subpackages and files.</li>
+<li><code>vct/col/check</code>: Check errors and utilities to check them, for any kind of error that is not a type error.</li>
+<li><code>vct/col/debug</code>: Debug utility for checking the lifecycle of declarations.</li>
+<li><code>vct/col/err</code>: Verification errors related to col</li>
+<li><code>vct/col/feature</code>: Segments nodes into features, where there is approximately one rewriter per feature. Currently not used for anything useful. (PB: I would prefer to move this out of the <code>col</code> module)</li>
+<li><code>vct/col/origin</code>: Contains <code>Origin</code>, which explains how a node came to be (e.g. from the user input), and <code>Blame</code>, which explains how to translate errors from the backend to more pointed errors on the input.</li>
+<li><code>vct/col/print</code>: An implementation of <a href="https://homepages.inf.ed.ac.uk/wadler/papers/prettier/prettier.pdf">“A prettier printer”</a> that works well with COL. (PB: I would prefer to move this out of the <code>col</code> module)</li>
+<li><code>vct/col/ref</code>: Implements cross-references in the AST. Rewriters by default make <code>LazyRef</code> such that declarations can be made later than that they are referenced.</li>
+<li><code>vct/col/resolve</code>: Resolves names and types in the AST according to the semantics of Java, C, PVL and the specification language. (PB: I would prefer to move this out of the <code>col</code> module)</li>
+<li><code>vct/col/rewrite</code>: Utilities that build on the generated <code>AbstractRewriter</code>.</li>
+<li><code>vct/col/typerules</code>: Defines the typing rules for the COL language. Transformations can be applied along applications of type rules using <code>CoercingRewriter</code>.</li>
+<li><code>vct/col/util</code>: General AST utilities, such as a comparator, factory helpers, a substituter for expressions and types, and more.</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="Developing-for-VerCors.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="IDE-Import.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="Developing-for-VerCors.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="IDE-Import.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-xmark><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M310.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L160 210.7 54.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L114.7 256 9.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 301.3 265.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L205.3 256 310.6 150.6z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+        <template id=fa-pencil><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M421.7 220.3l-11.3 11.3-22.6 22.6-205 205c-6.6 6.6-14.8 11.5-23.8 14.1L30.8 511c-8.4 2.5-17.5 .2-23.7-6.1S-1.5 489.7 1 481.2L38.7 353.1c2.6-9 7.5-17.2 14.1-23.8l205-205 22.6-22.6 11.3-11.3 33.9 33.9 62.1 62.1 33.9 33.9zM96 353.9l-9.3 9.3c-.9 .9-1.6 2.1-2 3.4l-25.3 86 86-25.3c1.3-.4 2.5-1.1 3.4-2l9.3-9.3H112c-8.8 0-16-7.2-16-16V353.9zM453.3 19.3l39.4 39.4c25 25 25 65.5 0 90.5l-14.5 14.5-22.6 22.6-11.3 11.3-33.9-33.9-62.1-62.1L314.3 67.7l11.3-11.3 22.6-22.6 14.5-14.5c25-25 65.5-25 90.5 0z"/></svg></span></template>
+
+
+        <script>
+            window.playground_line_numbers = true;
+        </script>
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="ace-2a3cd908.js"></script>
+        <script src="mode-rust-2c9d5c9a.js"></script>
+        <script src="../js/mode-annotated_c.js"></script>
+        <script src="../js/mode-annotated_cuda.js"></script>
+        <script src="../js/mode-annotated_java.js"></script>
+        <script src="../js/mode-annotated_opencl.js"></script>
+        <script src="../js/mode-annotated_sycl.js"></script>
+        <script src="../js/mode-pvl.js"></script>
+        <script src="../js/mode-viper.js"></script>
+
+        <script src="editor-16ca416c.js"></script>
+        <script src="theme-dawn-4493f9c8.js"></script>
+        <script src="theme-tomorrow_night-9dbe62a9.js"></script>
+        <script src="../js/theme-chrome.js"></script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-09f2665d.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-a6f5d318.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    
+<div id="footer" class="dark">
+    <footer class="container">
+        <a href="//www.utwente.nl/en/eemcs/fmt/" target="_blank"><img src="/images/FMT logo.png" alt="Formal Methods & Tools logo" title="Formal Methods & Tools"></a>
+        <hr>
+        <div class="copyright">
+            <a href="/about/#credits" target="_blank">Copyright <code id="copyright">&copy</code> The VerCors Project 2007-2026</a>
+            | <a href="//www.utwente.nl/en/eemcs/fmt/" target="_blank">FMT - University of Twente</a>
+            | <a href="/about/">About Us</a>
+        </div>
+    </footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,524 @@
+<!DOCTYPE HTML>
+<html lang="en" class="vercors sidebar-visible" dir="ltr">
+    <head>
+<meta name="description" content="VerCors Tutorial and documentation">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#d12010">
+
+<link rel="icon" href="/images/icon.svg">
+
+<link rel="stylesheet" href="/css/global.css">
+<link rel="stylesheet" href="/css/colors.css">
+<link rel="stylesheet" href="/css/shared.css">
+<link rel="stylesheet" href="/css/responsive.css">
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/highlight.pack.js"></script>
+<script src="/js/ace.js"></script>
+<script src="/js/datatables.min.js"></script>
+<script src="/js/vercorsonline.js"></script>
+<script src="/js/init.js"></script>
+
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Arrays and Pointers - VerCors Tutorial</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-88aeadc2.css">
+        <link rel="stylesheet" href="css/general-5067d8cd.css">
+        <link rel="stylesheet" href="css/chrome-7683498c.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "vercors";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-9b93a44c.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-0460c59c.js"></script>
+    </head>
+    <body>
+<div id="header" class="top-header ">
+
+            <nav class="top-nav">
+                <div class="container">
+                    <div id="logo">
+                        <span id="hamburger" onclick="document.querySelector('nav.top-nav').classList.toggle('open')"><span class="fa fa-bars"></span></span><!--
+                        --><a href="/"><img id="logo-light" src="/images/logo.svg" title="The VerCors Verifier" alt="Logo of the VerCors Verifier"><img id="logo-dark" src="/images/logo-white.svg" title="The VerCors Verifier" alt="Logo of the VerCors Verifier"></a>
+                    </div>
+                    <ul>
+                        <li>
+                            <a href="/wiki">Getting Started</a>
+                            <ul>
+                                <li><a href="/wiki/Installing-and-Running-VerCors.html">Installation Guide</a></li>
+                                <li><a href="/wiki/Tutorial.html">Tutorial</a></li>
+                                <li>
+                                    <a href="//github.com/utwente-fmt/vercors/issues" target="_blank">
+                                        Issue Tracker
+                                        <span class="fa fa-external-link" style="font-size: 10pt"></span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="/">Tools</a>
+                            <ul>
+                                <li><a href="/">Verifier</a></li>
+                                <li><a href="/alpinist/">Alpinist</a></li>
+                                <li><a href="/vesuv/">VeSUV</a></li>
+                                <li><a href="/veymont/">VeyMont</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="/publications/">Publications</a></li>
+                        <li>
+                            <a href="/about/">About</a>
+                            <ul>
+                                <li><a href="/about/#team">VerCors Team</a></li>
+                                <li><a href="/news/">News</a></li>
+                                <li><a href="/about/#contact">Contact</a></li>
+                                <li><a href="/about/#credits">Credits</a></li>
+                                <li><a href="/license/">License</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+</div>
+
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('vercors')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-vercors">VerCors</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">VerCors Tutorial </h1>
+
+                    <div class="right-buttons">
+                        <a href="/try_online/" class="online-button">Try VerCors Online</a>
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <p><em>This tutorial explains how to specify arrays and pointers in VerCors. The tutorial assumes you are familiar with arrays and pointers already.</em></p>
+<h2 id="array-permissions-in-java-and-pvl"><a class="header" href="#array-permissions-in-java-and-pvl">Array permissions in Java and PVL</a></h2>
+<p>We have learned already how to specify ownership of variables on the heap. Arrays generalize this concept by treating each element of the array as a separate location on the heap. For example, you might specify:</p>
+<!-- testMethod -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLWFycmF5LXBlcm1pc3Npb25zLWluLWphdmEtYW5kLXB2bC0xCi8vOjogdmVyZGljdCBQYXNzCi8vOjogdG9vbHMgc2lsaWNvbgpmaW5hbCBjbGFzcyBUZXN0IHsKICAgIC8qQAogICAgcmVxdWlyZXMgYXIgIT0gbnVsbCAmJiBhci5sZW5ndGggPT0gMzsKICAgIGNvbnRleHQgUGVybShhclswXSwgd3JpdGUpICoqIFBlcm0oYXJbMV0sIHdyaXRlKSAqKiBQZXJtKGFyWzJdLCB3cml0ZSk7CiAgICAqLwogICAgdm9pZCBleGFtcGxlMShpbnRbXSBhcik7Cn0=" data-template-kind="testMethod" data-case-name="wiki-array-permissions-in-java-and-pvl-1" data-case-verdict="Pass" data-language-ext="java" data-language-label="java">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-java no_run editable">/*@
+requires ar != null &amp;&amp; ar.length == 3;
+context Perm(ar[0], write) ** Perm(ar[1], write) ** Perm(ar[2], write);
+*/
+void example1(int[] ar);</code></pre>
+<div class="verification-language">Language for VerCors: <strong>java</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>This means we require the length to be 3, and require and return permission over each of the elements of the array. Length is treated in a special way here: even though it is a “field”, we do not need permission to read it, because the length of an array cannot be changed and it is baked into Vercors.</p>
+<p>Of course writing a specific length and manually asserting permission over each location is cumbersome, so we can write a contract that accepts arrays of any length as such:</p>
+<!-- testMethod -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLWFycmF5LXBlcm1pc3Npb25zLWluLWphdmEtYW5kLXB2bC0yCi8vOjogdmVyZGljdCBQYXNzCi8vOjogdG9vbHMgc2lsaWNvbgpmaW5hbCBjbGFzcyBUZXN0IHsKICAgIC8qQAogICAgcmVxdWlyZXMgYXIgIT0gbnVsbDsKICAgIGNvbnRleHQgKFxmb3JhbGwqIGludCBpOyAwIDw9IGkgJiYgaSA8IGFyLmxlbmd0aDsgUGVybShhcltpXSwgd3JpdGUpKTsKICAgICovCiAgICB2b2lkIGV4YW1wbGUyKGludFtdIGFyKTsKfQ==" data-template-kind="testMethod" data-case-name="wiki-array-permissions-in-java-and-pvl-2" data-case-verdict="Pass" data-language-ext="java" data-language-label="java">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-java no_run editable">/*@
+requires ar != null;
+context (\forall* int i; 0 &lt;= i &amp;&amp; i &lt; ar.length; Perm(ar[i], write));
+*/
+void example2(int[] ar);</code></pre>
+<div class="verification-language">Language for VerCors: <strong>java</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>As mentioned in the permissions tutorial, the permissions are combined with <code>**</code> to <code>Perm(ar[0], write) ** Perm(ar[1], write) ** … ** Perm(ar[ar.length-1], write)</code>. Please note the <code>*</code> after <code>forall</code>, which denotes that the body of the forall is combined with separating conjunction (<code>**</code>) and not boolean conjunction (<code>&amp;&amp;</code>).</p>
+<p>As you might expect, we can also use forall to specify properties about the values of the array:</p>
+<!-- testMethod -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLWFycmF5LXBlcm1pc3Npb25zLWluLWphdmEtYW5kLXB2bC0zCi8vOjogdmVyZGljdCBQYXNzCi8vOjogdG9vbHMgc2lsaWNvbgpmaW5hbCBjbGFzcyBUZXN0IHsKICAgIC8qQAogICAgICByZXF1aXJlcyBhciAhPSBudWxsOwogICAgICBjb250ZXh0IChcZm9yYWxsKiBpbnQgaTsgMCA8PSBpICYmIGkgPCBhci5sZW5ndGg7IFBlcm0oezphcltpXTp9LCB3cml0ZSkpOwogICAgICBlbnN1cmVzIChcZm9yYWxsIGludCBpOyAwIDw9IGkgJiYgaSA8IGFyLmxlbmd0aDsgezphcltpXTp9ID09IGkpOyAqLwogICAgdm9pZCBpZGVudGl0eShpbnRbXSBhcikgewogICAgICAvKkAKICAgICAgICBsb29wX2ludmFyaWFudCAwIDw9IGkgJiYgaTw9YXIubGVuZ3RoOwogICAgICAgIGxvb3BfaW52YXJpYW50IChcZm9yYWxsKiBpbnQgaTsgMCA8PSBpICYmIGkgPCBhci5sZW5ndGg7CiAgICAgICAgICBQZXJtKHs6YXJbaV06fSwgd3JpdGUpKTsKICAgICAgICBsb29wX2ludmFyaWFudCAoXGZvcmFsbCBpbnQgajsgMCA8PSBqICYmIGogPCBpOyB7OmFyW2pdOn0gPT0gaik7ICovCiAgICAgIGZvcihpbnQgaSA9IDA7IGkgPCBhci5sZW5ndGg7IGkrKykgewogICAgICAgICAgYXJbaV0gPSBpOwogICAgICB9CiAgICB9Cn0=" data-template-kind="testMethod" data-case-name="wiki-array-permissions-in-java-and-pvl-3" data-case-verdict="Pass" data-language-ext="java" data-language-label="java">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-java no_run editable">/*@
+  requires ar != null;
+  context (\forall* int i; 0 &lt;= i &amp;&amp; i &lt; ar.length; Perm({:ar[i]:}, write));
+  ensures (\forall int i; 0 &lt;= i &amp;&amp; i &lt; ar.length; {:ar[i]:} == i); */
+void identity(int[] ar) {
+  /*@
+    loop_invariant 0 &lt;= i &amp;&amp; i&lt;=ar.length;
+    loop_invariant (\forall* int i; 0 &lt;= i &amp;&amp; i &lt; ar.length;
+      Perm({:ar[i]:}, write));
+    loop_invariant (\forall int j; 0 &lt;= j &amp;&amp; j &lt; i; {:ar[j]:} == j); */
+  for(int i = 0; i &lt; ar.length; i++) {
+      ar[i] = i;
+  }
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>java</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<h2 id="syntactic-sugar"><a class="header" href="#syntactic-sugar">Syntactic sugar</a></h2>
+<p>Specifying arrays quickly leads to prefix a lot of statements with <code>\forall* int i; 0 &lt;= i &amp;&amp; i &lt; ar.length;</code>, so there is some syntactic sugar. First, you might want to use <code>context_everywhere</code> for the permission specification of the array, so that it is automatically propagates to loop invariants:</p>
+<!-- testMethod -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLXN5bnRhY3RpYy1zdWdhci0xCi8vOjogdmVyZGljdCBQYXNzCi8vOjogdG9vbHMgc2lsaWNvbgpmaW5hbCBjbGFzcyBUZXN0IHsKICAgIC8qQAogICAgICBjb250ZXh0X2V2ZXJ5d2hlcmUgYXIgIT0gbnVsbDsKICAgICAgY29udGV4dF9ldmVyeXdoZXJlIChcZm9yYWxsKiBpbnQgaTsgMCA8PSBpICYmIGkgPCBhci5sZW5ndGg7CiAgICAgICBQZXJtKHs6YXJbaV06fSwgd3JpdGUpKTsKICAgICAgZW5zdXJlcyAoXGZvcmFsbCBpbnQgaTsgMCA8PSBpICYmIGkgPCBhci5sZW5ndGg7IHs6YXJbaV06fSA9PSBpKTsKICAgICovCiAgICB2b2lkIGlkZW50aXR5KGludFtdIGFyKSB7CiAgICAgIC8qQAogICAgICAgIGxvb3BfaW52YXJpYW50IDAgPD0gaSAmJiBpPD1hci5sZW5ndGg7CiAgICAgICAgbG9vcF9pbnZhcmlhbnQgKFxmb3JhbGwgaW50IGo7IDAgPD0gaiAmJiBqIDwgaTsgezphcltqXTp9ID09IGopOyAqLyAKICAgICAgZm9yKGludCBpID0gMDsgaSA8IGFyLmxlbmd0aDsgaSsrKSB7CiAgICAgICAgYXJbaV0gPSBpOwogICAgICB9CiAgICB9Cn0=" data-template-kind="testMethod" data-case-name="wiki-syntactic-sugar-1" data-case-verdict="Pass" data-language-ext="java" data-language-label="java">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-java no_run editable">/*@
+  context_everywhere ar != null;
+  context_everywhere (\forall* int i; 0 &lt;= i &amp;&amp; i &lt; ar.length;
+   Perm({:ar[i]:}, write));
+  ensures (\forall int i; 0 &lt;= i &amp;&amp; i &lt; ar.length; {:ar[i]:} == i);
+*/
+void identity(int[] ar) {
+  /*@
+    loop_invariant 0 &lt;= i &amp;&amp; i&lt;=ar.length;
+    loop_invariant (\forall int j; 0 &lt;= j &amp;&amp; j &lt; i; {:ar[j]:} == j); */ 
+  for(int i = 0; i &lt; ar.length; i++) {
+    ar[i] = i;
+  }
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>java</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>This whole forall* can also be written as <code>Perm(ar[*], write)</code>, which still means write permission over all the elements of the array:</p>
+<!-- testMethod -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLXN5bnRhY3RpYy1zdWdhci0yCi8vOjogdmVyZGljdCBQYXNzCi8vOjogdG9vbHMgc2lsaWNvbgpmaW5hbCBjbGFzcyBUZXN0IHsKICAgIC8qQAogICAgICBjb250ZXh0X2V2ZXJ5d2hlcmUgYXIgIT0gbnVsbDsKICAgICAgY29udGV4dF9ldmVyeXdoZXJlIFBlcm0oYXJbKl0sIHdyaXRlKTsKICAgICAgZW5zdXJlcyAoXGZvcmFsbCBpbnQgaTsgMCA8PSBpICYmIGkgPCBhci5sZW5ndGg7IHs6YXJbaV06fSA9PSBpKTsqLwogICAgdm9pZCBpZGVudGl0eShpbnRbXSBhcikgewogICAgICAvKkAKICAgICAgICBsb29wX2ludmFyaWFudCAwIDw9IGkgJiYgaTw9YXIubGVuZ3RoOwogICAgICAgIGxvb3BfaW52YXJpYW50IChcZm9yYWxsIGludCBqOyAwIDw9IGogJiYgaiA8IGk7IHs6YXJbal06fSA9PSBqKTsgKi8gIAogICAgICBmb3IoaW50IGkgPSAwOyBpIDwgYXIubGVuZ3RoOyBpKyspIHsKICAgICAgICAgIGFyW2ldID0gaTsKICAgICAgfQogICAgfQp9" data-template-kind="testMethod" data-case-name="wiki-syntactic-sugar-2" data-case-verdict="Pass" data-language-ext="java" data-language-label="java">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-java no_run editable">/*@
+  context_everywhere ar != null;
+  context_everywhere Perm(ar[*], write);
+  ensures (\forall int i; 0 &lt;= i &amp;&amp; i &lt; ar.length; {:ar[i]:} == i);*/
+void identity(int[] ar) {
+  /*@
+    loop_invariant 0 &lt;= i &amp;&amp; i&lt;=ar.length;
+    loop_invariant (\forall int j; 0 &lt;= j &amp;&amp; j &lt; i; {:ar[j]:} == j); */  
+  for(int i = 0; i &lt; ar.length; i++) {
+      ar[i] = i;
+  }
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>java</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>If you want to specify the length of an array, you can write as well: <code>\array(ar, N)</code> which is equivalent to <code>ar != null &amp;&amp; ar.length == N</code>. More interestingly, there is also <code>\matrix(mat, M, N)</code>, which is equivalent to:</p>
+<pre><code class="language-java editable read-only">mat != null ** mat.length == M **
+(\forall* int i; 0 &lt;= i &amp;&amp; i &lt; M; Perm(mat[i], read)) **
+(\forall int i; 0 &lt;= i &amp;&amp; i &lt; M; mat[i].length == N) **
+(\forall int i; 0 &lt;= i &amp;&amp; i &lt; M; (\forall int j; 
+  0 &lt;= j &amp;&amp; j &lt; M &amp;&amp; mat[i] == mat[j]; i == j))
+</code></pre>
+<p>The last line is interesting here. In Java there is no such thing as a true matrix: instead we can make an array of arrays. However, there is nothing preventing you from putting the same row array instance in multiple rows. The last statement says that if we have valid row indices i, j, we know that <code>i != j ==&gt; mat[i] != mat[j]</code> (and the contrapositive). test</p>
+<h2 id="pointers-and-arrays-in-c-and-gpgpu-languages"><a class="header" href="#pointers-and-arrays-in-c-and-gpgpu-languages">Pointers and Arrays in C and GPGPU languages</a></h2>
+<p>We offer three syntactic sugar constructs for pointers: <code>\pointer</code> and <code>\pointer_index</code>.</p>
+<p>We write <code>\pointer(p, size, perm)</code> to express that <code>p != NULL</code>, the pointer <code>p</code> is valid from (at least) <code>0</code> to <code>size-1</code>, and we assert <code>perm</code> permission over those locations. This desugars to <code>(p != NULL &amp;&amp; \pointer_block_offset(p) + size &lt; \pointer_block_length(p)) ** (\forall int i = 0 .. size; Perm(p[i], perm)</code></p>
+<p>We write <code>\pointer_index(p, index, perm)</code> to express that <code>p != NULL</code>, <code>(p+i)</code> is a valid location, and we have permission <code>perm</code> at that location. This desugars to <code>(p != NULL &amp;&amp; 0 &lt;= \pointer_block_offset(p) + index &amp;&amp; \pointer_block_offset(p) + index &lt; \pointer_block_length(p)) ** Perm(p[index], perm)</code></p>
+<p>We write <code>\pointer_length(p)</code> to get the amount of elements between <code>p</code> and the end of the allocation. This desugars to <code>\pointer_block_length(p) - \pointer_block_offset(p)</code>.</p>
+<!-- test -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLXBvaW50ZXJzLWFuZC1hcnJheXMtaW4tYy1hbmQtZ3BncHUtbGFuZ3VhZ2VzLTEKLy86OiB2ZXJkaWN0IFBhc3MKLy86OiB0b29scyBzaWxpY29uCi8qQApyZXF1aXJlcyBccG9pbnRlcihhLCAxMCwgd3JpdGUpOyovCnZvaWQgdGVzdChpbnQgKmEpIHsKICAvKkAgCiAgYXNzZXJ0IFxwb2ludGVyKGEsIDEwLCB3cml0ZSk7CiAgYXNzZXJ0IFxwb2ludGVyKGEsIDgsIHdyaXRlKTsKICBhc3NlcnQgKFxmb3JhbGwqIGludCBpOyAwIDw9IGkgJiYgaSA8IDEwOwogICAgXHBvaW50ZXJfaW5kZXgoYSwgaSwgd3JpdGUpKTsqLwogIGludCAqYiA9IGErNTsKICAvL0AgYXNzZXJ0IGFbNV0gPT0gYlswXTsKICAvL0AgYXNzZXJ0IFxwb2ludGVyKGIsIDUsIHdyaXRlKTsKfQ==" data-template-kind="test" data-case-name="wiki-pointers-and-arrays-in-c-and-gpgpu-languages-1" data-case-verdict="Pass" data-language-ext="c" data-language-label="c">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-c no_run editable">/*@
+requires \pointer(a, 10, write);*/
+void test(int *a) {
+  /*@ 
+  assert \pointer(a, 10, write);
+  assert \pointer(a, 8, write);
+  assert (\forall* int i; 0 &lt;= i &amp;&amp; i &lt; 10;
+    \pointer_index(a, i, write));*/
+  int *b = a+5;
+  //@ assert a[5] == b[0];
+  //@ assert \pointer(b, 5, write);
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>c</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>The following low-level constructs are available for reasoning about pointers:</p>
+<ul>
+<li><code>\pointer_block_offset(p)</code>: this returns an integer representing the amount of elements between the start of the allocation and the pointer <code>p</code></li>
+<li><code>\pointer_block_length(p)</code>: this returns an integer representing the amount of elements in the allocation</li>
+<li><code>\pointer_block(p)</code>: this returns an object representing the allocation upon which the pointer is based (i.e. its provenance) it is only useful for comparing the provenance of two pointers</li>
+</ul>
+<p>All pointer operations may also be applied to arrays. However, since array types include their size it is (usually) not necessary to specify their length in specifications. VerCors will automatically add preconditions and loop invariants to ensure that the size of the underlying pointer matches the size specified by the array type.</p>
+<h2 id="injectivity-object-arrays-and-efficient-verification"><a class="header" href="#injectivity-object-arrays-and-efficient-verification">Injectivity, object arrays and efficient verification</a></h2>
+<p><em>This section contains advanced information, and can be skipped on a first read.</em></p>
+<p>Due to a technical limitation in the backend of VerCors, the location denoted by a permission expression in a quantified expression must be unique for each binding of the quantifier. For example, if we write:</p>
+<!-- test Fail -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLWluamVjdGl2aXR5LW9iamVjdC1hcnJheXMtYW5kLWVmZmljaWVudC12ZXJpZmljYXRpb24tMQovLzo6IHZlcmRpY3QgRmFpbAovLzo6IHRvb2xzIHNpbGljb24KY2xhc3MgQm94IHsKICBpbnQgdmFsdWU7CgogIHZvaWQgdGVzdCgpIHsKICAgIEJveCBib3gxID0gbmV3IEJveCgpOwogICAgc2VxPEJveD4gYm94ZXMgPSBzZXE8Qm94Pntib3gxLCBib3gxfTsKICAgIGV4aGFsZSAoXGZvcmFsbCogaW50IGk7IDAgPD0gaSAmJiBpIDwgfGJveGVzfDsgCiAgICAgIFBlcm0oYm94ZXNbaV0udmFsdWUsIDFcMTApKTsKICB9Cn0=" data-template-kind="test" data-case-name="wiki-injectivity-object-arrays-and-efficient-verification-1" data-case-verdict="Fail" data-language-ext="pvl" data-language-label="pvl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">class Box {
+  int value;
+
+  void test() {
+    Box box1 = new Box();
+    seq&lt;Box&gt; boxes = seq&lt;Box&gt;{box1, box1};
+    exhale (\forall* int i; 0 &lt;= i &amp;&amp; i &lt; |boxes|; 
+      Perm(boxes[i].value, 1\10));
+  }
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>This could be correct: we only exhale <code>2\10</code> permission of <code>box1.value</code>. The expression is however not well-formed: <code>i==0</code> and <code>i==1</code> cause the expression <code>boxes[i].value</code> to point to the same location.</p>
+<p>The reason we refer to this as injectivity, is that we should be able to construct a function that assigns bindings for a location, e.g. for a given <code>Box</code> we can either find a unique <code>i</code> that points to the <code>Box</code>, or the <code>Box</code> does not appear in <code>boxes</code>. That function is the inverse of the expression in the <code>Perm</code>. The truth value of a <code>\forall*</code> carries with it this property of injectivity. This means, for example, that in a method definition a requirement assumes that <code>\forall*</code> statements are injective with respect to locations, whereas we must prove it in ensures statements. This usually follows directly from a requirement. In method invocations then as per usual it’s the opposite: we must prove that <code>\forall*</code> statements in the requirements are injective and may assume it for ensures statements.</p>
+<p>This limitation is especially important in for example arrays of objects:</p>
+<!-- test FailOnLatest -->
+<blockquote class="blockquote-tag blockquote-tag-warning">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M6.457 1.047c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0 1 14.082 15H1.918a1.75 1.75 0 0 1-1.543-2.575Zm1.763.707a.25.25 0 0 0-.44 0L1.698 13.132a.25.25 0 0 0 .22.368h12.164a.25.25 0 0 0 .22-.368Zm.53 3.996v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 11a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg>Warning</p>
+<blockquote>
+<p>The following example verifies only on the latest <a href="https://github.com/utwente-fmt/vercors/tree/dev">VerCors development version</a>, not on the version currently used by the online verifier.</p>
+</blockquote>
+</blockquote>
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLWluamVjdGl2aXR5LW9iamVjdC1hcnJheXMtYW5kLWVmZmljaWVudC12ZXJpZmljYXRpb24tMgovLzo6IHZlcmRpY3QgRmFpbE9uTGF0ZXN0Ci8vOjogdG9vbHMgc2lsaWNvbgpjbGFzcyBCb3ggewogIGludCB2YWx1ZTsKCiAgcmVxdWlyZXMgYSAhPSBudWxsICoqIChcZm9yYWxsKiBpbnQgaTsgMCA8PSBpICYmIGkgPCBhLmxlbmd0aDsKICAgUGVybShhW2ldLCByZWFkKSk7CiAgcmVxdWlyZXMgKFxmb3JhbGwqIGludCBpOyAwIDw9IGkgJiYgaSA8IGEubGVuZ3RoOyBhW2ldICE9IG51bGwgKioKICAgUGVybShhW2ldLnZhbHVlLCB3cml0ZSkpOwogIHZvaWQgdGVzdChCb3hbXSBhKSB7CiAgICAKICB9CgogIHZvaWQgZm9vKCkgewogICAgQm94IGJveCA9IG5ldyBCb3goKTsKICAgIEJveFtdIGJveGVzID0gbmV3IEJveFsyXTsKICAgIGJveGVzWzBdID0gYm94OwogICAgYm94ZXNbMV0gPSBib3g7CiAgICB0ZXN0KGJveGVzKTsgLy8gZmFpbHMKICB9Cn0=" data-template-kind="test" data-case-name="wiki-injectivity-object-arrays-and-efficient-verification-2" data-case-verdict="FailOnLatest" data-language-ext="pvl" data-language-label="pvl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">class Box {
+  int value;
+
+  requires a != null ** (\forall* int i; 0 &lt;= i &amp;&amp; i &lt; a.length;
+   Perm(a[i], read));
+  requires (\forall* int i; 0 &lt;= i &amp;&amp; i &lt; a.length; a[i] != null **
+   Perm(a[i].value, write));
+  void test(Box[] a) {
+    
+  }
+
+  void foo() {
+    Box box = new Box();
+    Box[] boxes = new Box[2];
+    boxes[0] = box;
+    boxes[1] = box;
+    test(boxes); // fails
+  }
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>In common use however we have to know about duplicate elements anyway. For example, in the example above we require <code>write</code> permission over the boxes, so indirectly we already require all the boxes to be distinct. As for the array elements themselves: we have an internal axiom about arrays that expresses exactly that the locations of an array correspond to only one index and one array.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="Axiomatic-Data-Types.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="Parallel-Blocks.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="Axiomatic-Data-Types.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="Parallel-Blocks.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-xmark><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M310.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L160 210.7 54.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L114.7 256 9.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 301.3 265.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L205.3 256 310.6 150.6z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+        <template id=fa-pencil><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M421.7 220.3l-11.3 11.3-22.6 22.6-205 205c-6.6 6.6-14.8 11.5-23.8 14.1L30.8 511c-8.4 2.5-17.5 .2-23.7-6.1S-1.5 489.7 1 481.2L38.7 353.1c2.6-9 7.5-17.2 14.1-23.8l205-205 22.6-22.6 11.3-11.3 33.9 33.9 62.1 62.1 33.9 33.9zM96 353.9l-9.3 9.3c-.9 .9-1.6 2.1-2 3.4l-25.3 86 86-25.3c1.3-.4 2.5-1.1 3.4-2l9.3-9.3H112c-8.8 0-16-7.2-16-16V353.9zM453.3 19.3l39.4 39.4c25 25 25 65.5 0 90.5l-14.5 14.5-22.6 22.6-11.3 11.3-33.9-33.9-62.1-62.1L314.3 67.7l11.3-11.3 22.6-22.6 14.5-14.5c25-25 65.5-25 90.5 0z"/></svg></span></template>
+
+
+        <script>
+            window.playground_line_numbers = true;
+        </script>
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="ace-2a3cd908.js"></script>
+        <script src="mode-rust-2c9d5c9a.js"></script>
+        <script src="../js/mode-annotated_c.js"></script>
+        <script src="../js/mode-annotated_cuda.js"></script>
+        <script src="../js/mode-annotated_java.js"></script>
+        <script src="../js/mode-annotated_opencl.js"></script>
+        <script src="../js/mode-annotated_sycl.js"></script>
+        <script src="../js/mode-pvl.js"></script>
+        <script src="../js/mode-viper.js"></script>
+
+        <script src="editor-16ca416c.js"></script>
+        <script src="theme-dawn-4493f9c8.js"></script>
+        <script src="theme-tomorrow_night-9dbe62a9.js"></script>
+        <script src="../js/theme-chrome.js"></script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-09f2665d.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-a6f5d318.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    
+<div id="footer" class="dark">
+    <footer class="container">
+        <a href="//www.utwente.nl/en/eemcs/fmt/" target="_blank"><img src="/images/FMT logo.png" alt="Formal Methods & Tools logo" title="Formal Methods & Tools"></a>
+        <hr>
+        <div class="copyright">
+            <a href="/about/#credits" target="_blank">Copyright <code id="copyright">&copy</code> The VerCors Project 2007-2026</a>
+            | <a href="//www.utwente.nl/en/eemcs/fmt/" target="_blank">FMT - University of Twente</a>
+            | <a href="/about/">About Us</a>
+        </div>
+    </footer>
+</div>
+</body>
+</html>
