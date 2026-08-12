@@ -53,7 +53,7 @@
             const path_to_root = "";
             const default_light_theme = "vercors";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-38e44e3a.js";
+            window.path_to_searchindex_js = "searchindex-b794b536.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-51d3aee6.js"></script>
@@ -288,9 +288,9 @@
 <p>Sometimes, the annotations themselves might impose overhead. It can be smart to encode the annotations in pure functions, and use the <code>opaque</code> keyword to hide the body of the function from the verification scope. See the section on <a href="Opaque-Functions.html">Opaque Functions</a> for more details.</p>
 <h3 id="cause-non-linear-arithmetic"><a class="header" href="#cause-non-linear-arithmetic">Cause: Non-linear arithmetic</a></h3>
 <p>Suppose we want to prove the following fact<sup class="footnote-reference" id="fr-1-1"><a href="#footnote-1">1</a></sup> about integers.</p>
-<pre><code class="language-pvl editable read-only">  requires x &gt; 0 &amp;&amp; a &gt; 0 &amp;&amp; n &gt; 0 &amp;&amp; x &lt; n &amp;&amp; x &lt; a;
-void f(int x, int a, int n) {
-  assert a * x + x &lt; a * n;
+<pre><code class="language-pvl editable read-only">  requires x &gt;=0 &amp;&amp; y &gt;= 0 &amp;&amp; x &lt; m &amp;&amp; y &lt; n;
+void f(int x, int y, int m, int n) {
+  assert n * x + y &lt; m * n;
 }
 </code></pre>
 <p>Solving non-linear arithmetic is <a href="https://stackoverflow.com/questions/13898175/how-does-z3-handle-non-linear-integer-arithmetic">undecidable in general</a>, and asking this fact to the underlying Z3 SMT solver may cause a timeout. Luckily, Z3 has a dedicated non-linear solver, which can be enabled by adding the following flag to VerCors:</p>
@@ -298,15 +298,15 @@ void f(int x, int a, int n) {
 </code></pre>
 <p>When dealing with non-linearity, we suggest using <a href="Frames-&amp;-Extract.html">frame and extract</a> on code blocks with non-linear statements.</p>
 <p>Additionally, facts that cannot be proven in VerCors can be proven externally and then brought in as an axiom or assumption. Structurally, one could for instance define the following abstract pure function, and call this whenever the specific information is needed.</p>
-<pre><code class="language-pvl editable read-only">  // Proven by Lean with the Int.sub_emod lemma
-  requires x &gt; 0 &amp;&amp; a &gt; 0 &amp;&amp; n &gt; 0 &amp;&amp; x &lt; n &amp;&amp; x &lt; a;
-  ensures a * x + x &lt; a * n;
-pure void sub_emod(int x, int a, int n);
+<pre><code class="language-pvl editable read-only">  // Proven by Lean with the Nat.mul_add_lt_mul_of_lt_of_lt lemma
+  requires x &gt;=0 &amp;&amp; y &gt;= 0 &amp;&amp; x &lt; m &amp;&amp; y &lt; n;
+  ensures n * x + y &lt; m * n;
+pure void mul_add_lt_mul_of_lt_of_lt(int x, int y, int m, int n);
 </code></pre>
 <hr>
 <ol class="footnote-definition">
 <li id="footnote-1">
-<p>See the <a href="https://leanprover-community.github.io/mathlib4_docs/Init/Data/Int/DivMod/Bootstrap.html#Int.sub_emod">Lean lemma</a> which proves this. <a href="#fr-1-1">↩</a></p>
+<p>See the <a href="https://leanprover-community.github.io/mathlib4_docs/Batteries/Data/Nat/Lemmas.html#Nat.mul_add_lt_mul_of_lt_of_lt">Lean lemma</a> which proves this. <a href="#fr-1-1">↩</a></p>
 </li>
 </ol>
 
