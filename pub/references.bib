@@ -1,7 +1,73 @@
+@InProceedings{şakar2026deductiveverificationweakmemory,
+      title={Deductive Verification of Weak Memory Programs with View-based Protocols}, 
+      author={Ömer Şakar and Soham Chakraborty and Marieke Huisman and Anton Wijs},
+      year={2026},
+      booktitle="SPIN",
+      doi={10.48550/arXiv.2604.21084},
+      url={https://arxiv.org/abs/2604.21084},
+}
+
+@InProceedings{nauta2026crashfreedeductiveverifiers,
+      title={Crash-free Deductive Verifiers}, 
+      author={Wander Nauta and Marcus Gerhold and Marieke Huisman},
+      year={2026},
+      booktitle="SPIN",
+      doi={/10.48550/arXiv.2604.19448},
+      url={https://arxiv.org/abs/2604.19448}, 
+}
+
+@InProceedings{10.1007/978-3-032-32519-8_5,
+author="van den Haak, Lars B.
+and Wijs, Anton
+and Huisman, Marieke",
+editor="Darulova, Eva
+and Lin, Anthony W.
+and R{\"u}mmer, Philipp",
+title="Scalable Deductive Verification of Data-Level Parallel Programs",
+booktitle="Computer Aided Verification",
+year="2026",
+publisher="Springer Nature Switzerland",
+address="Cham",
+pages="90--112",
+abstract="This paper introduces several techniques that improve the scalability of the deductive verification of data-level parallel programs working on arrays and matrices. First of all, we introduce a technique to rewrite expressions with (nested) quantifiers, so suitable triggers can be generated for these expressions. We have proven this rewrite technique correct using a theorem prover. Second, we make reasoning about potentially overlapping arrays easier, by providing specification constructs to indicate and verify that two arrays are not aliases, or that they are immutable, so they can be modelled as mathematical sequences. All our techniques are implemented in the VerCors program verifier. We illustrate how the combination of our techniques improves scalability via a large number of experiments. Using our techniques on a set of typical GPU kernels, we achieve a reduction of verification time by, on average, a factor of 9, with outliers being up to 150 times faster. Additionally, applying these techniques to earlier experiments and an earlier case study of a radio telescope pipeline permitted to obtain verification results that were previously either unobtainable or only in a significantly longer verification time.",
+doi = {10.1007/978-3-032-32519-8_5},
+isbn="978-3-032-32519-8"
+}
+
+@article{tascheDeductiveReasoningEmbedded2026,
+  title = {Deductive Reasoning about Embedded Systems Using Reachable Abstract States Invariants},
+  author = {Tasche, Philip and Herber, Paula and Huisman, Marieke},
+  year = 2026,
+  month = jun,
+  journal = {Software and Systems Modeling},
+  issn = {1619-1374},
+  doi = {10.1007/s10270-026-01389-3},
+  urldate = {2026-09-02},
+  abstract = {Deductive verification is often more efficient than alternative techniques like model checking at reasoning about functional properties of programs. This is especially true when the program under verification contains very large or unbounded data ranges that model checkers struggle with. However, modular deductive verifiers struggle with verifying global properties, which are often crucial in concurrent and reactive embedded systems. Embedded systems often require complex user-defined invariants to capture the global state for the verification of local annotations, demanding high effort and expertise from the user. In this paper, we propose a method to automatically generate compact invariants that are sufficiently strong to enable effective deductive verification of global properties in embedded systems. Our key idea is that a good level of abstraction can be found automatically by choosing variables for refinement that influence relevant events and process interactions. We use this idea together with abstract interpretation to build a system's state space, abstracted to the relevant part for a given global property. We demonstrate the effectiveness of our approach on a SystemC design of an automotive control system that has in the past proved challenging to verify.},
+  langid = {english},
+  keywords = {Abstraction refinement,Deductive verification,Embedded systems,Invariant generation},
+}
+
+@inproceedings{10.1145/3759251,
+  author    = {Dubbeling, Tycho and Huisman, Marieke and \c{S}akar, \"Omer},
+  year      = {2026},
+  title     = {Predicate Subtypes in VerCors},
+  editor    = {Peters, Kirstin and Gheri, Lorenzo},
+  booktitle = {{\rm Proceedings 17th Workshop on}
+               Programming Language Approaches to Concurrency and Communication-cEntric Software,
+               {\rm Turin, Italy, 11th April 2026}},
+  series    = {Electronic Proceedings in Theoretical Computer Science},
+  volume    = {444},
+  publisher = {Open Publishing Association},
+  pages     = {58-67},
+  doi       = {10.4204/EPTCS.444.6},
+}
+
+
 @phdthesis{470f6696492b4e91983ea9dd390bb4b6,
 title = "Verifying Optimised Parallel Code",
 abstract = "This thesis addresses the problem of formally verifying optimised parallel programs. With a survey of Stack Overflow posts, a website where many developers pose technical questions, we identified key challenges faced by GPU programmers, and we identified opportunities for formal methods researchers to investigate.Next, we added verification support to the domain-specific language Halide with our new HaliVer tool. Halide simplifies the task of optimising, enabling exploration of multiple optimisation strategies and choose the right one for your specific parallel platform. By adding verification support at both the front-end and back-end, we allow Halide programs to be formally verified and also provide guarantees about the compilation of the generated code that Halide produces.We applied this HaliVer approach to a case study concerning a data processing pipeline for radio telescopes. Using the optimisation power of Halide, we were able to speed up this pipeline even further. With HaliVer we tried to verify the memory safety of our algorithm. This led to new research insights and showed us the limitations of the underlying verification tools. We were able to partly solve the nonlinear challenges posed by this case study. We identified that when many arrays, in our case more than 20, are present in a program, the underlying tools struggled. In the next chapter, we show the changes we made to the VerCors deductive verification tool, which was the verifier used by HaliVer. We introduce automatic techniques to safely rewrite nested universal quantifiers, which were crucial for the verification of the non-trivial parallel programs of the previous chapters.To address the scalability issues, we found in the case study, we added and reused type information such that VerCors could use a better encoding when many arrays were present in the program. This encoding significantly lowers verification time and allowed for previous unverifiable programs to be verified. Both these techniques are also applicable outside the scope of HaliVer. Finally, we describe how we improved the support in VerCors for C and the GPU programming languages OpenCL and CUDA in this Chapter. This work enables the application of formal verification to optimised parallel programs by integrating a verification approach into Halide, but also presenting techniques applicable to other parallel programming contexts. In doing so, our work provides stronger correctness guarantees for high-performance parallel applications.",
-author = "Lars van den Haak",
+author = "Lars B. van den Haak",
 year = "2026",
 month = mar,
 day = "19",
@@ -12,6 +78,21 @@ series = "IPA dissertation series",
 publisher = "Eindhoven University of Technology",
 school = "Eindhoven University of Technology",
 }
+
+@article{sakarPreservingProvabilityGPU2025,
+  title = {Preserving Provability over {{GPU}} Program Optimizations with Annotation-Aware Transformations},
+  author = {{\c S}akar, {\"O}mer and Safari, Mohsen and Huisman, Marieke and Wijs, Anton},
+  year = 2025,
+  month = dec,
+  journal = {Formal Methods in System Design},
+  volume = {67},
+  number = {3},
+  pages = {316--372},
+  issn = {1572-8102},
+  doi = {10.1007/s10703-025-00480-7},
+  abstract = {GPU programs are widely used in industry. To obtain the best performance, a typical development process involves the manual or semi-automatic application of optimizations prior to compiling the code. Such optimizations can introduce errors. To avoid the introduction of errors, we can augment GPU programs with (pre- and postcondition-style) annotations to capture functional properties. However, keeping these annotations correct when optimizing GPU programs is labor-intensive and error-prone.}
+}
+
 
 @phdthesis{Rubbens2025,
 title = "Bridging the Implementation Gap: Advancements in Model-Based Concurrent Program Verification",
@@ -186,7 +267,7 @@ doi="10.1007/978-3-031-65630-9_1"
 title = "HaliVer: Deductive Verification and Scheduling Languages Join Forces",
 abstract = "The HALIVER tool integrates deductive verification into the popular scheduling language HALIDE, used for image processing pipelines and array computations. HALIVER uses VERCORS, a separation logic-based verifier, to verify the correctness of (1) the HALIDE algorithms and (2) the optimised parallel code produced by HALIDE when an optimisation schedule is applied to an algorithm. This allows proving complex, optimised code correct while reducing the effort to provide the required verification annotations. For both approaches, the same specification is used. We evaluated the tool on several optimised programs generated from characteristic HALIDE algorithms, using all but one of the essential scheduling directives available in HALIDE. Without annotation effort, HALIVER proves memory safety in almost all programs. With annotations HALIVER, additionally, proves functional correctness properties. We show that the approach is viable and reduces the manual annotation effort by an order of magnitude.",
 keywords = "2024 OA procedure",
-author = "{van den Haak}, Lars and Anton Wijs and Marieke Huisman and {van den Brand}, Mark",
+author = "{van den Haak}, Lars B. and Anton Wijs and Marieke Huisman and {van den Brand}, Mark",
 year = "2024",
 month = apr,
 day = "5",
