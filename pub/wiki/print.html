@@ -54,7 +54,7 @@
             const path_to_root = "";
             const default_light_theme = "vercors";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-5db5c4c2.js";
+            window.path_to_searchindex_js = "searchindex-c08e9775.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-51d3aee6.js"></script>
@@ -1267,10 +1267,10 @@ void test(Obj x, Obj y) {
 </ul>
 <p>Now, why is the answer <code>6006</code>? This is because the expression <code>z.f</code> is evaluated with an old heap, but <em>not</em> with an older value of the variable <code>z</code>. Thus: it only counts that <code>z</code> aliases the same object as <code>y</code> when we enter the assertion. The value for <code>y.f</code> at all our heaps are, respectively:</p>
 <ul>
-<li>(1) <code>y.f == 2</code>, since we just assigned it</li>
-<li>(2) <code>y.f == 2</code>, since an assignment to <code>x</code> has no effect on <code>y</code></li>
-<li>(3) <code>y.f == 2</code>, idem</li>
-<li>(4) <code>y.f == 3000</code>, since we just assigned it</li>
+<li>(1) <code>y.f == 3000</code>, since we just assigned <code>z.f</code> this</li>
+<li>(2) <code>y.f == 2</code>, since we just assigned <code>y.f</code> this</li>
+<li>(3) <code>y.f == 2</code>, since an assignment to <code>x</code> has no effect on <code>y</code></li>
+<li>(4) <code>y.f == 2</code>, idem</li>
 <li>(5) <code>y.f == 3000</code> still, since the heap at (1) is the same heap as at label <code>d</code></li>
 </ul>
 <blockquote class="blockquote-tag blockquote-tag-note">
