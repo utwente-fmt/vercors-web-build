@@ -21,7 +21,7 @@
 
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Opaque Functions - VerCors Tutorial</title>
+        <title>Rewriting Quantifiers - VerCors Tutorial</title>
 
 
         <!-- Custom HTML head -->
@@ -242,122 +242,104 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <h2 id="opaque-functions"><a class="header" href="#opaque-functions">Opaque Functions</a></h2>
-<p>Opaque pure functions let you hide implementation details from the current proof scope. This can improve proof stability and performance when inlining function bodies causes heavy solver load.</p>
-<h3 id="core-idea"><a class="header" href="#core-idea">Core idea</a></h3>
-<ul>
-<li>Mark a pure function as <code>opaque</code>.</li>
-<li>Calls to that function do not automatically expose the body.</li>
-<li>If you need body-level reasoning at a specific point, use <code>reveal</code>.</li>
-</ul>
-<p>An Opaque function body is hidden by default.</p>
-<!-- test FailOnLatest -->
-<blockquote class="blockquote-tag blockquote-tag-warning">
-<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M6.457 1.047c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0 1 14.082 15H1.918a1.75 1.75 0 0 1-1.543-2.575Zm1.763.707a.25.25 0 0 0-.44 0L1.698 13.132a.25.25 0 0 0 .22.368h12.164a.25.25 0 0 0 .22-.368Zm.53 3.996v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 11a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg>Warning</p>
+                        <p>The underlying verification tools on which VerCors relies, such as Viper and the automatic theorem prover Z3, do not allow logical or arithmetic operators in quantifier triggers.[^1] However, a verification condition is often most naturally expressed using these operators, and a trigger involving them may be the only suitable choice. In some cases, a quantifier can be <em>rewritten</em> into an equivalent expression with suitable triggers. This section explains which patterns VerCors can <em>automatically</em> rewrite for you.[^2]</p>
+<p>[^1] This restriction has good reasons. Suppose that <code>+</code> were allowed in triggers and that you chose <code>f(x+5)</code> as a trigger for <code>∀ x; 0&lt;=x &amp;&amp; x&lt;10; {:f(x+5):}&gt;0</code>. The trigger would fire for <code>f(1+5)</code>, because it can match the expression syntactically. However, it would not fire for <code>f(5+1)</code> or <code>f(6)</code>, which could lead to unexpected results for users.</p>
+<p>[^2] The paper <a href="https://doi.org/10.1007/978-3-032-32519-8_5">Scalable Deductive Verification of Data-Level Parallel Programs</a> explains some of the rewrite patterns and formal proofs for these patterns.</p>
 <blockquote>
-<p>The following example verifies only on the latest <a href="https://github.com/utwente-fmt/vercors/tree/dev">VerCors development version</a>, not on the version currently used by the online verifier.</p>
+<p>![Note] Contracts for parallel blocks and GPU kernels are automatically quantified over the parallel threads. For example, writing <code>context xs[blockIdx.x*blockDim.x + threadIdx.x]</code> in a CUDA kernel contract results in <code>context (∀ int blockIdx.x=0..gridDim.x, int threadIdx.x=0..blockDim.x; xs[blockIdx.x*blockDim.x + threadIdx.x]);</code>. The most reasonable trigger here is <code>xs[blockIdx.x*blockDim.x + threadIdx.x]</code>, but this expression needs to be rewritten before it is accepted as a trigger. Automatic rewriting is therefore often useful for parallel constructs in VerCors.</p>
 </blockquote>
-</blockquote>
-<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLW9wYXF1ZS1mdW5jdGlvbnMtY29yZS1pZGVhLTEKLy86OiB2ZXJkaWN0IEZhaWxPbkxhdGVzdAovLzo6IHRvb2xzIHNpbGljb24Kb3BhcXVlIHB1cmUgYm9vbCBmKCl7CiAgcmV0dXJuIHRydWU7Cn0KCnZvaWQgdGVzdCgpewogIGFzc2VydCBmKCk7Cn0=" data-template-kind="test" data-case-name="wiki-opaque-functions-core-idea-1" data-case-verdict="FailOnLatest" data-language-ext="pvl" data-language-label="pvl">
-<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">opaque pure bool f(){
-  return true;
-}
-
-void test(){
-  assert f();
-}</code></pre>
-<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
-<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
-<pre class="verification-log verification-non-plain" style="display: none"></pre>
-</div>
-
-<p>The assertion fails because the body is hidden.</p>
-<p>You can use reveal to reason with the body</p>
-<!-- test PassOnLatest -->
-<blockquote class="blockquote-tag blockquote-tag-warning">
-<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M6.457 1.047c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0 1 14.082 15H1.918a1.75 1.75 0 0 1-1.543-2.575Zm1.763.707a.25.25 0 0 0-.44 0L1.698 13.132a.25.25 0 0 0 .22.368h12.164a.25.25 0 0 0 .22-.368Zm.53 3.996v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 11a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg>Warning</p>
+<h2 id="linear-nested-quantifiers"><a class="header" href="#linear-nested-quantifiers">Linear (Nested) Quantifiers</a></h2>
+<p>An access pattern such as <code>xs[j*5+i]</code> often occurs in programs processing flattened multidimensional arrays. For instance, the following code sums a multidimensional array.</p>
+<pre><code class="language-pvl editable read-only">int sum = 0;
+for(int j=0; j&lt;n; j++)
+  for(int i=0; i&lt;5; i++)
+    sum += xs[j*5+i]
+</code></pre>
+<p>The outer loop would need permission to read from <code>xs</code>, which could be expressed as the following.</p>
+<pre><code class="language-pvl editable read-only">loop_invariant (∀ int i, int j; 0 &lt;= i &amp;&amp; i &lt; 5 &amp;&amp; 0&lt;= j &amp;&amp; j &lt; n;
+  Perm(xs[j*5+i], read));
+</code></pre>
+<p>This is equivalent to the following quantifier.</p>
+<pre><code class="language-pvl editable read-only">loop_invariant (∀ int ij; 0 &lt;= ij &amp;&amp; ij &lt; 5*n; Perm(xs[ij], read));
+</code></pre>
+<p>Thus, when <code>xs[j*5+i]</code> is given as the trigger (that is, <code>{:xs[j*5+i]:}</code>) for the quantifier above, VerCors automatically rewrites the quantifier and uses <code>xs[ij]</code> as the new trigger.</p>
+<p>In general, VerCors can rewrite a multidimensional quantifier into a one-dimensional quantifier with a suitable trigger if the pattern in the trigger is injective. For the quantifier above, the pattern <code>j*5+i</code> is injective: different valid values of <code>i</code> and <code>j</code> never access the same element of <code>xs</code>.</p>
+<h3 id="general-pattern"><a class="header" href="#general-pattern">General pattern</a></h3>
+<p>The most general pattern that VerCors supports for this rewrite is as follows:</p>
+<pre><code class="language-pvl editable read-only">f(x_1, ..., x_n) = a_1*x_1 + ... a_n*x_n + b;
+</code></pre>
+<p>where the inlined function <code>f</code> is then used as follows:</p>
+<pre><code class="language-pvl editable read-only">(∀ int x_1, ..., int x_n; C(x_1, ..., x_n); 
+  R({:A(f(x_1, ..., x_n)):}, (x_1, ..., x_n)));
+</code></pre>
+<p>Here, <code>x_1</code>, … <code>x_n</code> are the quantified variables, and <code>C(x_1, ..., x_n)</code> represents their domain. It can be viewed as an inlined Boolean function that expresses the precise constraints on <code>x_1</code>, … <code>x_n</code>. <code>R</code> is the resulting condition or resource that the quantifier expresses; it accesses some <code>A</code>^[3] in a specific manner.</p>
+<p>[^3] <code>A</code> can be an array, but also functions and other data structures.</p>
+<p>VerCors will try to rewrite this towards the following</p>
+<pre><code class="language-pvl editable read-only">(∀ int x; Y(x); R({:A(x):}, f_inv(x)));
+</code></pre>
+<p>provided that the access is injective. In that case, VerCors finds the <em>inverse</em> function of <code>f</code>, written here as <code>f_inv</code>, and a new domain <code>Y</code>. <code>A[x]</code> is then used as the trigger. VerCors can prove that the access is injective if the following conditions hold:</p>
+<ol>
+<li>Each <code>x_i</code> has an inclusive lower bound, denoted by <code>x_min_i</code>.</li>
+<li>All <em>strides</em> (the <code>a_i</code>) are non-zero.</li>
+<li>All <code>a_i</code> have the same sign.</li>
+<li>The stride of <code>x_{i+1}</code>, namely <code>a_{i+1}</code>, is greater than the maximum contribution of the lower dimensions. More precisely, every <code>i &lt; n</code>:</li>
+</ol>
+<pre><code class="language-pvl editable read-only">abs(a_1)*(x_1-x_min_1) + ... + abs(a_i)*(x_i-x_min_i) &lt; abs(a_{i+1})
+</code></pre>
+<p>Here, <code>abs</code> denotes the absolute value.</p>
+<p>For more details on this precise procedure, and a machine checked proof, we refer to the paper <a href="https://doi.org/10.1007/978-3-032-32519-8_5">Scalable Deductive Verification of Data-Level Parallel Programs</a>.</p>
 <blockquote>
-<p>The following example verifies only on the latest <a href="https://github.com/utwente-fmt/vercors/tree/dev">VerCors development version</a>, not on the version currently used by the online verifier.</p>
+<p>![Caution] If the pattern is completely general (that is, the <code>a_i</code> do not resolve to concrete numbers), VerCors may run into problems with <a href="Proof-Brittleness-and-Countermeasures.html#cause-non-linear-arithmetic">non-linear arithmetic</a>. This is not due to the rewriting itself; it is because the given pattern is already non-linear.</p>
 </blockquote>
-</blockquote>
-<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLW9wYXF1ZS1mdW5jdGlvbnMtY29yZS1pZGVhLTIKLy86OiB2ZXJkaWN0IFBhc3NPbkxhdGVzdAovLzo6IHRvb2xzIHNpbGljb24Kb3BhcXVlIHB1cmUgYm9vbCBmKCl7CiAgcmV0dXJuIHRydWU7Cn0KCnZvaWQgdGVzdCgpewogIGFzc2VydCByZXZlYWwgZigpOwp9" data-template-kind="test" data-case-name="wiki-opaque-functions-core-idea-2" data-case-verdict="PassOnLatest" data-language-ext="pvl" data-language-label="pvl">
-<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">opaque pure bool f(){
-  return true;
-}
+<h3 id="multiple-patterns"><a class="header" href="#multiple-patterns">Multiple patterns</a></h3>
+<p>The procedure above also works when multiple patterns are present. For example, in the following quantifier, the function <code>g</code> has two patterns as arguments: <code>j*5+i</code> and <code>h-4</code>.</p>
+<pre><code class="language-pvl editable read-only">(∀ int i, int j, int h; 0 &lt;= i &amp;&amp; i &lt; 5 &amp;&amp; 0&lt;= j &amp;&amp; j &lt; n &amp;&amp; h&gt;=0 &amp;&amp; h&lt;2; 
+ {:g(j*5+i, h-4):});
+</code></pre>
+<p>Thus, it is rewritten to the following equivalent quantifier:</p>
+<pre><code class="language-pvl editable read-only">(∀ int ij, int h; 0 &lt;= ij &amp;&amp; ij &lt; 5*n &amp;&amp; h&gt;=-4 &amp;&amp; h&lt;-2; 
+ {:g(ij, h):});
+</code></pre>
+<p>However, each pattern must be <em>independent</em>; that is, patterns cannot refer to the same quantified variables.</p>
+<h2 id="other-rewrites"><a class="header" href="#other-rewrites">Other Rewrites</a></h2>
+<p>VerCors also automatically rewrites a quantifier containing arithmetic when it already has one pattern that is suitable as a trigger. It introduces a new quantified variable for this purpose. For example, in the following quantifier, the first argument to <code>g</code> has <code>i</code> as its pattern, which is a valid trigger. Therefore, other arguments containing <code>i</code> can be replaced.</p>
+<pre><code class="language-pvl editable read-only">(∀ int i; i&gt;0; {:g(i, i+1):});
+</code></pre>
+<p>This is rewritten as follows, since we can introduce a new quantified variable for the expression <code>i+1</code>.</p>
+<pre><code class="language-pvl editable read-only">(∀ int i, int j; i&gt;0 &amp;&amp; j==i+1; g(i, j));
+</code></pre>
+<p>This can be combined with the rewriting of linear quantifiers above if needed.</p>
+<h2 id="alternatives-to-rewriting-linear-patterns"><a class="header" href="#alternatives-to-rewriting-linear-patterns">Alternatives to rewriting linear patterns</a></h2>
+<p>Instead of automatically rewriting patterns, you can also replace the arithmetic with helper functions. So long as you use the exact helper functions, you can use these to trigger the quantifiers correctly.</p>
+<p>For instance, you can replace the above example with helper functions for <code>+</code> and <code>*</code>:</p>
+<pre><code class="language-pvl editable read-only">pure int plus(int a, int b) = a + b;
+pure int mul(int a, int b) = a * b;
 
-void test(){
-  assert reveal f();
-}</code></pre>
-<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
-<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
-<pre class="verification-log verification-non-plain" style="display: none"></pre>
-</div>
-
-<h3 id="when-to-use-opaque"><a class="header" href="#when-to-use-opaque">When to use opaque</a></h3>
-<p>Use <code>opaque</code> when:</p>
-<ul>
-<li>callers only need the contract/summary of a pure function</li>
-<li>inlining the function body leads to brittle or slow proofs</li>
-<li>the function is used frequently and body details are irrelevant in most call sites.</li>
-</ul>
-<p>As example consider a function which precisely describes the functional correctness of an algorithm, but the algorithm consists of many branches and loops. In that case only innermost loop when the correctness of such a function is determined needs to reveal its body, and most other call sites do not need to know this. See the following example, where we only need reveal <code>ones</code> twice, and can use it twice without knowing its body.</p>
-<!-- test PassOnLatest -->
-<blockquote class="blockquote-tag blockquote-tag-warning">
-<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M6.457 1.047c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0 1 14.082 15H1.918a1.75 1.75 0 0 1-1.543-2.575Zm1.763.707a.25.25 0 0 0-.44 0L1.698 13.132a.25.25 0 0 0 .22.368h12.164a.25.25 0 0 0 .22-.368Zm.53 3.996v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 11a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg>Warning</p>
+...
+loop_invariant (∀ int i, int j; 0 &lt;= i &amp;&amp; i &lt; 5 &amp;&amp; 0&lt;= j &amp;&amp; j &lt; n;
+  Perm({:xs[plus(mul(j,5),i)]:}, read));
+...
+</code></pre>
+<p>Or alternatively, make an index function as follows.</p>
+<pre><code class="language-pvl editable read-only">pure int idx(int a, int b) = 5*a+b;
+...
+loop_invariant (∀ int i, int j; 0 &lt;= i &amp;&amp; i &lt; 5 &amp;&amp; 0&lt;= j &amp;&amp; j &lt; n;
+  Perm({:xs[idx(a,b)]:}, read));
+...
+</code></pre>
 <blockquote>
-<p>The following example verifies only on the latest <a href="https://github.com/utwente-fmt/vercors/tree/dev">VerCors development version</a>, not on the version currently used by the online verifier.</p>
+<p>![Caution] Remember that the quantifiers only get triggered on syntactical equivalence. Thus even if <code>xs[plus(i, mul(j,5))]</code> is semantically equivalent to <code>xs[plus(mul(j,5), i)]</code>, only the latter will trigger the quantifier.</p>
 </blockquote>
-</blockquote>
-<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLW9wYXF1ZS1mdW5jdGlvbnMtd2hlbi10by11c2Utb3BhcXVlLTEKLy86OiB2ZXJkaWN0IFBhc3NPbkxhdGVzdAovLzo6IHRvb2xzIHNpbGljb24KICByZXF1aXJlcyAwIDw9IG4gJiYgbiA8PSB8YXw7Cm9wYXF1ZSBwdXJlIGludCBvbmVzKHNlcTxpbnQ+IGEsIGludCBuKSA9CiAgbiA9PSAwID8gMCA6IG9uZXMoYSwgbiAtIDEpICsgKGFbbiAtIDFdID09IDEgPyAxIDogMCk7CgogIHJlcXVpcmVzIDAgPD0gbiAmJiBuIDw9IHxhfDsKICBlbnN1cmVzIFxyZXN1bHQgPT0gb25lcyhhLCBuKTsKaW50IGNvdW50T25lcyhzZXE8aW50PiBhLCBpbnQgbikKewogIGludCBpID0gMDsKICBpbnQgYyA9IDA7CiAgYXNzZXJ0IHJldmVhbCBvbmVzKGEsIGkpID09IDA7CgogICBsb29wX2ludmFyaWFudCAwIDw9IGkgJiYgaSA8PSBuOwogICBsb29wX2ludmFyaWFudCBjID09IG9uZXMoYSwgaSk7CiAgd2hpbGUgKGkgPCBuKSAgewogICAgaW50IGFkZCA9IChhW2ldID09IDEgPyAxIDogMCk7CgogICAgLy8gT25seSBoZXJlIHdlIG5lZWQgdGhlIGJvZHkgb2Ygb25lczoKICAgIC8vIHVuZm9sZCBvbmVzKGEsIGkgKyAxKSBpbnRvIG9uZXMoYSwgaSkgKyBhZGQKICAgIGFzc2VydCByZXZlYWwgb25lcyhhLCBpICsgMSkgPT0gb25lcyhhLCBpKSArIGFkZDsKCiAgICBjID0gYyArIGFkZDsKICAgIGkgPSBpICsgMTsKICB9CgogIHJldHVybiBjOwp9" data-template-kind="test" data-case-name="wiki-opaque-functions-when-to-use-opaque-1" data-case-verdict="PassOnLatest" data-language-ext="pvl" data-language-label="pvl">
-<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">  requires 0 &lt;= n &amp;&amp; n &lt;= |a|;
-opaque pure int ones(seq&lt;int&gt; a, int n) =
-  n == 0 ? 0 : ones(a, n - 1) + (a[n - 1] == 1 ? 1 : 0);
-
-  requires 0 &lt;= n &amp;&amp; n &lt;= |a|;
-  ensures \result == ones(a, n);
-int countOnes(seq&lt;int&gt; a, int n)
-{
-  int i = 0;
-  int c = 0;
-  assert reveal ones(a, i) == 0;
-
-   loop_invariant 0 &lt;= i &amp;&amp; i &lt;= n;
-   loop_invariant c == ones(a, i);
-  while (i &lt; n)  {
-    int add = (a[i] == 1 ? 1 : 0);
-
-    // Only here we need the body of ones:
-    // unfold ones(a, i + 1) into ones(a, i) + add
-    assert reveal ones(a, i + 1) == ones(a, i) + add;
-
-    c = c + add;
-    i = i + 1;
-  }
-
-  return c;
-}</code></pre>
-<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
-<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
-<pre class="verification-log verification-non-plain" style="display: none"></pre>
-</div>
-
-<h3 id="trade-offs-and-limitations"><a class="header" href="#trade-offs-and-limitations">Trade-offs and limitations</a></h3>
-<ul>
-<li>You lose automatic body-level facts at call sites.</li>
-<li>Assertions that rely on body details can fail unless you <code>reveal</code>.</li>
-<li>Revealing too much can re-introduce the same proof-scope explosion you were trying to avoid.</li>
-</ul>
-<p>A common strategy is: keep functions opaque by default, and reveal only in small local proof points.</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="Frames-&amp;-Extract.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="Specification-Syntax-Expressions-&amp;-Quantifiers-in-Annotations.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                             </a>
 
-                            <a rel="next prefetch" href="Unique-Types.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="Permissions.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                             </a>
 
@@ -367,11 +349,11 @@ int countOnes(seq&lt;int&gt; a, int n)
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="Frames-&amp;-Extract.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="Specification-Syntax-Expressions-&amp;-Quantifiers-in-Annotations.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                     </a>
 
-                    <a rel="next prefetch" href="Unique-Types.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="Permissions.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                     </a>
             </nav>

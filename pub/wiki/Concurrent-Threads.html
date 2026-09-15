@@ -1,0 +1,813 @@
+<!DOCTYPE HTML>
+<html lang="en" class="vercors sidebar-visible" dir="ltr">
+    <head>
+<meta name="description" content="VerCors Tutorial and documentation">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#d12010">
+
+<link rel="icon" href="/images/icon.svg">
+
+<link rel="stylesheet" href="/css/global.css">
+<link rel="stylesheet" href="/css/colors.css">
+<link rel="stylesheet" href="/css/shared.css">
+<link rel="stylesheet" href="/css/responsive.css">
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/highlight.pack.js"></script>
+<script src="/js/ace.js"></script>
+<script src="/js/datatables.min.js"></script>
+<script src="/js/vercorsonline.js"></script>
+<script src="/js/init.js"></script>
+
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Concurrent Threads - VerCors Tutorial</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-88aeadc2.css">
+        <link rel="stylesheet" href="css/general-5067d8cd.css">
+        <link rel="stylesheet" href="css/chrome-7683498c.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "vercors";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-396414da.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-59d4aebb.js"></script>
+    </head>
+    <body>
+<div id="header" class="top-header ">
+
+            <nav class="top-nav">
+                <div class="container">
+                    <div id="logo">
+                        <span id="hamburger" onclick="document.querySelector('nav.top-nav').classList.toggle('open')"><span class="fa fa-bars"></span></span><!--
+                        --><a href="/"><img id="logo-light" src="/images/logo.svg" title="The VerCors Verifier" alt="Logo of the VerCors Verifier"><img id="logo-dark" src="/images/logo-white.svg" title="The VerCors Verifier" alt="Logo of the VerCors Verifier"></a>
+                    </div>
+                    <ul>
+                        <li>
+                            <a href="/wiki">Getting Started</a>
+                            <ul>
+                                <li><a href="/wiki/Installing-and-Running-VerCors.html">Installation Guide</a></li>
+                                <li><a href="/wiki/Tutorial.html">Tutorial</a></li>
+                                <li>
+                                    <a href="//github.com/utwente-fmt/vercors/issues" target="_blank">
+                                        Issue Tracker
+                                        <span class="fa fa-external-link" style="font-size: 10pt"></span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="/">Tools</a>
+                            <ul>
+                                <li><a href="/">Verifier</a></li>
+                                <li><a href="/alpinist/">Alpinist</a></li>
+                                <li><a href="/vesuv/">VeSUV</a></li>
+                                <li><a href="/veymont/">VeyMont</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="/publications/">Publications</a></li>
+                        <li>
+                            <a href="/about/">About</a>
+                            <ul>
+                                <li><a href="/about/#team">VerCors Team</a></li>
+                                <li><a href="/news/">News</a></li>
+                                <li><a href="/about/#contact">Contact</a></li>
+                                <li><a href="/about/#credits">Credits</a></li>
+                                <li><a href="/license/">License</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+</div>
+
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('vercors')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-vercors">VerCors</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">VerCors Tutorial </h1>
+
+                    <div class="right-buttons">
+                        <a href="/try_online/" class="online-button">Try VerCors Online</a>
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <p>In PVL, a class can describe a thread by defining a <code>run</code> block. After constructing an object of such a class, the object represents a thread that is ready to run. The thread can then be started with <code>fork</code> and waited for with <code>join</code>.</p>
+<p>This page explains the basic thread lifecycle first, and then shows how the same concepts combine with permissions, loops, and locks.</p>
+<h2 id="thread-classes-and-run-blocks"><a class="header" href="#thread-classes-and-run-blocks">Thread classes and <code>run</code> blocks</a></h2>
+<p>The intuition behind a thread class is that each object stores the data that its thread will use, while the <code>run</code> block stores the code that is executed when the thread starts.</p>
+<p>The syntax is:</p>
+<!-- test Pass -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLXRocmVhZC1jbGFzc2VzLWFuZC1ydW4tYmxvY2tzLTEKLy86OiB2ZXJkaWN0IFBhc3MKLy86OiB0b29scyBzaWxpY29uCmNsYXNzIFdvcmtlciB7CiAgICBydW4gewogICAgICAgIC8vIENvZGUgZXhlY3V0ZWQgYnkgdGhlIHRocmVhZAogICAgfQp9" data-template-kind="test" data-case-name="wiki-thread-classes-and-run-blocks-1" data-case-verdict="Pass" data-language-ext="pvl" data-language-label="pvl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">class Worker {
+    run {
+        // Code executed by the thread
+    }
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>The <code>run</code> block is not called like an ordinary method. Instead, it is started by forking an object of the class.</p>
+<p>A <code>run</code> block can have a contract, just like a method. Its precondition describes the resources that must be available when the thread is started. Its postcondition describes the resources and facts that are returned when the thread has finished and is joined.</p>
+<!-- test Pass -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLXRocmVhZC1jbGFzc2VzLWFuZC1ydW4tYmxvY2tzLTIKLy86OiB2ZXJkaWN0IFBhc3MKLy86OiB0b29scyBzaWxpY29uCmNsYXNzIFdvcmtlciB7CiAgICBpbnQgcmVzdWx0OwoKICAgIGVuc3VyZXMgUGVybShyZXN1bHQsIHdyaXRlKSAqKiBpZGxlKHRoaXMpOwogICAgY29uc3RydWN0b3IoKSB7CiAgICAgICAgcmVzdWx0ID0gMDsKICAgIH0KCiAgICByZXF1aXJlcyBQZXJtKHJlc3VsdCwgd3JpdGUpOwogICAgZW5zdXJlcyBQZXJtKHJlc3VsdCwgd3JpdGUpICoqIHJlc3VsdCA9PSAxOwogICAgcnVuIHsKICAgICAgICByZXN1bHQgPSAxOwogICAgfQp9" data-template-kind="test" data-case-name="wiki-thread-classes-and-run-blocks-2" data-case-verdict="Pass" data-language-ext="pvl" data-language-label="pvl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">class Worker {
+    int result;
+
+    ensures Perm(result, write) ** idle(this);
+    constructor() {
+        result = 0;
+    }
+
+    requires Perm(result, write);
+    ensures Perm(result, write) ** result == 1;
+    run {
+        result = 1;
+    }
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>The constructor postcondition contains <code>idle(this)</code>. This states that after construction the newly created object is an idle thread object, ready to be forked.</p>
+<h2 id="idle-and-running"><a class="header" href="#idle-and-running"><code>idle</code> and <code>running</code></a></h2>
+<p>Thread objects have a verification state. The two basic states are <code>idle(t)</code> and <code>running(t)</code>.</p>
+<p>The lifecycle is:</p>
+<pre><code class="language-text">idle --[fork]--&gt; running --[join]--&gt; idle
+</code></pre>
+<p>The expression <code>idle(t)</code> states that thread object <code>t</code> is not currently running. A freshly constructed object of a class with a <code>run</code> block starts in this state, provided the constructor establishes <code>idle(this)</code>.</p>
+<p>The expression <code>running(t)</code> states that thread object <code>t</code> has been forked and has not yet been joined.</p>
+<p>For example:</p>
+<!-- test Pass -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLWlkbGUtYW5kLXJ1bm5pbmctMQovLzo6IHZlcmRpY3QgUGFzcwovLzo6IHRvb2xzIHNpbGljb24KY2xhc3MgVGhyZWFkT2JqZWN0IHsKICAgIGVuc3VyZXMgaWRsZSh0aGlzKTsKICAgIGNvbnN0cnVjdG9yKCkgewogICAgfQoKICAgIHJ1biB7CiAgICB9CgogICAgdm9pZCB0ZXN0TGlmZWN5Y2xlKCkgewogICAgICAgIFRocmVhZE9iamVjdCB0ID0gbmV3IFRocmVhZE9iamVjdCgpOwogICAgICAgIGFzc2VydCBpZGxlKHQpOwoKICAgICAgICBmb3JrIHQ7CiAgICAgICAgYXNzZXJ0IHJ1bm5pbmcodCk7CgogICAgICAgIGpvaW4gdDsKICAgICAgICBhc3NlcnQgaWRsZSh0KTsKICAgIH0KfQ==" data-template-kind="test" data-case-name="wiki-idle-and-running-1" data-case-verdict="Pass" data-language-ext="pvl" data-language-label="pvl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">class ThreadObject {
+    ensures idle(this);
+    constructor() {
+    }
+
+    run {
+    }
+
+    void testLifecycle() {
+        ThreadObject t = new ThreadObject();
+        assert idle(t);
+
+        fork t;
+        assert running(t);
+
+        join t;
+        assert idle(t);
+    }
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>These state predicates are resources. This matters because they are consumed and produced by <code>fork</code> and <code>join</code>: after <code>fork t;</code> you no longer have <code>idle(t)</code>, and after <code>join t;</code> you no longer have <code>running(t)</code>.</p>
+<h2 id="fork"><a class="header" href="#fork"><code>fork</code></a></h2>
+<p>The <code>fork</code> statement starts an idle thread object.</p>
+<p>The syntax is:</p>
+<pre><code class="language-pvl editable read-only">fork t;
+</code></pre>
+<p>Here <code>t</code> must be an expression that points to a thread object. To verify <code>fork t;</code>, VerCors must know that <code>t</code> is idle and that the precondition of <code>t</code>’s <code>run</code> block holds.</p>
+<p>When the fork succeeds, the thread becomes running. The resources required by the <code>run</code> block are transferred to the running thread.</p>
+<!-- test Pass -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLWZvcmstMQovLzo6IHZlcmRpY3QgUGFzcwovLzo6IHRvb2xzIHNpbGljb24KY2xhc3MgV29ya2VyIHsKICAgIGludCByZXN1bHQ7CgogICAgZW5zdXJlcyBQZXJtKHJlc3VsdCwgd3JpdGUpICoqIGlkbGUodGhpcyk7CiAgICBjb25zdHJ1Y3RvcigpIHsKICAgICAgICByZXN1bHQgPSAwOwogICAgfQoKICAgIHJlcXVpcmVzIFBlcm0ocmVzdWx0LCB3cml0ZSk7CiAgICBlbnN1cmVzIFBlcm0ocmVzdWx0LCB3cml0ZSkgKiogcmVzdWx0ID09IDE7CiAgICBydW4gewogICAgICAgIHJlc3VsdCA9IDE7CiAgICB9Cn0KCnZvaWQgc3RhcnRXb3JrZXIoKSB7CiAgICBXb3JrZXIgdyA9IG5ldyBXb3JrZXIoKTsKCiAgICBhc3NlcnQgaWRsZSh3KTsKICAgIGZvcmsgdzsKICAgIGFzc2VydCBydW5uaW5nKHcpOwp9" data-template-kind="test" data-case-name="wiki-fork-1" data-case-verdict="Pass" data-language-ext="pvl" data-language-label="pvl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">class Worker {
+    int result;
+
+    ensures Perm(result, write) ** idle(this);
+    constructor() {
+        result = 0;
+    }
+
+    requires Perm(result, write);
+    ensures Perm(result, write) ** result == 1;
+    run {
+        result = 1;
+    }
+}
+
+void startWorker() {
+    Worker w = new Worker();
+
+    assert idle(w);
+    fork w;
+    assert running(w);
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>Forking an already running thread is rejected. After the first fork the object is running, so it is not idle anymore.</p>
+<!-- test Fail -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLWZvcmstMgovLzo6IHZlcmRpY3QgRmFpbAovLzo6IHRvb2xzIHNpbGljb24KY2xhc3MgV29ya2VyIHsKICAgIHJ1biB7CiAgICB9CgogICAgdm9pZCBmb3JrVHdpY2UoKSB7CiAgICAgICAgV29ya2VyIHcgPSBuZXcgV29ya2VyKCk7CiAgICAgICAgZm9yayB3OwogICAgICAgIGZvcmsgdzsgLy8gRmFpbHM6IHcgaXMgcnVubmluZywgbm90IGlkbGUuCiAgICB9Cn0=" data-template-kind="test" data-case-name="wiki-fork-2" data-case-verdict="Fail" data-language-ext="pvl" data-language-label="pvl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">class Worker {
+    run {
+    }
+
+    void forkTwice() {
+        Worker w = new Worker();
+        fork w;
+        fork w; // Fails: w is running, not idle.
+    }
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<h2 id="join"><a class="header" href="#join"><code>join</code></a></h2>
+<p>The <code>join</code> statement waits until a running thread has finished.</p>
+<p>The syntax is:</p>
+<pre><code class="language-pvl editable read-only">join t;
+</code></pre>
+<p>To verify <code>join t;</code>, VerCors must know that <code>t</code> is running. After the join, the thread is idle again, and the postcondition of the <code>run</code> block becomes available to the joining thread.</p>
+<p>Continuing the previous worker example:</p>
+<!-- test Pass -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLWpvaW4tMQovLzo6IHZlcmRpY3QgUGFzcwovLzo6IHRvb2xzIHNpbGljb24KY2xhc3MgV29ya2VyIHsKICAgIGludCByZXN1bHQ7CgogICAgZW5zdXJlcyBQZXJtKHJlc3VsdCwgd3JpdGUpICoqIGlkbGUodGhpcyk7CiAgICBjb25zdHJ1Y3RvcigpIHsKICAgICAgICByZXN1bHQgPSAwOwogICAgfQoKICAgIHJlcXVpcmVzIFBlcm0ocmVzdWx0LCB3cml0ZSk7CiAgICBlbnN1cmVzIFBlcm0ocmVzdWx0LCB3cml0ZSkgKiogcmVzdWx0ID09IDE7CiAgICBydW4gewogICAgICAgIHJlc3VsdCA9IDE7CiAgICB9Cn0KCnZvaWQgc3RhcnRBbmRKb2luV29ya2VyKCkgewogICAgV29ya2VyIHcgPSBuZXcgV29ya2VyKCk7CgogICAgZm9yayB3OwogICAgam9pbiB3OwoKICAgIGFzc2VydCBpZGxlKHcpOwogICAgYXNzZXJ0IFBlcm0ody5yZXN1bHQsIHdyaXRlKSAqKiB3LnJlc3VsdCA9PSAxOwp9" data-template-kind="test" data-case-name="wiki-join-1" data-case-verdict="Pass" data-language-ext="pvl" data-language-label="pvl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">class Worker {
+    int result;
+
+    ensures Perm(result, write) ** idle(this);
+    constructor() {
+        result = 0;
+    }
+
+    requires Perm(result, write);
+    ensures Perm(result, write) ** result == 1;
+    run {
+        result = 1;
+    }
+}
+
+void startAndJoinWorker() {
+    Worker w = new Worker();
+
+    fork w;
+    join w;
+
+    assert idle(w);
+    assert Perm(w.result, write) ** w.result == 1;
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>Joining a thread that is not running is rejected. For example, a newly created thread object is idle, so it cannot be joined before it is forked.</p>
+<!-- test Fail -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLWpvaW4tMgovLzo6IHZlcmRpY3QgRmFpbAovLzo6IHRvb2xzIHNpbGljb24KY2xhc3MgV29ya2VyIHsKICAgIHJ1biB7CiAgICB9CgogICAgdm9pZCBqb2luQmVmb3JlRm9yaygpIHsKICAgICAgICBXb3JrZXIgdyA9IG5ldyBXb3JrZXIoKTsKICAgICAgICBqb2luIHc7IC8vIEZhaWxzOiB3IGlzIGlkbGUsIG5vdCBydW5uaW5nLgogICAgfQp9" data-template-kind="test" data-case-name="wiki-join-2" data-case-verdict="Fail" data-language-ext="pvl" data-language-label="pvl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">class Worker {
+    run {
+    }
+
+    void joinBeforeFork() {
+        Worker w = new Worker();
+        join w; // Fails: w is idle, not running.
+    }
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>Once a thread has been joined, it is idle again. This means the same thread object can be forked again, as long as the next fork can again satisfy the <code>run</code> precondition.</p>
+<!-- test Pass -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLWpvaW4tMwovLzo6IHZlcmRpY3QgUGFzcwovLzo6IHRvb2xzIHNpbGljb24KY2xhc3MgV29ya2VyIHsKICAgIGVuc3VyZXMgaWRsZSh0aGlzKTsKICAgIGNvbnN0cnVjdG9yKCkgewogICAgfQoKICAgIHJ1biB7CiAgICB9CgogICAgdm9pZCByZXVzZVRocmVhZE9iamVjdCgpIHsKICAgICAgICBXb3JrZXIgdyA9IG5ldyBXb3JrZXIoKTsKCiAgICAgICAgZm9yayB3OwogICAgICAgIGpvaW4gdzsKCiAgICAgICAgYXNzZXJ0IGlkbGUodyk7CgogICAgICAgIGZvcmsgdzsKICAgICAgICBqb2luIHc7CgogICAgICAgIGFzc2VydCBpZGxlKHcpOwogICAgfQp9" data-template-kind="test" data-case-name="wiki-join-3" data-case-verdict="Pass" data-language-ext="pvl" data-language-label="pvl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">class Worker {
+    ensures idle(this);
+    constructor() {
+    }
+
+    run {
+    }
+
+    void reuseThreadObject() {
+        Worker w = new Worker();
+
+        fork w;
+        join w;
+
+        assert idle(w);
+
+        fork w;
+        join w;
+
+        assert idle(w);
+    }
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<h2 id="passing-permissions-to-a-thread"><a class="header" href="#passing-permissions-to-a-thread">Passing permissions to a thread</a></h2>
+<p>The contract of a <code>run</code> block is the main way to specify which heap locations a thread may use.</p>
+<p>The intuition is the same as for ordinary method contracts:</p>
+<ul>
+<li>The <code>requires</code> clauses describe what must be given to the thread at <code>fork</code>.</li>
+<li>The <code>ensures</code> clauses describe what comes back at <code>join</code>.</li>
+</ul>
+<p>While the thread is running, the joining thread should not rely on resources that were transferred to the forked thread. Those resources are available again only after <code>join</code>.</p>
+<p>The following example uses two thread objects to update different fields of the same <code>Point</code>. Because one thread receives permission for <code>p.x</code> and the other receives permission for <code>p.y</code>, the two updates are independent.</p>
+<!-- test Pass -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLXBhc3NpbmctcGVybWlzc2lvbnMtdG8tYS10aHJlYWQtMQovLzo6IHZlcmRpY3QgUGFzcwovLzo6IHRvb2xzIHNpbGljb24KY2xhc3MgUG9pbnQgewogICAgaW50IHg7CiAgICBpbnQgeTsKfQoKY2xhc3MgVXBkYXRlWCB7CiAgICBQb2ludCBwOwogICAgaW50IG9sZFg7CgogICAgcmVxdWlyZXMgUGVybSh0aGlzLnAsIDFcMykgKiogUGVybSh0aGlzLnAueCwgMSkgKioKICAgICAgICAgICAgIFBlcm0ob2xkWCwgcmVhZCkgKiogb2xkWCA9PSB0aGlzLnAueDsKICAgIGVuc3VyZXMgUGVybShvbGRYLCByZWFkKTsKICAgIGVuc3VyZXMgUGVybSh0aGlzLnAsIDFcMykgKiogUG9pbnRzVG8odGhpcy5wLngsIHdyaXRlLCBvbGRYICsgMSk7CiAgICBydW4gewogICAgICAgIFBvaW50IHEgPSB0aGlzLnA7CiAgICAgICAgcS54ID0gcS54ICsgMTsKICAgIH0KfQoKY2xhc3MgVXBkYXRlWSB7CiAgICBQb2ludCBwOwogICAgaW50IG9sZFk7CgogICAgcmVxdWlyZXMgUGVybSh0aGlzLnAsIDFcMykgKiogUGVybSh0aGlzLnAueSwgMSkgKioKICAgICAgICAgICAgIFBlcm0ob2xkWSwgcmVhZCkgKiogb2xkWSA9PSB0aGlzLnAueTsKICAgIGVuc3VyZXMgUGVybShvbGRZLCByZWFkKTsKICAgIGVuc3VyZXMgUGVybSh0aGlzLnAsIDFcMykgKiogUG9pbnRzVG8odGhpcy5wLnksIHdyaXRlLCBvbGRZICsgMSk7CiAgICBydW4gewogICAgICAgIFBvaW50IHEgPSB0aGlzLnA7CiAgICAgICAgcS55ID0gcS55ICsgMTsKICAgIH0KfQoKdm9pZCB1cGRhdGVQb2ludCgpIHsKICAgIFBvaW50IHAgPSBuZXcgUG9pbnQoKTsKICAgIHAueCA9IDI7CiAgICBwLnkgPSA2OwoKICAgIFVwZGF0ZVggdXBkYXRlWCA9IG5ldyBVcGRhdGVYKCk7CiAgICB1cGRhdGVYLnAgPSBwOwogICAgdXBkYXRlWC5vbGRYID0gcC54OwogICAgZm9yayB1cGRhdGVYOwoKICAgIFVwZGF0ZVkgdXBkYXRlWSA9IG5ldyBVcGRhdGVZKCk7CiAgICB1cGRhdGVZLnAgPSBwOwogICAgdXBkYXRlWS5vbGRZID0gcC55OwogICAgZm9yayB1cGRhdGVZOwoKICAgIGpvaW4gdXBkYXRlWDsKICAgIGpvaW4gdXBkYXRlWTsKCiAgICBhc3NlcnQgUG9pbnRzVG8ocC54LCB3cml0ZSwgMykgKiogUG9pbnRzVG8ocC55LCB3cml0ZSwgNyk7Cn0=" data-template-kind="test" data-case-name="wiki-passing-permissions-to-a-thread-1" data-case-verdict="Pass" data-language-ext="pvl" data-language-label="pvl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">class Point {
+    int x;
+    int y;
+}
+
+class UpdateX {
+    Point p;
+    int oldX;
+
+    requires Perm(this.p, 1\3) ** Perm(this.p.x, 1) **
+             Perm(oldX, read) ** oldX == this.p.x;
+    ensures Perm(oldX, read);
+    ensures Perm(this.p, 1\3) ** PointsTo(this.p.x, write, oldX + 1);
+    run {
+        Point q = this.p;
+        q.x = q.x + 1;
+    }
+}
+
+class UpdateY {
+    Point p;
+    int oldY;
+
+    requires Perm(this.p, 1\3) ** Perm(this.p.y, 1) **
+             Perm(oldY, read) ** oldY == this.p.y;
+    ensures Perm(oldY, read);
+    ensures Perm(this.p, 1\3) ** PointsTo(this.p.y, write, oldY + 1);
+    run {
+        Point q = this.p;
+        q.y = q.y + 1;
+    }
+}
+
+void updatePoint() {
+    Point p = new Point();
+    p.x = 2;
+    p.y = 6;
+
+    UpdateX updateX = new UpdateX();
+    updateX.p = p;
+    updateX.oldX = p.x;
+    fork updateX;
+
+    UpdateY updateY = new UpdateY();
+    updateY.p = p;
+    updateY.oldY = p.y;
+    fork updateY;
+
+    join updateX;
+    join updateY;
+
+    assert PointsTo(p.x, write, 3) ** PointsTo(p.y, write, 7);
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>The auxiliary fields <code>oldX</code> and <code>oldY</code> store the values that each thread promises to increment. This is useful because <code>\old</code> is currently not supported in postconditions of <code>run</code> blocks.</p>
+<h2 id="forking-and-joining-several-threads"><a class="header" href="#forking-and-joining-several-threads">Forking and joining several threads</a></h2>
+<p>For a fixed number of threads, fork each object and then join each running object.</p>
+<!-- test Pass -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLWZvcmtpbmctYW5kLWpvaW5pbmctc2V2ZXJhbC10aHJlYWRzLTEKLy86OiB2ZXJkaWN0IFBhc3MKLy86OiB0b29scyBzaWxpY29uCmNsYXNzIFdvcmtlciB7CiAgICBpbnQgcmVzdWx0OwoKICAgIGVuc3VyZXMgUGVybShyZXN1bHQsIHdyaXRlKSAqKiBpZGxlKHRoaXMpOwogICAgY29uc3RydWN0b3IoKSB7CiAgICAgICAgcmVzdWx0ID0gMDsKICAgIH0KCiAgICByZXF1aXJlcyBQZXJtKHJlc3VsdCwgd3JpdGUpOwogICAgZW5zdXJlcyBQZXJtKHJlc3VsdCwgd3JpdGUpICoqIHJlc3VsdCA9PSAxOwogICAgcnVuIHsKICAgICAgICByZXN1bHQgPSAxOwogICAgfQp9Cgp2b2lkIHR3b1dvcmtlcnMoKSB7CiAgICBXb3JrZXIgdzEgPSBuZXcgV29ya2VyKCk7CiAgICBXb3JrZXIgdzIgPSBuZXcgV29ya2VyKCk7CgogICAgZm9yayB3MTsKICAgIGZvcmsgdzI7CgogICAgYXNzZXJ0IHJ1bm5pbmcodzEpICoqIHJ1bm5pbmcodzIpOwoKICAgIGpvaW4gdzE7CiAgICBqb2luIHcyOwoKICAgIGFzc2VydCBpZGxlKHcxKSAqKiBpZGxlKHcyKTsKICAgIGFzc2VydCB3MS5yZXN1bHQgPT0gMSAqKiB3Mi5yZXN1bHQgPT0gMTsKfQ==" data-template-kind="test" data-case-name="wiki-forking-and-joining-several-threads-1" data-case-verdict="Pass" data-language-ext="pvl" data-language-label="pvl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">class Worker {
+    int result;
+
+    ensures Perm(result, write) ** idle(this);
+    constructor() {
+        result = 0;
+    }
+
+    requires Perm(result, write);
+    ensures Perm(result, write) ** result == 1;
+    run {
+        result = 1;
+    }
+}
+
+void twoWorkers() {
+    Worker w1 = new Worker();
+    Worker w2 = new Worker();
+
+    fork w1;
+    fork w2;
+
+    assert running(w1) ** running(w2);
+
+    join w1;
+    join w2;
+
+    assert idle(w1) ** idle(w2);
+    assert w1.result == 1 ** w2.result == 1;
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>When the number of threads is determined by a collection, loop invariants must describe which thread objects are idle, which are running, and which permissions are still available.</p>
+<p>The following pattern first constructs idle thread objects, then forks them all, and finally joins them all.</p>
+<!-- test Pass -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLWZvcmtpbmctYW5kLWpvaW5pbmctc2V2ZXJhbC10aHJlYWRzLTIKLy86OiB2ZXJkaWN0IFBhc3MKLy86OiB0b29scyBzaWxpY29uCmNsYXNzIE5vZGVUaHJlYWQgewogICAgaW50IHZhbDsKCiAgICBlbnN1cmVzIFBlcm0odmFsLCB3cml0ZSkgKiogaWRsZSh0aGlzKTsKICAgIGNvbnN0cnVjdG9yKGludCB2KSB7CiAgICAgICAgdmFsID0gdjsKICAgIH0KCiAgICBydW4gewogICAgfQp9Cgp2b2lkIGZvcmtKb2luTG9vcChzZXE8aW50PiBub2RlcykgewogICAgc2VxPE5vZGVUaHJlYWQ+IHRocmVhZHMgPSBzZXE8Tm9kZVRocmVhZD4ge307CgogICAgbG9vcF9pbnZhcmlhbnQgMCA8PSBpICYmIGkgPD0gfG5vZGVzfDsKICAgIGxvb3BfaW52YXJpYW50IHx0aHJlYWRzfCA9PSBpOwogICAgbG9vcF9pbnZhcmlhbnQgKFxmb3JhbGwgaW50IGo9MC4ufHRocmVhZHN8LCBpbnQgaz0wLi58dGhyZWFkc3w7IHRocmVhZHNbal0gPT0gdGhyZWFkc1trXSA9PT4gaiA9PSBrKTsKICAgIGxvb3BfaW52YXJpYW50IChcZm9yYWxsKiBpbnQgaj0wLi58dGhyZWFkc3w7IGlkbGUodGhyZWFkc1tqXSkpOwogICAgbG9vcF9pbnZhcmlhbnQgKFxmb3JhbGwqIGludCBqPTAuLnx0aHJlYWRzfDsgUGVybSh0aHJlYWRzW2pdLnZhbCwgd3JpdGUpKTsKICAgIGZvciAoaW50IGkgPSAwOyBpIDwgfG5vZGVzfDsgaSsrKSB7CiAgICAgICAgTm9kZVRocmVhZCBub2RlID0gbmV3IE5vZGVUaHJlYWQobm9kZXNbaV0pOwogICAgICAgIHRocmVhZHMgPSB0aHJlYWRzICsgW25vZGVdOwogICAgICAgIGFzc2VydCBpZGxlKHRocmVhZHNbaV0pOwogICAgfQoKICAgIGxvb3BfaW52YXJpYW50IDAgPD0gaSAmJiBpIDw9IHxub2Rlc3w7CiAgICBsb29wX2ludmFyaWFudCAoXGZvcmFsbCBpbnQgaj0wLi58dGhyZWFkc3wsIGludCBrPTAuLnx0aHJlYWRzfDsgdGhyZWFkc1tqXSA9PSB0aHJlYWRzW2tdID09PiBqID09IGspOwogICAgbG9vcF9pbnZhcmlhbnQgKFxmb3JhbGwqIGludCBqPWkuLnx0aHJlYWRzfDsgaWRsZSh0aHJlYWRzW2pdKSk7CiAgICBsb29wX2ludmFyaWFudCAoXGZvcmFsbCogaW50IGo9MC4uaTsgcnVubmluZyh0aHJlYWRzW2pdKSk7CiAgICBsb29wX2ludmFyaWFudCAoXGZvcmFsbCogaW50IGo9MC4ufHRocmVhZHN8OyBQZXJtKHRocmVhZHNbal0udmFsLCB3cml0ZSkpOwogICAgZm9yIChpbnQgaSA9IDA7IGkgPCB8bm9kZXN8OyBpKyspIHsKICAgICAgICBmb3JrIHRocmVhZHNbaV07CiAgICB9CgogICAgbG9vcF9pbnZhcmlhbnQgMCA8PSBpICYmIGkgPD0gfG5vZGVzfDsKICAgIGxvb3BfaW52YXJpYW50IHx0aHJlYWRzfCA9PSB8bm9kZXN8OwogICAgbG9vcF9pbnZhcmlhbnQgKFxmb3JhbGwqIGludCBqPWkuLnx0aHJlYWRzfDsgcnVubmluZyh0aHJlYWRzW2pdKSk7CiAgICBsb29wX2ludmFyaWFudCAoXGZvcmFsbCogaW50IGo9MC4uaTsgaWRsZSh0aHJlYWRzW2pdKSk7CiAgICBmb3IgKGludCBpID0gMDsgaSA8IHxub2Rlc3w7IGkrKykgewogICAgICAgIGpvaW4gdGhyZWFkc1tpXTsKICAgIH0KfQ==" data-template-kind="test" data-case-name="wiki-forking-and-joining-several-threads-2" data-case-verdict="Pass" data-language-ext="pvl" data-language-label="pvl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">class NodeThread {
+    int val;
+
+    ensures Perm(val, write) ** idle(this);
+    constructor(int v) {
+        val = v;
+    }
+
+    run {
+    }
+}
+
+void forkJoinLoop(seq&lt;int&gt; nodes) {
+    seq&lt;NodeThread&gt; threads = seq&lt;NodeThread&gt; {};
+
+    loop_invariant 0 &lt;= i &amp;&amp; i &lt;= |nodes|;
+    loop_invariant |threads| == i;
+    loop_invariant (\forall int j=0..|threads|, int k=0..|threads|; threads[j] == threads[k] ==&gt; j == k);
+    loop_invariant (\forall* int j=0..|threads|; idle(threads[j]));
+    loop_invariant (\forall* int j=0..|threads|; Perm(threads[j].val, write));
+    for (int i = 0; i &lt; |nodes|; i++) {
+        NodeThread node = new NodeThread(nodes[i]);
+        threads = threads + [node];
+        assert idle(threads[i]);
+    }
+
+    loop_invariant 0 &lt;= i &amp;&amp; i &lt;= |nodes|;
+    loop_invariant (\forall int j=0..|threads|, int k=0..|threads|; threads[j] == threads[k] ==&gt; j == k);
+    loop_invariant (\forall* int j=i..|threads|; idle(threads[j]));
+    loop_invariant (\forall* int j=0..i; running(threads[j]));
+    loop_invariant (\forall* int j=0..|threads|; Perm(threads[j].val, write));
+    for (int i = 0; i &lt; |nodes|; i++) {
+        fork threads[i];
+    }
+
+    loop_invariant 0 &lt;= i &amp;&amp; i &lt;= |nodes|;
+    loop_invariant |threads| == |nodes|;
+    loop_invariant (\forall* int j=i..|threads|; running(threads[j]));
+    loop_invariant (\forall* int j=0..i; idle(threads[j]));
+    for (int i = 0; i &lt; |nodes|; i++) {
+        join threads[i];
+    }
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>The distinctness invariant is important: it tells VerCors that two different indices do not refer to the same thread object. Without this, permissions such as <code>idle(threads[j])</code> and <code>running(threads[j])</code> may accidentally describe the same object through different indices.</p>
+<h2 id="returning-computed-results"><a class="header" href="#returning-computed-results">Returning computed results</a></h2>
+<p>Fork/join threads are useful when the result of a computation is stored in fields and collected after joining.</p>
+<p>For example, the following thread recursively computes a Fibonacci number. Each non-base case creates two child thread objects, forks both, joins both, and then combines their <code>output</code> fields.</p>
+<!-- test Pass -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLXJldHVybmluZy1jb21wdXRlZC1yZXN1bHRzLTEKLy86OiB2ZXJkaWN0IFBhc3MKLy86OiB0b29scyBzaWxpY29uCmRlY3JlYXNlcyBuOwpwdXJlIGludCBmaWIoaW50IG4pID0gbiA8IDIgPyAxIDogZmliKG4gLSAxKSArIGZpYihuIC0gMik7CgpjbGFzcyBGaWIgewogICAgaW50IGlucHV0OwogICAgaW50IG91dHB1dDsKCiAgICByZXF1aXJlcyBQZXJtKGlucHV0LCAxXDEwKSAqKiBQZXJtKG91dHB1dCwgd3JpdGUpOwogICAgZW5zdXJlcyBQZXJtKGlucHV0LCAxXDEwKSAqKiBQZXJtKG91dHB1dCwgd3JpdGUpICoqIG91dHB1dCA9PSBmaWIoaW5wdXQpOwogICAgcnVuIHsKICAgICAgICBpZiAoaW5wdXQgPCAyKSB7CiAgICAgICAgICAgIG91dHB1dCA9IDE7CiAgICAgICAgfSBlbHNlIHsKICAgICAgICAgICAgRmliIGYxID0gbmV3IEZpYihpbnB1dCAtIDEpOwogICAgICAgICAgICBGaWIgZjIgPSBuZXcgRmliKGlucHV0IC0gMik7CgogICAgICAgICAgICBmb3JrIGYxOwogICAgICAgICAgICBmb3JrIGYyOwogICAgICAgICAgICBqb2luIGYxOwogICAgICAgICAgICBqb2luIGYyOwoKICAgICAgICAgICAgb3V0cHV0ID0gZjEub3V0cHV0ICsgZjIub3V0cHV0OwogICAgICAgIH0KICAgIH0KCiAgICBlbnN1cmVzIFBlcm0oaW5wdXQsIHdyaXRlKSAqKiBQZXJtKG91dHB1dCwgd3JpdGUpICoqIGlucHV0ID09IG47CiAgICBlbnN1cmVzIGlkbGUodGhpcyk7CiAgICBjb25zdHJ1Y3RvcihpbnQgbikgewogICAgICAgIGlucHV0ID0gbjsKICAgIH0KfQ==" data-template-kind="test" data-case-name="wiki-returning-computed-results-1" data-case-verdict="Pass" data-language-ext="pvl" data-language-label="pvl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">decreases n;
+pure int fib(int n) = n &lt; 2 ? 1 : fib(n - 1) + fib(n - 2);
+
+class Fib {
+    int input;
+    int output;
+
+    requires Perm(input, 1\10) ** Perm(output, write);
+    ensures Perm(input, 1\10) ** Perm(output, write) ** output == fib(input);
+    run {
+        if (input &lt; 2) {
+            output = 1;
+        } else {
+            Fib f1 = new Fib(input - 1);
+            Fib f2 = new Fib(input - 2);
+
+            fork f1;
+            fork f2;
+            join f1;
+            join f2;
+
+            output = f1.output + f2.output;
+        }
+    }
+
+    ensures Perm(input, write) ** Perm(output, write) ** input == n;
+    ensures idle(this);
+    constructor(int n) {
+        input = n;
+    }
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>The constructor provides ownership of the fields and establishes <code>idle(this)</code>. The <code>run</code> contract then specifies that after joining a <code>Fib</code> thread, its <code>output</code> field contains <code>fib(input)</code>.</p>
+<h2 id="sharing-state-with-locks"><a class="header" href="#sharing-state-with-locks">Sharing state with locks</a></h2>
+<p>If multiple threads need to access the same field, they cannot all receive write permission for that field directly. Instead, put the shared permission in a synchronization object, such as a lock invariant, and let each thread acquire the lock before touching the shared state.</p>
+<p>The syntax and details of locks are explained in <a href="Atomics-and-Locks.html">Atomics and Locks</a>. In a fork/join program, the important idea is that the shared object is committed before it is given to the threads, and each thread’s <code>run</code> block requires enough information to lock it.</p>
+<!-- test Pass -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLXNoYXJpbmctc3RhdGUtd2l0aC1sb2Nrcy0xCi8vOjogdmVyZGljdCBQYXNzCi8vOjogdG9vbHMgc2lsaWNvbgpsb2NrX2ludmFyaWFudCBQZXJtKHgsIHdyaXRlKTsKY2xhc3MgQ291bnRlciB7CiAgICBpbnQgeDsKCiAgICBlbnN1cmVzIGNvbW1pdHRlZCh0aGlzKTsKICAgIGNvbnN0cnVjdG9yKCkgewogICAgICAgIHggPSAwOwogICAgICAgIGNvbW1pdCB0aGlzOwogICAgfQoKICAgIHJlcXVpcmVzIGNvbW1pdHRlZCh0aGlzKTsKICAgIHZvaWQgbWFpbigpIHsKICAgICAgICBDb3VudGVyV29ya2VyIHcxID0gbmV3IENvdW50ZXJXb3JrZXIodGhpcyk7CiAgICAgICAgQ291bnRlcldvcmtlciB3MiA9IG5ldyBDb3VudGVyV29ya2VyKHRoaXMpOwoKICAgICAgICBmb3JrIHcxOwogICAgICAgIGZvcmsgdzI7CiAgICAgICAgam9pbiB3MTsKICAgICAgICBqb2luIHcyOwogICAgfQp9CgpjbGFzcyBDb3VudGVyV29ya2VyIHsKICAgIENvdW50ZXIgY291bnRlcjsKCiAgICBlbnN1cmVzIFZhbHVlKGNvdW50ZXIpICoqIGNvdW50ZXIgPT0gYyAqKiBpZGxlKHRoaXMpOwogICAgY29uc3RydWN0b3IoQ291bnRlciBjKSB7CiAgICAgICAgY291bnRlciA9IGM7CiAgICB9CgogICAgY29udGV4dCBWYWx1ZShjb3VudGVyKSAqKiBjb3VudGVyICE9IG51bGwgKiogY29tbWl0dGVkKGNvdW50ZXIpOwogICAgcnVuIHsKICAgICAgICBsb2NrIGNvdW50ZXI7CiAgICAgICAgY291bnRlci54ID0gY291bnRlci54ICsgMTsKICAgICAgICB1bmxvY2sgY291bnRlcjsKICAgIH0KfQ==" data-template-kind="test" data-case-name="wiki-sharing-state-with-locks-1" data-case-verdict="Pass" data-language-ext="pvl" data-language-label="pvl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">lock_invariant Perm(x, write);
+class Counter {
+    int x;
+
+    ensures committed(this);
+    constructor() {
+        x = 0;
+        commit this;
+    }
+
+    requires committed(this);
+    void main() {
+        CounterWorker w1 = new CounterWorker(this);
+        CounterWorker w2 = new CounterWorker(this);
+
+        fork w1;
+        fork w2;
+        join w1;
+        join w2;
+    }
+}
+
+class CounterWorker {
+    Counter counter;
+
+    ensures Value(counter) ** counter == c ** idle(this);
+    constructor(Counter c) {
+        counter = c;
+    }
+
+    context Value(counter) ** counter != null ** committed(counter);
+    run {
+        lock counter;
+        counter.x = counter.x + 1;
+        unlock counter;
+    }
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>The workers do not own <code>counter.x</code> directly. The permission for <code>x</code> is stored in the lock invariant of <code>Counter</code>. Each worker temporarily obtains that permission between <code>lock counter;</code> and <code>unlock counter;</code>, and must restore the invariant before unlocking.</p>
+<h2 id="common-mistakes"><a class="header" href="#common-mistakes">Common mistakes</a></h2>
+<p>The thread lifecycle is linear: each <code>fork</code> must start from an <code>idle</code> thread state, and each <code>join</code> must start from a <code>running</code> thread state.</p>
+<p>Typical mistakes are:</p>
+<ul>
+<li>Forking the same object twice without a join in between.</li>
+<li>Joining an object that has not been forked.</li>
+<li>Forgetting to establish <code>idle(this)</code> in the constructor of a thread class.</li>
+<li>Forgetting to provide the resources required by the <code>run</code> precondition before <code>fork</code>.</li>
+<li>Trying to use resources in the parent thread while those resources have been transferred to a running thread.</li>
+<li>Sharing write permission for the same field between threads directly, instead of using disjoint permissions or a synchronization mechanism such as a lock.</li>
+</ul>
+<p>As a rule of thumb, write the lifecycle facts explicitly in the surrounding contracts and loop invariants: use <code>idle(t)</code> for threads that may still be forked, <code>running(t)</code> for threads that must still be joined, and the <code>run</code> contract for the resources transferred between the two states.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="Parallel-Blocks.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="GPGPU-Verification.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="Parallel-Blocks.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="GPGPU-Verification.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-xmark><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M310.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L160 210.7 54.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L114.7 256 9.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 301.3 265.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L205.3 256 310.6 150.6z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+        <template id=fa-pencil><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M421.7 220.3l-11.3 11.3-22.6 22.6-205 205c-6.6 6.6-14.8 11.5-23.8 14.1L30.8 511c-8.4 2.5-17.5 .2-23.7-6.1S-1.5 489.7 1 481.2L38.7 353.1c2.6-9 7.5-17.2 14.1-23.8l205-205 22.6-22.6 11.3-11.3 33.9 33.9 62.1 62.1 33.9 33.9zM96 353.9l-9.3 9.3c-.9 .9-1.6 2.1-2 3.4l-25.3 86 86-25.3c1.3-.4 2.5-1.1 3.4-2l9.3-9.3H112c-8.8 0-16-7.2-16-16V353.9zM453.3 19.3l39.4 39.4c25 25 25 65.5 0 90.5l-14.5 14.5-22.6 22.6-11.3 11.3-33.9-33.9-62.1-62.1L314.3 67.7l11.3-11.3 22.6-22.6 14.5-14.5c25-25 65.5-25 90.5 0z"/></svg></span></template>
+
+
+        <script>
+            window.playground_line_numbers = true;
+        </script>
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="ace-2a3cd908.js"></script>
+        <script src="mode-rust-2c9d5c9a.js"></script>
+        <script src="../js/mode-annotated_c.js"></script>
+        <script src="../js/mode-annotated_cuda.js"></script>
+        <script src="../js/mode-annotated_java.js"></script>
+        <script src="../js/mode-annotated_opencl.js"></script>
+        <script src="../js/mode-annotated_sycl.js"></script>
+        <script src="../js/mode-pvl.js"></script>
+        <script src="../js/mode-viper.js"></script>
+
+        <script src="editor-16ca416c.js"></script>
+        <script src="theme-dawn-4493f9c8.js"></script>
+        <script src="theme-tomorrow_night-9dbe62a9.js"></script>
+        <script src="../js/theme-chrome.js"></script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-09f2665d.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-a6f5d318.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    
+<div id="footer" class="dark">
+    <footer class="container">
+        <a href="//www.utwente.nl/en/eemcs/fmt/" target="_blank"><img src="/images/FMT logo.png" alt="Formal Methods & Tools logo" title="Formal Methods & Tools"></a>
+        <hr>
+        <div class="copyright">
+            <a href="/about/#credits" target="_blank">Copyright <code id="copyright">&copy</code> The VerCors Project 2007-2026</a>
+            | <a href="//www.utwente.nl/en/eemcs/fmt/" target="_blank">FMT - University of Twente</a>
+            | <a href="/about/">About Us</a>
+        </div>
+    </footer>
+</div>
+</body>
+</html>

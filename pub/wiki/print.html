@@ -54,10 +54,10 @@
             const path_to_root = "";
             const default_light_theme = "vercors";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-c08e9775.js";
+            window.path_to_searchindex_js = "searchindex-396414da.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc-51d3aee6.js"></script>
+        <script src="toc-59d4aebb.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -942,6 +942,96 @@ void bar(int x, int y, int z) {
 <li><a href="https://stackoverflow.com/questions/50668693/what-are-triggers-in-dafny-boogie">Stack Overflow: quantifiers - What are triggers in Dafny/Boogie?</a></li>
 <li><a href="http://purl.utwente.nl/essays/80892">Extending Support for Axiomatic Data Types in VerCors, Section 2.3</a>. Masters thesis by Ömer Şakar. Includes a visual explanation of the workings of triggers using Axiom Profiler, a quantifier instantiation debugging tool.</li>
 </ul>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="rewriting-quantifiers"><a href="#rewriting-quantifiers" class="header">Rewriting Quantifiers</a></h1>
+<p>The underlying verification tools on which VerCors relies, such as Viper and the automatic theorem prover Z3, do not allow logical or arithmetic operators in quantifier triggers.[^1] However, a verification condition is often most naturally expressed using these operators, and a trigger involving them may be the only suitable choice. In some cases, a quantifier can be <em>rewritten</em> into an equivalent expression with suitable triggers. This section explains which patterns VerCors can <em>automatically</em> rewrite for you.[^2]</p>
+<p>[^1] This restriction has good reasons. Suppose that <code>+</code> were allowed in triggers and that you chose <code>f(x+5)</code> as a trigger for <code>∀ x; 0&lt;=x &amp;&amp; x&lt;10; {:f(x+5):}&gt;0</code>. The trigger would fire for <code>f(1+5)</code>, because it can match the expression syntactically. However, it would not fire for <code>f(5+1)</code> or <code>f(6)</code>, which could lead to unexpected results for users.</p>
+<p>[^2] The paper <a href="https://doi.org/10.1007/978-3-032-32519-8_5">Scalable Deductive Verification of Data-Level Parallel Programs</a> explains some of the rewrite patterns and formal proofs for these patterns.</p>
+<blockquote>
+<p>![Note] Contracts for parallel blocks and GPU kernels are automatically quantified over the parallel threads. For example, writing <code>context xs[blockIdx.x*blockDim.x + threadIdx.x]</code> in a CUDA kernel contract results in <code>context (∀ int blockIdx.x=0..gridDim.x, int threadIdx.x=0..blockDim.x; xs[blockIdx.x*blockDim.x + threadIdx.x]);</code>. The most reasonable trigger here is <code>xs[blockIdx.x*blockDim.x + threadIdx.x]</code>, but this expression needs to be rewritten before it is accepted as a trigger. Automatic rewriting is therefore often useful for parallel constructs in VerCors.</p>
+</blockquote>
+<h2 id="linear-nested-quantifiers"><a class="header" href="#linear-nested-quantifiers">Linear (Nested) Quantifiers</a></h2>
+<p>An access pattern such as <code>xs[j*5+i]</code> often occurs in programs processing flattened multidimensional arrays. For instance, the following code sums a multidimensional array.</p>
+<pre><code class="language-pvl editable read-only">int sum = 0;
+for(int j=0; j&lt;n; j++)
+  for(int i=0; i&lt;5; i++)
+    sum += xs[j*5+i]
+</code></pre>
+<p>The outer loop would need permission to read from <code>xs</code>, which could be expressed as the following.</p>
+<pre><code class="language-pvl editable read-only">loop_invariant (∀ int i, int j; 0 &lt;= i &amp;&amp; i &lt; 5 &amp;&amp; 0&lt;= j &amp;&amp; j &lt; n;
+  Perm(xs[j*5+i], read));
+</code></pre>
+<p>This is equivalent to the following quantifier.</p>
+<pre><code class="language-pvl editable read-only">loop_invariant (∀ int ij; 0 &lt;= ij &amp;&amp; ij &lt; 5*n; Perm(xs[ij], read));
+</code></pre>
+<p>Thus, when <code>xs[j*5+i]</code> is given as the trigger (that is, <code>{:xs[j*5+i]:}</code>) for the quantifier above, VerCors automatically rewrites the quantifier and uses <code>xs[ij]</code> as the new trigger.</p>
+<p>In general, VerCors can rewrite a multidimensional quantifier into a one-dimensional quantifier with a suitable trigger if the pattern in the trigger is injective. For the quantifier above, the pattern <code>j*5+i</code> is injective: different valid values of <code>i</code> and <code>j</code> never access the same element of <code>xs</code>.</p>
+<h3 id="general-pattern"><a class="header" href="#general-pattern">General pattern</a></h3>
+<p>The most general pattern that VerCors supports for this rewrite is as follows:</p>
+<pre><code class="language-pvl editable read-only">f(x_1, ..., x_n) = a_1*x_1 + ... a_n*x_n + b;
+</code></pre>
+<p>where the inlined function <code>f</code> is then used as follows:</p>
+<pre><code class="language-pvl editable read-only">(∀ int x_1, ..., int x_n; C(x_1, ..., x_n); 
+  R({:A(f(x_1, ..., x_n)):}, (x_1, ..., x_n)));
+</code></pre>
+<p>Here, <code>x_1</code>, … <code>x_n</code> are the quantified variables, and <code>C(x_1, ..., x_n)</code> represents their domain. It can be viewed as an inlined Boolean function that expresses the precise constraints on <code>x_1</code>, … <code>x_n</code>. <code>R</code> is the resulting condition or resource that the quantifier expresses; it accesses some <code>A</code>^[3] in a specific manner.</p>
+<p>[^3] <code>A</code> can be an array, but also functions and other data structures.</p>
+<p>VerCors will try to rewrite this towards the following</p>
+<pre><code class="language-pvl editable read-only">(∀ int x; Y(x); R({:A(x):}, f_inv(x)));
+</code></pre>
+<p>provided that the access is injective. In that case, VerCors finds the <em>inverse</em> function of <code>f</code>, written here as <code>f_inv</code>, and a new domain <code>Y</code>. <code>A[x]</code> is then used as the trigger. VerCors can prove that the access is injective if the following conditions hold:</p>
+<ol>
+<li>Each <code>x_i</code> has an inclusive lower bound, denoted by <code>x_min_i</code>.</li>
+<li>All <em>strides</em> (the <code>a_i</code>) are non-zero.</li>
+<li>All <code>a_i</code> have the same sign.</li>
+<li>The stride of <code>x_{i+1}</code>, namely <code>a_{i+1}</code>, is greater than the maximum contribution of the lower dimensions. More precisely, every <code>i &lt; n</code>:</li>
+</ol>
+<pre><code class="language-pvl editable read-only">abs(a_1)*(x_1-x_min_1) + ... + abs(a_i)*(x_i-x_min_i) &lt; abs(a_{i+1})
+</code></pre>
+<p>Here, <code>abs</code> denotes the absolute value.</p>
+<p>For more details on this precise procedure, and a machine checked proof, we refer to the paper <a href="https://doi.org/10.1007/978-3-032-32519-8_5">Scalable Deductive Verification of Data-Level Parallel Programs</a>.</p>
+<blockquote>
+<p>![Caution] If the pattern is completely general (that is, the <code>a_i</code> do not resolve to concrete numbers), VerCors may run into problems with <a href="#cause-non-linear-arithmetic">non-linear arithmetic</a>. This is not due to the rewriting itself; it is because the given pattern is already non-linear.</p>
+</blockquote>
+<h3 id="multiple-patterns"><a class="header" href="#multiple-patterns">Multiple patterns</a></h3>
+<p>The procedure above also works when multiple patterns are present. For example, in the following quantifier, the function <code>g</code> has two patterns as arguments: <code>j*5+i</code> and <code>h-4</code>.</p>
+<pre><code class="language-pvl editable read-only">(∀ int i, int j, int h; 0 &lt;= i &amp;&amp; i &lt; 5 &amp;&amp; 0&lt;= j &amp;&amp; j &lt; n &amp;&amp; h&gt;=0 &amp;&amp; h&lt;2; 
+ {:g(j*5+i, h-4):});
+</code></pre>
+<p>Thus, it is rewritten to the following equivalent quantifier:</p>
+<pre><code class="language-pvl editable read-only">(∀ int ij, int h; 0 &lt;= ij &amp;&amp; ij &lt; 5*n &amp;&amp; h&gt;=-4 &amp;&amp; h&lt;-2; 
+ {:g(ij, h):});
+</code></pre>
+<p>However, each pattern must be <em>independent</em>; that is, patterns cannot refer to the same quantified variables.</p>
+<h2 id="other-rewrites"><a class="header" href="#other-rewrites">Other Rewrites</a></h2>
+<p>VerCors also automatically rewrites a quantifier containing arithmetic when it already has one pattern that is suitable as a trigger. It introduces a new quantified variable for this purpose. For example, in the following quantifier, the first argument to <code>g</code> has <code>i</code> as its pattern, which is a valid trigger. Therefore, other arguments containing <code>i</code> can be replaced.</p>
+<pre><code class="language-pvl editable read-only">(∀ int i; i&gt;0; {:g(i, i+1):});
+</code></pre>
+<p>This is rewritten as follows, since we can introduce a new quantified variable for the expression <code>i+1</code>.</p>
+<pre><code class="language-pvl editable read-only">(∀ int i, int j; i&gt;0 &amp;&amp; j==i+1; g(i, j));
+</code></pre>
+<p>This can be combined with the rewriting of linear quantifiers above if needed.</p>
+<h2 id="alternatives-to-rewriting-linear-patterns"><a class="header" href="#alternatives-to-rewriting-linear-patterns">Alternatives to rewriting linear patterns</a></h2>
+<p>Instead of automatically rewriting patterns, you can also replace the arithmetic with helper functions. So long as you use the exact helper functions, you can use these to trigger the quantifiers correctly.</p>
+<p>For instance, you can replace the above example with helper functions for <code>+</code> and <code>*</code>:</p>
+<pre><code class="language-pvl editable read-only">pure int plus(int a, int b) = a + b;
+pure int mul(int a, int b) = a * b;
+
+...
+loop_invariant (∀ int i, int j; 0 &lt;= i &amp;&amp; i &lt; 5 &amp;&amp; 0&lt;= j &amp;&amp; j &lt; n;
+  Perm({:xs[plus(mul(j,5),i)]:}, read));
+...
+</code></pre>
+<p>Or alternatively, make an index function as follows.</p>
+<pre><code class="language-pvl editable read-only">pure int idx(int a, int b) = 5*a+b;
+...
+loop_invariant (∀ int i, int j; 0 &lt;= i &amp;&amp; i &lt; 5 &amp;&amp; 0&lt;= j &amp;&amp; j &lt; n;
+  Perm({:xs[idx(a,b)]:}, read));
+...
+</code></pre>
+<blockquote>
+<p>![Caution] Remember that the quantifiers only get triggered on syntactical equivalence. Thus even if <code>xs[plus(i, mul(j,5))]</code> is semantically equivalent to <code>xs[plus(mul(j,5), i)]</code>, only the latter will trigger the quantifier.</p>
+</blockquote>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="permissions"><a href="#permissions" class="header">Permissions</a></h1>
 <p><em>This feature is supported for all languages.</em></p>
@@ -2454,8 +2544,491 @@ class Main {
 
 <p>In the above example, for each object we increase its <code>val</code> by one in parallel. As we can see, thread blocks are without names and thread identifiers in this case.</p>
 <div style="break-before: page; page-break-before: always;"></div>
+<h1 id="concurrent-threads"><a href="#concurrent-threads" class="header">Concurrent Threads</a></h1>
+<p>In PVL, a class can describe a thread by defining a <code>run</code> block. After constructing an object of such a class, the object represents a thread that is ready to run. The thread can then be started with <code>fork</code> and waited for with <code>join</code>.</p>
+<p>This page explains the basic thread lifecycle first, and then shows how the same concepts combine with permissions, loops, and locks.</p>
+<h2 id="thread-classes-and-run-blocks"><a class="header" href="#thread-classes-and-run-blocks">Thread classes and <code>run</code> blocks</a></h2>
+<p>The intuition behind a thread class is that each object stores the data that its thread will use, while the <code>run</code> block stores the code that is executed when the thread starts.</p>
+<p>The syntax is:</p>
+<!-- test Pass -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLXRocmVhZC1jbGFzc2VzLWFuZC1ydW4tYmxvY2tzLTEKLy86OiB2ZXJkaWN0IFBhc3MKLy86OiB0b29scyBzaWxpY29uCmNsYXNzIFdvcmtlciB7CiAgICBydW4gewogICAgICAgIC8vIENvZGUgZXhlY3V0ZWQgYnkgdGhlIHRocmVhZAogICAgfQp9" data-template-kind="test" data-case-name="wiki-thread-classes-and-run-blocks-1" data-case-verdict="Pass" data-language-ext="pvl" data-language-label="pvl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">class Worker {
+    run {
+        // Code executed by the thread
+    }
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>The <code>run</code> block is not called like an ordinary method. Instead, it is started by forking an object of the class.</p>
+<p>A <code>run</code> block can have a contract, just like a method. Its precondition describes the resources that must be available when the thread is started. Its postcondition describes the resources and facts that are returned when the thread has finished and is joined.</p>
+<!-- test Pass -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLXRocmVhZC1jbGFzc2VzLWFuZC1ydW4tYmxvY2tzLTIKLy86OiB2ZXJkaWN0IFBhc3MKLy86OiB0b29scyBzaWxpY29uCmNsYXNzIFdvcmtlciB7CiAgICBpbnQgcmVzdWx0OwoKICAgIGVuc3VyZXMgUGVybShyZXN1bHQsIHdyaXRlKSAqKiBpZGxlKHRoaXMpOwogICAgY29uc3RydWN0b3IoKSB7CiAgICAgICAgcmVzdWx0ID0gMDsKICAgIH0KCiAgICByZXF1aXJlcyBQZXJtKHJlc3VsdCwgd3JpdGUpOwogICAgZW5zdXJlcyBQZXJtKHJlc3VsdCwgd3JpdGUpICoqIHJlc3VsdCA9PSAxOwogICAgcnVuIHsKICAgICAgICByZXN1bHQgPSAxOwogICAgfQp9" data-template-kind="test" data-case-name="wiki-thread-classes-and-run-blocks-2" data-case-verdict="Pass" data-language-ext="pvl" data-language-label="pvl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">class Worker {
+    int result;
+
+    ensures Perm(result, write) ** idle(this);
+    constructor() {
+        result = 0;
+    }
+
+    requires Perm(result, write);
+    ensures Perm(result, write) ** result == 1;
+    run {
+        result = 1;
+    }
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>The constructor postcondition contains <code>idle(this)</code>. This states that after construction the newly created object is an idle thread object, ready to be forked.</p>
+<h2 id="idle-and-running"><a class="header" href="#idle-and-running"><code>idle</code> and <code>running</code></a></h2>
+<p>Thread objects have a verification state. The two basic states are <code>idle(t)</code> and <code>running(t)</code>.</p>
+<p>The lifecycle is:</p>
+<pre><code class="language-text">idle --[fork]--&gt; running --[join]--&gt; idle
+</code></pre>
+<p>The expression <code>idle(t)</code> states that thread object <code>t</code> is not currently running. A freshly constructed object of a class with a <code>run</code> block starts in this state, provided the constructor establishes <code>idle(this)</code>.</p>
+<p>The expression <code>running(t)</code> states that thread object <code>t</code> has been forked and has not yet been joined.</p>
+<p>For example:</p>
+<!-- test Pass -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLWlkbGUtYW5kLXJ1bm5pbmctMQovLzo6IHZlcmRpY3QgUGFzcwovLzo6IHRvb2xzIHNpbGljb24KY2xhc3MgVGhyZWFkT2JqZWN0IHsKICAgIGVuc3VyZXMgaWRsZSh0aGlzKTsKICAgIGNvbnN0cnVjdG9yKCkgewogICAgfQoKICAgIHJ1biB7CiAgICB9CgogICAgdm9pZCB0ZXN0TGlmZWN5Y2xlKCkgewogICAgICAgIFRocmVhZE9iamVjdCB0ID0gbmV3IFRocmVhZE9iamVjdCgpOwogICAgICAgIGFzc2VydCBpZGxlKHQpOwoKICAgICAgICBmb3JrIHQ7CiAgICAgICAgYXNzZXJ0IHJ1bm5pbmcodCk7CgogICAgICAgIGpvaW4gdDsKICAgICAgICBhc3NlcnQgaWRsZSh0KTsKICAgIH0KfQ==" data-template-kind="test" data-case-name="wiki-idle-and-running-1" data-case-verdict="Pass" data-language-ext="pvl" data-language-label="pvl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">class ThreadObject {
+    ensures idle(this);
+    constructor() {
+    }
+
+    run {
+    }
+
+    void testLifecycle() {
+        ThreadObject t = new ThreadObject();
+        assert idle(t);
+
+        fork t;
+        assert running(t);
+
+        join t;
+        assert idle(t);
+    }
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>These state predicates are resources. This matters because they are consumed and produced by <code>fork</code> and <code>join</code>: after <code>fork t;</code> you no longer have <code>idle(t)</code>, and after <code>join t;</code> you no longer have <code>running(t)</code>.</p>
+<h2 id="fork"><a class="header" href="#fork"><code>fork</code></a></h2>
+<p>The <code>fork</code> statement starts an idle thread object.</p>
+<p>The syntax is:</p>
+<pre><code class="language-pvl editable read-only">fork t;
+</code></pre>
+<p>Here <code>t</code> must be an expression that points to a thread object. To verify <code>fork t;</code>, VerCors must know that <code>t</code> is idle and that the precondition of <code>t</code>’s <code>run</code> block holds.</p>
+<p>When the fork succeeds, the thread becomes running. The resources required by the <code>run</code> block are transferred to the running thread.</p>
+<!-- test Pass -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLWZvcmstMQovLzo6IHZlcmRpY3QgUGFzcwovLzo6IHRvb2xzIHNpbGljb24KY2xhc3MgV29ya2VyIHsKICAgIGludCByZXN1bHQ7CgogICAgZW5zdXJlcyBQZXJtKHJlc3VsdCwgd3JpdGUpICoqIGlkbGUodGhpcyk7CiAgICBjb25zdHJ1Y3RvcigpIHsKICAgICAgICByZXN1bHQgPSAwOwogICAgfQoKICAgIHJlcXVpcmVzIFBlcm0ocmVzdWx0LCB3cml0ZSk7CiAgICBlbnN1cmVzIFBlcm0ocmVzdWx0LCB3cml0ZSkgKiogcmVzdWx0ID09IDE7CiAgICBydW4gewogICAgICAgIHJlc3VsdCA9IDE7CiAgICB9Cn0KCnZvaWQgc3RhcnRXb3JrZXIoKSB7CiAgICBXb3JrZXIgdyA9IG5ldyBXb3JrZXIoKTsKCiAgICBhc3NlcnQgaWRsZSh3KTsKICAgIGZvcmsgdzsKICAgIGFzc2VydCBydW5uaW5nKHcpOwp9" data-template-kind="test" data-case-name="wiki-fork-1" data-case-verdict="Pass" data-language-ext="pvl" data-language-label="pvl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">class Worker {
+    int result;
+
+    ensures Perm(result, write) ** idle(this);
+    constructor() {
+        result = 0;
+    }
+
+    requires Perm(result, write);
+    ensures Perm(result, write) ** result == 1;
+    run {
+        result = 1;
+    }
+}
+
+void startWorker() {
+    Worker w = new Worker();
+
+    assert idle(w);
+    fork w;
+    assert running(w);
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>Forking an already running thread is rejected. After the first fork the object is running, so it is not idle anymore.</p>
+<!-- test Fail -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLWZvcmstMgovLzo6IHZlcmRpY3QgRmFpbAovLzo6IHRvb2xzIHNpbGljb24KY2xhc3MgV29ya2VyIHsKICAgIHJ1biB7CiAgICB9CgogICAgdm9pZCBmb3JrVHdpY2UoKSB7CiAgICAgICAgV29ya2VyIHcgPSBuZXcgV29ya2VyKCk7CiAgICAgICAgZm9yayB3OwogICAgICAgIGZvcmsgdzsgLy8gRmFpbHM6IHcgaXMgcnVubmluZywgbm90IGlkbGUuCiAgICB9Cn0=" data-template-kind="test" data-case-name="wiki-fork-2" data-case-verdict="Fail" data-language-ext="pvl" data-language-label="pvl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">class Worker {
+    run {
+    }
+
+    void forkTwice() {
+        Worker w = new Worker();
+        fork w;
+        fork w; // Fails: w is running, not idle.
+    }
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<h2 id="join"><a class="header" href="#join"><code>join</code></a></h2>
+<p>The <code>join</code> statement waits until a running thread has finished.</p>
+<p>The syntax is:</p>
+<pre><code class="language-pvl editable read-only">join t;
+</code></pre>
+<p>To verify <code>join t;</code>, VerCors must know that <code>t</code> is running. After the join, the thread is idle again, and the postcondition of the <code>run</code> block becomes available to the joining thread.</p>
+<p>Continuing the previous worker example:</p>
+<!-- test Pass -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLWpvaW4tMQovLzo6IHZlcmRpY3QgUGFzcwovLzo6IHRvb2xzIHNpbGljb24KY2xhc3MgV29ya2VyIHsKICAgIGludCByZXN1bHQ7CgogICAgZW5zdXJlcyBQZXJtKHJlc3VsdCwgd3JpdGUpICoqIGlkbGUodGhpcyk7CiAgICBjb25zdHJ1Y3RvcigpIHsKICAgICAgICByZXN1bHQgPSAwOwogICAgfQoKICAgIHJlcXVpcmVzIFBlcm0ocmVzdWx0LCB3cml0ZSk7CiAgICBlbnN1cmVzIFBlcm0ocmVzdWx0LCB3cml0ZSkgKiogcmVzdWx0ID09IDE7CiAgICBydW4gewogICAgICAgIHJlc3VsdCA9IDE7CiAgICB9Cn0KCnZvaWQgc3RhcnRBbmRKb2luV29ya2VyKCkgewogICAgV29ya2VyIHcgPSBuZXcgV29ya2VyKCk7CgogICAgZm9yayB3OwogICAgam9pbiB3OwoKICAgIGFzc2VydCBpZGxlKHcpOwogICAgYXNzZXJ0IFBlcm0ody5yZXN1bHQsIHdyaXRlKSAqKiB3LnJlc3VsdCA9PSAxOwp9" data-template-kind="test" data-case-name="wiki-join-1" data-case-verdict="Pass" data-language-ext="pvl" data-language-label="pvl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">class Worker {
+    int result;
+
+    ensures Perm(result, write) ** idle(this);
+    constructor() {
+        result = 0;
+    }
+
+    requires Perm(result, write);
+    ensures Perm(result, write) ** result == 1;
+    run {
+        result = 1;
+    }
+}
+
+void startAndJoinWorker() {
+    Worker w = new Worker();
+
+    fork w;
+    join w;
+
+    assert idle(w);
+    assert Perm(w.result, write) ** w.result == 1;
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>Joining a thread that is not running is rejected. For example, a newly created thread object is idle, so it cannot be joined before it is forked.</p>
+<!-- test Fail -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLWpvaW4tMgovLzo6IHZlcmRpY3QgRmFpbAovLzo6IHRvb2xzIHNpbGljb24KY2xhc3MgV29ya2VyIHsKICAgIHJ1biB7CiAgICB9CgogICAgdm9pZCBqb2luQmVmb3JlRm9yaygpIHsKICAgICAgICBXb3JrZXIgdyA9IG5ldyBXb3JrZXIoKTsKICAgICAgICBqb2luIHc7IC8vIEZhaWxzOiB3IGlzIGlkbGUsIG5vdCBydW5uaW5nLgogICAgfQp9" data-template-kind="test" data-case-name="wiki-join-2" data-case-verdict="Fail" data-language-ext="pvl" data-language-label="pvl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">class Worker {
+    run {
+    }
+
+    void joinBeforeFork() {
+        Worker w = new Worker();
+        join w; // Fails: w is idle, not running.
+    }
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>Once a thread has been joined, it is idle again. This means the same thread object can be forked again, as long as the next fork can again satisfy the <code>run</code> precondition.</p>
+<!-- test Pass -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLWpvaW4tMwovLzo6IHZlcmRpY3QgUGFzcwovLzo6IHRvb2xzIHNpbGljb24KY2xhc3MgV29ya2VyIHsKICAgIGVuc3VyZXMgaWRsZSh0aGlzKTsKICAgIGNvbnN0cnVjdG9yKCkgewogICAgfQoKICAgIHJ1biB7CiAgICB9CgogICAgdm9pZCByZXVzZVRocmVhZE9iamVjdCgpIHsKICAgICAgICBXb3JrZXIgdyA9IG5ldyBXb3JrZXIoKTsKCiAgICAgICAgZm9yayB3OwogICAgICAgIGpvaW4gdzsKCiAgICAgICAgYXNzZXJ0IGlkbGUodyk7CgogICAgICAgIGZvcmsgdzsKICAgICAgICBqb2luIHc7CgogICAgICAgIGFzc2VydCBpZGxlKHcpOwogICAgfQp9" data-template-kind="test" data-case-name="wiki-join-3" data-case-verdict="Pass" data-language-ext="pvl" data-language-label="pvl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">class Worker {
+    ensures idle(this);
+    constructor() {
+    }
+
+    run {
+    }
+
+    void reuseThreadObject() {
+        Worker w = new Worker();
+
+        fork w;
+        join w;
+
+        assert idle(w);
+
+        fork w;
+        join w;
+
+        assert idle(w);
+    }
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<h2 id="passing-permissions-to-a-thread"><a class="header" href="#passing-permissions-to-a-thread">Passing permissions to a thread</a></h2>
+<p>The contract of a <code>run</code> block is the main way to specify which heap locations a thread may use.</p>
+<p>The intuition is the same as for ordinary method contracts:</p>
+<ul>
+<li>The <code>requires</code> clauses describe what must be given to the thread at <code>fork</code>.</li>
+<li>The <code>ensures</code> clauses describe what comes back at <code>join</code>.</li>
+</ul>
+<p>While the thread is running, the joining thread should not rely on resources that were transferred to the forked thread. Those resources are available again only after <code>join</code>.</p>
+<p>The following example uses two thread objects to update different fields of the same <code>Point</code>. Because one thread receives permission for <code>p.x</code> and the other receives permission for <code>p.y</code>, the two updates are independent.</p>
+<!-- test Pass -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLXBhc3NpbmctcGVybWlzc2lvbnMtdG8tYS10aHJlYWQtMQovLzo6IHZlcmRpY3QgUGFzcwovLzo6IHRvb2xzIHNpbGljb24KY2xhc3MgUG9pbnQgewogICAgaW50IHg7CiAgICBpbnQgeTsKfQoKY2xhc3MgVXBkYXRlWCB7CiAgICBQb2ludCBwOwogICAgaW50IG9sZFg7CgogICAgcmVxdWlyZXMgUGVybSh0aGlzLnAsIDFcMykgKiogUGVybSh0aGlzLnAueCwgMSkgKioKICAgICAgICAgICAgIFBlcm0ob2xkWCwgcmVhZCkgKiogb2xkWCA9PSB0aGlzLnAueDsKICAgIGVuc3VyZXMgUGVybShvbGRYLCByZWFkKTsKICAgIGVuc3VyZXMgUGVybSh0aGlzLnAsIDFcMykgKiogUG9pbnRzVG8odGhpcy5wLngsIHdyaXRlLCBvbGRYICsgMSk7CiAgICBydW4gewogICAgICAgIFBvaW50IHEgPSB0aGlzLnA7CiAgICAgICAgcS54ID0gcS54ICsgMTsKICAgIH0KfQoKY2xhc3MgVXBkYXRlWSB7CiAgICBQb2ludCBwOwogICAgaW50IG9sZFk7CgogICAgcmVxdWlyZXMgUGVybSh0aGlzLnAsIDFcMykgKiogUGVybSh0aGlzLnAueSwgMSkgKioKICAgICAgICAgICAgIFBlcm0ob2xkWSwgcmVhZCkgKiogb2xkWSA9PSB0aGlzLnAueTsKICAgIGVuc3VyZXMgUGVybShvbGRZLCByZWFkKTsKICAgIGVuc3VyZXMgUGVybSh0aGlzLnAsIDFcMykgKiogUG9pbnRzVG8odGhpcy5wLnksIHdyaXRlLCBvbGRZICsgMSk7CiAgICBydW4gewogICAgICAgIFBvaW50IHEgPSB0aGlzLnA7CiAgICAgICAgcS55ID0gcS55ICsgMTsKICAgIH0KfQoKdm9pZCB1cGRhdGVQb2ludCgpIHsKICAgIFBvaW50IHAgPSBuZXcgUG9pbnQoKTsKICAgIHAueCA9IDI7CiAgICBwLnkgPSA2OwoKICAgIFVwZGF0ZVggdXBkYXRlWCA9IG5ldyBVcGRhdGVYKCk7CiAgICB1cGRhdGVYLnAgPSBwOwogICAgdXBkYXRlWC5vbGRYID0gcC54OwogICAgZm9yayB1cGRhdGVYOwoKICAgIFVwZGF0ZVkgdXBkYXRlWSA9IG5ldyBVcGRhdGVZKCk7CiAgICB1cGRhdGVZLnAgPSBwOwogICAgdXBkYXRlWS5vbGRZID0gcC55OwogICAgZm9yayB1cGRhdGVZOwoKICAgIGpvaW4gdXBkYXRlWDsKICAgIGpvaW4gdXBkYXRlWTsKCiAgICBhc3NlcnQgUG9pbnRzVG8ocC54LCB3cml0ZSwgMykgKiogUG9pbnRzVG8ocC55LCB3cml0ZSwgNyk7Cn0=" data-template-kind="test" data-case-name="wiki-passing-permissions-to-a-thread-1" data-case-verdict="Pass" data-language-ext="pvl" data-language-label="pvl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">class Point {
+    int x;
+    int y;
+}
+
+class UpdateX {
+    Point p;
+    int oldX;
+
+    requires Perm(this.p, 1\3) ** Perm(this.p.x, 1) **
+             Perm(oldX, read) ** oldX == this.p.x;
+    ensures Perm(oldX, read);
+    ensures Perm(this.p, 1\3) ** PointsTo(this.p.x, write, oldX + 1);
+    run {
+        Point q = this.p;
+        q.x = q.x + 1;
+    }
+}
+
+class UpdateY {
+    Point p;
+    int oldY;
+
+    requires Perm(this.p, 1\3) ** Perm(this.p.y, 1) **
+             Perm(oldY, read) ** oldY == this.p.y;
+    ensures Perm(oldY, read);
+    ensures Perm(this.p, 1\3) ** PointsTo(this.p.y, write, oldY + 1);
+    run {
+        Point q = this.p;
+        q.y = q.y + 1;
+    }
+}
+
+void updatePoint() {
+    Point p = new Point();
+    p.x = 2;
+    p.y = 6;
+
+    UpdateX updateX = new UpdateX();
+    updateX.p = p;
+    updateX.oldX = p.x;
+    fork updateX;
+
+    UpdateY updateY = new UpdateY();
+    updateY.p = p;
+    updateY.oldY = p.y;
+    fork updateY;
+
+    join updateX;
+    join updateY;
+
+    assert PointsTo(p.x, write, 3) ** PointsTo(p.y, write, 7);
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>The auxiliary fields <code>oldX</code> and <code>oldY</code> store the values that each thread promises to increment. This is useful because <code>\old</code> is currently not supported in postconditions of <code>run</code> blocks.</p>
+<h2 id="forking-and-joining-several-threads"><a class="header" href="#forking-and-joining-several-threads">Forking and joining several threads</a></h2>
+<p>For a fixed number of threads, fork each object and then join each running object.</p>
+<!-- test Pass -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLWZvcmtpbmctYW5kLWpvaW5pbmctc2V2ZXJhbC10aHJlYWRzLTEKLy86OiB2ZXJkaWN0IFBhc3MKLy86OiB0b29scyBzaWxpY29uCmNsYXNzIFdvcmtlciB7CiAgICBpbnQgcmVzdWx0OwoKICAgIGVuc3VyZXMgUGVybShyZXN1bHQsIHdyaXRlKSAqKiBpZGxlKHRoaXMpOwogICAgY29uc3RydWN0b3IoKSB7CiAgICAgICAgcmVzdWx0ID0gMDsKICAgIH0KCiAgICByZXF1aXJlcyBQZXJtKHJlc3VsdCwgd3JpdGUpOwogICAgZW5zdXJlcyBQZXJtKHJlc3VsdCwgd3JpdGUpICoqIHJlc3VsdCA9PSAxOwogICAgcnVuIHsKICAgICAgICByZXN1bHQgPSAxOwogICAgfQp9Cgp2b2lkIHR3b1dvcmtlcnMoKSB7CiAgICBXb3JrZXIgdzEgPSBuZXcgV29ya2VyKCk7CiAgICBXb3JrZXIgdzIgPSBuZXcgV29ya2VyKCk7CgogICAgZm9yayB3MTsKICAgIGZvcmsgdzI7CgogICAgYXNzZXJ0IHJ1bm5pbmcodzEpICoqIHJ1bm5pbmcodzIpOwoKICAgIGpvaW4gdzE7CiAgICBqb2luIHcyOwoKICAgIGFzc2VydCBpZGxlKHcxKSAqKiBpZGxlKHcyKTsKICAgIGFzc2VydCB3MS5yZXN1bHQgPT0gMSAqKiB3Mi5yZXN1bHQgPT0gMTsKfQ==" data-template-kind="test" data-case-name="wiki-forking-and-joining-several-threads-1" data-case-verdict="Pass" data-language-ext="pvl" data-language-label="pvl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">class Worker {
+    int result;
+
+    ensures Perm(result, write) ** idle(this);
+    constructor() {
+        result = 0;
+    }
+
+    requires Perm(result, write);
+    ensures Perm(result, write) ** result == 1;
+    run {
+        result = 1;
+    }
+}
+
+void twoWorkers() {
+    Worker w1 = new Worker();
+    Worker w2 = new Worker();
+
+    fork w1;
+    fork w2;
+
+    assert running(w1) ** running(w2);
+
+    join w1;
+    join w2;
+
+    assert idle(w1) ** idle(w2);
+    assert w1.result == 1 ** w2.result == 1;
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>When the number of threads is determined by a collection, loop invariants must describe which thread objects are idle, which are running, and which permissions are still available.</p>
+<p>The following pattern first constructs idle thread objects, then forks them all, and finally joins them all.</p>
+<!-- test Pass -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLWZvcmtpbmctYW5kLWpvaW5pbmctc2V2ZXJhbC10aHJlYWRzLTIKLy86OiB2ZXJkaWN0IFBhc3MKLy86OiB0b29scyBzaWxpY29uCmNsYXNzIE5vZGVUaHJlYWQgewogICAgaW50IHZhbDsKCiAgICBlbnN1cmVzIFBlcm0odmFsLCB3cml0ZSkgKiogaWRsZSh0aGlzKTsKICAgIGNvbnN0cnVjdG9yKGludCB2KSB7CiAgICAgICAgdmFsID0gdjsKICAgIH0KCiAgICBydW4gewogICAgfQp9Cgp2b2lkIGZvcmtKb2luTG9vcChzZXE8aW50PiBub2RlcykgewogICAgc2VxPE5vZGVUaHJlYWQ+IHRocmVhZHMgPSBzZXE8Tm9kZVRocmVhZD4ge307CgogICAgbG9vcF9pbnZhcmlhbnQgMCA8PSBpICYmIGkgPD0gfG5vZGVzfDsKICAgIGxvb3BfaW52YXJpYW50IHx0aHJlYWRzfCA9PSBpOwogICAgbG9vcF9pbnZhcmlhbnQgKFxmb3JhbGwgaW50IGo9MC4ufHRocmVhZHN8LCBpbnQgaz0wLi58dGhyZWFkc3w7IHRocmVhZHNbal0gPT0gdGhyZWFkc1trXSA9PT4gaiA9PSBrKTsKICAgIGxvb3BfaW52YXJpYW50IChcZm9yYWxsKiBpbnQgaj0wLi58dGhyZWFkc3w7IGlkbGUodGhyZWFkc1tqXSkpOwogICAgbG9vcF9pbnZhcmlhbnQgKFxmb3JhbGwqIGludCBqPTAuLnx0aHJlYWRzfDsgUGVybSh0aHJlYWRzW2pdLnZhbCwgd3JpdGUpKTsKICAgIGZvciAoaW50IGkgPSAwOyBpIDwgfG5vZGVzfDsgaSsrKSB7CiAgICAgICAgTm9kZVRocmVhZCBub2RlID0gbmV3IE5vZGVUaHJlYWQobm9kZXNbaV0pOwogICAgICAgIHRocmVhZHMgPSB0aHJlYWRzICsgW25vZGVdOwogICAgICAgIGFzc2VydCBpZGxlKHRocmVhZHNbaV0pOwogICAgfQoKICAgIGxvb3BfaW52YXJpYW50IDAgPD0gaSAmJiBpIDw9IHxub2Rlc3w7CiAgICBsb29wX2ludmFyaWFudCAoXGZvcmFsbCBpbnQgaj0wLi58dGhyZWFkc3wsIGludCBrPTAuLnx0aHJlYWRzfDsgdGhyZWFkc1tqXSA9PSB0aHJlYWRzW2tdID09PiBqID09IGspOwogICAgbG9vcF9pbnZhcmlhbnQgKFxmb3JhbGwqIGludCBqPWkuLnx0aHJlYWRzfDsgaWRsZSh0aHJlYWRzW2pdKSk7CiAgICBsb29wX2ludmFyaWFudCAoXGZvcmFsbCogaW50IGo9MC4uaTsgcnVubmluZyh0aHJlYWRzW2pdKSk7CiAgICBsb29wX2ludmFyaWFudCAoXGZvcmFsbCogaW50IGo9MC4ufHRocmVhZHN8OyBQZXJtKHRocmVhZHNbal0udmFsLCB3cml0ZSkpOwogICAgZm9yIChpbnQgaSA9IDA7IGkgPCB8bm9kZXN8OyBpKyspIHsKICAgICAgICBmb3JrIHRocmVhZHNbaV07CiAgICB9CgogICAgbG9vcF9pbnZhcmlhbnQgMCA8PSBpICYmIGkgPD0gfG5vZGVzfDsKICAgIGxvb3BfaW52YXJpYW50IHx0aHJlYWRzfCA9PSB8bm9kZXN8OwogICAgbG9vcF9pbnZhcmlhbnQgKFxmb3JhbGwqIGludCBqPWkuLnx0aHJlYWRzfDsgcnVubmluZyh0aHJlYWRzW2pdKSk7CiAgICBsb29wX2ludmFyaWFudCAoXGZvcmFsbCogaW50IGo9MC4uaTsgaWRsZSh0aHJlYWRzW2pdKSk7CiAgICBmb3IgKGludCBpID0gMDsgaSA8IHxub2Rlc3w7IGkrKykgewogICAgICAgIGpvaW4gdGhyZWFkc1tpXTsKICAgIH0KfQ==" data-template-kind="test" data-case-name="wiki-forking-and-joining-several-threads-2" data-case-verdict="Pass" data-language-ext="pvl" data-language-label="pvl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">class NodeThread {
+    int val;
+
+    ensures Perm(val, write) ** idle(this);
+    constructor(int v) {
+        val = v;
+    }
+
+    run {
+    }
+}
+
+void forkJoinLoop(seq&lt;int&gt; nodes) {
+    seq&lt;NodeThread&gt; threads = seq&lt;NodeThread&gt; {};
+
+    loop_invariant 0 &lt;= i &amp;&amp; i &lt;= |nodes|;
+    loop_invariant |threads| == i;
+    loop_invariant (\forall int j=0..|threads|, int k=0..|threads|; threads[j] == threads[k] ==&gt; j == k);
+    loop_invariant (\forall* int j=0..|threads|; idle(threads[j]));
+    loop_invariant (\forall* int j=0..|threads|; Perm(threads[j].val, write));
+    for (int i = 0; i &lt; |nodes|; i++) {
+        NodeThread node = new NodeThread(nodes[i]);
+        threads = threads + [node];
+        assert idle(threads[i]);
+    }
+
+    loop_invariant 0 &lt;= i &amp;&amp; i &lt;= |nodes|;
+    loop_invariant (\forall int j=0..|threads|, int k=0..|threads|; threads[j] == threads[k] ==&gt; j == k);
+    loop_invariant (\forall* int j=i..|threads|; idle(threads[j]));
+    loop_invariant (\forall* int j=0..i; running(threads[j]));
+    loop_invariant (\forall* int j=0..|threads|; Perm(threads[j].val, write));
+    for (int i = 0; i &lt; |nodes|; i++) {
+        fork threads[i];
+    }
+
+    loop_invariant 0 &lt;= i &amp;&amp; i &lt;= |nodes|;
+    loop_invariant |threads| == |nodes|;
+    loop_invariant (\forall* int j=i..|threads|; running(threads[j]));
+    loop_invariant (\forall* int j=0..i; idle(threads[j]));
+    for (int i = 0; i &lt; |nodes|; i++) {
+        join threads[i];
+    }
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>The distinctness invariant is important: it tells VerCors that two different indices do not refer to the same thread object. Without this, permissions such as <code>idle(threads[j])</code> and <code>running(threads[j])</code> may accidentally describe the same object through different indices.</p>
+<h2 id="returning-computed-results"><a class="header" href="#returning-computed-results">Returning computed results</a></h2>
+<p>Fork/join threads are useful when the result of a computation is stored in fields and collected after joining.</p>
+<p>For example, the following thread recursively computes a Fibonacci number. Each non-base case creates two child thread objects, forks both, joins both, and then combines their <code>output</code> fields.</p>
+<!-- test Pass -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLXJldHVybmluZy1jb21wdXRlZC1yZXN1bHRzLTEKLy86OiB2ZXJkaWN0IFBhc3MKLy86OiB0b29scyBzaWxpY29uCmRlY3JlYXNlcyBuOwpwdXJlIGludCBmaWIoaW50IG4pID0gbiA8IDIgPyAxIDogZmliKG4gLSAxKSArIGZpYihuIC0gMik7CgpjbGFzcyBGaWIgewogICAgaW50IGlucHV0OwogICAgaW50IG91dHB1dDsKCiAgICByZXF1aXJlcyBQZXJtKGlucHV0LCAxXDEwKSAqKiBQZXJtKG91dHB1dCwgd3JpdGUpOwogICAgZW5zdXJlcyBQZXJtKGlucHV0LCAxXDEwKSAqKiBQZXJtKG91dHB1dCwgd3JpdGUpICoqIG91dHB1dCA9PSBmaWIoaW5wdXQpOwogICAgcnVuIHsKICAgICAgICBpZiAoaW5wdXQgPCAyKSB7CiAgICAgICAgICAgIG91dHB1dCA9IDE7CiAgICAgICAgfSBlbHNlIHsKICAgICAgICAgICAgRmliIGYxID0gbmV3IEZpYihpbnB1dCAtIDEpOwogICAgICAgICAgICBGaWIgZjIgPSBuZXcgRmliKGlucHV0IC0gMik7CgogICAgICAgICAgICBmb3JrIGYxOwogICAgICAgICAgICBmb3JrIGYyOwogICAgICAgICAgICBqb2luIGYxOwogICAgICAgICAgICBqb2luIGYyOwoKICAgICAgICAgICAgb3V0cHV0ID0gZjEub3V0cHV0ICsgZjIub3V0cHV0OwogICAgICAgIH0KICAgIH0KCiAgICBlbnN1cmVzIFBlcm0oaW5wdXQsIHdyaXRlKSAqKiBQZXJtKG91dHB1dCwgd3JpdGUpICoqIGlucHV0ID09IG47CiAgICBlbnN1cmVzIGlkbGUodGhpcyk7CiAgICBjb25zdHJ1Y3RvcihpbnQgbikgewogICAgICAgIGlucHV0ID0gbjsKICAgIH0KfQ==" data-template-kind="test" data-case-name="wiki-returning-computed-results-1" data-case-verdict="Pass" data-language-ext="pvl" data-language-label="pvl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">decreases n;
+pure int fib(int n) = n &lt; 2 ? 1 : fib(n - 1) + fib(n - 2);
+
+class Fib {
+    int input;
+    int output;
+
+    requires Perm(input, 1\10) ** Perm(output, write);
+    ensures Perm(input, 1\10) ** Perm(output, write) ** output == fib(input);
+    run {
+        if (input &lt; 2) {
+            output = 1;
+        } else {
+            Fib f1 = new Fib(input - 1);
+            Fib f2 = new Fib(input - 2);
+
+            fork f1;
+            fork f2;
+            join f1;
+            join f2;
+
+            output = f1.output + f2.output;
+        }
+    }
+
+    ensures Perm(input, write) ** Perm(output, write) ** input == n;
+    ensures idle(this);
+    constructor(int n) {
+        input = n;
+    }
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>The constructor provides ownership of the fields and establishes <code>idle(this)</code>. The <code>run</code> contract then specifies that after joining a <code>Fib</code> thread, its <code>output</code> field contains <code>fib(input)</code>.</p>
+<h2 id="sharing-state-with-locks"><a class="header" href="#sharing-state-with-locks">Sharing state with locks</a></h2>
+<p>If multiple threads need to access the same field, they cannot all receive write permission for that field directly. Instead, put the shared permission in a synchronization object, such as a lock invariant, and let each thread acquire the lock before touching the shared state.</p>
+<p>The syntax and details of locks are explained in <a href="#atomics-and-locks">Atomics and Locks</a>. In a fork/join program, the important idea is that the shared object is committed before it is given to the threads, and each thread’s <code>run</code> block requires enough information to lock it.</p>
+<!-- test Pass -->
+<div class="verification-container" data-examplecode-b64="Ly86OiBjYXNlcyB3aWtpLXNoYXJpbmctc3RhdGUtd2l0aC1sb2Nrcy0xCi8vOjogdmVyZGljdCBQYXNzCi8vOjogdG9vbHMgc2lsaWNvbgpsb2NrX2ludmFyaWFudCBQZXJtKHgsIHdyaXRlKTsKY2xhc3MgQ291bnRlciB7CiAgICBpbnQgeDsKCiAgICBlbnN1cmVzIGNvbW1pdHRlZCh0aGlzKTsKICAgIGNvbnN0cnVjdG9yKCkgewogICAgICAgIHggPSAwOwogICAgICAgIGNvbW1pdCB0aGlzOwogICAgfQoKICAgIHJlcXVpcmVzIGNvbW1pdHRlZCh0aGlzKTsKICAgIHZvaWQgbWFpbigpIHsKICAgICAgICBDb3VudGVyV29ya2VyIHcxID0gbmV3IENvdW50ZXJXb3JrZXIodGhpcyk7CiAgICAgICAgQ291bnRlcldvcmtlciB3MiA9IG5ldyBDb3VudGVyV29ya2VyKHRoaXMpOwoKICAgICAgICBmb3JrIHcxOwogICAgICAgIGZvcmsgdzI7CiAgICAgICAgam9pbiB3MTsKICAgICAgICBqb2luIHcyOwogICAgfQp9CgpjbGFzcyBDb3VudGVyV29ya2VyIHsKICAgIENvdW50ZXIgY291bnRlcjsKCiAgICBlbnN1cmVzIFZhbHVlKGNvdW50ZXIpICoqIGNvdW50ZXIgPT0gYyAqKiBpZGxlKHRoaXMpOwogICAgY29uc3RydWN0b3IoQ291bnRlciBjKSB7CiAgICAgICAgY291bnRlciA9IGM7CiAgICB9CgogICAgY29udGV4dCBWYWx1ZShjb3VudGVyKSAqKiBjb3VudGVyICE9IG51bGwgKiogY29tbWl0dGVkKGNvdW50ZXIpOwogICAgcnVuIHsKICAgICAgICBsb2NrIGNvdW50ZXI7CiAgICAgICAgY291bnRlci54ID0gY291bnRlci54ICsgMTsKICAgICAgICB1bmxvY2sgY291bnRlcjsKICAgIH0KfQ==" data-template-kind="test" data-case-name="wiki-sharing-state-with-locks-1" data-case-verdict="Pass" data-language-ext="pvl" data-language-label="pvl">
+<pre style="margin-bottom: 0" class="verification-text playground"><code class="language-pvl no_run editable">lock_invariant Perm(x, write);
+class Counter {
+    int x;
+
+    ensures committed(this);
+    constructor() {
+        x = 0;
+        commit this;
+    }
+
+    requires committed(this);
+    void main() {
+        CounterWorker w1 = new CounterWorker(this);
+        CounterWorker w2 = new CounterWorker(this);
+
+        fork w1;
+        fork w2;
+        join w1;
+        join w2;
+    }
+}
+
+class CounterWorker {
+    Counter counter;
+
+    ensures Value(counter) ** counter == c ** idle(this);
+    constructor(Counter c) {
+        counter = c;
+    }
+
+    context Value(counter) ** counter != null ** committed(counter);
+    run {
+        lock counter;
+        counter.x = counter.x + 1;
+        unlock counter;
+    }
+}</code></pre>
+<div class="verification-language">Language for VerCors: <strong>pvl</strong></div>
+<div class="verification-progress verification-non-plain" style="display: none;"><span class="fa"></span><span class="verification-progress-text"></span></div>
+<pre class="verification-log verification-non-plain" style="display: none"></pre>
+</div>
+
+<p>The workers do not own <code>counter.x</code> directly. The permission for <code>x</code> is stored in the lock invariant of <code>Counter</code>. Each worker temporarily obtains that permission between <code>lock counter;</code> and <code>unlock counter;</code>, and must restore the invariant before unlocking.</p>
+<h2 id="common-mistakes"><a class="header" href="#common-mistakes">Common mistakes</a></h2>
+<p>The thread lifecycle is linear: each <code>fork</code> must start from an <code>idle</code> thread state, and each <code>join</code> must start from a <code>running</code> thread state.</p>
+<p>Typical mistakes are:</p>
+<ul>
+<li>Forking the same object twice without a join in between.</li>
+<li>Joining an object that has not been forked.</li>
+<li>Forgetting to establish <code>idle(this)</code> in the constructor of a thread class.</li>
+<li>Forgetting to provide the resources required by the <code>run</code> precondition before <code>fork</code>.</li>
+<li>Trying to use resources in the parent thread while those resources have been transferred to a running thread.</li>
+<li>Sharing write permission for the same field between threads directly, instead of using disjoint permissions or a synchronization mechanism such as a lock.</li>
+</ul>
+<p>As a rule of thumb, write the lifecycle facts explicitly in the surrounding contracts and loop invariants: use <code>idle(t)</code> for threads that may still be forked, <code>running(t)</code> for threads that must still be joined, and the <code>run</code> contract for the resources transferred between the two states.</p>
+<div style="break-before: page; page-break-before: always;"></div>
 <h1 id="gpgpu-verification"><a href="#gpgpu-verification" class="header">GPGPU Verification</a></h1>
 <p>This section explains how to verify GPGPU programs in VerCors. The tool supports both OpenCL and CUDA languages. The synchronization feature (i.e., barrier) in these languages is also supported by VerCors. To demonstrate GPGPU verification, we show two examples in both OpenCl and CUDA, one without barrier and the other one with barrier.</p>
+<h2 id="quantified-kernel-contracts"><a class="header" href="#quantified-kernel-contracts">Quantified Kernel Contracts</a></h2>
+<p>Contracts for parallel blocks and GPU kernels are automatically quantified over the parallel threads. For example, writing <code>context xs[blockIdx.x*blockDim.x + threadIdx.x]</code> in a CUDA kernel contract results in <code>context (∀ int blockIdx.x=0..gridDim.x, int threadIdx.x=0..blockDim.x; xs[blockIdx.x*blockDim.x + threadIdx.x]);</code>. The most reasonable trigger here is <code>xs[blockIdx.x*blockDim.x + threadIdx.x]</code>, but this expression needs to be rewritten before it is accepted as a trigger. Read the section on <a href="(https:/github.com/utwente-fmt/vercors/wiki/Rewriting-Quantifiers)">automatic rewriting of quantifiers</a> in VerCors to understand how this happens.</p>
 <h2 id="openclcuda-without-barrier"><a class="header" href="#openclcuda-without-barrier">OpenCL/CUDA without Barrier</a></h2>
 <p>This simple method shows an OpenCL program that adds two arrays and stores the result in another array:</p>
 <!-- test PassOnLatest -->

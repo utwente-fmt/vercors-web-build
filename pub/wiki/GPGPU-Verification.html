@@ -53,10 +53,10 @@
             const path_to_root = "";
             const default_light_theme = "vercors";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-c08e9775.js";
+            window.path_to_searchindex_js = "searchindex-396414da.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc-51d3aee6.js"></script>
+        <script src="toc-59d4aebb.js"></script>
     </head>
     <body>
 <div id="header" class="top-header ">
@@ -243,6 +243,8 @@
                 <div id="mdbook-content" class="content">
                     <main>
                         <p>This section explains how to verify GPGPU programs in VerCors. The tool supports both OpenCL and CUDA languages. The synchronization feature (i.e., barrier) in these languages is also supported by VerCors. To demonstrate GPGPU verification, we show two examples in both OpenCl and CUDA, one without barrier and the other one with barrier.</p>
+<h2 id="quantified-kernel-contracts"><a class="header" href="#quantified-kernel-contracts">Quantified Kernel Contracts</a></h2>
+<p>Contracts for parallel blocks and GPU kernels are automatically quantified over the parallel threads. For example, writing <code>context xs[blockIdx.x*blockDim.x + threadIdx.x]</code> in a CUDA kernel contract results in <code>context (∀ int blockIdx.x=0..gridDim.x, int threadIdx.x=0..blockDim.x; xs[blockIdx.x*blockDim.x + threadIdx.x]);</code>. The most reasonable trigger here is <code>xs[blockIdx.x*blockDim.x + threadIdx.x]</code>, but this expression needs to be rewritten before it is accepted as a trigger. Read the section on <a href="(https://github.com/utwente-fmt/vercors/wiki/Rewriting-Quantifiers)">automatic rewriting of quantifiers</a> in VerCors to understand how this happens.</p>
 <h2 id="openclcuda-without-barrier"><a class="header" href="#openclcuda-without-barrier">OpenCL/CUDA without Barrier</a></h2>
 <p>This simple method shows an OpenCL program that adds two arrays and stores the result in another array:</p>
 <!-- test PassOnLatest -->
@@ -616,7 +618,7 @@ __kernel void Xswap(const int n,
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="Parallel-Blocks.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="Concurrent-Threads.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                             </a>
 
@@ -630,7 +632,7 @@ __kernel void Xswap(const int n,
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="Parallel-Blocks.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="Concurrent-Threads.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                     </a>
 
